@@ -158,8 +158,15 @@ class Unit:
         t = self.piece(src + 'thigh'); A = t.at
         kn = Vector(self.T[src + 'leg']['off'])         # knee, relative to the hip
         t.cyl(A(-1.25 * w, 0, 0), A(1.25 * w, 0, 0), 0.13 * H, 10, joint, bevel=0.03 * H)
-        t.hull([A(x, y, z) for x in (-w, w) for (y, z) in
-                [(0.09 * H, 0.1 * H), (-0.08 * H, -0.13 * H), (kn.y + 0.08 * H, kn.z - 0.08 * H), (kn.y - 0.05 * H, kn.z + 0.08 * H)]],
+        def across(p0, p1, r0, r1):
+            """4 (y, z) points: a bone from p0 to p1 with half-depth r0 at p0 and r1 at p1, measured PERPENDICULAR to
+            the bone in the side view (offsets along the bone made the first walkers' shins paper-thin struts)."""
+            dy, dz = p1[0] - p0[0], p1[1] - p0[1]
+            n = (dy * dy + dz * dz) ** 0.5 or 1.0
+            ny, nz = -dz / n, dy / n
+            return [(p0[0] + ny * r0, p0[1] + nz * r0), (p0[0] - ny * r0, p0[1] - nz * r0),
+                    (p1[0] + ny * r1, p1[1] + nz * r1), (p1[0] - ny * r1, p1[1] - nz * r1)]
+        t.hull([A(x, y, z) for x in (-w, w) for (y, z) in across((0.0, 0.0), (kn.y, kn.z), 0.11 * H, 0.08 * H)],
                thigh, bevel=0.025 * H)
         if armour:   # outer armour plate: big readable shape from above
             t.hull([A(x, y, z) for x in (-1.15 * w, -0.85 * w) for (y, z) in
@@ -168,9 +175,7 @@ class Unit:
         l = self.piece(src + 'leg'); B = l.at
         an = Vector(self.T[src + 'foot']['off'])        # ankle, relative to the knee
         l.cyl(B(-1.1 * w, 0, 0), B(1.1 * w, 0, 0), 0.1 * H, 10, joint, bevel=0.02 * H)
-        # shin depth ~0.16 H at the knee: the first walker (Peewee) showed 0.1 H reads as a thin strut from the side
-        l.hull([B(x, y, z) for x in (-0.85 * w, 0.85 * w) for (y, z) in
-                [(0.11 * H, -0.11 * H), (-0.09 * H, 0.12 * H), (an.y + 0.1 * H, an.z - 0.08 * H), (an.y - 0.05 * H, an.z + 0.09 * H)]],
+        l.hull([B(x, y, z) for x in (-0.85 * w, 0.85 * w) for (y, z) in across((0.0, 0.0), (an.y, an.z), 0.085 * H, 0.06 * H)],
                shin, bevel=0.025 * H)
         f = self.piece(src + 'foot'); C = f.at
         g = -self.T[src + 'foot']['gpos'][1]            # ground, relative to the ankle
