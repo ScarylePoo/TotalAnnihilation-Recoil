@@ -7,7 +7,7 @@ return {
 		description = "Bomber",
 		side = "CORE",
 		unitname = "core_t1_air_shadow",
-		objectname = "CORE_T1_AIR_Shadow",
+		objectname = "CORE_T1_AIR_Shadow.s3o",
 		corpse = "CORE_T1_AIR_Shadow_dead",
 		icontype = "aircraft",
 		category = "CORE VTOL LEVEL1 WEAPON NOTSUB",
