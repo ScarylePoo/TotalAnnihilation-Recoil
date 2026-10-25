@@ -7,7 +7,7 @@ return {
 		description = "VTOL Transport",
 		side = "ARM",
 		unitname = "arm_t1_air_atlas",
-		objectname = "ARM_T1_AIR_Atlas",
+		objectname = "ARM_T1_AIR_Atlas.s3o",
 		corpse = "ARM_T1_AIR_Atlas_dead",
 		icontype = "aircraft",
 		category = "ARM VTOL LEVEL1 NOWEAPON NOTSUB",
