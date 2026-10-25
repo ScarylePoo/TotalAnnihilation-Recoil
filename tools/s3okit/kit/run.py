@@ -33,7 +33,8 @@ def load_spec(unitname):
     U.setdefault('air', air)
     U.setdefault('ground', not air and (info.get('floater') or '0').strip() != '1')
     # ref = the model whose pieces the script drives; ref_model (repo-relative) overrides the def's current model
-    U.setdefault('ref', os.path.join(REPO, U.pop('ref_model', None) or info['model']))
+    # (a third-party S3O replaced by install is read from its preserved copy in tools/s3okit/ref/)
+    U.setdefault('ref', os.path.join(REPO, U.pop('ref_model', None) or xta.ref_model(info['model'])))
     U.setdefault('wreck', {})
     U.setdefault('wreck_res', U['res'] // 2)      # wrecks matter less; halves repo size
     U.setdefault('preview_pose', {})
@@ -213,7 +214,7 @@ def st_inspect(unitname, draft=False):
     wd = workdir(unitname)
     print(json.dumps({k: v for k, v in info.items() if k != 'corpse_chain'}, indent=1))
     print('corpse chain:', [(c['feature'], c['object'], c['file']) for c in info['corpse_chain']])
-    T = threedo.load_any(os.path.join(REPO, info['model']))
+    T = threedo.load_any(os.path.join(REPO, xta.ref_model(info['model'])))
     print('\npieces (engine coords; off = offset from parent; bbox piece-local):')
     for n, t in T.items():
         bb = threedo.bbox(t)
