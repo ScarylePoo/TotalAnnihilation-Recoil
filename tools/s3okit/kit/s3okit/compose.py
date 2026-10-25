@@ -14,9 +14,11 @@ PALETTES = {
     'ARM': dict(camo=('#a3afbb', '#95a2af', '#8693a1'), camo_scale=0.085, paint2='#344050', wear='#d0d7de',
                 dark='#2b3036', steel='#50565d', accent='#d8a82a', glass='#1d3550', team_base='#3a3a3a',
                 lightw='#fff3d2', lightc='#8af3ff', lightr='#ff5a3c'),
-    # warm dark gunmetal with ochre hazard accents; darker overall so the factions separate at a glance
-    'CORE': dict(camo=('#8a857c', '#7d786f', '#706b63'), camo_scale=0.07, paint2='#2e2c29', wear='#c2bbb0',
-                 dark='#26272a', steel='#55524d', accent='#d9861c', glass='#3a2414', team_base='#363636',
+    # warm dark gunmetal with ochre hazard accents; darker overall so the factions separate at a glance.
+    # (2026-10-25: the first Core unit came out light grey: the painted-in top light lifts mid tones, so the camo is
+    # pulled down to ~35 % value and steel lifted, giving light guns/mechanics against dark armour, the inverse of Arm.)
+    'CORE': dict(camo=('#5e5850', '#57514a', '#4f4a44'), camo_scale=0.07, paint2='#262421', wear='#a89f93',
+                 dark='#1f2022', steel='#8d8982', accent='#d9861c', glass='#3a2414', team_base='#363636',
                  lightw='#ffe2b0', lightc='#ffb347', lightr='#ff4a2a'),
     # generic scrap heaps and anything neutral
     'SCRAP': dict(camo=('#6f706e', '#5b5c5a', '#474846'), camo_scale=0.12, paint2='#3a3b3a', wear='#a9aaa6',

@@ -324,6 +324,42 @@ heap; it also lists **unit defs no request names**. Notes (2026-10-25, BOTA base
 build ~10 s; draft bake (1024, low samples) ~30 s; final bake (2048) ~7.5 min; compose ~20 s; preview ~1-2 min;
 heap draft ~1.5 min. Budget ~12-15 min of machine time per finished unit + wreck, plus the modelling.
 
+## Decisions (2026-10-25, user)
+
+- **Scope**: every BOTA unit (266 defs), including the ones the request list missed (Warrior, Swatter, Wombat, Tornado,
+  Turtle, Typhoon, Voodoo, Thunderbolt, Viper, Vulcan, Stunner, Toaster, Vulture, Voyeur, Targeting Facilities, Decoy
+  commanders, underwater eco, mines). **Third-party S3O remodels are redone too** (model to their piece layout: the
+  COB drives those pieces).
+- **Textures: DDS**, per unit (`<stem>_1.dds` DXT5, `<stem>_2.dds` DXT1, full mips, written unflipped; S3O UVs unflipped).
+  A per-side atlas (user allowed up to 8192^2) was considered and rejected: one 8192^2 = 67 M texels vs ~348 M per side
+  for per-unit 1024/2048 textures + wrecks, i.e. ~1/5 of the planned detail. Revisit only for per-family atlases.
+- **Core palette** settled on the Instigator: warm dark gunmetal (~35 % value), light steel guns, ochre hazard.
+- Commit to the repo at intervals (per unit or small batch) so work is never lost.
+
+## Batch workflow (one agent per family, each on its own branch)
+
+Branches: the shared base is `s3o-remodel` (kit + Flash + Instigator). Each family batch works on
+`s3o-<family>` (e.g. `s3o-t1-veh`) created from `origin/s3o-remodel`, commits **after every finished unit** (spec +
+installed files) and pushes at least every few units. The coordinator merges family branches into `s3o-remodel`.
+Do not change kit-wide look parameters (`compose.PALETTES`, `VALUE`, `REFLECT`, `geom.IMPORTANCE`): propose changes in
+the report instead. Kit bug fixes are fine if small, isolated and explained in the commit message.
+
+Per unit:
+1. `python3 run.py inspect <stem>`; Read `work/<stem>/prev/ref3do.png`; note the script piece table (what turns/moves,
+   hide/show frames, emit/query pieces).
+2. Write `units/<stem>.py` (copy the closest finished spec: `ARM_T1_VEH_Flash.py` = Arm vehicle,
+   `CORE_T1_VEH_Instigator.py` = Core vehicle with frame-cycled tracks). Keep every piece and origin; geometry around
+   each piece's own origin; flare/firepoint pieces stay empty. Readability rules above are the quality bar.
+3. `build --draft`: `mirror_asymmetry` and `script_pieces_missing` must be empty; Read `prev/uv_layout.png`.
+4. `bake --draft`, `compose`, `export`, `preview`; Read `prev/sheet.png`. Fix shape/value problems; the greyscale
+   thumbnail must separate into 3-4 value blocks + team colour.
+5. `all <stem>` (final). Read the sheet again (including the wreck view). `install <stem>`. Commit:
+   `units/<stem>.py`, `objects3d/<stem>*.s3o`, `unittextures/<stem>*.dds`, `units/<stem>.lua`, the corpse feature Lua.
+   Never commit `work/` or PNGs.
+Skip legged walkers (standard skeleton + LUS walk: handled separately, see "Walkers"), but do the Spider/Roach/Scarab
+only if told to. Air units: `air` is automatic from `canfly`. Ships/hovers: check `floater`/`waterline`; underwater
+parts are seen from above through water. Report at the end: units done, units skipped and why, problems, proposals.
+
 ## Suggested order of work
 
 1. Get the user's in-game verdict on the Flash; adjust the kit globally.

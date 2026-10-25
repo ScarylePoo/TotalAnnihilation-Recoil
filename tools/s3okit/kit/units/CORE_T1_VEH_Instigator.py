@@ -101,10 +101,12 @@ def build(k):
 
     # ---------------------------------------------------------------- sleeve (gun mount at x 1.57, y 10.5, z 0)
     sv = k.piece('sleeve'); S = sv.at
-    sv.cyl(S(0, 0, 3.6), S(0, 0, 5.5), 1.35, 10, 'dark', r2=1.0, rot=math.pi / 10, bevel=0.05)
-    sv.cyl(S(0, 0, 4.4), S(0, 0, 4.75), 1.42, 10, 'steel', rot=math.pi / 10)
+    # mantlet seated against the turret nose (sleeve origin = turret front face), tapering to the barrel root
+    sv.box(S(-1.45, -1.25, -0.6), S(1.45, 1.25, 1.6), 'paint2', bevel=0.12)
+    sv.cyl(S(0, 0, 1.5), S(0, 0, 5.5), 1.2, 10, 'dark', r2=0.85, rot=math.pi / 10, bevel=0.05)
+    sv.cyl(S(0, 0, 3.0), S(0, 0, 3.35), 1.22, 10, 'steel', rot=math.pi / 10)
     # power cable from the turret into the mount
-    sv.cyl(S(-1.25, -0.6, 2.3), S(-0.95, -0.5, 4.6), 0.3, 8, 'black')
+    sv.cyl(S(-1.3, -0.7, 0.2), S(-0.9, -0.6, 3.2), 0.3, 8, 'black')
 
     # ---------------------------------------------------------------- barrel (laser emitter, recoils along z)
     br = k.piece('barrel'); B = br.at
