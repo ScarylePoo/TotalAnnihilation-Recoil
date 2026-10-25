@@ -7,7 +7,8 @@ return {
 		description = "Medium Infantry Kbot",
 		side = "ARM",
 		unitname = "arm_t1_bot_warrior",
-		objectname = "ARM_T1_BOT_Warrior",
+		objectname = "ARM_T1_BOT_Warrior.s3o",
+		script = "ARM_T1_BOT_Warrior.lua",          -- walker: Lua script on the standard skeleton (was the COB)
 		corpse = "ARM_T1_BOT_Warrior_dead",
 		icontype = "kbot",
 		category = "ARM KBOT LEVEL1 WEAPON NOTAIR NOTSUB",

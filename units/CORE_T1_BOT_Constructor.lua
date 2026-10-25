@@ -8,7 +8,8 @@ return {
 		side = "CORE",
 		unitname = "core_t1_bot_constructor",
 		buildoptions = Shared.buildListCoreT1KbotConstructor,
-		objectname = "CORE_T1_BOT_Constructor",
+		objectname = "CORE_T1_BOT_Constructor.s3o",
+		script = "CORE_T1_BOT_Constructor.lua",          -- walker: Lua script on the standard skeleton (was the COB)
 		corpse = "CORE_T1_BOT_Constructor_dead",
 		icontype = "kbot",
 		category = "CORE KBOT LEVEL1 NOWEAPON NOTAIR NOTSUB",
