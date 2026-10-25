@@ -35,6 +35,11 @@ def _kind_of(name):
     return 'leg'
 
 
+def _side_hint(name):
+    n = name.lower()
+    return bool(re.match(r'^(r|right|l|left)', n) or re.search(r'(^|_)[rl](_|$)', n))
+
+
 def _side_of(name, gpos):
     n = name.lower()
     if re.match(r'^(r|right)', n) or re.search(r'(^|_)r(_|$)', n): s = 'r'
@@ -90,6 +95,8 @@ def remap(T, kind='biped', height=None, hipx=None, hipz=None, drop=(), keep=()):
                 return p
             if p in old_legs:
                 g = T[p]['gpos']
+                if abs(g[0]) < 0.5 and not _side_hint(p):   # centred hip block (e.g. Warrior's `hips`) = pelvis
+                    return 'pelvis'
                 s = _side_of(p, g)
                 cands = [i for i in ids if i.startswith(s)] or ids
                 if kind == 'quad':
