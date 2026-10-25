@@ -7,7 +7,7 @@ return {
 		description = "Air Scout",
 		side = "CORE",
 		unitname = "core_t1_air_fink",
-		objectname = "CORE_T1_AIR_Fink",
+		objectname = "CORE_T1_AIR_Fink.s3o",
 		corpse = "CORE_T1_AIR_Fink_dead",
 		icontype = "aircraft",
 		category = "CORE VTOL LEVEL1 NOWEAPON NOTSUB",
