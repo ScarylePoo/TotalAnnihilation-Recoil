@@ -7,7 +7,8 @@ return {
 		description = "Anti-Air Kbot",
 		side = "ARM",
 		unitname = "arm_t1_bot_jethro",
-		objectname = "ARM_T1_BOT_Jethro",
+		objectname = "ARM_T1_BOT_Jethro.s3o",
+		script = "ARM_T1_BOT_Jethro.lua",          -- walker: Lua script on the standard skeleton (was the COB)
 		corpse = "ARM_T1_BOT_Jethro_dead",
 		icontype = "kbot",
 		category = "ARM KBOT LEVEL1 WEAPON NOTAIR NOTSUB",
