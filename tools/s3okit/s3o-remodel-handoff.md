@@ -170,6 +170,11 @@ The user stressed this: similar colours blend at distance, so **contrast between
 - Silhouette: guns, legs, wings, masts exaggerated in thickness (Flash barrels went 0.34 -> 0.46 radius) and kept
   dark against light armour (or light against dark for Core).
 - No detail below ~0.4 elmo except lights.
+- **Every unit distinct** (coordinator review, 2026-10-25: the first T1 tanks converged on one template - two blue
+  fender bands, hazard nose plates, same hull wedge - and read alike from above). Take proportions, turret size and
+  position, gun count/length and hull shape from the ORIGINAL TA model and exaggerate what is characteristic; vary the
+  team-colour layout per unit (turret-only plate, centre stripe, deck chevron, side pods, cross band...) within the
+  15-25 % budget; hazard accents only where they mean something.
 - **Check `prev/sheet.png` top-right**: the game-distance render (camera 430 elmos away, 65 deg pitch, sandy
   ground, NOT scaled to the model: big units should look big), enlarged 3x with nearest-neighbour, in colour and
   greyscale. If the unit's parts don't separate in the greyscale one, fix value blocks before anything else.
