@@ -8,7 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t1_hov_constructor",
 		buildoptions = Shared.buildListArmT1AmphibiousConstructor,
-		objectname = "ARM_T1_HOV_Constructor",
+		objectname = "ARM_T1_HOV_Constructor.s3o",
 		corpse = "ARM_T1_HOV_Constructor_dead",
 		icontype = "hover",
 		category = "ARM HOVER LEVEL1 NOWEAPON NOTAIR NOTSUB",
