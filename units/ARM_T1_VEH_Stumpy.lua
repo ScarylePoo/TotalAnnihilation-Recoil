@@ -7,7 +7,7 @@ return {
 		description = "Medium Assault Tank",
 		side = "ARM",
 		unitname = "arm_t1_veh_stumpy",
-		objectname = "ARM_T1_VEH_Stumpy",
+		objectname = "ARM_T1_VEH_Stumpy.s3o",
 		corpse = "ARM_T1_VEH_Stumpy_dead",
 		icontype = "tank",
 		category = "ARM TANK LEVEL1 WEAPON NOTAIR NOTSUB",
