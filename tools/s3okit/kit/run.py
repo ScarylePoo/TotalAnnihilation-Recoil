@@ -5,9 +5,11 @@
   python3 run.py all <unitname> [--draft]      build -> bake -> compose -> export -> wrecks -> preview
   python3 run.py build|bake|compose|export|wreck|preview <unitname> [--draft]
   python3 run.py heap <name> --size N [--seed S]   generic scrap heap (e.g. heap 2x2a --size 2)
-  python3 run.py install <unitname> | install-heap <name>   copy into $XTA_REPO and point the defs at the S3Os
+  python3 run.py install <unitname> | install-heap <name>   copy into the repo and point the Lua defs at the S3Os
 
-Env: XTA_REPO (default /home/claude/xta-springrts), S3OKIT_WORK (default <kit>/work)
+<unitname> is the unit file stem (ARM_T1_VEH_Flash); any case, the def key or the display name also work and are
+resolved to the stem, which names the spec (units/<stem>.py), the work dir and every output file.
+Env: XTA_REPO (default: the repo this kit lives in), S3OKIT_WORK (default <kit>/work)
 """
 import sys, os, json, importlib.util, argparse, time, re
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
@@ -72,8 +74,8 @@ def st_build(unitname, draft=False):
         bm.free()
     rep['mirror_asymmetry'] = asym
     rep['pieces'] = list(k.T)
-    if info.get('bos'):
-        bp, use = xta.bos_summary(os.path.join(REPO, info['bos']))
+    if info.get('script'):
+        bp, use = xta.script_summary(os.path.join(REPO, info['script']))
         rep['script_pieces_missing'] = [p for p in bp if p.lower() not in {n.lower() for n in k.T}]
     json.dump(rep, open(os.path.join(wd, 'build_report.json'), 'w'), indent=1)
     bpy.ops.wm.save_as_mainfile(filepath=os.path.join(wd, 'unit.blend'))
@@ -132,8 +134,8 @@ def st_wreck(unitname, draft=False):
     T = json.load(open(os.path.join(wd, 'pieces.json')))
     made = []
     for lvl, c in enumerate(info['corpse_chain'][:2], start=1):
-        obj = (c['object'] or '').lower()
-        if not obj or _is_generic_heap(obj) or obj == 'rock_teeth':
+        obj = os.path.splitext(c['object'] or '')[0]
+        if not obj or _is_generic_heap(obj) or obj.lower() == 'rock_teeth':
             continue
         bpy.ops.wm.open_mainfile(filepath=os.path.join(wd, 'unit.blend'))
         objs = {n: bpy.data.objects[n] for n in T if n in bpy.data.objects}
@@ -203,7 +205,7 @@ def st_inspect(unitname, draft=False):
     info = xta.unit_info(unitname)
     wd = workdir(unitname)
     print(json.dumps({k: v for k, v in info.items() if k != 'corpse_chain'}, indent=1))
-    print('corpse chain:', [(c['feature'], c['object'], c['tdf']) for c in info['corpse_chain']])
+    print('corpse chain:', [(c['feature'], c['object'], c['file']) for c in info['corpse_chain']])
     T = threedo.load_any(os.path.join(REPO, info['model']))
     print('\npieces (engine coords; off = offset from parent; bbox piece-local):')
     for n, t in T.items():
@@ -211,24 +213,24 @@ def st_inspect(unitname, draft=False):
         print(f"  {n:14s} parent={str(t['parent']):12s} off=({t['off'][0]:.2f},{t['off'][1]:.2f},{t['off'][2]:.2f})"
               f" global=({t['gpos'][0]:.2f},{t['gpos'][1]:.2f},{t['gpos'][2]:.2f}) verts={len(t['verts'])} faces={len(threedo.real_faces(t))}"
               + (f" bbox x[{bb[0][0]:.1f},{bb[0][1]:.1f}] y[{bb[1][0]:.1f},{bb[1][1]:.1f}] z[{bb[2][0]:.1f},{bb[2][1]:.1f}]" if bb else ''))
-    if info.get('bos'):
-        bp, use = xta.bos_summary(os.path.join(REPO, info['bos']))
+    if info.get('script'):
+        bp, use = xta.script_summary(os.path.join(REPO, info['script']))
         print('\nscript pieces and what the script does with them:')
         for p in bp:
             print(f'  {p:14s} {", ".join(use.get(p, [])) or "-"}')
-        miss = [p for p in bp if p not in T]
+        miss = [p for p in bp if p.lower() not in {n.lower() for n in T}]
         if miss:
             print('  !! script pieces not in 3DO:', miss)
     from s3okit import skeleton as SK
     legs = [n for n in T if SK.is_leg_piece(n)]
     kind = None
-    if legs and not re.search(r'(spider|roach|scarab|the_can|sumo)', unitname):
+    if legs and not re.search(r'(spider|roach|scarab|the_?can|sumo)', unitname, re.I):
         feet = [n for n in legs if SK._kind_of(n) == 'foot']
         kind = 'quad' if max(len(feet), len([n for n in legs if SK._kind_of(n) == 'thigh'])) >= 4 else 'biped'
         newT, rep = SK.remap(T, kind)
         print(f'\nLEGGED -> standard {kind} skeleton (HANDOFF "Walkers"). Verify the guess; legs dropped: {rep["dropped"]}')
         print('  pelvis height', rep['pelvis_height'], 'hipx', rep['hipx'], 'reparented:', rep['reparented'])
-    elif re.search(r'(the_can|sumo)', unitname):
+    elif re.search(r'(the_?can|sumo)', unitname, re.I):
         print('\nThe Can / Sumo: user wants TRACKS instead of legs (HANDOFF "Walkers"); script must change too.')
     fl = [n for n, t in T.items() if re.search(r'(flare|fire|flash|muzzle)', n, re.I) and threedo.real_faces(t)]
     if fl:
@@ -297,6 +299,8 @@ def main():
     ap.add_argument('--draft', action='store_true', help='half-res, low-sample bakes for iterating')
     ap.add_argument('--size', type=int, default=2); ap.add_argument('--seed', type=int, default=1)
     a = ap.parse_args()
+    if a.cmd not in ('heap', 'install-heap'):
+        a.name = xta.canonical(a.name)     # ARM_T1_VEH_Flash, whatever case/key/display name was typed
     if a.cmd == 'heap':
         return st_heap(a.name, a.size, a.seed, a.draft)
     if a.cmd == 'install':

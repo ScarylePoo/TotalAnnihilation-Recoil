@@ -1,155 +1,115 @@
-"""Build manifest.json/manifest.md: user's unit list -> XTA unit defs, scripts, models, corpse chain.
-usage: python3 make_manifest.py <xta repo> <unit_list.txt> <out_dir>"""
-import re, glob, os, sys, json, struct
-repo, listf, out = sys.argv[1:4]
+"""Build manifest.json/manifest.md: user's unit list -> TA:Recoil unit defs, models, scripts, corpse chains.
+usage: python3 make_manifest.py [repo] [unit_list.txt] [out_dir]     (defaults: this kit's repo, the kit's list, manifest/)
 
-def kv(t, k):
-    m = re.search(r'(?im)^\s*%s\s*=\s*([^;\r\n]*);' % k, t)
-    return m.group(1).strip() if m else None
+Reads the Lua unit/feature defs through s3okit.xta (the same reader the kit uses), so the manifest and the kit can
+never disagree about a unit's model, script or corpse chain."""
+import re, os, sys, json
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from s3okit import xta, threedo, common
 
-units = []
-SUBFACTION_DIRS = {'Talon', 'Guardians of Kadesh', 'TheLostLegacy', 'critters', 'fleabowl', 'spidertortoise', 'xtaids', 'cheatonly', 'MinesUtillity', 'rockettoggle'}
-# request name -> unitnames, where the in-game name differs from the TA name on the list
+args = sys.argv[1:]
+repo = os.path.abspath(args[0]) if len(args) > 0 else common.REPO
+listf = args[1] if len(args) > 1 else os.path.join(common.KIT, 'unit_list_request.txt')
+out = args[2] if len(args) > 2 else os.path.join(common.KIT, 'manifest')
+
+# request name (lowercased, without side) -> unit file stems, where the in-game name differs from the list
 ALIASES = {
-    'advanced construction sub': ['arm_adv_construction_sub', 'core_adv_construction_sub'],
-    'cloakable fusion reactor': ['arm_cloakable_fusion_reactor', 'core_cloakable_fusion_power_plant'],
-    'fusion power plant': ['core_fusion_power_plant', 'core_light_fusion_power_plant'],
-    'fusion reactor': ['arm_fusion_reactor'],
-    'missile frigate': ['core_missile_frigate'],
-    'l.l.t': ['arm_light_laser_tower'],
-    'light laser tower': ['core_light_laser_tower'],
-    'defender - ns': ['arm_floating_defender', 'arm_defender_ns', 'armdl'],
+    'l.l.t': ['ARM_T1_DEF_LLT'],
+    'defender': ['ARM_T1_DEF_Defender'],
+    'defender - ns': ['ARM_T1_SEADEF_Defender'],                     # naval (floating) Defender
+    'fusion reactor': ['ARM_T2_ECO_FusionPowerplant'],               # TA: Arm Fusion Reactor / Core Fusion Power Plant
+    'fusion power plant': ['CORE_T2_ECO_FusionPowerplant'],
+    'cloakable fusion reactor': ['ARM_T2_ECO_CloakableFusion', 'CORE_T2_ECO_CloakableFusion'],
+    'mobile artillery': ['CORE_T2_VEH_Pillager'],
+    'resurrection kbot': ['CORE_T2_BOT_Necro'],
 }
-def slug(s): return re.sub(r'[^a-z0-9]+', '_', s.lower()).strip('_')
-for f in glob.glob(os.path.join(repo, 'units/**/*.fbi'), recursive=True):
-    t = open(f, errors='replace').read()
-    side = (kv(t, 'side') or '').upper()
-    if side not in ('ARM', 'CORE', 'COR'):
-        continue
-    subdir = os.path.dirname(os.path.relpath(f, os.path.join(repo, 'units')))
-    if subdir in SUBFACTION_DIRS:      # Talon / Guardians / Lost Legacy etc. reuse side=Arm/Core
-        continue
-    units.append(dict(fbi=os.path.relpath(f, repo), unitname=kv(t, 'unitname'), name=kv(t, 'name'),
-                      side='ARM' if side == 'ARM' else 'CORE', description=kv(t, 'description'),
-                      objectname=kv(t, 'objectname'), corpse=kv(t, 'corpse'),
-                      footprint=[kv(t, 'footprintx'), kv(t, 'footprintz')],
-                      sub=os.path.dirname(os.path.relpath(f, os.path.join(repo, 'units'))) or None))
 
-# features: name -> dict
-feats = {}
-for f in glob.glob(os.path.join(repo, 'features/**/*.tdf'), recursive=True):
-    t = open(f, errors='replace').read()
-    for m in re.finditer(r'\[([^\]]+)\]\s*\{(.*?)\n\}', t, re.S):
-        body = m.group(2)
-        feats[m.group(1).strip().lower()] = dict(tdf=os.path.relpath(f, repo), object=kv(body, 'object'),
-                                                  featuredead=kv(body, 'featuredead'),
-                                                  footprint=[kv(body, 'footprintx'), kv(body, 'footprintz')])
 
-objs = {os.path.basename(p).lower(): os.path.relpath(p, repo) for p in glob.glob(os.path.join(repo, 'objects3d/**/*'), recursive=True)}
-def objpath(n):
-    if not n: return None
-    n = n.lower()
-    for c in (n, n + '.3do', n + '.s3o'):
-        if c in objs: return objs[c]
-    return None
+def norm(s):
+    return re.sub(r'[^a-z0-9]', '', (s or '').lower())
 
-def pieces_3do(path):
-    try:
-        d = open(os.path.join(repo, path), 'rb').read()
-        names = []
-        def walk(off, root=False):
-            while off or root:
-                root = False
-                v = struct.unpack_from('<13i', d, off)
-                names.append(d[v[7]:d.index(b'\0', v[7])].decode('latin1'))
-                walk(v[12]); off = v[11]
-        walk(0, True)
-        return names
-    except Exception as e:
-        return ['?' + str(e)]
 
-wanted = [l.strip() for l in open(listf) if l.strip() and len(l.strip()) > 1 and not l.startswith(('Now', '(', '#')) and
-          not l.startswith('It is') and not l.startswith('The list') and not l.startswith('Please')]
+INFO = {s: xta.unit_info(s, repo) for s in xta.units(repo)}
+
+wanted = [l.strip() for l in open(listf) if l.strip() and len(l.strip()) > 1 and not l.startswith(('Now', '(', '#'))
+          and not l.startswith(('It is', 'The list', 'Please'))]
 rows = []
 for w in wanted:
     m = re.match(r'(.*?)\s*\((ARM|CORE)\)\s*$', w, re.I)
     nm, side = (m.group(1), m.group(2).upper()) if m else (w, None)
     if nm.lower() in ALIASES:
-        cands = [u for u in units if (u['unitname'] or '').lower() in ALIASES[nm.lower()]]
+        cands = [s for s in ALIASES[nm.lower()] if s in INFO]
     else:
-        cands = [u for u in units if (u['name'] or '').lower() == nm.lower() and (side is None or u['side'] == side)]
-    if not cands:
-        cands = [u for u in units if re.sub(r'^(arm|core)_', '', (u['unitname'] or '').lower()) == slug(nm) and (side is None or u['side'] == side)]
-    if not cands:  # loose match: ignore punctuation
-        k = re.sub(r'[^a-z0-9]', '', nm.lower())
-        cands = [u for u in units if re.sub(r'[^a-z0-9]', '', (u['name'] or '').lower()) == k and (side is None or u['side'] == side)]
-    base = [u for u in cands if not re.search(r'_(rt|xtra)$', (u['unitname'] or ''), re.I)]
-    rows.append(dict(request=w, matches=base or cands,
-                     variants=[u['unitname'] for u in cands if base and u not in base]))
+        cands = [s for s, i in INFO.items() if (i['name'] or '').lower() == nm.lower() and side in (None, i['side'])]
+        if not cands:   # ignore punctuation / spacing
+            cands = [s for s, i in INFO.items() if norm(i['name']) == norm(nm) and side in (None, i['side'])]
+        if not cands:   # the stem's last part (ARM_T1_VEH_Flash -> flash)
+            cands = [s for s in INFO if norm(s.split('_')[-1]) == norm(nm) and side in (None, INFO[s]['side'])]
+    rows.append(dict(request=w, matches=sorted(cands)))
 
-def chain(u):
-    c = []
-    f = (u['corpse'] or '').lower()
-    seen = set()
-    while f and f in feats and f not in seen:
-        seen.add(f); fd = feats[f]
-        c.append(dict(feature=f, object=fd['object'], model=objpath(fd['object']), tdf=fd['tdf']))
-        f = (fd['featuredead'] or '').lower()
-    return c
 
-for r in rows:
-    for u in r['matches']:
-        u['model'] = objpath(u['objectname'])
-        u['pieces'] = pieces_3do(u['model']) if u['model'] and u['model'].lower().endswith('.3do') else None
-        u['script'] = next((p for p in (f"scripts/{u['unitname']}.cob", f"scripts/bos/{u['unitname']}.bos",
-                                         f"scripts/{u['unitname']}.lua") if os.path.exists(os.path.join(repo, p))), None)
-        u['corpse_chain'] = chain(u)
-
-os.makedirs(out, exist_ok=True)
-json.dump(rows, open(os.path.join(out, 'manifest.json'), 'w'), indent=1)
-LEGWORDS = re.compile(r'(thigh|leg|shin|calf|knee|foot|feet|boot|ankle|toe|hip)', re.I)
-def model_pieces(u):
-    if not u.get('model'):
-        return []
-    if u['model'].lower().endswith('.3do'):
-        return u['pieces'] or []
+def model_pieces(path):
     try:
-        sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-        from s3okit import s3o as S3O
-        return [p['name'] for p in S3O.read(os.path.join(repo, u['model']))['pieces']]
-    except Exception:
-        return []
+        return list(threedo.load_any(os.path.join(repo, path)))
+    except Exception as e:
+        return ['?' + str(e)]
+
+
+def unit_row(s):
+    i = INFO[s]
+    return dict(stem=s, name=i['name'], side=i['side'], model=i['model'], pieces=model_pieces(i['model']),
+                script=i.get('script'), footprint=[i['footprintx'], i['footprintz']],
+                corpse_chain=[dict(feature=c['feature'], object=c['object'], file=c['file'],
+                                   model=xta.model_path(c['object'], repo)) for c in i['corpse_chain']])
+
+
+requested = {s for r in rows for s in r['matches']}
+manifest = dict(requests=[dict(request=r['request'], matches=[unit_row(s) for s in r['matches']]) for r in rows],
+                unrequested=[unit_row(s) for s in sorted(INFO) if s not in requested])
+os.makedirs(out, exist_ok=True)
+json.dump(manifest, open(os.path.join(out, 'manifest.json'), 'w'), indent=1)
+
+LEGWORDS = re.compile(r'(thigh|leg|shin|calf|knee|foot|feet|boot|ankle|toe|hip)', re.I)
 legged = []
-for r in rows:
+for r in manifest['requests']:
     for u in r['matches']:
-        names = model_pieces(u)
+        names = u['pieces']
         legs = [n for n in names if LEGWORDS.search(n) and not re.search(r'(flare|fire|emit|leg_?sfx)', n, re.I)]
         feet = [n for n in names if re.search(r'(foot|feet|boot|toe)', n, re.I)]
         if legs:
             nleg = len(feet) or len([n for n in legs if re.search('thigh', n, re.I)]) or len(legs)
-            legged.append(dict(request=r['request'], unitname=u['unitname'], model=u['model'], leg_pieces=legs, feet=len(feet),
+            legged.append(dict(request=r['request'], stem=u['stem'], model=u['model'], leg_pieces=legs, feet=len(feet),
                                guess=('quad' if nleg >= 4 else 'biped')))
 json.dump(legged, open(os.path.join(out, 'legged.json'), 'w'), indent=1)
-heaps = sorted({c['object'] for r in rows for u in r['matches'] for c in u['corpse_chain'][1:] if c['object']})
+
+allunits = [u for r in manifest['requests'] for u in r['matches']]
+heaps = sorted({c['object'] for u in allunits for c in u['corpse_chain'][1:] if c['object']}, key=str.lower)
+models = sorted({u['model'] for u in allunits if u['model']})
 with open(os.path.join(out, 'manifest.md'), 'w') as o:
     o.write('# Unit manifest (generated by make_manifest.py)\n\n')
-    o.write('| Request | unitname | side | model | pieces | script | corpse model | heap model |\n|---|---|---|---|---|---|---|---|\n')
-    miss = []
-    for r in rows:
-        if not r['matches']:
-            miss.append(r['request']); continue
+    o.write(f'{len(rows)} requests, {sum(1 for r in rows if r["matches"])} matched, {len(allunits)} unit defs, '
+            f'{len(models)} distinct models ({sum(1 for m in models if m.lower().endswith(".s3o"))} already S3O).\n\n')
+    o.write('| Request | unit (file stem) | side | model | pieces | script | corpse model | heap model |\n'
+            '|---|---|---|---|---|---|---|---|\n')
+    for r in manifest['requests']:
         for u in r['matches']:
             ch = u['corpse_chain']
-            o.write(f"| {r['request']} | {u['unitname']} | {u['side']} | {u['model'] or 'MISSING ' + str(u['objectname'])} | "
-                    f"{len(u['pieces']) if u['pieces'] else '-'} | {'yes' if u['script'] else 'NO'} | "
-                    f"{ch[0]['model'] if ch else '-'} | {ch[1]['object'] if len(ch) > 1 else '-'} |\n")
-    o.write('\n## Requests with no Arm/Core unit def matching by name\n\n' + ''.join(f'- {m}\n' for m in miss))
-    o.write('\n## Generic heap models referenced by these corpses\n\n' + ', '.join(heaps) + '\n')
+            o.write(f"| {r['request']} | {u['stem']} | {u['side']} | {u['model'] or 'MISSING'} | {len(u['pieces'])} | "
+                    f"{os.path.basename(u['script']) if u['script'] else 'NO'} | {ch[0]['model'] if ch else '-'} | "
+                    f"{ch[1]['object'] if len(ch) > 1 else '-'} |\n")
+    o.write('\n## Requests with no unit def matching by name\n\n'
+            + ''.join(f"- {r['request']}\n" for r in rows if not r['matches']))
+    o.write('\n## Unit defs no request names (check whether they are in scope)\n\n'
+            + ''.join(f"- {u['stem']} ({u['name']})\n" for u in manifest['unrequested']))
+    o.write('\n## Heap models referenced by these corpses\n\n' + ', '.join(heaps) + '\n')
     o.write('\n## Legged units (by leg-like piece names in the current model; verify each with `run.py inspect`)\n\n'
-            '| Request | unitname | guess | feet | leg pieces in current model |\n|---|---|---|---|---|\n')
+            '| Request | unit | guess | feet | leg pieces in current model |\n|---|---|---|---|---|\n')
     for L in legged:
-        o.write(f"| {L['request']} | {L['unitname']} | {L['guess']} | {L['feet']} | {', '.join(L['leg_pieces'])} |\n")
-print('requests', len(rows), 'matched', sum(1 for r in rows if r['matches']), 'unit defs', sum(len(r['matches']) for r in rows))
+        o.write(f"| {L['request']} | {L['stem']} | {L['guess']} | {L['feet']} | {', '.join(L['leg_pieces'])} |\n")
+
+print('requests', len(rows), 'matched', sum(1 for r in rows if r['matches']), 'unit defs', len(allunits),
+      'distinct models', len(models))
 print('unmatched:', [r['request'] for r in rows if not r['matches']])
-print('multi:', [(r['request'], [u['unitname'] for u in r['matches']]) for r in rows if len(r['matches']) > 1])
+print('multi:', [(r['request'], r['matches']) for r in rows if len(r['matches']) > 1])
+print('unrequested:', [(u['stem'], u['name']) for u in manifest['unrequested']])
 print('heaps:', heaps)

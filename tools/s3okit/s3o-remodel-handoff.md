@@ -17,16 +17,23 @@ User's stated priorities:
 3. Units keep working with their existing scripts (do not touch scripts unless asked) - **except walkers**, which
    get a new standard skeleton and a shared walk script (see "Walkers" below).
 
-Game repo: `https://github.com/ScarylePoo/TotalAnnihilation-Recoil` (branch `master`). The user administers it and
-has granted the Claude GitHub app push access. Attach it with `add_repo` (access `push`), clone with
-`git clone --depth 1 ... /home/claude/TotalAnnihilation-Recoil` and a ~10 min timeout. Work on **branches** and push them for
+Game repo: `https://github.com/ScarylePoo/TotalAnnihilation-Recoil` (default branch **`main`**, no `master`). The user
+owns it and the Claude GitHub app has push access. Attach it with `add_repo` (access `push`), clone with
+`git clone --depth 1 https://github.com/ScarylePoo/totalannihilation-recoil /home/claude/totalannihilation-recoil` and a
+~10 min timeout. **The kit lives in the repo at `tools/s3okit/kit/`** (this file is `tools/s3okit/`).
+Splinter Faction (walk scripts, utilities to borrow): `git clone --depth 1 https://github.com/SplinterFaction/SplinterFaction
+/home/claude/SplinterFaction` (2.2 GB, ~5 min). Work on **branches** and push them for
 the user to test in game; do not push models straight to master unless asked. Commit messages explain the cause/why,
 and end with the Co-Authored-By / Claude-Session lines the harness gives you. If git status says a pushed branch
 has "no remote", it is the shallow clone's fetch refspec: `git config --add remote.origin.fetch
 '+refs/heads/<b>:refs/remotes/origin/<b>' && git fetch && git branch -u origin/<b>`.
 
-Already done: the Flash (`arm_flash`) - regenerated with this kit (spec `units/arm_flash.py`, including its
-`arm_flash_dead` wreck) and pushed to branch `arm-flash-s3o`. After seeing it in game the user called the
+Already done: the Flash - regenerated with this kit (spec `units/arm_flash.py`, including its wreck), made in XTA as
+`arm_flash.s3o` / `arm_flash_dead.s3o`; those files were carried into this repo's `objects3d/`. **Not wired up yet:**
+`units/ARM_T1_VEH_Flash.lua` still points at BOTA's `ARM_T1_VEH_Flash.3do`. The BOTA Flash COB uses exactly the kit
+Flash's 7 pieces (base, turret, sleeves, barrel1/2, flare1/2); BOTA's 3DO has an extra `sleeves2` the COB never turns,
+so its second gun never elevates. To redo it under the new name: copy `arm_flash.py` to `ARM_T1_VEH_Flash.py` with
+`ref` = `objects3d/arm_flash.3do` (XTA's model, still in the repo) or rebuild against BOTA's 3DO. After seeing it in game the user called the
 contrast-reworked version "absolutely perfect": the current kit defaults (palettes, VALUE, readability rules) are
 the approved look. A test heap (`2x2a`, size 2) was generated but not installed. A walker test
 (`units/arm_peewee.py`: standard legs + original TA torso/arms as blockout) proves the skeleton path end to end.
@@ -34,14 +41,37 @@ the approved look. A test heap (`2x2a`, size 2) was generated but not installed.
 ## Setup in a fresh session
 
 ```
-pip install --break-system-packages bpy          # Blender 5.2 as a Python module (~5 min), needs Python 3.13
-python3 -c "import bpy, numpy, PIL, matplotlib, scipy"   # the others are usually present
-# unpack the kit somewhere, e.g. /home/claude/kit ; clone the repo to /home/claude/TotalAnnihilation-Recoil
-export XTA_REPO=/home/claude/TotalAnnihilation-Recoil        # default already
-cd /home/claude/kit && python3 run.py inspect arm_flash   # smoke test
+pip install --break-system-packages bpy lupa    # Blender 5.2 as a Python module (~5 min, Python 3.13) + Lua for the defs
+python3 -c "import bpy, lupa, numpy, PIL, matplotlib, scipy"   # the others are usually present
+cd /home/claude/totalannihilation-recoil/tools/s3okit/kit
+python3 run.py inspect flash                    # smoke test (the repo is found from the kit's location; XTA_REPO overrides)
+python3 make_manifest.py                        # regenerate manifest/ from the Lua defs
 ```
 No Blender GUI: everything is headless `bpy`. Cycles CPU only (2 cores here): a final 2048 bake is ~5-8 min per
 model, so iterate with `--draft` and do final bakes once per model. Run long jobs with `run_in_background`.
+
+## Repo layout (BOTA base, since 2026-10-25) - what the kit reads
+
+The repo moved from XTA guts to the BOTA mod, renamed for findability, and every FBI/TDF became Lua (the SF way).
+- **Names**: `<SIDE>_<TIER>_<CLASS>_<Name>` file stems, e.g. `ARM_T1_VEH_Flash`, `CORE_T2_BOT_Necro`, `ARM_Commander`.
+  Classes: AIR BOT VEH HOV SEA SEAPL (seaplanes) LAB DEF ECO SEADEF SEAECO. **The stem is the kit's canonical unit
+  name**: spec `units/<stem>.py`, `work/<stem>/`, outputs `<stem>.s3o`, `<stem>_1.png`, `<stem>_2.png`. Every command
+  accepts any case, the def key or the display name (`run.py inspect flash`) and resolves it to the stem.
+- **Unit defs**: `units/<stem>.lua` (`return { <key> = { objectname = "<stem>", corpse = "<stem>_dead", ... } }`),
+  build lists via `Shared.buildList*` from `gamedata/unitdefs_pre.lua`. Read with `lupa` in a sandbox
+  (`s3okit/xta.py: load_lua_defs`; unknown globals such as `Shared` become nil-like).
+- **Features**: `Features/Corpses/<stem>_dead.lua` holds `<key>_dead` (object `<stem>_dead`) and `<key>_heap`
+  (object `2x2c` etc.). Only one unit-specific level-2 wreck is left: `ARM_T2_DEF_Ambusher_dead2`.
+- **Scripts**: 222 units have compiled `scripts/<stem>.COB` with **no BOS sources**; 44 (defences, eco, mines...) have
+  Lua unit scripts `scripts/<stem>.lua`. `s3okit/cob.py` disassembles COB (opcodes/operand counts from Recoil's
+  `CobOpCodes.h`/`CobThread.cpp`; validated on all 223 COBs, some have dead data after the last `return`) and
+  `xta.script_summary` gives the same per-piece usage report for COB and LUS. Checked: no script references a piece its
+  model lacks (all 266 units). To port a COB's logic to LUS, read `cob.read(path)['scripts']` (instruction lists).
+- **Install** (`run.py install`): copies into `objects3d/` and `unittextures/`, sets `objectname = "<stem>.s3o"` in the
+  unit Lua and `object = "<x>.s3o"` in the corpse's feature table (explicit extension: without it the engine picks
+  .3do/.s3o arbitrarily). `install-heap` rewrites every `object = "<heap>"` under `Features/`.
+- Data-format notes for the whole repo (engine fixes, Lua conversions, headless test): project doc
+  `claude/recoil-compat-notes.md`.
 
 ## Kit layout
 
@@ -57,7 +87,8 @@ s3okit/s3o.py          S3O writer (emit vertices preserved) and reader
 s3okit/wreck.py        corpse generator from the built unit (level 1 = _dead, level 2 = unit-specific _dead2)
 s3okit/heap.py         generic scrap heap generator (per footprint size + seed)
 s3okit/preview.py      renders the exported S3O (via our own reader) + RTS-height readability thumbnail
-s3okit/xta.py          fbi/tdf parsing, BOS piece usage summary, install into repo (fbi/tdf edits)
+s3okit/xta.py          Lua unit/feature def reading (lupa), script piece usage (COB/LUS), install (Lua edits)
+s3okit/cob.py          compiled COB reader/disassembler (pieces, scripts, per-piece usage)
 units/<unitname>.py    one spec per unit (arm_flash.py is the worked example)
 work/<unitname>/       unit.blend, maps.npz, out/ (s3o + pngs), prev/ (renders, uv_layout.png), build_report.json
 ```
@@ -76,8 +107,8 @@ python3 run.py wreck <u> [--draft]    # -> out/<corpse>.s3o (+ level 2 if the ch
 python3 run.py preview <u>            # -> prev/sheet.png (views + colour/grey thumbnail top-right)
 python3 run.py all <u> [--draft]      # all of the above in order
 python3 run.py heap 2x2a --size 2 --seed 3   # generic heap model named exactly like the TA heap it replaces
-python3 run.py install <u>            # copy out/ into repo, fbi objectname=<u>.s3o, corpse tdf object=<x>.s3o
-python3 run.py install-heap 2x2a      # copy + rewrite every `object=2x2a;` in features/**.tdf to 2x2a.s3o
+python3 run.py install <u>            # copy out/ into repo, unit Lua objectname="<stem>.s3o", corpse object="<x>.s3o"
+python3 run.py install-heap 2x2a      # copy + rewrite every `object = "2x2a"` under Features/ to "2x2a.s3o"
 ```
 Always look at `prev/sheet.png` and `prev/uv_layout.png` (Read tool) before installing. Send the user the sheet.
 
@@ -176,9 +207,9 @@ uniform materials (black/dark bolts) into a shared swatch, unit-family texture a
 - **Emit points**: `S3DModelPiece::GetEmitPos/Dir`: 0 verts -> pos 0, dir +Z; 1 vert -> pos 0, dir v0; 2+ -> pos v0,
   dir v1-v0. 3DO is the same. Weapons fire from and `emit-sfx` uses these. The exporter prepends the 3DO piece's
   first vertices (unreferenced by triangles) to every piece so behaviour matches the original exactly.
-- Feature defs use `object=name` **without extension**; the engine then picks whichever registered format it finds
-  first (map order, effectively arbitrary). `install` therefore writes `object=<name>.s3o` explicitly. Unit fbi gets
-  `objectname=<u>.s3o`. The old .3do files can stay.
+- Feature defs use `object = "name"` **without extension**; the engine then picks whichever registered format it
+  finds first (map order, effectively arbitrary). `install` therefore writes `object = "<name>.s3o"` explicitly, and
+  the unit def gets `objectname = "<stem>.s3o"`. The old .3do files can stay.
 - PIL resizes RGBA premultiplied: resizing a team-colour texture blackens RGB where alpha = 0. compose resizes
   channels separately - keep it that way.
 - Bake AO uses `only_local` so moving pieces don't bake shadows onto each other.
@@ -242,8 +273,8 @@ walkers**.
   structure, not walkers; Talon/Lost units slipped in where they share a name).
 
 **Scripts (decided): walkers get Lua unit scripts (LUS)**, SF style: one `<unit>_lus.lua` per walker plus one
-shared walk include for bipeds and one for quads. Port each unit's weapon/aim/build logic from its BOS
-(`scripts/bos/<unit>.bos`; weapon and aim piece names are kept, so it maps across) and point the unitdef at the
+shared walk include for bipeds and one for quads. Port each unit's weapon/aim/build logic from its COB (no BOS sources in this repo:
+disassemble with `s3okit/cob.py`; weapon and aim piece names are kept, so it maps across) and point the unitdef at the
 new script. The user answered "yes lus" to "LUS, and will you write the walk or port SF's?": the format is settled;
 confirm who writes the shared walk at the first walker. Default plan: port SF's `common.WalkScript` (it already
 matches the skeleton proportions) and derive the quad walk from it.
@@ -266,9 +297,8 @@ model or keep it.** The muzzle flash is the weapon's CEG/explosion generator.
 ## Wrecks and heaps
 
 Corpse chain per unit (from fbi `corpse=` and tdf `featuredead=`): unit -> `<u>_dead` (level-1 wreck, our S3O) ->
-heap. Heaps are mostly the generic `NxN?` models (1x1a ... 7x7d, 29 models), sometimes unit-specific
-`<u>_dead2` (bear, anaconda, ambusher, pelican, skimmer, gimp, nixer, scrubber, slinger, snapper, construction
-hovercraft: those get a level-2 wreck from `run.py wreck`). `rock_teeth` is left alone.
+heap. Heaps are the generic `NxN?` models (1x1a ... 7x7d, 30 referenced incl. 4x4f), plus one unit-specific level-2
+wreck, `ARM_T2_DEF_Ambusher_dead2` (made by `run.py wreck`). `rock_teeth` is left alone.
 - `wreck.make`: poses turret/guns, drops `drop` pieces beside the hull, removes `remove`, deletes some small loose
   parts, jitters others, crumples, dents, punches a few holes, tilts and sinks. Same UVs as the unit, rebaked,
   burnt texture (no team colour, no lights) at `wreck_res` = res/2. Spec: `UNIT['wreck'] = dict(seed, pose, drop, remove)`.
@@ -277,14 +307,16 @@ hovercraft: those get a level-2 wreck from `run.py wreck`). `rock_teeth` is left
 
 ## Manifest
 
-`manifest/manifest.md` maps every requested name to unit defs (Arm/Core only, sub-faction folders excluded),
-model, piece count, script, corpse model and heap. Notes:
-- Unmatched (not in XTA as Arm/Core under that name; ask the user): Defender - NS, Galactic Gate, Implosion
-  Device, Scorpion, Sea Serpent. Aliases used are in `make_manifest.py` (ALIASES).
-- Several names map to two units (Arm + Core versions, e.g. Shipyard, Metal Extractor): both need models.
-- `_rt` / `_xtra` variants are listed as variants; check whether their `objectname` is the same model (then one
-  model serves both - `install` only rewrites the unit you pass; edit variant fbis too).
-- "Commander" maps to 8 defs (arm/core commander, u0, scommander, nincommander): ask which share models.
+`manifest/manifest.md` maps every requested name to unit file stems, model, piece count, script, corpse model and
+heap; it also lists **unit defs no request names**. Notes (2026-10-25, BOTA base):
+- 223 of 227 requests match 254 defs / 228 distinct models. Aliases for BOTA display names are in `make_manifest.py`
+  (Fusion Reactor = ARM fusion, Cloakable Fusion Reactor, Mobile Artillery = Pillager, Resurrection Kbot = Necro,
+  Defender - NS = ARM_T1_SEADEF_Defender, L.L.T).
+- Unmatched, not in BOTA: Galactic Gate, Implosion Device, Scorpion, Sea Serpent.
+- Unrequested BOTA units (the S-Z addendum stops short): Warrior, Swatter, Wombat, Tornado, Turtle, Typhoon, Voodoo,
+  Thunderbolt, Viper, Vulcan, Stunner, Toaster, Vulture, Voyeur, both Targeting Facilities, both Decoy commanders,
+  underwater energy/metal storages, extractors and fusion plants, and 12 mines. Ask the user whether they are in scope.
+- Several names map to an Arm and a Core def (Shipyard, Metal Extractor, ...): both need models.
 - Count distinct models, not names, when estimating work: many units share wrecks/heaps.
 
 ## Timings (2-core container)
@@ -305,8 +337,9 @@ Regenerate the manifest after pulling: `python3 make_manifest.py $XTA_REPO unit_
 
 ## Units that are already S3O
 
-Some units on the list already use S3O remodels in XTA (e.g. `core_instigator_mrd.s3o`, `core_raider_mrd.s3o`,
-`*_smoth.s3o`, `arm_flea.s3o`; the manifest's model column shows them). The kit uses whatever model the unitdef
+Some units already use third-party S3O remodels (MRD/Smoth/ZK/CA carried over from XTA, renamed: e.g.
+`CORE_T1_VEH_Instigator.s3o`, `CORE_T1_VEH_Raider.s3o`, `CORE_T2_VEH_Goliath.s3o`, `ARM_T1_ECO_SolarCollector.s3o`;
+34 S3O files in `objects3d/`, the manifest's model column shows them). The kit uses whatever model the unitdef
 points at as the reference (`threedo.load_any` reads .3do and .s3o), because the script was written against that
 model's pieces. Those remodels can differ from the TA layout, e.g. the Instigator animates its treads by cycling
 `tracks1..4` with hide/show: every such frame piece needs its own geometry (vary the tread texture per frame by
@@ -318,4 +351,8 @@ should be redone too, or skipped.
 - Texture format/size budget: PNG 1024 RGBA is ~1-2 MB each; ~250 units x (2 + wreck 2) textures adds a lot to the
   repo. Options: DDS (BC3/BC1 with mips, smaller + faster loading, but mind the DDS flip), or per-family atlases.
 - Walkers: who writes the shared walk (default: port SF's), The Can / Sumo tracked layout and their new scripts.
-- Whether to also redo sub-faction units later (Talon, Guardians, Lost Legacy) - not in scope now.
+- Whether the already-S3O third-party remodels are redone with the kit (recommended: one look) or skipped.
+- Whether the unrequested BOTA units (see Manifest) are in scope.
+- 6-legged units (Spider, Roach, Scarab) now get "the same style of hierarchy" (user's edit of this file): agree the
+  hexapod piece names (e.g. `pelvis > legs > {rf,lf,rm,lm,rb,lb}thigh > ..leg > ..foot`) and whether one shared
+  hexapod walk drives all three, before the first of them.
