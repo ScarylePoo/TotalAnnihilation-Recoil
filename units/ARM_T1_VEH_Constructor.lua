@@ -8,7 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t1_veh_constructor",
 		buildoptions = Shared.buildListArmT1VehicleConstructor,
-		objectname = "ARM_T1_VEH_Constructor",
+		objectname = "ARM_T1_VEH_Constructor.s3o",
 		corpse = "ARM_T1_VEH_Constructor_dead",
 		icontype = "tank",
 		category = "ARM TANK LEVEL1 NOWEAPON NOTAIR NOTSUB",

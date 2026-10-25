@@ -5,7 +5,7 @@ return {
 		world = "All Worlds",
 		description = "Wreckage",
 		category = "arm_corpses",
-		object = "ARM_T1_VEH_Constructor_dead",
+		object = "ARM_T1_VEH_Constructor_dead.s3o",
 		featuredead = "ARM_T1_VEH_Constructor_heap",
 		footprintx = 3,
 		footprintz = 3,
