@@ -8,7 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t1_veh_spoiler",
 		buildoptions = Shared.buildListCoreMineLayer,
-		objectname = "CORE_T1_VEH_Spoiler",
+		objectname = "CORE_T1_VEH_Spoiler.s3o",
 		corpse = "CORE_T1_VEH_Spoiler_dead",
 		icontype = "tank",
 		category = "CORE TANK LEVEL1 WEAPON NOTAIR NOTSUB",
