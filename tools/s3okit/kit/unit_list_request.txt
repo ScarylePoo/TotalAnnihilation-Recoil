@@ -1,0 +1,293 @@
+Now build the tooling with the intention of redoing all of the models for the units that were in total annihilation, core contingency, and battle tactics, including the dead ones and a generic scrap heap model representing a wreck that got so pulverized that it is just broken tiny bits and pieces. 
+
+It is very important to maximize uv space efficiency so that textures can be the best quality possible. Additionally, it is important to keep contrast and shape in mind as these are going to be viewed from fairly high up, so being able to decipher quickly what something is at a glance is valuable.
+
+The list of units are as follows:
+
+A
+    A.K.
+    Adv. Aircraft Plant (ARM)
+    Adv. Aircraft Plant (CORE)
+    Adv. Construction Aircraft (ARM)
+    Adv. Construction Aircraft (CORE)
+    Adv. Construction Kbot (ARM)
+    Adv. Construction Kbot (CORE)
+    Adv. Construction Vehicle (ARM)
+    Adv. Construction Vehicle (CORE)
+    Adv. Kbot Lab (ARM)
+    Adv. Kbot Lab (CORE)
+    Adv. Shipyard
+    Adv. Shipyard (CORE)
+    Adv. Vehicle Plant (ARM)
+    Adv. Vehicle Plant (CORE)
+    Advanced Construction Sub
+    Advanced Radar Tower
+    Advanced Sonar Station
+    Advanced Torpedo Launcher
+    Air Repair Pad
+    Aircraft Plant (ARM)
+    Aircraft Plant (CORE)
+    Albatross
+    Ambusher
+    Anaconda
+    Annihilator
+    Archer
+    Atlas
+    Avenger
+
+B
+
+    Bear
+    Big Bertha
+    Brawler
+    Bulldog
+    Buzzsaw
+
+C
+
+
+    Cloakable Fusion Reactor
+    Cobra
+    Colossus
+    Commander
+    Conqueror
+    Construction Aircraft (ARM)
+    Construction Aircraft (CORE)
+    Construction Hovercraft (ARM)
+    Construction Hovercraft (CORE)
+    Construction KBot (ARM)
+    Construction Kbot (CORE)
+    Construction Seaplane (ARM)
+    Construction Seaplane (CORE)
+    Construction Ship
+    Construction Vehicle (ARM)
+    Construction Vehicle (CORE)
+    Copperhead
+    Crasher
+    Crock
+    Crusader
+
+D
+
+    Defender
+    Defender - NS
+    Deleter
+    Diplomat
+    Dominator
+    Doomsday Machine
+    Dragon's Teeth
+
+E
+
+    Eagle
+    Energy Storage
+    Enforcer
+    Envoy
+    Eraser
+    Escort
+    Executioner
+
+F
+
+    FARK
+    Fibber
+    Fido
+    Fink
+    Flakker
+    Flash
+    Flea
+    Floating Dragon's Teeth
+    Floating Metal Maker
+    Fortification Wall
+    Fortitude Missile Defense
+    Freaker
+    Freedom Fighter
+    Fusion Power Plant
+    Fusion Reactor
+
+G
+
+    Gaat Gun
+    Galactic Gate
+    Geothermal Powerplant
+    Gimp
+    Goliath
+    Guardian
+    Guardian
+
+H
+
+    Hammer
+    Hawk
+    Hedgehog
+    Hive
+    Hovercraft Platform (ARM)
+    Hovercraft Platform (CORE)
+    Hulk
+    Hunter
+    Hurricane
+
+I
+
+    Immolator
+    Implosion Device
+    Infiltrator
+    Informer
+    Instigator
+    Intimidator
+    Invader
+
+J
+
+    Jammer
+    Jeffy
+    Jethro
+
+K
+
+    Kbot Lab (ARM)
+    Kbot Lab (CORE)
+    Kbot Lab (CORE)
+    Krogoth
+    Krogoth Gantry
+
+L
+
+    L.L.T
+    Lancet
+    Leveler
+    Leviathan
+    Light Laser Tower
+    Luger
+    Lurker
+
+M
+
+    Marky
+    Maverick
+    Merl
+    Metal Extractor
+    Metal Maker
+    Metal Storage
+    Millenium
+    Missile Frigate
+    Mobile Artillery
+    Moho Metal Maker
+    Moho Mine
+    Moho Mine
+    Morty
+
+N
+
+    Neutron
+    Nixer
+
+
+O
+
+
+
+P
+
+    Panther
+    Parasite
+    Peeper
+    Peewee
+    Peewee
+    Pelican
+    Penetrator
+    Phalanx
+    Phantom
+    Phoenix
+    Piranha
+    Podger
+    Protector
+    Pulverizer
+    Punisher
+    Pyro
+
+R
+
+    Radar Tower
+    Raider
+    Ranger
+    Rapier
+    Reaper
+    Resurrection Kbot
+    Retaliator
+    Roach
+    Rocko
+
+S
+
+    Samson
+    Scarab
+    Scorpion
+    Scrubber
+    Sea Serpent
+    Seahawk
+    Seaplane Platform (ARM)
+    Seaplane Platform (CORE)
+    Searcher
+    Seer
+    Sentinel
+    Shadow
+    Shark
+    Shipyard
+    Shooter
+    Shredder
+    Silencer
+    Skeeter
+    Skimmer
+    Slasher
+    Slinger
+    Snake
+    Snapper
+    Solar Collector
+    Sonar Station
+    Spectre
+    Spider
+    Spoiler
+    Stinger
+    Stingray
+    Storm
+
+
+
+Please output the tooling files along with any instructions you would like to give yourself. I will be moving this conversation into a new project, so I need all of the crucial details that you want yourself to know. So in that new project folder I will be giving you the information that you give me here.
+(addendum 2026-10-24: rest of the list)
+Samson
+Searcher
+Seer
+Sentinel
+Shadow
+Shark
+Shipyard
+Silencer
+Skeeter
+Slasher
+Slinger
+Snake
+Solar Collector
+Sonar Station
+Spectre
+Spider
+Storm
+Stumpy
+The Can
+Thud
+Thunder
+Tidal Generator
+Titan
+Torpedo Launcher
+Triton
+Valkyrie
+Vamp
+Vehicle Plant (ARM)
+Vehicle Plant (CORE)
+Warlord
+Weasel
+Wind Generator
+Zeus
+Zipper
+Sumo

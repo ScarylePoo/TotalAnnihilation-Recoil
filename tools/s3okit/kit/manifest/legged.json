@@ -1,0 +1,824 @@
+[
+ {
+  "request": "A.K.",
+  "unitname": "core_ak",
+  "model": "objects3d/core_ak.3do",
+  "leg_pieces": [
+   "lthigh",
+   "lleg",
+   "lfoot",
+   "rthigh",
+   "rleg",
+   "rfoot"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Adv. Construction Kbot (ARM)",
+  "unitname": "arm_adv_construction_kbot",
+  "model": "objects3d/arm_adv_construction_kbot.3do",
+  "leg_pieces": [
+   "rthigh",
+   "rleg",
+   "rfoot",
+   "lthigh",
+   "lleg",
+   "lfoot"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Adv. Construction Kbot (CORE)",
+  "unitname": "core_adv_construction_kbot",
+  "model": "objects3d/core_adv_construction_kbot.3do",
+  "leg_pieces": [
+   "lforeleg",
+   "lhindleg",
+   "rforeleg",
+   "rhindleg"
+  ],
+  "feet": 0,
+  "guess": "quad"
+ },
+ {
+  "request": "Commander",
+  "unitname": "core_scommander",
+  "model": "objects3d/core_commander_mrd.s3o",
+  "leg_pieces": [
+   "lthigh",
+   "lleg",
+   "l_foot",
+   "rthigh",
+   "rleg",
+   "r_foot"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Commander",
+  "unitname": "arm_u0commander",
+  "model": "objects3d/arm_commander.3do",
+  "leg_pieces": [
+   "rthigh",
+   "rleg",
+   "lthigh",
+   "lleg"
+  ],
+  "feet": 0,
+  "guess": "biped"
+ },
+ {
+  "request": "Commander",
+  "unitname": "core_u0commander",
+  "model": "objects3d/core_commander_mrd.s3o",
+  "leg_pieces": [
+   "lthigh",
+   "lleg",
+   "l_foot",
+   "rthigh",
+   "rleg",
+   "r_foot"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Commander",
+  "unitname": "core_nincommander",
+  "model": "objects3d/core_commander_mrd.s3o",
+  "leg_pieces": [
+   "lthigh",
+   "lleg",
+   "l_foot",
+   "rthigh",
+   "rleg",
+   "r_foot"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Commander",
+  "unitname": "arm_nincommander",
+  "model": "objects3d/arm_commander.3do",
+  "leg_pieces": [
+   "rthigh",
+   "rleg",
+   "lthigh",
+   "lleg"
+  ],
+  "feet": 0,
+  "guess": "biped"
+ },
+ {
+  "request": "Commander",
+  "unitname": "arm_commander",
+  "model": "objects3d/arm_commander.3do",
+  "leg_pieces": [
+   "rthigh",
+   "rleg",
+   "lthigh",
+   "lleg"
+  ],
+  "feet": 0,
+  "guess": "biped"
+ },
+ {
+  "request": "Commander",
+  "unitname": "arm_scommander",
+  "model": "objects3d/arm_commander.3do",
+  "leg_pieces": [
+   "rthigh",
+   "rleg",
+   "lthigh",
+   "lleg"
+  ],
+  "feet": 0,
+  "guess": "biped"
+ },
+ {
+  "request": "Commander",
+  "unitname": "core_commander",
+  "model": "objects3d/core_commander_mrd.s3o",
+  "leg_pieces": [
+   "lthigh",
+   "lleg",
+   "l_foot",
+   "rthigh",
+   "rleg",
+   "r_foot"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Construction KBot (ARM)",
+  "unitname": "arm_construction_kbot",
+  "model": "objects3d/arm_construction_kbot.3do",
+  "leg_pieces": [
+   "rfoot",
+   "lfoot"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Construction Kbot (CORE)",
+  "unitname": "core_construction_kbot",
+  "model": "objects3d/core_construction_kbot.3do",
+  "leg_pieces": [
+   "lthigh",
+   "lleg",
+   "lfoot",
+   "rthigh",
+   "rleg",
+   "rfoot"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Crasher",
+  "unitname": "core_crasher",
+  "model": "objects3d/core_crasher.3do",
+  "leg_pieces": [
+   "lleg",
+   "rleg"
+  ],
+  "feet": 0,
+  "guess": "biped"
+ },
+ {
+  "request": "Crusader",
+  "unitname": "talon_crusader",
+  "model": "objects3d/talon_crusader.3do",
+  "leg_pieces": [
+   "leghr",
+   "foothr",
+   "legfr",
+   "footfr",
+   "leghl",
+   "foothl",
+   "legfl",
+   "footfl"
+  ],
+  "feet": 4,
+  "guess": "quad"
+ },
+ {
+  "request": "Dominator",
+  "unitname": "core_dominator",
+  "model": "objects3d/core_dominator_smoth.s3o",
+  "leg_pieces": [
+   "thigh2",
+   "leg2",
+   "foot2",
+   "thigh1",
+   "leg1",
+   "foot1"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Eraser",
+  "unitname": "arm_eraser",
+  "model": "objects3d/arm_eraser.3do",
+  "leg_pieces": [
+   "lthigh",
+   "lleg",
+   "lfoot",
+   "rthigh",
+   "rleg",
+   "rfoot"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "FARK",
+  "unitname": "arm_fark",
+  "model": "objects3d/arm_fark.3do",
+  "leg_pieces": [
+   "hips",
+   "rthigh",
+   "rleg",
+   "rfoot",
+   "lthigh",
+   "lleg",
+   "lfoot"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Fido",
+  "unitname": "arm_fido",
+  "model": "objects3d/arm_fido.3do",
+  "leg_pieces": [
+   "lthigh",
+   "lleg",
+   "lfoot",
+   "rthigh",
+   "rleg",
+   "rfoot"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Flea",
+  "unitname": "arm_true_flea",
+  "model": "objects3d/arm_true_flea.3do",
+  "leg_pieces": [
+   "lfupleg",
+   "lfleg",
+   "lrupleg",
+   "lrleg",
+   "rfupleg",
+   "rfleg",
+   "rrupleg",
+   "rrleg"
+  ],
+  "feet": 0,
+  "guess": "quad"
+ },
+ {
+  "request": "Freaker",
+  "unitname": "core_freaker",
+  "model": "objects3d/core_freaker_smoth.s3o",
+  "leg_pieces": [
+   "hip",
+   "ruleg",
+   "rlleg",
+   "luleg",
+   "llleg"
+  ],
+  "feet": 0,
+  "guess": "quad"
+ },
+ {
+  "request": "Geothermal Powerplant",
+  "unitname": "core_geothermal_powerplant",
+  "model": "objects3d/core_geothermal_powerplant.3do",
+  "leg_pieces": [
+   "foot"
+  ],
+  "feet": 1,
+  "guess": "biped"
+ },
+ {
+  "request": "Gimp",
+  "unitname": "core_gimp",
+  "model": "objects3d/core_gimp_smoth.s3o",
+  "leg_pieces": [
+   "hips",
+   "rleg",
+   "rfoot",
+   "lleg",
+   "lfoot"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Hammer",
+  "unitname": "arm_hammer",
+  "model": "objects3d/arm_hammer.3do",
+  "leg_pieces": [
+   "lthigh",
+   "lleg",
+   "lfoot",
+   "rthigh",
+   "rleg",
+   "rfoot"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Infiltrator",
+  "unitname": "arm_infiltrator",
+  "model": "objects3d/arm_infiltrator.3do",
+  "leg_pieces": [
+   "lthigh",
+   "lleg",
+   "lfoot",
+   "rthigh",
+   "rleg",
+   "rfoot"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Invader",
+  "unitname": "arm_invader",
+  "model": "objects3d/arm_invader.3do",
+  "leg_pieces": [
+   "leg1",
+   "leg2",
+   "leg3",
+   "leg4"
+  ],
+  "feet": 0,
+  "guess": "quad"
+ },
+ {
+  "request": "Jethro",
+  "unitname": "arm_jethro",
+  "model": "objects3d/arm_jethro.3do",
+  "leg_pieces": [
+   "rthigh",
+   "rleg",
+   "lthigh",
+   "lleg"
+  ],
+  "feet": 0,
+  "guess": "biped"
+ },
+ {
+  "request": "Krogoth",
+  "unitname": "core_krogoth",
+  "model": "objects3d/core_krogoth.3do",
+  "leg_pieces": [
+   "hips",
+   "rthigh",
+   "rleg",
+   "rtoes",
+   "lthigh",
+   "lleg",
+   "ltoes"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Marky",
+  "unitname": "arm_marky",
+  "model": "objects3d/arm_marky.3do",
+  "leg_pieces": [
+   "lthigh",
+   "lshin",
+   "lfoot",
+   "rthigh",
+   "rshin",
+   "rfoot"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Maverick",
+  "unitname": "arm_maverick",
+  "model": "objects3d/arm_maverick.3do",
+  "leg_pieces": [
+   "hips",
+   "rlegmain",
+   "rlegdoor",
+   "rfoot",
+   "llegmain",
+   "llegdoor",
+   "lfoot"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Morty",
+  "unitname": "core_morty",
+  "model": "objects3d/core_morty_smoth.s3o",
+  "leg_pieces": [
+   "thigh2",
+   "leg2",
+   "foot2",
+   "thigh1",
+   "leg1",
+   "foot1"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Parasite",
+  "unitname": "core_parasite",
+  "model": "objects3d/core_parasite_smoth.s3o",
+  "leg_pieces": [
+   "lthigh",
+   "lleg",
+   "lfoot",
+   "ltoes",
+   "rthigh",
+   "rleg",
+   "rfoot",
+   "rtoes"
+  ],
+  "feet": 4,
+  "guess": "quad"
+ },
+ {
+  "request": "Peewee",
+  "unitname": "arm_peewee",
+  "model": "objects3d/arm_peewee.3do",
+  "leg_pieces": [
+   "rthigh",
+   "rleg",
+   "rfoot",
+   "lthigh",
+   "lleg",
+   "lfoot"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Peewee",
+  "unitname": "arm_peewee",
+  "model": "objects3d/arm_peewee.3do",
+  "leg_pieces": [
+   "rthigh",
+   "rleg",
+   "rfoot",
+   "lthigh",
+   "lleg",
+   "lfoot"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Pelican",
+  "unitname": "arm_pelican",
+  "model": "objects3d/arm_pelican.3do",
+  "leg_pieces": [
+   "lhippivot",
+   "lupleg",
+   "lleg",
+   "lfoot",
+   "rhippivot",
+   "rupleg",
+   "rleg",
+   "rfoot"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Pyro",
+  "unitname": "core_pyro",
+  "model": "objects3d/core_pyro.3do",
+  "leg_pieces": [
+   "lthigh",
+   "lleg",
+   "lfoot",
+   "rthigh",
+   "rleg",
+   "rfoot"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Resurrection Kbot",
+  "unitname": "core_resurrection_kbot",
+  "model": "objects3d/core_resurrection_kbot_smoth.s3o",
+  "leg_pieces": [
+   "hip",
+   "rleg",
+   "rfoot",
+   "rtoer",
+   "rtoel",
+   "lleg",
+   "lfoot",
+   "lfootl",
+   "lfootr"
+  ],
+  "feet": 6,
+  "guess": "quad"
+ },
+ {
+  "request": "Roach",
+  "unitname": "core_roach",
+  "model": "objects3d/core_roach.3do",
+  "leg_pieces": [
+   "lega1",
+   "lega2",
+   "lega3",
+   "lega4",
+   "lega5",
+   "lega6",
+   "legb1",
+   "legb2",
+   "legb3",
+   "legb4",
+   "legb5",
+   "legb6"
+  ],
+  "feet": 0,
+  "guess": "quad"
+ },
+ {
+  "request": "Rocko",
+  "unitname": "arm_rocko",
+  "model": "objects3d/arm_rocko.3do",
+  "leg_pieces": [
+   "lthigh",
+   "lleg",
+   "lfoot",
+   "rthigh",
+   "rleg",
+   "rfoot"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Scarab",
+  "unitname": "arm_scarab",
+  "model": "objects3d/arm_scarab.3do",
+  "leg_pieces": [
+   "lrfoot",
+   "lffoot",
+   "rffoot",
+   "rrfoot",
+   "rupleg1",
+   "rleg1",
+   "rupleg2",
+   "rleg2",
+   "rupleg3",
+   "rleg3",
+   "lupleg1",
+   "lleg1",
+   "lupleg2",
+   "lleg2",
+   "lupleg3",
+   "lleg3"
+  ],
+  "feet": 4,
+  "guess": "quad"
+ },
+ {
+  "request": "Shooter",
+  "unitname": "arm_shooter",
+  "model": "objects3d/arm_shooter.3do",
+  "leg_pieces": [
+   "hip",
+   "lupleg",
+   "lleg",
+   "rupleg",
+   "rleg"
+  ],
+  "feet": 0,
+  "guess": "quad"
+ },
+ {
+  "request": "Solar Collector",
+  "unitname": "core_solar_collector",
+  "model": "objects3d/core_solar_collector.3do",
+  "leg_pieces": [
+   "leg1",
+   "leg2",
+   "leg3",
+   "leg4"
+  ],
+  "feet": 0,
+  "guess": "quad"
+ },
+ {
+  "request": "Spectre",
+  "unitname": "core_spectre",
+  "model": "objects3d/core_spectre_smoth.s3o",
+  "leg_pieces": [
+   "lthigh",
+   "lleg",
+   "lfoot",
+   "rthigh",
+   "rleg",
+   "rfoot",
+   "legcover"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Spider",
+  "unitname": "arm_spider",
+  "model": "objects3d/arm_spider.3do",
+  "leg_pieces": [
+   "leg1",
+   "leg2",
+   "leg3",
+   "leg4",
+   "leg5",
+   "leg6",
+   "shinesource"
+  ],
+  "feet": 0,
+  "guess": "quad"
+ },
+ {
+  "request": "Storm",
+  "unitname": "core_storm",
+  "model": "objects3d/core_storm.3do",
+  "leg_pieces": [
+   "lthigh",
+   "lleg",
+   "lfoot",
+   "rthigh",
+   "rleg",
+   "rfoot"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Solar Collector",
+  "unitname": "core_solar_collector",
+  "model": "objects3d/core_solar_collector.3do",
+  "leg_pieces": [
+   "leg1",
+   "leg2",
+   "leg3",
+   "leg4"
+  ],
+  "feet": 0,
+  "guess": "quad"
+ },
+ {
+  "request": "Spectre",
+  "unitname": "core_spectre",
+  "model": "objects3d/core_spectre_smoth.s3o",
+  "leg_pieces": [
+   "lthigh",
+   "lleg",
+   "lfoot",
+   "rthigh",
+   "rleg",
+   "rfoot",
+   "legcover"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Spider",
+  "unitname": "arm_spider",
+  "model": "objects3d/arm_spider.3do",
+  "leg_pieces": [
+   "leg1",
+   "leg2",
+   "leg3",
+   "leg4",
+   "leg5",
+   "leg6",
+   "shinesource"
+  ],
+  "feet": 0,
+  "guess": "quad"
+ },
+ {
+  "request": "Storm",
+  "unitname": "core_storm",
+  "model": "objects3d/core_storm.3do",
+  "leg_pieces": [
+   "lthigh",
+   "lleg",
+   "lfoot",
+   "rthigh",
+   "rleg",
+   "rfoot"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "The Can",
+  "unitname": "core_the_can",
+  "model": "objects3d/core_the_can.3do",
+  "leg_pieces": [
+   "rthigh",
+   "rleg",
+   "rfoot",
+   "lthigh",
+   "lleg",
+   "lfoot"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Thud",
+  "unitname": "core_thud",
+  "model": "objects3d/core_thud.3do",
+  "leg_pieces": [
+   "lthigh",
+   "lleg",
+   "lfoot",
+   "rthigh",
+   "rleg",
+   "rfoot"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Zeus",
+  "unitname": "arm_zeus",
+  "model": "objects3d/arm_zeus.3do",
+  "leg_pieces": [
+   "rthigh",
+   "rleg",
+   "lthigh",
+   "lleg"
+  ],
+  "feet": 0,
+  "guess": "biped"
+ },
+ {
+  "request": "Zipper",
+  "unitname": "arm_zipper",
+  "model": "objects3d/arm_zipper.3do",
+  "leg_pieces": [
+   "rthigh",
+   "rleg",
+   "rfoot",
+   "lthigh",
+   "lleg",
+   "lfoot"
+  ],
+  "feet": 2,
+  "guess": "biped"
+ },
+ {
+  "request": "Sumo",
+  "unitname": "core_sumo",
+  "model": "objects3d/core_sumo_smoth.s3o",
+  "leg_pieces": [
+   "Hips",
+   "rightthigh",
+   "leftthigh",
+   "feetparent",
+   "RLFoot",
+   "RLFootfake",
+   "RLintoe",
+   "RLouttoe",
+   "FLFoot",
+   "FLFootfake",
+   "FLouttoe",
+   "FLintoe",
+   "RRfoot",
+   "RRfootfake",
+   "RRintoe",
+   "RRouttoe",
+   "FRfoot",
+   "FRfootfake",
+   "FRouttoe",
+   "FRintoe"
+  ],
+  "feet": 17,
+  "guess": "quad"
+ }
+]

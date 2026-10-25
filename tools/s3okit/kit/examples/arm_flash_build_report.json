@@ -1,0 +1,32 @@
+{
+ "uv_coverage": 0.668,
+ "tris": 5643,
+ "culled_faces": {
+  "base": [
+   1042,
+   92
+  ],
+  "turret": [
+   426,
+   17
+  ],
+  "sleeves": [
+   234,
+   7
+  ],
+  "barrel1": [
+   170,
+   2
+  ]
+ },
+ "pieces": [
+  "base",
+  "turret",
+  "sleeves",
+  "barrel1",
+  "flare1",
+  "barrel2",
+  "flare2"
+ ],
+ "script_pieces_missing": []
+}
