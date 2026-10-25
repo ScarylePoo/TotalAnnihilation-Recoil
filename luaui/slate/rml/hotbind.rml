@@ -1,0 +1,58 @@
+<rml>
+<head>
+	<title>Slate hotbind prompt</title>
+	<link type="text/rcss" href="theme.rcss"/>
+	<style>
+		/* The prompt that asks for a key, and then says what happened. Its
+		   position is set from Lua (hud.PlacePanel); its size here must match
+		   PANEL_WIDTH and PANEL_HEIGHT in slate_hotbind.lua. It never takes
+		   the mouse. */
+		#hotbind {
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			width: 320dp;
+			height: 78dp;
+			box-sizing: border-box;
+			padding: 9dp 12dp;
+			text-align: center;
+			border-color: #a9bdd0;
+		}
+		#hotbind.ok { border-color: #9be7a8; }
+		#hotbind.warn { border-color: #a9bdd0; }
+		#hotbind.err { border-color: #ffb3a6; }
+		#first {
+			font-family: Saira SemiCondensed;
+			font-weight: bold;
+			font-size: 17dp;
+			line-height: 21dp;
+			color: #a9bdd0;
+			white-space: nowrap;
+			overflow: hidden;
+		}
+		#hotbind.ok #first { color: #9be7a8; }
+		#hotbind.warn #first { color: #a9bdd0; }
+		#hotbind.err #first { color: #ffb3a6; }
+		#hotbind.dim #first { color: #b5bac1; }
+		#second {
+			font-size: 13dp;
+			line-height: 18dp;
+			color: #f4f5f7;
+			white-space: nowrap;
+			overflow: hidden;
+		}
+		#third {
+			font-size: 11dp;
+			line-height: 15dp;
+			color: #b5bac1;
+		}
+	</style>
+</head>
+<body>
+	<div id="hotbind" class="panel window hidden">
+		<div id="first"/>
+		<div id="second"/>
+		<div id="third"/>
+	</div>
+</body>
+</rml>

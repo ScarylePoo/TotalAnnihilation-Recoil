@@ -1,0 +1,148 @@
+[UNITINFO]
+{
+	//************************************************************
+	//  Unit Description
+	//********************
+	side=Lost;
+	name=Bugger;
+	description=Paralyzer/Kamikaze Scout (333);
+
+	//************************************************************
+	//  Categories
+	//**************
+	Category=CORE KBOT WEAPON MOBILE NOTAIR NOTSEA NOTSUB;
+	tedclass=KBOT;
+
+	//************************************************************
+	//  External Specs
+	//******************
+	unitname=Lost_Bugger;
+	unitnumber=82;
+	objectname=Lost_Bugger.3do;
+	corpse=Lost_Bugger_dead;
+	buildpic=Lost_Bugger.png;
+	SoundCategory=VADER;
+
+	//************************************************************
+	//  Health/Cost/Size
+	//********************
+	maxdamage=225; // was 645
+	healtime=30;
+	buildcostmetal=51; //was 99(5%)//was 88
+	buildcostenergy=597;
+	buildtime=1223;//
+	footprintx=1;
+	footprintz=1;
+
+	//************************************************************
+	//  Resources
+	//*************
+	metalstorage=0;
+	energymake=0.3;
+	energyuse=0.3;
+	energystorage=0;
+
+	//************************************************************
+	//  Building
+	//************
+
+	//************************************************************
+	//  Constructor
+	//***************
+	builder=0;
+	workertime=0;
+
+	//************************************************************
+	//  Abilities
+	//*************
+	canattack=1;
+	canguard=1;
+	canmove=1;
+	canpatrol=1;
+	canstop=1;
+	upright=0;
+
+	//************************************************************
+	//  Movement
+	//************
+	movementclass=CRAWLBOMB;
+	turnrate=1210; // was 1100
+	acceleration=1.815527;
+	brakerate=0.53105;
+	maxvelocity=2.5; // was 1.72
+	maxslope=17;
+	maxwaterdepth=25;
+
+	//************************************************************
+	//  Sight/Radar/Sonar
+	//*********************
+	sightdistance=372.5;
+	radardistance=0;
+	
+	//    Tracks/Flares
+	//LeaveTracks=1;
+	//TrackOffset=0;
+	//TrackStrength=4;
+	//TrackStretch=1;
+	//TrackType=KbotTrack;
+	//TrackWidth=10;
+	
+
+	//************************************************************
+	//  Weapons
+	//***********
+	kamikaze=1;
+	selfdestructcountdown=0;
+	kamikazedistance=30;
+	Weapon1=Bugger_Lightning;
+	explodeas=BUGGER_blast;
+	selfdestructas=BUGGER_blast;
+
+	//************************************************************
+	//  Orders
+	//**********
+	noautofire=0;
+	firestandorders=1;
+	mobilestandorders=1;
+	standingfireorder=2;
+	standingmoveorder=1;
+	defaultmissiontype=Standby;
+
+	//************************************************************
+	//  Miscellaneous
+	//*****************
+	bmcode=1;
+	designation=KA-L4;
+	downloadable=1;
+	maneuverleashlength=640;
+	shootme=1;
+	smoothanim=1;
+	steeringmode=2;
+	threed=1;
+	version=1.2;
+	zbuffer=1;
+	//Stealth=1;
+	//sonarStealth=1;
+	MinCollisionSpeed=15;//weight
+	collisionVolumeType = box;
+	collisionVolumeScales =12 10 12;
+	collisionVolumeOffsets = 0 0 0;
+	collisionVolumeTest = 1;
+	pieceTrailCEGTag=Debree;//bleh
+	pieceTrailCEGRange = 4;
+	[SFXTypes]
+	{
+		explosiongenerator0=custom:redflare;
+	}
+	//  Custom params
+	//*****************
+	[customparams] 	
+	{
+	tip=Can paralyze targets, use groups to get close to explode and destroy light targets.;
+	}
+	
+	//************************************************************
+	//  To be removed
+	//*****************
+
+}

@@ -1,0 +1,208 @@
+<rml>
+<head>
+	<title>Slate selection panel</title>
+	<link type="text/rcss" href="theme.rcss"/>
+	<style>
+		/* One panel at the bottom centre that shows one of three views: a
+		   unit (selected, hovered in the world or in the build menu), a
+		   group of selected units, or a title with text (an order button,
+		   a hint from another panel, a wreck). Its position is set from Lua
+		   (hud.PlacePanel); its size here must match WIDTH and HEIGHT in
+		   slate_selection.lua. */
+		#selection {
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			width: 760dp;
+			height: 128dp;
+			box-sizing: border-box;
+			padding: 12dp;
+			pointer-events: auto;
+		}
+		.view {
+			display: flex;
+			flex-direction: row;
+			height: 100%;
+		}
+		.view.hidden {
+			display: none;
+		}
+
+		/* ---- a unit --------------------------------------------------------- */
+		.pic {
+			flex: none;
+			width: 102dp;
+			height: 102dp;
+			box-sizing: border-box;
+			border: 1dp rgba(255, 255, 255, 33);
+			border-radius: 5dp;
+			background-color: rgba(255, 255, 255, 10);
+		}
+		.body {
+			flex: 1;
+			margin-left: 14dp;
+			overflow: hidden;
+		}
+		.line {
+			display: flex;
+			flex-direction: row;
+			align-items: flex-end;
+		}
+		.name {
+			font-family: Saira SemiCondensed;
+			font-weight: bold;
+			font-size: 20dp;
+			line-height: 24dp;
+			color: #f4f5f7;
+			white-space: nowrap;
+		}
+		.blurb {
+			flex: 1;
+			margin: 0dp 0dp 3dp 12dp;
+			font-size: 14dp;
+			color: #b5bac1;
+			white-space: nowrap;
+			overflow: hidden;
+		}
+		.health {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			height: 22dp;
+			margin-top: 4dp;
+		}
+		.health .bar {
+			flex: 1;
+			height: 8dp;
+			border-radius: 4dp;
+		}
+		.health .bar-fill {
+			height: 8dp;
+			border-radius: 4dp;
+			background-color: #9be7a8;
+		}
+		.health .figure {
+			flex: none;
+			margin-left: 10dp;
+			font-size: 14dp;
+			white-space: nowrap;
+		}
+		.cells {
+			display: flex;
+			flex-direction: row;
+			margin-top: 8dp;
+		}
+		.cell {
+			flex: 1;
+		}
+		.cell .label {
+			line-height: 13dp;
+		}
+		.cell .figure {
+			font-size: 15dp;
+			line-height: 19dp;
+			color: #f4f5f7;
+		}
+
+		/* ---- a group ---------------------------------------------------------- */
+		#group {
+			flex-direction: column;
+		}
+		#types {
+			display: flex;
+			flex-direction: row;
+			margin-top: 8dp;
+		}
+		.type {
+			position: relative;
+			width: 64dp;
+			height: 64dp;
+			margin-right: 6dp;
+			box-sizing: border-box;
+			border: 1dp rgba(255, 255, 255, 33);
+			border-radius: 5dp;
+			overflow: hidden;
+			background-color: rgba(255, 255, 255, 10);
+		}
+		.type:hover {
+			border-color: #a9bdd0;
+		}
+		.type .pic {
+			position: absolute;
+			left: 0dp;
+			top: 0dp;
+			width: 100%;
+			height: 100%;
+			border: 0dp;
+			border-radius: 0dp;
+		}
+		.count {
+			position: absolute;
+			right: 0dp;
+			top: 0dp;
+			min-width: 18dp;
+			padding: 0dp 4dp;
+			text-align: center;
+			font-size: 12dp;
+			line-height: 17dp;
+			color: #f4f5f7;
+			background-color: rgba(0, 0, 0, 166);
+			border-radius: 0dp 0dp 0dp 4dp;
+		}
+
+		/* ---- text --------------------------------------------------------------- */
+		#text {
+			flex-direction: column;
+			padding: 0dp 4dp;
+		}
+		.ttitle {
+			font-family: Saira SemiCondensed;
+			font-weight: bold;
+			font-size: 18dp;
+			line-height: 22dp;
+			color: #f4f5f7;
+			white-space: nowrap;
+			overflow: hidden;
+		}
+		.ttext {
+			margin-top: 4dp;
+			font-size: 14dp;
+			line-height: 19dp;
+			color: #b5bac1;
+			overflow: hidden;
+		}
+	</style>
+</head>
+<body>
+	<div id="selection" class="panel hidden">
+		<div id="unit" class="view hidden">
+			<div id="unit-pic"/>
+			<div class="body">
+				<div class="line">
+					<div id="unit-name" class="name"></div>
+					<div id="unit-blurb" class="blurb"></div>
+				</div>
+				<div id="unit-health" class="health">
+					<div class="bar"><div id="unit-fill" class="bar-fill"/></div>
+					<div id="unit-hp" class="figure"></div>
+				</div>
+				<div id="unit-cells" class="cells"/>
+			</div>
+		</div>
+		<div id="group" class="view hidden">
+			<div class="line">
+				<div id="group-name" class="name"></div>
+				<div id="group-health" class="health" style="flex: 1; margin: 0dp 0dp 4dp 20dp;">
+					<div class="bar"><div id="group-fill" class="bar-fill"/></div>
+					<div id="group-hp" class="figure"></div>
+				</div>
+			</div>
+			<div id="types"/>
+		</div>
+		<div id="text" class="view hidden">
+			<div id="text-title" class="ttitle"></div>
+			<div id="text-body" class="ttext"></div>
+		</div>
+	</div>
+</body>
+</rml>

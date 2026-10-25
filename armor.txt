@@ -1,0 +1,381 @@
+//The numbers do not mean anything! It is just for the parser!
+
+[group_buggers]
+{
+	lost_bugger=99;
+}
+
+[group_commanders]
+{
+	arm_commander=99;
+	arm_u0commander=99;
+	arm_ucommander=99;
+	arm_u2commander=99;
+	arm_u3commander=99;
+	arm_u4commander=99;
+	core_commander=99;
+	core_u0commander=99;
+	core_ucommander=99;
+	core_u2commander=99;
+	core_u3commander=99;
+	core_u4commander=99;
+	guardian_commander=99;
+	guardian_u0commander=99;
+	guardian_ucommander=99;
+	guardian_u2commander=99;
+	guardian_u3commander=99;
+	guardian_u4commander=99;
+	arm_nincommander=99;
+	core_nincommander=99;
+	arm_nin2commander=99;
+	core_nin2commander=99;
+	talon_commander=99;
+	talon_u0commander=99;
+	talon_ucommander=99;
+	talon_u2commander=99;
+	talon_u3commander=99;
+	talon_u4commander=99;
+}
+
+[lost_commanders]
+{
+	lost_commander=99;
+	lost_u0commander=99;
+	lost_ucommander=99;
+	lost_u2commander=99;
+	lost_u3commander=99;
+	lost_u4commander=99;
+}
+
+[group_invincible]
+{
+	arm_base=99;
+	core_base=99;
+}
+
+[group_flamers]
+{
+	core_pyro=99;
+	core_leveler=99;
+}
+
+[group_spiders]
+{
+	arm_spider=99;
+}
+
+[group_sphere]
+{
+	talon_sphere=99;
+}
+
+[group_landair]
+{
+	arm_construction_aircraft=99;
+	arm_peeper=99;
+	arm_freedom_fighter=99;
+	arm_thunder=99;
+	arm_atlas=99;
+	arm_ornith=99;
+	arm_tornado=99;
+	arm_adv_construction_aircraft=99;
+	arm_brawler=99;
+	arm_phoenix=99;
+	arm_lancet=99;
+	arm_hawk=99;
+	arm_harpoon=99;
+	arm_albatross=99;
+	arm_seahawk=99;
+	arm_construction_seaplane=99;
+	core_construction_aircraft=99;
+	core_fink=99;
+	core_avenger=99;
+	core_shadow=99;
+	core_valkyrie=99;
+	core_voodoo=99;
+	core_adv_construction_aircraft=99;
+	core_rapier=99;
+	core_titan=99;
+	core_hurricane=99;
+	core_vamp=99;
+	core_typhoon=99;
+	core_hunter=99;
+	core_construction_seaplane=99;
+	core_zeppelin=99;
+	core_Silhouette=99;
+	//unitpacks
+	//losllegacy3rd
+	Corpur=99;
+	Armpur=99;
+	CoreVashp=99;
+	ArmHyren=99;
+	corcrw=99;
+	arm_ht_construction_aircraft=99;
+	arm_banisher=99;
+	arm_argentavis=99;
+	arm_orion=99;
+	arm_ala=99;
+	//xtaids
+	lost_adv_construction_aircraft=99;
+	lost_probe=99;
+	lost_falcon=99;
+	lost_Dark_crow=99;
+	lost_ghost=99;
+	lost_condor=99;
+	lost_robber=99;
+	lost_osprey=99;
+	lost_fisher=99;
+	lost_swallow=99;
+	lost_construction_seaplane=99;
+	lost_sparrow=99;
+	lost_Pterodactyl=99;
+	Lost_Pelican=99;
+	lost_wasp=99;
+	lost_trawler=99;
+	//guardian
+	guardian_construction_aircraft=99;
+	guardian_adv_construction_aircraft=99;
+	guardian_vision=99;
+	guardian_angel=99;
+	guardian_dirgesinger=99;
+	guardian_scourge=99;
+	guardian_chariot=99;
+	guardian_shade=99;
+	guardian_wraith=99;
+	guardian_word_bearer=99;
+	Guardian_Spectre=99;
+	guardian_shade=99;
+	guardian_ghost=99;
+	Guardian_Revenant=99;
+	//TALON
+	talon_construction_aircraft=99;
+	talon_recon=99;
+	talon_token=99;
+	talon_shade=99;
+	talon_wyvern=99;
+	talon_construction_seaplane=99;
+	talon_vigilante=99;
+	talon_trident=99;
+	talon_cyclone=99;
+	talon_corsair=99;
+	talon_echelon=99;
+	talon_adv_construction_aircraft=99;
+	talon_eclipse=99;
+	talon_vulture=99;
+	talon_dart=99;
+	talon_rukh=99;
+}
+
+[group_mines]
+{
+	core_wave=99;
+	core_ripple=99;
+	core_spout=99;
+	core_waterhole=99;
+	core_rogue_wave=99;
+	arm_drip=99;
+	arm_water_wrinkle=99;
+	arm_surf=99;
+	arm_riptide=99;
+	arm_upsurge=99;
+	arm_fart_mine=99;
+	arm_mini_mine=99;
+	arm_popper_mine=99;
+	arm_kaboom_mine=99;
+	arm_ooomph_mine=99;
+	arm_surprise_mine=99;
+	core_nugget=99;
+	core_muffin=99;
+	core_marshmallow=99;
+	core_mazarin=99;
+	core_donut=99;
+	core_shock_mine=99;
+	guardian_zealot=99;
+	lost_charged_nail=99;
+	talon_Barada_mine=99;
+	talon_Klaatu_mine=99;
+	talon_Nikto_mine=99;
+}
+
+[group_walls]
+{
+	arm_dragons_teeth=99;
+	arm_fortification_wall=99;
+	core_dragons_teeth=99;
+	core_fortification_wall=99;
+	lost_dragons_teeth=99;
+	lost_fortification_wall=99;
+	guardian_dragons_teeth=99;
+}
+[group_ships]
+{
+	arm_skeeter=99;
+	arm_crusader=99;
+	arm_vanguard=99;
+	arm_archer=99;
+	arm_hulk=99;
+	arm_fibber=99;
+	arm_escort=99;
+	arm_stingray=99;
+	arm_construction_ship=99;
+	core_searcher=99;
+	core_enforcer=99;
+	core_shredder=99;
+	core_construction_ship=99;
+	core_envoy=99;
+	core_viking=99;
+	core_phantom=99;
+	core_thunderbolt=99;
+	//lostlegacy
+	lost_construction_ship=99;
+	lost_nosmaeb=99;
+	lost_otter=99;
+	lost_equalizer=99;
+	lost_violator=99;
+	lost_mixer=99;
+	lost_stinger=99;
+	//guardians
+	guardian_ravager=99;
+	guardian_paladin=99;
+	guardian_vigilant=99;
+	//talon
+	talon_charon=99;
+	talon_mainstay=99;
+	talon_bishop=99;
+	talon_construction_ship=99;
+	talon_vasculitis=99;
+	talon_adv_construction_ship=99;
+	talon_anonymous=99;
+	talon_sardine=99;
+
+}
+[group_large_ships]
+{
+	arm_conqueror=99;
+	arm_millenium=99;
+	arm_ranger=99;
+	arm_colossus=99;
+	core_executioner=99;
+	core_missile_frigate=99;
+	core_warlord=99;
+	core_hive=99;
+	core_nightfall=99;
+	arm_daybreak=99;
+	arm_Plesiosaur=99;
+	Zulu=99;
+	//unitpacks
+	//xtaids
+	core_emperor=99;
+	arm_infinite=99;
+	yeomen=99;
+	justice=99;
+	//lostlegacy
+	lost_giant=99;
+	lost_visitor=99;
+	lost_equalizer=99;
+	lost_viking=99;
+	lost_ambassador=99;
+	lost_Pomornik=99;
+	lost_Interceptor=99;
+	//Guardians
+	guardian_sea_dragon=99;
+	guardian_kharon=99;
+	//talon
+	talon_nexus=99;
+	talon_zamak=99;
+	talon_imperator=99;
+}
+
+[group_rockets]
+{
+	lost_falcon_heavy_new=99;
+	lost_falcon_heavy=99;
+}
+
+
+[group_subs]
+{
+	arm_lurker=99;
+        arm_adv_construction_sub=99;
+	core_snake=99;
+	core_leviathan=99;
+        core_adv_construction_sub=99;
+	arm_construction_sub=99;
+	arm_valiant=99;
+	ARM_Eavsdropper=99;
+	core_limiter=99;
+	core_construction_sub=99;
+	CORE_Tattletale=99;
+	lost_plunger=99;
+	lost_adv_construction_sub=99;
+	lost_construction_sub=99;
+	lost_squid=99;
+	lost_orc=99;
+	lost_whale=99;
+	//guardians
+	guardian_construction_sub=99;
+	guardian_abyss_knight=99;
+	//talon
+	talon_kraken=99;
+}
+
+[group_subskillers]
+{
+	arm_piranha=99;
+	core_shark=99;
+	lost_manta=99;
+	talon_lancelet=99;
+}
+
+
+[group_stupidsubs]
+{
+	ARM_HAMMERHEAD=99;
+	CORE_Barracuda=99;
+	lost_shark=99;
+}
+
+
+[group_snipertargets]
+{
+	core_the_can=99;
+	core_sumo=99;
+}
+
+[group_torpedo_launcher]
+{
+	arm_advanced_torpedo_launcher=99;
+	arm_torpedo_launcher=99;
+        core_torpedo_launcher=99;
+        core_advanced_torpedo_launcher=99;
+        lost_torpedo_launcher=99;
+        lost_advanced_torpedo_launcher=99;
+        talon_advanced_torpedo_launcher=99;
+        talon_torpedo_launcher=99;
+}
+//Commander Shooter Demo 
+[ARMCOM]
+{
+	ARMCOM=13;
+}
+[CORCOM]
+{
+	CORCOM=13;
+}
+
+//Special Unitgroups from unitpacks.
+[Group_SKYAir]
+{
+	CIRR=13;
+	DEMR=13;
+	ODYC=13;
+	OSTR=13;
+	ORCL=13;
+	TALN=13;
+}
+
+[WALLS]
+{
+	COREBFORTNS=13;
+	ARMBFORTEW=13;
+}

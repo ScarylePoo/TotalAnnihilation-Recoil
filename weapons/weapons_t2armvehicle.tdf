@@ -1,0 +1,71 @@
+
+[ARM_PENETRATOR_WEAPON]
+{
+	name=Annihilator Weapon;
+	Weapontype=BeamLaser;
+	explosiongenerator=custom:PURPLELASER;
+	turret=1;
+	thickness=1.2;
+	laserflaresize=6;
+	beamtime=0.1;
+	range=1000;
+	reloadtime=0.1;
+	energypershot=30;
+	weaponvelocity=900;
+	areaofeffect=8;
+	targetMoveError=0.5;
+	soundstart=annigun1beamlaser;// was annigun1
+	SoundTrigger=1;
+	soundhitdry=xplolrg1;
+	firestarter=90;
+	rgbcolor=0.000 0.012 1.000;
+	pulseSpeed=4.0;
+	thickness=3.5;
+	avoidFeature=0;
+	tolerance=3000;
+	[DAMAGE]
+	{
+		default=40;
+		group_commanders=30;
+		lost_commanders=27;
+		group_invincible=1;
+	}
+}
+
+[T2MobileVehicle_Flak]
+{
+	name=Flak Cannon;
+	weaponType=Cannon;
+	turret=1;
+	range=800;
+	reloadtime=0.75;
+	weapontimer=0.78;
+	weaponvelocity=1250;
+	areaofeffect=150;
+	edgeeffectiveness=0;
+	cylindertargeting = 1;
+	soundstart=canlite2;
+	soundhitdry=xplomed2;
+	//minbarrelangle=-24;
+	tolerance=767;
+	burnblow=1;
+	explosiongenerator=custom:FlakCloud;
+	size=1;
+	rgbcolor=1 0.6 0.6;
+	rgbColor2=0.1 0.1 0.1;
+	stages=20;
+	separation=0.35;
+	alphadecay=0.2;
+	sizedecay=-0.2;
+	//color=1;
+	startsmoke=1;
+	craterboost=0.25;
+	cratermult=0.25;
+	[DAMAGE]
+	{
+		default=33;
+		group_landair=250;
+		group_skyair=250;
+		group_invincible=1;
+	}
+}

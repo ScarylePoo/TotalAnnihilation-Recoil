@@ -1,0 +1,72 @@
+[UNITINFO]
+	{
+	UnitName=core_Riptide;
+	Version=1.5;
+	Side=CORE;
+	Objectname=core_Riptide;
+	Designation=CORE-DR5;
+	Name=Riptide;
+	buildpic=core_Riptide.png;
+	Description=Torpedo/Cannon Tortoise;
+	FootprintX=4;
+	FootprintZ=4;
+	BuildCostEnergy=3963;
+	BuildCostMetal=505;
+	MaxDamage=4062;
+	MaxSlope=12;
+	MaxWaterDepth=100;
+	EnergyUse=2;
+	BuildTime=7729;
+	BMcode=1;
+	Builder=0;
+	ThreeD=1;
+	ZBuffer=1;
+	NoAutoFire=0;
+	activatewhenbuilt=1;
+	SightDistance=450;
+	sonardistance=400; 
+	SoundCategory=COR_TOR;
+	ExplodeAs=T1_3X3_UNIT_TURTLE_NORMAL;
+	SelfDestructAs=T1_3X3_UNIT_TURTLE_SELF;
+	Category=CORE TANK WEAPON NOTAIR NOTSUB;
+	TEDClass=TANK;
+	Copyright=Copyright 1997 Humongous Entertainment. All rights reserved.;
+	Corpse=core_Riptide_dead;
+	firestandorders=1;
+	StandingFireOrder=2;
+	mobilestandorders=1;
+	StandingMoveOrder=1;
+	canmove=1;
+	canpatrol=1;
+	canstop=1;
+	canguard=1;
+	MaxVelocity=0.855;
+	BrakeRate=0.152;
+	Acceleration=0.152;
+	TurnRate=356;
+	SteeringMode=1;
+	ShootMe=1;
+	EnergyMake=2;
+	DefaultMissionType=Standby;
+	maneuverleashlength=640;
+	MovementClass=KBOTUW3;
+	Weapon1=ARM_MEDIUMCANNON;
+	Weapon3=BOAT_TORPEDO;
+	wpri_badTargetCategory=VTOL;
+	BadTargetCategory=VTOL;
+	canattack=1;
+	NoChaseCategory=VTOL;
+	collisionVolumeType = box;
+	collisionVolumeScales =40 25 40;
+	collisionVolumeOffsets = 0 0 0;
+	collisionVolumeTest = 1;
+	pieceTrailCEGTag=Debree;//bleh
+	pieceTrailCEGRange = 4;
+
+	smoothanim=1;
+	[SFXTypes]
+	{
+	explosiongenerator0=custom:POPUPFLAREFAST;
+	explosiongenerator1=custom:POPUPFLAREFAST;
+	}
+	}

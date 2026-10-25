@@ -1,0 +1,82 @@
+<rml>
+<head>
+	<title>Slate replay controls</title>
+	<link type="text/rcss" href="theme.rcss"/>
+	<style>
+		/* Replay controls: pause and speed, under the resource bar. Only
+		   there while a replay is watched. Its position is set from Lua
+		   (hud.PlacePanel); its size here must match PANEL_WIDTH and
+		   PANEL_HEIGHT in slate_replay.lua. */
+		#replay {
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			width: 560dp;
+			height: 40dp;
+			box-sizing: border-box;
+			padding: 6dp 10dp;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			pointer-events: auto;
+		}
+		#replay-label {
+			margin-right: 10dp;
+		}
+		.rb {
+			height: 26dp;
+			box-sizing: border-box;
+			margin-right: 4dp;
+			padding: 0dp 8dp;
+			text-align: center;
+			font-size: 12dp;
+			line-height: 22dp;
+			color: #b5bac1;
+			background-color: rgba(255,255,255,10);
+			border: 1dp rgba(255,255,255,36);
+			border-bottom: 2dp rgba(255,255,255,36);
+			border-radius: 5dp;
+		}
+		.rb:hover {
+			color: #f4f5f7;
+			background-color: rgba(255,255,255,18);
+		}
+		.rb.active {
+			color: #f4f5f7;
+			background-color: rgba(255,255,255,18);
+			border-bottom: 2dp #a9bdd0;
+		}
+		#replay-pause {
+			width: 62dp;
+			margin-right: 10dp;
+			color: #f4f5f7;
+		}
+		#replay-pause.active {
+			border-bottom: 2dp #a9bdd0;
+		}
+		#replay-speeds {
+			display: flex;
+			flex-direction: row;
+			flex: 1;
+		}
+		#replay-speeds .rb {
+			flex: 1;
+			padding: 0dp;
+		}
+		#replay-now {
+			width: 52dp;
+			text-align: right;
+			font-size: 12dp;
+			color: #b5bac1;
+		}
+	</style>
+</head>
+<body>
+	<div id="replay" class="panel">
+		<div id="replay-label" class="label">Replay</div>
+		<div id="replay-pause" class="rb">Pause</div>
+		<div id="replay-speeds"/>
+		<div id="replay-now"/>
+	</div>
+</body>
+</rml>

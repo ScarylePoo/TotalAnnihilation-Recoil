@@ -1,0 +1,349 @@
+<rml>
+<head>
+	<title>Slate rank tracks</title>
+	<link type="text/rcss" href="theme.rcss"/>
+	<style>
+		/* Two panels. The strip (#ranks) sits top right and shows the viewed
+		   team's rank on each of the four tracks with a bar to the next one.
+		   The card (#rankup) slams in under the resource bar when a rank is
+		   reached and goes away by itself. Neither takes the mouse. Positions
+		   are set from Lua (hud.PlacePanel); the sizes here must match the
+		   constants in slate_ranks.lua. */
+
+		/* ---- the strip: four rows under the menu button ---- */
+
+		#ranks {
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			width: 250dp;
+			height: 160dp;
+			box-sizing: border-box;
+			padding: 6dp 8dp 6dp 6dp;
+			display: flex;
+			flex-direction: column;
+		}
+		.cell {
+			height: 34dp;
+			margin-bottom: 3dp;
+			box-sizing: border-box;
+			padding: 3dp 6dp 3dp 6dp;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			border-left: 2dp rgba(255,255,255,36);
+			border-radius: 5dp;
+		}
+		.cell.last {
+			margin-bottom: 0dp;
+		}
+		/* the track that ranked up most recently */
+		.cell.fresh {
+			border-left: 2dp #a9bdd0;
+			background-color: rgba(255,255,255,18);
+		}
+		.cell .emblem {
+			width: 20dp;
+			height: 20dp;
+			margin-right: 8dp;
+		}
+		.cell .col {
+			flex: 1;
+		}
+		.cell .top {
+			display: flex;
+			flex-direction: row;
+			align-items: baseline;
+			height: 14dp;
+		}
+		.cell .track {
+			font-size: 10dp;
+			line-height: 14dp;
+			letter-spacing: 1.5dp;
+			text-transform: uppercase;
+			color: #b5bac1;
+		}
+		.cell .lvl {
+			margin-left: 8dp;
+			font-weight: bold;
+			font-size: 12dp;
+			line-height: 14dp;
+			letter-spacing: 1dp;
+			color: #f4f5f7;
+		}
+		.cell .ttl {
+			margin-left: 5dp;
+			font-size: 10dp;
+			line-height: 14dp;
+			letter-spacing: 1dp;
+			text-transform: uppercase;
+			white-space: nowrap;
+			color: #eceef0;
+		}
+		.cell .lvl.none, .cell .ttl.none { color: #8a9099; }
+		.cell .lvl.max, .cell .ttl.max { color: #a9bdd0; }
+		.cell .bottom {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			height: 12dp;
+			margin-top: 2dp;
+		}
+		.cell .bar {
+			flex: 1;
+			height: 4dp;
+			background-color: rgba(255,255,255,10);
+		}
+		.cell .bar-fill {
+			height: 4dp;
+		}
+		.cell.fresh .bar-fill {
+			background-color: #a9bdd0;
+		}
+		.cell .next {
+			width: 64dp;
+			margin-left: 8dp;
+			font-size: 9dp;
+			line-height: 12dp;
+			letter-spacing: 0.5dp;
+			text-transform: uppercase;
+			text-align: right;
+			white-space: nowrap;
+			color: #b5bac1;
+		}
+
+		/* ---- the card: a rounded panel with an accent border (the border
+		   colour is restated from Lua so it follows the tint) ---- */
+
+		#rankup {
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			width: 320dp;
+			height: 252dp;
+			box-sizing: border-box;
+			padding: 12dp 16dp 16dp 16dp;
+			border: 2dp #a9bdd0;
+			border-radius: 8dp;
+			text-align: center;
+		}
+		#rankup-track {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			justify-content: center;
+			height: 14dp;
+			margin-top: 2dp;
+			font-size: 10dp;
+			letter-spacing: 2.5dp;
+			text-transform: uppercase;
+			color: #b5bac1;
+		}
+		#rankup-track .dash {
+			width: 36dp;
+			height: 1dp;
+			background-color: rgba(255,255,255,60);
+			margin: 0dp 10dp 0dp 10dp;
+		}
+
+		/* the badge: a square panel of its own, framed by rank (t1..t5) */
+		#rankup-frame {
+			position: relative;
+			width: 88dp;
+			height: 88dp;
+			margin: 8dp auto 0dp auto;
+			box-sizing: border-box;
+			background-color: #0d0e10;
+			border: 2dp rgba(255,255,255,36);
+		}
+		/* the frame keeps square corners: its rank decorations sit on them */
+		#rankup-frame .fb {
+			position: absolute;
+			width: 10dp;
+			height: 10dp;
+		}
+		#rankup-frame .fb.tl { left: -2dp; top: -2dp; border-left: 2dp #b5bac1; border-top: 2dp #b5bac1; }
+		#rankup-frame .fb.tr { right: -2dp; top: -2dp; border-right: 2dp #b5bac1; border-top: 2dp #b5bac1; }
+		#rankup-frame .fb.bl { left: -2dp; bottom: -2dp; border-left: 2dp #b5bac1; border-bottom: 2dp #b5bac1; }
+		#rankup-frame .fb.br { right: -2dp; bottom: -2dp; border-right: 2dp #b5bac1; border-bottom: 2dp #b5bac1; }
+		#rankup-frame .fb.tr, #rankup-frame .fb.bl { display: none; }
+		#rankup-frame .top {
+			position: absolute;
+			left: 0dp;
+			top: 0dp;
+			width: 100%;
+			height: 2dp;
+			background-color: #a9bdd0;
+			display: none;
+		}
+		#rankup-frame .inner {
+			position: absolute;
+			left: 4dp;
+			top: 4dp;
+			width: 76dp;
+			height: 76dp;
+			box-sizing: border-box;
+			border: 1dp #8ea2b5;
+			display: none;
+		}
+		#rankup-emblem {
+			position: absolute;
+			left: 15dp;
+			top: 15dp;
+			width: 54dp;
+			height: 54dp;
+		}
+		/* rank II: the standard pair of accent corners */
+		#rankup-frame.t2 .fb.tl, #rankup-frame.t2 .fb.br { border-color: #a9bdd0; }
+		/* rank III: all four corners */
+		#rankup-frame.t3 { border-color: rgba(255,255,255,60); }
+		#rankup-frame.t3 .fb { display: block; border-color: #a9bdd0; }
+		/* rank IV: heavier corners, the accent line */
+		#rankup-frame.t4 { border-color: rgba(255,255,255,60); }
+		#rankup-frame.t4 .fb { display: block; width: 12dp; height: 12dp; border-color: #a9bdd0; }
+		#rankup-frame.t4 .fb.tl, #rankup-frame.t4 .fb.bl { border-left-width: 3dp; }
+		#rankup-frame.t4 .fb.tr, #rankup-frame.t4 .fb.br { border-right-width: 3dp; }
+		#rankup-frame.t4 .fb.tl, #rankup-frame.t4 .fb.tr { border-top-width: 3dp; }
+		#rankup-frame.t4 .fb.bl, #rankup-frame.t4 .fb.br { border-bottom-width: 3dp; }
+		#rankup-frame.t4 .top { display: block; }
+		/* rank V: solid accent, with the dim inner square */
+		#rankup-frame.t5 { border-color: #a9bdd0; }
+		#rankup-frame.t5 .fb { display: block; width: 13dp; height: 13dp; border-color: #a9bdd0; }
+		#rankup-frame.t5 .fb.tl, #rankup-frame.t5 .fb.bl { border-left-width: 3dp; }
+		#rankup-frame.t5 .fb.tr, #rankup-frame.t5 .fb.br { border-right-width: 3dp; }
+		#rankup-frame.t5 .fb.tl, #rankup-frame.t5 .fb.tr { border-top-width: 3dp; }
+		#rankup-frame.t5 .fb.bl, #rankup-frame.t5 .fb.br { border-bottom-width: 3dp; }
+		#rankup-frame.t5 .top { display: block; height: 3dp; }
+		#rankup-frame.t5 .inner { display: block; }
+
+		/* the tally of chevrons under the badge */
+		#rankup-chevrons {
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+			height: 12dp;
+			margin-top: 6dp;
+		}
+		#rankup-chevrons img {
+			width: 14dp;
+			height: 8dp;
+			margin: 2dp 0dp 0dp 0dp;
+		}
+
+		#rankup-title {
+			height: 32dp;
+			margin-top: 6dp;
+			font-weight: bold;
+			font-size: 26dp;
+			line-height: 32dp;
+			letter-spacing: 4dp;
+			text-transform: uppercase;
+			white-space: nowrap;
+			color: #f4f5f7;
+			font-effect: glow(2dp 6dp #a9bdd0);
+		}
+		#rankup-sub {
+			height: 16dp;
+			margin-top: 1dp;
+			font-size: 12dp;
+			line-height: 16dp;
+			color: #eceef0;
+		}
+		#rankup-bar {
+			width: 220dp;
+			height: 4dp;
+			margin: 8dp auto 0dp auto;
+		}
+		#rankup-bar .bar-fill {
+			height: 4dp;
+		}
+		#rankup-bar .bar-fill {
+			width: 100%;
+			background-color: #a9bdd0;
+		}
+	</style>
+</head>
+<body>
+	<div id="ranks" class="panel hidden">
+		<div id="cell-1" class="cell">
+			<img class="emblem" src="/luaui/slate/images/rank_combat.png"/>
+			<div class="col">
+				<div class="top">
+					<div class="track">Combat</div>
+					<div id="lvl-1" class="lvl none">-</div>
+					<div id="ttl-1" class="ttl none">Unranked</div>
+				</div>
+				<div class="bottom">
+					<div class="bar"><div id="fill-1" class="bar-fill"/></div>
+					<div id="next-1" class="next"></div>
+				</div>
+			</div>
+		</div>
+		<div id="cell-2" class="cell">
+			<img class="emblem" src="/luaui/slate/images/rank_economy.png"/>
+			<div class="col">
+				<div class="top">
+					<div class="track">Economy</div>
+					<div id="lvl-2" class="lvl none">-</div>
+					<div id="ttl-2" class="ttl none">Unranked</div>
+				</div>
+				<div class="bottom">
+					<div class="bar"><div id="fill-2" class="bar-fill"/></div>
+					<div id="next-2" class="next"></div>
+				</div>
+			</div>
+		</div>
+		<div id="cell-3" class="cell">
+			<img class="emblem" src="/luaui/slate/images/rank_industry.png"/>
+			<div class="col">
+				<div class="top">
+					<div class="track">Industry</div>
+					<div id="lvl-3" class="lvl none">-</div>
+					<div id="ttl-3" class="ttl none">Unranked</div>
+				</div>
+				<div class="bottom">
+					<div class="bar"><div id="fill-3" class="bar-fill"/></div>
+					<div id="next-3" class="next"></div>
+				</div>
+			</div>
+		</div>
+		<div id="cell-4" class="cell last">
+			<img class="emblem" src="/luaui/slate/images/rank_territory.png"/>
+			<div class="col">
+				<div class="top">
+					<div class="track">Territory</div>
+					<div id="lvl-4" class="lvl none">-</div>
+					<div id="ttl-4" class="ttl none">Unranked</div>
+				</div>
+				<div class="bottom">
+					<div class="bar"><div id="fill-4" class="bar-fill"/></div>
+					<div id="next-4" class="next"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div id="rankup" class="panel hidden">
+		<div id="rankup-track">
+			<div class="dash"/>
+			<div id="rankup-track-text">Combat · Rank IV</div>
+			<div class="dash"/>
+		</div>
+
+		<div id="rankup-frame" class="t1">
+			<div class="fb tl"/>
+			<div class="fb tr"/>
+			<div class="fb bl"/>
+			<div class="fb br"/>
+			<div class="top"/>
+			<div class="inner"/>
+			<img id="rankup-emblem" src="/luaui/slate/images/rank_combat.png"/>
+		</div>
+		<div id="rankup-chevrons"></div>
+
+		<div id="rankup-title">Warlord</div>
+		<div id="rankup-sub"></div>
+		<div id="rankup-bar" class="bar"><div class="bar-fill"/></div>
+	</div>
+</body>
+</rml>

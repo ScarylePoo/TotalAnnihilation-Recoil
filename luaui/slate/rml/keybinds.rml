@@ -1,0 +1,437 @@
+<rml>
+<head>
+	<title>Slate keybinds</title>
+	<link type="text/rcss" href="theme.rcss"/>
+	<style>
+		/* The keybinds window. Its position is set from Lua (hud.PlacePanel);
+		   its size here must match PANEL_WIDTH and PANEL_HEIGHT in
+		   slate_keybinds.lua. */
+		#keybinds {
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			width: 720dp;
+			height: 700dp;
+			box-sizing: border-box;
+			padding: 12dp 14dp 12dp 16dp;
+			pointer-events: auto;
+		}
+		.grow {
+			flex: 1;
+		}
+		/* the window's inside: 700 less the borders and padding */
+		#body {
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			height: 674dp;
+		}
+		#tabs {
+			display: flex;
+			flex-direction: row;
+			margin-top: 10dp;
+		}
+		#list {
+			flex: 1;
+			overflow-y: auto;
+			overflow-x: hidden;
+			margin-top: 8dp;
+			background-color: #0f1319;
+			border: 1dp rgba(255,255,255,36);
+			border-radius: 5dp;
+		}
+		.khead {
+			height: 24dp;
+			padding: 8dp 10dp 0dp 10dp;
+			box-sizing: border-box;
+			color: #a9bdd0;
+		}
+		.krow {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			height: 24dp;
+			padding: 0dp 8dp 0dp 10dp;
+			font-size: 13dp;
+			color: #eceef0;
+		}
+		.krow:hover {
+			background-color: rgba(255,255,255,18);
+			border-radius: 5dp;
+		}
+		.kname {
+			flex: 1;
+			white-space: nowrap;
+			overflow: hidden;
+		}
+		/* a binding changed here, and so written to the user's file */
+		.krow.edited .kname {
+			color: #a9bdd0;
+		}
+		.badge {
+			width: 132dp;
+			height: 17dp;
+			box-sizing: border-box;
+			text-align: center;
+			font-size: 12dp;
+			line-height: 15dp;
+			white-space: nowrap;
+			overflow: hidden;
+			color: #f4f5f7;
+			background-color: rgba(255,255,255,18);
+			border: 1dp rgba(255,255,255,60);
+			border-radius: 5dp;
+		}
+		.badge.unbound {
+			color: #8a9099;
+		}
+		.rowedit {
+			width: 44dp;
+			height: 17dp;
+			margin-right: 8dp;
+			box-sizing: border-box;
+			text-align: center;
+			font-size: 10dp;
+			line-height: 15dp;
+			letter-spacing: 1dp;
+			color: #8a9099;
+			border: 1dp rgba(255,255,255,36);
+			border-radius: 5dp;
+		}
+		.rowedit:hover {
+			color: #a9bdd0;
+			border-color: #a9bdd0;
+		}
+		.krow.new {
+			color: #a9bdd0;
+		}
+
+		/* ---- the bind editor: takes the list's place ------------------------ */
+		#editor {
+			flex: 1;
+			overflow-y: auto;
+			overflow-x: hidden;
+			margin-top: 8dp;
+			padding: 10dp 12dp;
+			box-sizing: border-box;
+			background-color: #0f1319;
+			border: 1dp rgba(255,255,255,36);
+			border-radius: 5dp;
+		}
+		.erow {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			margin-bottom: 8dp;
+		}
+		.elabel {
+			width: 72dp;
+			font-size: 11dp;
+			letter-spacing: 1dp;
+			text-transform: uppercase;
+			color: #a9bdd0;
+		}
+		.elabel.wide {
+			width: auto;
+			margin: 8dp 0dp 4dp 0dp;
+		}
+		.ehint {
+			font-size: 11dp;
+			color: #8a9099;
+			margin-left: 8dp;
+		}
+		.field {
+			flex: 1;
+			height: 22dp;
+			box-sizing: border-box;
+			padding: 3dp 8dp 0dp 8dp;
+			font-size: 13dp;
+			white-space: nowrap;
+			overflow: hidden;
+			color: #f4f5f7;
+			background-color: rgba(255,255,255,18);
+			border: 1dp rgba(255,255,255,60);
+			border-radius: 5dp;
+			pointer-events: auto;
+		}
+		.field.focused {
+			border-color: #a9bdd0;
+		}
+		.field.placeholder {
+			color: #8a9099;
+		}
+		.field.mono {
+			font-size: 12dp;
+		}
+		.field.bad {
+			border-color: #ffb3a6;
+		}
+		.keybadge {
+			width: 160dp;
+			margin-right: 8dp;
+			cursor: pointer;
+		}
+		.keybadge.capturing {
+			color: #a9bdd0;
+			border-color: #a9bdd0;
+		}
+		.chips {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+		}
+		.chip {
+			margin: 0dp 5dp 5dp 0dp;
+			padding: 2dp 9dp 3dp 9dp;
+			font-size: 12dp;
+			white-space: nowrap;
+			color: #eceef0;
+			background-color: rgba(255,255,255,18);
+			border: 1dp rgba(255,255,255,60);
+			border-radius: 5dp;
+			pointer-events: auto;
+		}
+		.chip:hover {
+			border-color: #b5bac1;
+		}
+		.chip.on {
+			color: #0d0e10;
+			background-color: #a9bdd0;
+			border-color: #a9bdd0;
+		}
+		.chip.not {
+			color: #ffb3a6;
+			border-color: #ffb3a6;
+			background-color: rgba(255, 90, 79, 40);
+		}
+		/* Slate's own filters (slateselect), told apart from the engine's */
+		.chip.off.custom {
+			color: #8fb8c9;
+			border-color: #2f5868;
+		}
+		.chips.disabled .chip {
+			color: #3d4852;
+			border-color: rgba(255,255,255,36);
+		}
+		#ed-buttons {
+			display: flex;
+			flex-direction: row;
+			margin-top: 10dp;
+		}
+		#ed-buttons .button {
+			flex: 1;
+			margin-right: 8dp;
+		}
+		#ed-buttons .button.last {
+			margin-right: 0dp;
+		}
+
+		/* ---- value picker: over the window ---------------------------------- */
+		#picker {
+			position: absolute;
+			left: 140dp;
+			top: 120dp;
+			width: 440dp;
+			padding: 12dp 14dp;
+			box-sizing: border-box;
+			border: 1dp #a9bdd0;
+			border-radius: 8dp;
+		}
+		#picker-title {
+			font-size: 13dp;
+			color: #f4f5f7;
+			margin-bottom: 8dp;
+		}
+		#picker-list {
+			height: 260dp;
+			overflow-y: auto;
+			overflow-x: hidden;
+			margin-top: 6dp;
+			background-color: #0f1319;
+			border: 1dp rgba(255,255,255,36);
+			border-radius: 5dp;
+		}
+		#picker-list.hidden {
+			display: none;
+		}
+		.popt {
+			height: 22dp;
+			padding: 4dp 10dp 0dp 10dp;
+			box-sizing: border-box;
+			font-size: 13dp;
+			white-space: nowrap;
+			overflow: hidden;
+			color: #eceef0;
+			pointer-events: auto;
+		}
+		.popt:hover {
+			background-color: rgba(255,255,255,18);
+			color: #f4f5f7;
+		}
+		.popt .sub {
+			color: #8a9099;
+		}
+		#picker-buttons {
+			display: flex;
+			flex-direction: row;
+			margin-top: 10dp;
+		}
+		#picker-buttons .button {
+			flex: 1;
+		}
+		#picker-no {
+			margin-left: 8dp;
+		}
+		.krow.capturing .badge {
+			color: #a9bdd0;
+			border-color: #a9bdd0;
+			background-color: rgba(169,189,208,50);
+		}
+
+		#status {
+			height: 22dp;
+			padding-top: 5dp;
+			box-sizing: border-box;
+			font-size: 12dp;
+			white-space: nowrap;
+			overflow: hidden;
+			color: #b5bac1;
+		}
+		#status.text { color: #f4f5f7; }
+		#status.ok { color: #9be7a8; }
+		#status.warn { color: #a9bdd0; }
+		#status.err { color: #ffb3a6; }
+		#footer {
+			display: flex;
+			flex-direction: row;
+			margin-top: 6dp;
+		}
+		#footer .button {
+			flex: 1;
+		}
+		#reset {
+			margin-left: 8dp;
+		}
+
+		/* ---- "are you sure": over the window, which it dims ---------------- */
+		#confirm-dim {
+			position: absolute;
+			left: 0dp;
+			top: 0dp;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(4, 6, 9, 190);
+			border-radius: 8dp;
+		}
+		#confirm {
+			position: absolute;
+			left: 147dp;
+			top: 190dp;
+			width: 426dp;
+			padding: 14dp 16dp;
+			box-sizing: border-box;
+			border: 1dp #a9bdd0;
+			border-radius: 8dp;
+		}
+		#confirm-title {
+			font-size: 14dp;
+			color: #f4f5f7;
+		}
+		#confirm-lines {
+			margin: 6dp 0dp 8dp 8dp;
+			font-size: 13dp;
+			line-height: 17dp;
+			color: #a9bdd0;
+		}
+		#confirm-note {
+			font-size: 12dp;
+			color: #b5bac1;
+		}
+		#confirm-buttons {
+			display: flex;
+			flex-direction: row;
+			margin-top: 14dp;
+		}
+		#confirm-buttons .button {
+			flex: 1;
+		}
+		#confirm-no {
+			margin-left: 8dp;
+		}
+	</style>
+</head>
+<body>
+	<div id="keybinds" class="panel window hidden">
+		<div id="body">
+			<div class="window-head">
+				<div class="title">Keybinds</div>
+				<div class="grow"/>
+				<div id="close" class="close">X</div>
+			</div>
+			<div id="tabs">
+				<div id="tab-game" class="tab" data-tab="1">Game</div>
+				<div id="tab-all" class="tab" data-tab="2">All Bindings</div>
+				<div id="tab-custom" class="tab" data-tab="3">Custom Binds</div>
+			</div>
+			<div id="list"/>
+
+			<div id="editor" class="hidden">
+				<div class="erow">
+					<div class="elabel">Name</div>
+					<div id="ed-name" class="field" data-act="field:name"/>
+				</div>
+				<div class="erow">
+					<div class="elabel">Key</div>
+					<div id="ed-key" class="badge keybadge" data-act="capture"/>
+					<div id="ed-keytext" class="field" data-act="field:key"/>
+				</div>
+				<div class="elabel wide">Command</div>
+				<div id="ed-verbs" class="chips"/>
+				<div id="ed-select">
+					<div class="elabel wide">Source</div>
+					<div id="ed-sources" class="chips"/>
+					<div class="elabel wide">Filters   <span class="ehint">click: require, again: exclude (NOT), again: off. Blue chips are Slate filters (slateselect).</span></div>
+					<div id="ed-filters" class="chips"/>
+					<div class="elabel wide">Result</div>
+					<div id="ed-results" class="chips"/>
+				</div>
+				<div class="elabel wide">Action line   <span class="ehint">editable; chips follow it when it parses</span></div>
+				<div class="erow">
+					<div id="ed-line" class="field mono" data-act="field:line"/>
+				</div>
+				<div id="ed-hint" class="ehint"/>
+				<div id="ed-buttons">
+					<div id="ed-save" class="button" data-act="save">Save</div>
+					<div id="ed-delete" class="button danger" data-act="delete">Delete</div>
+					<div id="ed-cancel" class="button quiet last" data-act="cancel">Cancel</div>
+				</div>
+			</div>
+			<div id="status"/>
+			<div id="footer">
+				<div id="reapply" class="button quiet">Reapply key files</div>
+				<div id="reset" class="button quiet">Reset all rebinds</div>
+			</div>
+
+			<div id="confirm-dim" class="hidden"/>
+			<div id="picker" class="popup hidden">
+				<div id="picker-title"/>
+				<div id="picker-search" class="field" data-act="field:pick"/>
+				<div id="picker-list"/>
+				<div id="picker-buttons">
+					<div id="picker-yes" class="button" data-act="pick-ok">OK</div>
+					<div id="picker-no" class="button quiet" data-act="pick-cancel">Cancel</div>
+				</div>
+			</div>
+			<div id="confirm" class="popup hidden">
+				<div id="confirm-title"/>
+				<div id="confirm-lines"/>
+				<div id="confirm-note"/>
+				<div id="confirm-buttons">
+					<div id="confirm-yes" class="button danger">Confirm</div>
+					<div id="confirm-no" class="button quiet">Cancel</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</rml>

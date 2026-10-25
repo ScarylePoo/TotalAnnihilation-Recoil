@@ -1,0 +1,274 @@
+<rml>
+<head>
+	<title>Slate options</title>
+	<link type="text/rcss" href="theme.rcss"/>
+	<style>
+		/* The options window. Its position is set from Lua (hud.PlacePanel);
+		   its size here must match PANEL_WIDTH and PANEL_HEIGHT in
+		   slate_options.lua. */
+		#options {
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			width: 780dp;
+			height: 660dp;
+			box-sizing: border-box;
+			padding: 12dp 14dp 10dp 16dp;
+			pointer-events: auto;
+		}
+		.grow {
+			flex: 1;
+		}
+		#tabs {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			margin-top: 10dp;
+		}
+		#tabs .tab {
+			margin-bottom: 6dp;
+		}
+		/* The window's inside: 660 less the borders and padding. The list
+		   takes what the head, the tabs and the footer leave. */
+		#body {
+			display: flex;
+			flex-direction: column;
+			height: 636dp;
+		}
+		#list {
+			flex: 1;
+			overflow-y: auto;
+			overflow-x: hidden;
+			margin-top: 4dp;
+		}
+		#footer {
+			height: 34dp;
+			padding-top: 6dp;
+			box-sizing: border-box;
+			border-top: 1dp rgba(255,255,255,36);
+			font-size: 12dp;
+			line-height: 14dp;
+			color: #b5bac1;
+			overflow: hidden;
+		}
+		#footer.warn {
+			color: #a9bdd0;
+		}
+
+		/* ---- rows --------------------------------------------------------- */
+		.sep {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			height: 32dp;
+			padding: 6dp 10dp 0dp 10dp;
+			box-sizing: border-box;
+		}
+		.sep .label {
+			color: #a9bdd0;
+		}
+		.rule {
+			flex: 1;
+			height: 1dp;
+			margin-left: 10dp;
+			background-color: rgba(255,255,255,36);
+		}
+		.orow {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			height: 26dp;
+			padding: 0dp 10dp;
+			font-size: 13dp;
+			color: #eceef0;
+		}
+		.orow:hover {
+			background-color: rgba(255,255,255,18);
+			color: #f4f5f7;
+		}
+		/* the name takes the left of the row, the control the right */
+		.oname {
+			width: 46%;
+			box-sizing: border-box;
+			white-space: nowrap;
+			overflow: hidden;
+		}
+		.orow.action .oname {
+			color: #b5bac1;
+		}
+		/* an option under another one is set in, with a line down its side */
+		.orow.child .oname {
+			border-left: 1dp rgba(255,255,255,60);
+		}
+		.star {
+			color: #a9bdd0;
+		}
+		.control {
+			flex: 1;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+		}
+
+		/* on / off */
+		.toggle {
+			position: relative;
+			width: 36dp;
+			height: 16dp;
+			box-sizing: border-box;
+			background-color: rgba(255,255,255,18);
+			border: 1dp rgba(255,255,255,60);
+		}
+		.knob {
+			position: absolute;
+			left: 1dp;
+			top: 1dp;
+			width: 14dp;
+			height: 12dp;
+			background-color: #b5bac1;
+		}
+		.toggle.on {
+			background-color: rgba(169,189,208,60);
+			border-color: #a9bdd0;
+		}
+		.toggle.on .knob {
+			left: 19dp;
+			background-color: #a9bdd0;
+		}
+		/* switched on, but its widget is not running */
+		.toggle.half {
+			border-color: #ffb3a6;
+		}
+		.toggle.half .knob {
+			left: 10dp;
+			background-color: #ffb3a6;
+		}
+
+		/* a number: the tall box is what the mouse grabs */
+		.slider {
+			flex: 1;
+			height: 22dp;
+			padding-top: 9dp;
+			box-sizing: border-box;
+			cursor: ew-resize;
+			/* so that the release is reported wherever the mouse ends up */
+			drag: drag;
+		}
+		.track {
+			position: relative;
+			height: 4dp;
+			background-color: rgba(255,255,255,36);
+		}
+		.fill {
+			height: 4dp;
+			width: 0%;
+			background-color: #a9bdd0;
+		}
+		.handle {
+			position: absolute;
+			top: -5dp;
+			width: 4dp;
+			height: 14dp;
+			margin-left: -2dp;
+			background-color: #f4f5f7;
+		}
+		.val {
+			width: 58dp;
+			text-align: right;
+			font-size: 12dp;
+			color: #b5bac1;
+		}
+
+		/* one of several */
+		.select {
+			flex: 1;
+			display: flex;
+			flex-direction: row;
+			height: 20dp;
+			box-sizing: border-box;
+			padding: 0dp 7dp;
+			font-size: 12dp;
+			line-height: 18dp;
+			color: #f4f5f7;
+			background-color: rgba(255,255,255,18);
+			border: 1dp rgba(255,255,255,60);
+			white-space: nowrap;
+			overflow: hidden;
+		}
+		.select:hover, .select.open {
+			border-color: #a9bdd0;
+		}
+		.select.none {
+			color: #b5bac1;
+		}
+		.arrow {
+			color: #b5bac1;
+		}
+		.act {
+			flex: 1;
+			height: 20dp;
+			box-sizing: border-box;
+			text-align: center;
+			font-size: 12dp;
+			line-height: 18dp;
+			color: #f4f5f7;
+			border: 1dp rgba(255,255,255,60);
+		}
+		.act:hover {
+			background-color: rgba(255,255,255,41);
+			border-color: #a9bdd0;
+		}
+
+		/* ---- the open list of a "one of several" option -------------------
+		   It is drawn over everything; a click anywhere else closes it. */
+		#drop-catch {
+			position: absolute;
+			left: 0dp;
+			top: 0dp;
+			width: 100%;
+			height: 100%;
+			pointer-events: auto;
+		}
+		#drop {
+			position: absolute;
+			max-height: 264dp;
+			overflow-y: auto;
+			overflow-x: hidden;
+			box-sizing: border-box;
+			border: 1dp #a9bdd0;
+			pointer-events: auto;
+		}
+		.choice {
+			height: 22dp;
+			padding: 0dp 7dp;
+			font-size: 12dp;
+			line-height: 21dp;
+			color: #eceef0;
+			white-space: nowrap;
+		}
+		.choice:hover {
+			color: #f4f5f7;
+			background-color: rgba(255,255,255,41);
+		}
+		.choice.current {
+			color: #a9bdd0;
+		}
+	</style>
+</head>
+<body>
+	<div id="options" class="panel window hidden">
+		<div id="body">
+			<div class="window-head">
+				<div class="title">Options</div>
+				<div class="grow"/>
+				<div id="close" class="close">X</div>
+			</div>
+			<div id="tabs"/>
+			<div id="list"/>
+			<div id="footer"/>
+		</div>
+	</div>
+	<div id="drop-catch" class="hidden"/>
+	<div id="drop" class="popup hidden"/>
+</body>
+</rml>

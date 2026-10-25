@@ -1,0 +1,2126 @@
+//Replaced sounds ok1=unit/>activate and ok1 =unit/ button10 for units that can move. See https://springrts.com/wiki/Gamedev:UnitDefs#sounds_Events
+
+// ok Unit is issued a command. 
+// activate Unit is activated, i.e. Is turned on. Also called when a mobile ground unit starts moving.
+// build Unit begins building. Called for both factories and mobile construction units.
+
+// =unit/> solution: 
+// if unit can move: 1) use ok1 =unit/ button10 if it also has build sound 2) else use nothing
+// else: use ok1 =unit/ activate sound
+// ok sound commented, using gadget instead.
+[Adv_Kbot]
+{
+	select1=unit/servlrg1;
+//	ok1=unit/button10;
+	activate=unit/servlrg1;
+	arrived1=unit/servlrg1;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ADV_TORPLAUNCH]
+{
+	select1=unit/torpadv2;
+//	ok1=unit/button10;
+	activate=unit/torpok1;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[AIRPLANT]
+{
+	select1=unit/pairactv;
+	unitcomplete=unit/untdone;
+	underattack=unit/warning1;
+	build=unit/pairwork;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARMPW]
+{
+	select1=unit/servtny2;
+//	ok1=unit/button10;
+	activate=unit/servtny2;
+	arrived1=unit/servtny2;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARMSS]
+{
+	select1=unit/sserpsel;
+//	ok1=unit/button10;
+	activate=unit/sserpok;
+	arrived1=unit/sserpstp;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_ADVRADAR]
+{
+	select1=unit/radadvn1;
+	underattack=unit/warning1;
+	working=unit/radar2;
+	activate=unit/radadvn1;
+	deactivate=unit/radadde1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_AMD]
+{
+	select1=unit/loadwtr2;
+	ok1=unit/loadwtr2;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_AMPHIB]
+{
+	select1=unit/amphsel1;
+	ok1=unit/amphok1;
+	arrived1=unit/amphstp1;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_ANNI]
+{
+	select1=unit/anni;
+	ok1=unit/anni;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_BRTHA]
+{
+	select1=unit/Servlrg3;
+	ok1=unit/Servlrg3;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_CHOVER]
+{
+	select1=unit/hovmdsl1;
+	ok1=unit/hovmdok1;
+	arrived1=unit/hovmdof1;
+	cant1=unit/cantdo4;
+	build=unit/nanlath1;
+	repair=unit/repair1;
+	working=unit/reclaim1;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_CKBOT]
+{
+	select1=unit/kbarmsel;
+	activate=unit/kbarmmov;
+//	ok1=unit/button10;
+	arrived1=unit/kbarmstp;
+	build=unit/nanlath1;
+	repair=unit/repair1;
+	working=unit/reclaim1;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_COM]
+{
+	select1=unit/kcarmsel;
+	unitcomplete=unit/kcarmmov;
+//	ok1=unit/button10;
+	activate=unit/kcarmmov;
+	arrived1=unit/kcarmstp;
+	cant1=unit/cantdo4;
+	underattack=unit/warning2;
+	build=unit/nanlath1;
+	repair=unit/repair1;
+	working=unit/reclaim1;
+	cloak=unit/kloak1;
+	uncloak=unit/kloak1un;
+	capture=unit/capture1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_CSEAPLN]
+{
+	select1=unit/seapsel1;
+//	ok1=unit/button10;
+	activate=unit/vtolcrmv;
+	arrived1=unit/vtolarld;
+	cant1=unit/cantdo4;
+	build=unit/nanlath1;
+	repair=unit/repair1;
+	working=unit/reclaim1;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_CSHIP]
+{
+	select1=unit/sharmsel;
+//	ok1=unit/button10;
+	activate=unit/sharmmov;
+	arrived1=unit/sharmstp;
+	cant1=unit/cantdo4;
+	build=unit/nanlath1;
+	repair=unit/repair1;
+	working=unit/reclaim1;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_CSUB]
+{
+	select1=unit/suarmsel;
+//	ok1=unit/button10;
+	activate=unit/suarmmov;
+	arrived1=unit/suarmstp;
+	build=unit/nanlath1;
+	repair=unit/repair1;
+	working=unit/reclaim1;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_CUDA]
+{
+	select1=unit/torpsel1;
+	ok1=unit/torpok1;
+	arrived1=unit/torpok1;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_CVEHICLE]
+{
+	select1=unit/varmsel;
+//	ok1=unit/button10;
+	activate=unit/varmmove;
+	arrived1=unit/varmstop;
+	cant1=unit/cantdo4;
+	build=unit/nanlath1;
+	repair=unit/repair1;
+	working=unit/reclaim1;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_CVTOL]
+{
+	select1=unit/vtolarac;
+//	ok1=unit/button10;
+	activate=unit/vtolarmv;
+	arrived1=unit/vtolarld;
+	cant1=unit/cantdo4;
+	build=unit/nanlath1;
+	repair=unit/repair1;
+	working=unit/reclaim1;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_ESTOR]
+{
+	select1=unit/storngy1;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_FUS]
+{
+	select1=unit/fusion1;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_GEO]
+{
+	select1=unit/geothrm1;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_HOVER_BIG]
+{
+	select1=unit/hovlgsl1;
+//	ok1=unit/button10;
+	activate=unit/hovlgok1;
+	arrived1=unit/hovlgof1;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_HOVER_MID]
+{
+	select1=unit/hovmdsl1;
+//	ok1=unit/button10;
+	activate=unit/hovmdok1;
+	arrived1=unit/hovmdof1;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_HOVER_PLANT]
+{
+	select1=unit/hoversl1;
+	unitcomplete=unit/untdone;
+	underattack=unit/warning1;
+	build=unit/hoverok1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_HOVER_SM]
+{
+	select1=unit/hovsmsl1;
+//	ok1=unit/button10;
+	activate=unit/hovsmok1;
+	arrived1=unit/hovsmof1;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_JAM]
+{
+	select1=unit/radjam1;
+//	ok1=unit/button10;
+	activate=unit/varmmove;
+	arrived1=unit/varmstop;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	activate=unit/radjam1;
+	deactivate=unit/radjam1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_JAMSUB]
+{
+	select1=unit/watrjam1;
+//	ok1=unit/button10;
+	activate=unit/suarmmov;
+	arrived1=unit/suarmstp;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_KBOT]
+{
+	select1=unit/kbarmsel;
+//	ok1=unit/button10;
+	activate=unit/kbarmmov;
+	arrived1=unit/kbarmstp;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_MAKER]
+{
+	select1=unit/metlon1;
+	underattack=unit/warning1;
+	working=unit/metlrun1;
+	activate=unit/metlon1;
+	deactivate=unit/metloff1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_MEX]
+{
+	select1=unit/mexon1;
+	underattack=unit/warning1;
+	working=unit/mexrun1;
+	activate=unit/mexrun1;
+	deactivate=unit/mexoff1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_MOHO]
+{
+	select1=unit/mohoon1;
+	underattack=unit/warning1;
+	working=unit/mohorun1;
+	activate=unit/mohorun1;
+	deactivate=unit/mohooff1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_MSTOR]
+{
+	select1=unit/stormtl1;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_RADAR]
+{
+	select1=unit/radar1;
+	underattack=unit/warning1;
+	working=unit/radar1;
+	activate=unit/radar1;
+	deactivate=unit/radarde1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_RECTOR]
+{
+	select1=unit/Necrsel1;
+//	ok1=unit/button10;
+	activate=unit/Necrok1;
+	arrived1=unit/Necrnan1;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_SEAPLN]
+{
+	select1=unit/seapsel1;
+//	ok1=unit/button10;
+	activate=unit/vtolcrmv;
+	arrived1=unit/vtolarld;
+	cant1=unit/cantdo4;
+	build=unit/nanlath1;
+	repair=unit/repair1;
+	working=unit/reclaim1;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_SEAPLN_PLANT]
+{
+	select1=unit/seaplsl1;
+	unitcomplete=unit/untdone;
+	underattack=unit/warning1;
+	build=unit/seaplok1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_SEASONAR]
+{
+	select1=unit/seasonr2;
+//	ok1=unit/button10;
+	activate=unit/vtolarmv;
+	arrived1=unit/vtolarld;
+	cant1=unit/cantdo4;
+	build=unit/nanlath1;
+	repair=unit/repair1;
+	working=unit/reclaim1;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_SHIP]
+{
+	select1=unit/sharmsel;
+//	ok1=unit/button10;
+	activate=unit/sharmmov;
+	arrived1=unit/sharmstp;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_SOLAR]
+{
+	select1=unit/solar1;
+	underattack=unit/warning1;
+	activate=unit/solar1;
+	deactivate=unit/solar1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_SONAR]
+{
+	select1=unit/sonar1;
+	underattack=unit/warning1;
+	activate=unit/sonar1;
+	deactivate=unit/sonarde1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_SUB]
+{
+	select1=unit/suarmsel;
+//	ok1=unit/button10;
+	activate=unit/suarmmov;
+	arrived1=unit/suarmstp;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_TANK]
+{
+	select1=unit/tarmsel;
+//	ok1=unit/button10;
+	activate=unit/tarmmove;
+	arrived1=unit/tarmst0p;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_TARG]
+{
+	select1=unit/Targsel1;
+	underattack=unit/warning1;
+	working=unit/Targsel1;
+	activate=unit/Targon1;
+	deactivate=unit/Targoff1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_TIDE]
+{
+	select1=unit/tidegen1;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_UWFUSION]
+{
+	select1=unit/watfusn1;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_UWMETSTOR]
+{
+	select1=unit/watstor1;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_UWMEX]
+{
+	select1=unit/waterex1;
+	underattack=unit/warning1;
+	working=unit/waterex1;
+	activate=unit/waterex1;
+	deactivate=unit/waterex1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_VEHICLE]
+{
+	select1=unit/varmsel;
+//	ok1=unit/button10;
+	activate=unit/varmmove;
+	arrived1=unit/varmstop;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ARM_VTOL]
+{
+	select1=unit/vtolarac;
+//	ok1=unit/button10;
+	activate=unit/vtolarmv;
+	arrived1=unit/vtolarld;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[LOST_VTOL] // for now a copy of arm_vtol
+{
+	select1=unit/vtolarac;
+//	ok1=unit/button10;
+	activate=unit/vtolarmv;
+	arrived1=unit/vtolarld;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+
+[ARM_WIND]
+{
+	select1=unit/windgen1;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[building]
+{
+	select1=unit/build;
+	unitcomplete=unit/untdone1;
+	underattack=unit/warning1;
+	build=unit/lathelrg;
+	repair=unit/lathelrg;
+	working=unit/build;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORAK]
+{
+	select1=unit/servtny1;
+//	ok1=unit/button10;
+	activate=unit/servtny1;
+	arrived1=unit/servtny1;
+	cant1=unit/cantdo4;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_ADVRADAR]
+{
+	select1=unit/radadvn2;
+	underattack=unit/warning2;
+	working=unit/radar2;
+	activate=unit/radadvn2;
+	deactivate=unit/radadde2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_CHOVER]
+{
+	select1=unit/hovmdsl2;
+//	ok1=unit/button10;
+	activate=unit/hovmdok2;
+	arrived1=unit/hovmdof2;
+	cant1=unit/cantdo4;
+	build=unit/nanlath1;
+	repair=unit/repair1;
+	working=unit/reclaim1;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_COM]
+{
+	select1=unit/kccorsel;
+	unitcomplete=unit/kccorsel;
+//	ok1=unit/button10;
+	activate=unit/kcormov;
+	arrived1=unit/kccorstp;
+	cant1=unit/cantdo4;
+	underattack=unit/warning2;
+	build=unit/nanlath2;
+	repair=unit/repair2;
+	working=unit/reclaim1;
+	cloak=unit/kloak2;
+	uncloak=unit/kloak2un;
+	Capture=unit/capture2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_CSHIP]
+{
+	select1=unit/shcorsel;
+//	ok1=unit/button10;
+	activate=unit/shcormov;
+	arrived1=unit/shcorstp;
+	cant1=unit/cantdo4;
+	build=unit/nanlath2;
+	repair=unit/repair2;
+	working=unit/reclaim1;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_CSUB]
+{
+	select1=unit/sucorsel;
+//	ok1=unit/button10;
+	activate=unit/sucormov;
+	arrived1=unit/sucorstp;
+	cant1=unit/cantdo4;
+	build=unit/nanlath1;
+	repair=unit/repair1;
+	working=unit/reclaim1;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_CVEHICLE]
+{
+	select1=unit/vcorsel;
+//	ok1=unit/button10;
+	activate=unit/vcormove;
+	arrived1=unit/vcorstop;
+	cant1=unit/cantdo4;
+	build=unit/nanlath2;
+	repair=unit/repair2;
+	working=unit/reclaim1;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_CVTOL]
+{
+	select1=unit/vtolcrac;
+//	ok1=unit/button10;
+	activate=unit/vtolcrmv;
+	arrived1=unit/vtolcrld;
+	cant1=unit/cantdo4;
+	build=unit/nanlath2;
+	repair=unit/repair2;
+	working=unit/reclaim1;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_ESTOR]
+{
+	select1=unit/storngy2;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_FUS]
+{
+	select1=unit/fusion2;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_GANTRY]
+{
+	select1=unit/gantsel1;
+	unitcomplete=unit/gantok1;
+	underattack=unit/warning2;
+	build=unit/gantok2;
+	repair=unit/lathelrg;
+	working=unit/build;
+	activate=unit/gantok2;
+	deactivate=unit/gantok2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_GEO]
+{
+	select1=unit/geothrm2;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_HOVER_BIG]
+{
+	select1=unit/hovlgsl2;
+//	ok1=unit/button10;
+	activate=unit/hovlgok2;
+	arrived1=unit/hovlgof2;
+	cant1=unit/cantdo4;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_HOVER_MID]
+{
+	select1=unit/hovmdsl2;
+//	ok1=unit/button10;
+	activate=unit/hovmdok2;
+	arrived1=unit/hovmdof2;
+	cant1=unit/cantdo4;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_HOVER_PLANT]
+{
+	select1=unit/hoversl2;
+	unitcomplete=unit/untdone;
+	underattack=unit/warning2;
+	build=unit/hoverok2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_HOVER_SM]
+{
+	select1=unit/hovsmsl2;
+//	ok1=unit/button10;
+	activate=unit/hovsmok2;
+	arrived1=unit/hovsmof2;
+	cant1=unit/cantdo4;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_JAM]
+{
+	select1=unit/radjam2;
+//	ok1=unit/button10;
+	activate=unit/vcormove;
+	arrived1=unit/vcorstop;
+	cant1=unit/cantdo4;
+	underattack=unit/warning2;
+	activate=unit/radjam2;
+	deactivate=unit/radjam2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_JAMSUB]
+{
+	select1=unit/watrjam2;
+//	ok1=unit/button10;
+	activate=unit/suarmmov;
+	arrived1=unit/suarmstp;
+	cant1=unit/cantdo4;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_MAKER]
+{
+	select1=unit/metlon2;
+	underattack=unit/warning2;
+	working=unit/metlrun2;
+	activate=unit/metlon2;
+	deactivate=unit/metloff2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_MOHO]
+{
+	select1=unit/mohoon2;
+	underattack=unit/warning2;
+	working=unit/mohorun2;
+	activate=unit/mohorun2;
+	deactivate=unit/mohooff2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_MSTOR]
+{
+	select1=unit/stormtl2;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_NECRO]
+{
+	select1=unit/Necrsel2;
+//	ok1=unit/button10;
+	activate=unit/Necrok2;
+	arrived1=unit/Necrnan2;
+	cant1=unit/cantdo4;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_RADAR]
+{
+	select1=unit/radar2;
+	underattack=unit/warning2;
+	working=unit/radar2;
+	activate=unit/radar2;
+	deactivate=unit/radarde2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_SEAPLN_PLANT]
+{
+	select1=unit/seaplsl2;
+	unitcomplete=unit/untdone;
+	underattack=unit/warning2;
+	build=unit/seaplok2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_SHIP]
+{
+	select1=unit/shcorsel;
+//	ok1=unit/button10;
+	activate=unit/shcormov;
+	arrived1=unit/shcorstp;
+	cant1=unit/cantdo4;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_SNIPE]
+{
+	select1=unit/snipsel1;
+//	ok1=unit/button10;
+	activate=unit/snipok2;
+	arrived1=unit/snipok1;
+	cant1=unit/cantdo4;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_SOLAR]
+{
+	select1=unit/solar2;
+	underattack=unit/warning2;
+	activate=unit/solar2;
+	deactivate=unit/solar2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_SONAR]
+{
+	select1=unit/sonar2;
+	underattack=unit/warning2;
+	activate=unit/sonar2;
+	deactivate=unit/sonarde2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_SUB]
+{
+	select1=unit/sucorsel;
+//	ok1=unit/button10;
+	activate=unit/sucormov;
+	arrived1=unit/sucorstp;
+	cant1=unit/cantdo4;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_TANK]
+{
+	select1=unit/tcorsel;
+//	ok1=unit/button10;
+	activate=unit/tcormove;
+	arrived1=unit/tcorst0p;
+	cant1=unit/cantdo4;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_TARG]
+{
+	select1=unit/Targsel2;
+	underattack=unit/warning2;
+	working=unit/Targsel2;
+	activate=unit/Targon2;
+	deactivate=unit/Targoff2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_TIDE]
+{
+	select1=unit/tidegen2;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_UWFUSION]
+{
+	select1=unit/watfusn2;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_UWMEX]
+{
+	select1=unit/waterex2;
+	underattack=unit/warning2;
+	working=unit/waterex2;
+	activate=unit/waterex2;
+	deactivate=unit/waterex2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_VEHICLE]
+{
+	select1=unit/vcorsel;
+//	ok1=unit/button10;
+	activate=unit/vcormove;
+	arrived1=unit/vcorstop;
+	cant1=unit/cantdo4;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_VTOL]
+{
+	select1=unit/vtolcrac;
+//	ok1=unit/button10;
+	activate=unit/vtolcrmv;
+	arrived1=unit/vtolcrld;
+	cant1=unit/cantdo4;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORE_WIND]
+{
+	select1=unit/windgen2;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[CORSCORP]
+{
+	select1=unit/scorpsel;
+//	ok1=unit/button10;
+	activate=unit/scorpok;
+	arrived1=unit/scorpstp;
+	cant1=unit/cantdo4;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[COR_CKBOT]
+{
+	select1=unit/kbcorsel;
+//	ok1=unit/button10;
+	activate=unit/kbcormov;
+	arrived1=unit/kbcorstp;
+	cant1=unit/cantdo4;
+	build=unit/nanlath2;
+	repair=unit/repair2;
+	working=unit/reclaim1;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[COR_CSEAPLN]
+{
+	select1=unit/seapsel2;
+//	ok1=unit/button10;
+	activate=unit/vtolcrmv;
+	arrived1=unit/vtolarld;
+	cant1=unit/cantdo4;
+	build=unit/nanlath1;
+	repair=unit/repair1;
+	working=unit/reclaim1;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[COR_DOOM]
+{
+	select1=unit/doom;
+//	ok1=unit/button10;
+	activate=unit/doom;
+	cant1=unit/cantdo4;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[COR_FMD]
+{
+	select1=unit/loadwtr1;
+	ok1=unit/loadwtr1;
+	cant1=unit/cantdo4;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[COR_HAMMERHEAD]
+{
+	select1=unit/torpsel2;
+//	ok1=unit/button10;
+	activate=unit/torpok2;
+	arrived1=unit/torpok2;
+	cant1=unit/cantdo4;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[COR_INT]
+{
+	select1=unit/Servlrg4;
+	ok1=unit/Servlrg4;
+	cant1=unit/cantdo4;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[COR_KBOT]
+{
+	select1=unit/kbcorsel;
+//	ok1=unit/button10;
+	activate=unit/kbcormov;
+	arrived1=unit/kbcorstp;
+	cant1=unit/cantdo4;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[COR_MEX]
+{
+	select1=unit/mexon2;
+	underattack=unit/warning2;
+	working=unit/mexrun2;
+	activate=unit/mexrun2;
+	deactivate=unit/mexoff2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[COR_SEAPLN]
+{
+	select1=unit/seapsel2;
+//	ok1=unit/button10;
+	activate=unit/vtolcrmv;
+	arrived1=unit/vtolcrld;
+	cant1=unit/cantdo4;
+	build=unit/nanlath1;
+	repair=unit/repair1;
+	working=unit/reclaim1;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[COR_SEASONAR]
+{
+	select1=unit/seasonr2;
+//	ok1=unit/button10;
+	activate=unit/vtolcrmv;
+	arrived1=unit/vtolarld;
+	cant1=unit/cantdo4;
+	build=unit/nanlath1;
+	repair=unit/repair1;
+	working=unit/reclaim1;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[COR_UWMESTOR]
+{
+	select1=unit/watstor2;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[GATE]
+{
+	select1=unit/drone1;
+	ok1=unit/drone1;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[GUARD]
+{
+	select1=unit/twrturn3;
+	ok1=unit/twrturn3;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[HLT]
+{
+	select1=unit/twractv3;
+	ok1=unit/twractv3;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[HOVER]
+{
+	select1=unit/phiblgto;
+//	ok1=unit/button10;
+	activate=unit/phiblgto;
+	arrived1=unit/phiblgof;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[KBOTPLANT]
+{
+	select1=unit/plabactv;
+	unitcomplete=unit/untdone;
+	underattack=unit/warning1;
+	build=unit/plabwork;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[KROGOTH]
+{
+	select1=unit/krogsel1;
+//	ok1=unit/button10;
+	activate=unit/krogok1;
+	arrived1=unit/krogstp1;
+	cant1=unit/cantdo4;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ORCONE]
+{  
+	select1=unit/Orcsel1;
+	select2=unit/Orcsel2;
+//	ok1=unit/button10;
+	activate=unit/Orcmove;
+	arrived1=unit/Orcthere;
+	cant1=unit/Orcant;
+	underattack=unit/Orcua;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[LLT]
+{
+	select1=unit/servmed2;
+	ok1=unit/servmed2;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[MAVERICK]
+{
+	select1=unit/mavbsel1;
+//	ok1=unit/button10;
+	activate=unit/mavbok1;
+	arrived1=unit/kbarmstp;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[MINE]
+{
+	select1=unit/minesel1;
+	ok1=unit/servsml6;
+	arrived1=unit/servsml6;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[MINE2]
+{
+	select1=unit/minesel2;
+	ok1=unit/servsml6;
+	arrived1=unit/servsml6;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[MINE3]
+{
+	select1=unit/minesel3;
+	ok1=unit/servsml6;
+	arrived1=unit/servsml6;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[MINE4]
+{
+	select1=unit/minesel4;
+	ok1=unit/servsml6;
+	arrived1=unit/servsml6;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[NUC]
+{
+	select1=unit/servroc1;
+	ok1=unit/servroc1;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[ROACH]
+{
+	select1=unit/servsml6;
+//	ok1=unit/button10;
+	activate=unit/servsml6;
+	arrived1=unit/servsml6;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[SHIPYARD]
+{
+	select1=unit/pshpactv;
+	unitcomplete=unit/untdone;
+	underattack=unit/warning1;
+	build=unit/pshpwork;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[Skycruiser]
+{
+	select1=unit/skycruiserselect;
+	select2=unit/skycruiserselect2;
+//	ok1=unit/button10;
+	activate=unit/skycruisergo;
+	arrived1=unit/skycruiserstop;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[Spider]
+{
+	select1=unit/spider2;
+//	ok1=unit/button10;
+	activate=unit/spider4;
+	arrived1=unit/spider3;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+
+[SpiderBig]
+{
+	select1=unit/BIGSPD3;
+//	ok1=unit/button10;
+	activate=unit/BIGSPD2;
+	arrived1=unit/BIGSPD1;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+
+[SpiderEMP]
+{
+	select1=unit/SPDEMP1;
+//	ok1=unit/button10;
+	activate=unit/SPDEMP2;
+	arrived1=unit/SPDEMP2;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+
+[COR_TOR]   		// Tortoises
+	{
+	select1=unit/Tortoise1;
+//	ok1=unit/button10;
+	activate=unit/Tortoise2;
+	arrived1=unit/Tortoise3;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+	}
+
+[TANKPLANT]
+{
+	select1=unit/pvehactv;
+	unitcomplete=unit/untdone;
+	underattack=unit/warning1;
+	build=unit/pvehwork;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[VADER]
+{
+	select1=unit/servsml5;
+//	ok1=unit/button10;
+	activate=unit/servsml5;
+	arrived1=unit/servsml5;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+[VIPE]
+{
+	select1=unit/servmed1;
+	ok1=unit/servmed1;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+
+[LOST_KBOT]		
+	{
+	select1=unit/tllunitok;
+//	ok1=unit/button10;
+	activate=unit/tllkbotmove;
+	arrived1=unit/kbarmstp;
+	cant1=unit/wearoff;
+	underattack=unit/tllWarning;
+	count5=unit/tllcount;
+	count4=unit/tllcount;
+	count3=unit/tllcount;
+	count2=unit/tllcount;
+	count1=unit/tllcount;
+	count0=unit/tllcount;
+	canceldestruct=unit/cancel2;
+
+	}
+[LOST_TIDE]		
+	{
+	select1=unit/tlltidal;
+	underattack=unit/tllWarning;
+	count5=unit/tllcount;
+	count4=unit/tllcount;
+	count3=unit/tllcount;
+	count2=unit/tllcount;
+	count1=unit/tllcount;
+	count0=unit/tllcount;
+	canceldestruct=unit/cancel2;
+	}
+[LOST_SUB]		
+	{ 
+	select1=unit/sucorsel;
+//	ok1=unit/button10;
+	activate=unit/tllsub;
+	arrived1=unit/tllsub2;
+	cant1=unit/wearoff;
+	underattack=unit/tllWarning;
+	count5=unit/tllcount;
+	count4=unit/tllcount;
+	count3=unit/tllcount;
+	count2=unit/tllcount;
+	count1=unit/tllcount;
+	count0=unit/tllcount;
+	canceldestruct=unit/cancel2;
+	}
+[LOST_LVTOL]		//light vtols
+	{
+	select1=unit/vtolarac;
+//	ok1=unit/button10;
+	activate=unit/tllvtolgo;
+	arrived1=unit/tllvtolstop;
+	cant1=unit/wearoff;
+	underattack=unit/tllWarning;
+	count5=unit/tllcount;
+	count4=unit/tllcount;
+	count3=unit/tllcount;
+	count2=unit/tllcount;
+	count1=unit/tllcount;
+	count0=unit/tllcount;
+	canceldestruct=unit/cancel2;
+	}
+[LOST_HVTOL]		//heavy vtols
+	{
+	select1=unit/vtolarac;
+//	ok1=unit/button10;
+	activate=unit/tllvtolgo3;
+	arrived1=unit/tllvtolstop3;
+	cant1=unit/wearoff;
+	underattack=unit/tllWarning;
+	count5=unit/tllcount;
+	count4=unit/tllcount;
+	count3=unit/tllcount;
+	count2=unit/tllcount;
+	count1=unit/tllcount;
+	count0=unit/tllcount;
+	canceldestruct=unit/cancel2;
+	}
+[LOST_VVTOL]		//V Vtols
+	{
+	select1=unit/vtolarac;
+//	ok1=unit/button10;
+	activate=unit/tllvtolgo2;
+	arrived1=unit/tllvtolstop2;
+	cant1=unit/wearoff;
+	underattack=unit/tllWarning;
+	count5=unit/tllcount;
+	count4=unit/tllcount;
+	count3=unit/tllcount;
+	count2=unit/tllcount;
+	count1=unit/tllcount;
+	count0=unit/tllcount;
+	canceldestruct=unit/cancel2;
+	}
+[LOST_GEO]		
+	{
+	select1=unit/tllgeosel;
+	underattack=unit/tllWarning;
+	activate=unit/tllgeo;
+	deactivate=unit/tllgeooff;
+	count5=unit/tllcount;
+	count4=unit/tllcount;
+	count3=unit/tllcount;
+	count2=unit/tllcount;
+	count1=unit/tllcount;
+	count0=unit/tllcount;
+	canceldestruct=unit/cancel2;
+	}
+[LOST_WIND]		
+	{
+	select1=unit/tllwindsel;
+	underattack=unit/tllWarning;
+	working=unit/tllwind2;
+	deactivate=unit/tllwindstop;
+	count5=unit/tllcount;
+	count4=unit/tllcount;
+	count3=unit/tllcount;
+	count2=unit/tllcount;
+	count1=unit/tllcount;
+	count0=unit/tllcount;
+	canceldestruct=unit/cancel2;
+	}
+
+[lost_FUS]
+{
+	select1=unit/tllfus2;
+	underattack=unit/warning2;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}
+
+[LOST_HOVER]
+{
+	select1=unit/servo1.wav;
+//	ok1=unit/button10;
+	activate=unit/servo2;
+	arrived1=unit/servo3.wav;
+	cant1=unit/cantdo4;
+	underattack=unit/warning1;
+	count5=unit/count1;
+	count4=unit/count2;
+	count3=unit/count3;
+	count2=unit/count4;
+	count1=unit/count5;
+	count0=unit/count6;
+	canceldestruct=unit/cancel2;
+}

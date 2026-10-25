@@ -1,0 +1,272 @@
+<rml>
+<head>
+	<title>Slate build and order menus</title>
+	<link type="text/rcss" href="theme.rcss"/>
+	<style>
+		/* Two panels at the bottom left: the orders below, the build grid
+		   standing on it. Their positions are set from Lua (hud.PlacePanel);
+		   the width here must match PANEL_WIDTH in slate_commands.lua, and
+		   the orders panel's height is set from Lua to fit its rows. */
+		#orders, #build {
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			width: 300dp;
+			box-sizing: border-box;
+			padding: 10dp;
+			pointer-events: auto;
+		}
+		#build {
+			height: 452dp;
+		}
+		#orders {
+			height: 264dp;
+		}
+
+		/* ---- headers ------------------------------------------------------ */
+		.head {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			height: 28dp;
+			margin-bottom: 6dp;
+		}
+		#orders .head {
+			height: 22dp;
+		}
+		.builder {
+			flex: 1;
+			margin-left: 8dp;
+			font-size: 14dp;
+			color: #b5bac1;
+			white-space: nowrap;
+			overflow: hidden;
+		}
+		.pager {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+		}
+		.pager.hidden {
+			display: none;
+		}
+		.arrow {
+			width: 28dp;
+			height: 26dp;
+			text-align: center;
+			font-size: 15dp;
+			line-height: 25dp;
+			color: #f4f5f7;
+		}
+		.arrow.off {
+			color: #8a9099;
+			background-color: rgba(255, 255, 255, 8);
+		}
+		.pageno {
+			width: 46dp;
+			text-align: center;
+			font-size: 14dp;
+		}
+
+		/* ---- category chips ------------------------------------------------ */
+		#chips {
+			display: flex;
+			flex-direction: row;
+			height: 30dp;
+			margin-bottom: 6dp;
+		}
+		#chips.hidden {
+			display: none;
+		}
+		.chip {
+			flex: 1;
+			margin-right: 6dp;
+			text-align: center;
+			font-size: 13dp;
+			line-height: 28dp;
+			white-space: nowrap;
+			overflow: hidden;
+		}
+		.chip.last {
+			margin-right: 0dp;
+		}
+
+		/* ---- build grid ---------------------------------------------------- */
+		#grid {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			align-content: flex-start;
+		}
+		/* tile size and gap are set from Lua to fit the columns and rows
+		   asked for in slate_game.lua */
+		.card {
+			position: relative;
+			width: 65dp;
+			height: 65dp;
+			margin: 0dp 6dp 6dp 0dp;
+			box-sizing: border-box;
+			overflow: hidden;
+		}
+		.card.last {
+			margin-right: 0dp;
+		}
+		.card.active {
+			border: 2dp #f2c230;
+		}
+		.card.disabled .pic {
+			opacity: 0.35;
+		}
+		.pic {
+			position: absolute;
+			left: 0dp;
+			top: 0dp;
+			width: 100%;
+			height: 100%;
+			background-color: rgba(255, 255, 255, 10);
+		}
+		/* cost strip so the number reads over any picture */
+		.cost {
+			position: absolute;
+			left: 0dp;
+			right: 0dp;
+			bottom: 0dp;
+			height: 16dp;
+			line-height: 16dp;
+			text-align: center;
+			font-size: 11dp;
+			color: #c9d3de;
+			background-color: rgba(0, 0, 0, 153);
+		}
+		/* how many are queued in the factory */
+		.queue {
+			position: absolute;
+			right: 2dp;
+			top: 2dp;
+			min-width: 16dp;
+			padding: 0dp 4dp;
+			text-align: center;
+			font-family: Saira SemiCondensed;
+			font-weight: bold;
+			font-size: 11dp;
+			line-height: 16dp;
+			color: #141412;
+			background-color: #f2c230;
+			border-radius: 3dp;
+		}
+		/* the key that gives this order */
+		.key {
+			position: absolute;
+			left: 1dp;
+			top: 1dp;
+			padding: 0dp 3dp;
+			font-size: 11dp;
+			line-height: 14dp;
+			color: #eceef0;
+			background-color: rgba(0, 0, 0, 153);
+			border-radius: 2dp;
+		}
+
+		/* ---- orders -------------------------------------------------------- */
+		#order-grid, #state-grid {
+			display: flex;
+			flex-direction: row;
+			flex-wrap: wrap;
+			align-content: flex-start;
+		}
+		.order, .state {
+			position: relative;
+			box-sizing: border-box;
+			margin: 0dp 6dp 6dp 0dp;
+			overflow: hidden;
+			text-align: center;
+		}
+		.order {
+			width: 51dp;
+			height: 38dp;
+		}
+		.state {
+			width: 65dp;
+			height: 44dp;
+		}
+		.order.last, .state.last {
+			margin-right: 0dp;
+		}
+		.order.disabled, .state.disabled {
+			opacity: 0.4;
+		}
+		.cap {
+			padding: 0dp 2dp;
+			font-size: 12dp;
+			line-height: 14dp;
+			color: #f4f5f7;
+			white-space: nowrap;
+			overflow: hidden;
+		}
+		.order .cap {
+			margin-top: 6dp;
+		}
+		.state .cap {
+			margin-top: 8dp;
+		}
+		.order .okey {
+			position: absolute;
+			left: 4dp;
+			bottom: 2dp;
+			font-size: 10dp;
+			color: #b5bac1;
+		}
+		.oicon {
+			position: absolute;
+			left: 6dp;
+			top: 6dp;
+			width: 39dp;
+			height: 26dp;
+		}
+		/* pips: how far along its options a state is */
+		.pips {
+			position: absolute;
+			left: 5dp;
+			right: 5dp;
+			bottom: 6dp;
+			height: 4dp;
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+		}
+		.pip {
+			width: 14dp;
+			height: 4dp;
+			margin: 0dp 1dp;
+			border-radius: 2dp;
+			background-color: rgba(255, 255, 255, 26);
+		}
+		.pip.lit {
+			background-color: #a9bdd0;
+		}
+	</style>
+</head>
+<body>
+	<div id="build" class="panel hidden">
+		<div class="head">
+			<div class="title">Build</div>
+			<div id="builder" class="builder"></div>
+			<div id="pager" class="pager hidden">
+				<div id="prev" class="arrow tile">&lt;</div>
+				<div id="pageno" class="pageno">1 / 1</div>
+				<div id="next" class="arrow tile">&gt;</div>
+			</div>
+		</div>
+		<div id="chips" class="hidden"/>
+		<div id="grid"/>
+	</div>
+
+	<div id="orders" class="panel hidden">
+		<div class="head">
+			<div class="title">Orders</div>
+		</div>
+		<div id="order-grid"/>
+		<div id="state-grid"/>
+	</div>
+</body>
+</rml>

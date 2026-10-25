@@ -1,0 +1,138 @@
+[UNITINFO]
+{
+	//************************************************************
+	//  Unit Description
+	//********************
+	side=Core;
+	name=Seer;//Psyker
+	description=Basic Builder/Resurrection Unit;
+
+	//************************************************************
+	//  Categories
+	//**************
+	Category=CORE KBOT WEAPON MOBILE NOTAIR NOTSEA NOTSUB;
+	tedclass=KBOT;
+
+	//************************************************************
+	//  External Specs
+	//******************
+	unitname=talon_psyker;
+	unitnumber=82;
+	objectname=talon_psyker.3do;
+	corpse=talon_psyker_dead;
+	buildpic=talon_psyker.png;
+	soundcategory=CORAK;
+
+	//************************************************************
+	//  Health/Cost/Size
+	//********************
+	maxdamage=375; // was 645
+	healtime=30;
+	buildcostmetal=60; //was 99(5%)//was 88
+	buildcostenergy=1200;
+	buildtime=2200;
+	footprintx=1;
+	footprintz=1;
+
+	//************************************************************
+	//  Resources
+
+	metalmake=0.05;//0.2
+	metalstorage=40;
+	energymake=4;//11
+	energyuse=0;
+	energystorage=60;
+
+	//************************************************************
+	//  Building
+	//************
+
+	//************************************************************
+	//  Constructor
+	//***************
+	builder=1;
+	builddistance=80;
+	workertime=50;
+	RepairSpeed=50;
+	ReclaimSpeed=50;
+	ResurrectSpeed=75;//max rez speed
+	TerraformSpeed=125;//speed up terraforming
+	showNanoSpray=0;
+	showNanoFrame=1;
+
+	//************************************************************
+	//  Abilities
+	//*************
+	//canattack=1;
+	canguard=1;
+	canmove=1;
+	canpatrol=1;
+	canstop=1;
+	upright=1;
+	canresurrect=1;
+
+	//************************************************************
+	//  Movement
+	//************
+	movementclass=KBOTSS2;
+	turnrate=1210; // was 1100
+	acceleration=0.915527;
+	brakerate=1.83105;
+	maxvelocity=0.95; // was 1.72
+	maxslope=17;
+	maxwaterdepth=25;
+
+	//************************************************************
+	//  Sight/Radar/Sonar
+	//*********************
+	sightdistance=412.5;
+	radardistance=0;
+
+	//************************************************************
+	//  Weapons
+	//***********
+	//weapon1=AK_LASER;
+	explodeas=NANO_UNITEX;
+	selfdestructas=NANO_UNIT;
+
+	//************************************************************
+	//  Orders
+	//**********
+	noautofire=0;
+	firestandorders=1;
+	mobilestandorders=1;
+	standingfireorder=2;
+	standingmoveorder=1;
+	defaultmissiontype=Standby;
+
+	//************************************************************
+	//  Miscellaneous
+	//*****************
+	bmcode=1;
+	designation=KA-L4;
+	downloadable=1;
+	maneuverleashlength=640;
+	shootme=1;
+	smoothanim=1;
+	steeringmode=2;
+	threed=1;
+	version=1.2;
+	zbuffer=1;
+	collisionVolumeType = box;
+	collisionVolumeScales =12 16 12;
+	collisionVolumeOffsets = 0 -1 0;
+	collisionVolumeTest = 1;
+	pieceTrailCEGTag=NanoDebree;//bleh
+	pieceTrailCEGRange = 2;
+	[SFXTypes]
+	{
+	explosiongenerator0=custom:Nano;
+	explosiongenerator1=custom:WANDGLOW;//ONESPARK
+	explosiongenerator2=custom:WANDGLOW;//ONESPARK
+	}
+
+	//************************************************************
+	//  To be removed
+	//*****************
+
+}

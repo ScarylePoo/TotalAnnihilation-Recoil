@@ -1,0 +1,106 @@
+<rml>
+<head>
+	<title>Slate eco stats</title>
+	<link type="text/rcss" href="theme.rcss"/>
+	<style>
+		/* The spectator economy comparison. Its position and height are set
+		   from Lua (hud.PlacePanel); the width here and the heights of
+		   .ghead, .trow and the .group gap must match slate_ecostats.lua. */
+		#ecostats {
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			width: 340dp;
+			box-sizing: border-box;
+			padding: 10dp 12dp;
+			pointer-events: auto;
+		}
+		.group {
+			margin-bottom: 8dp;
+		}
+		/* the alliance: its label and totals, then a bar per resource */
+		.ghead {
+			height: 42dp;
+			box-sizing: border-box;
+			padding-bottom: 6dp;
+			border-bottom: 1dp rgba(255, 255, 255, 30);
+		}
+		.gtop, .gbars, .trow {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+		}
+		.gtop {
+			height: 24dp;
+		}
+		.gbars {
+			height: 12dp;
+		}
+		.gtotal {
+			font-size: 14dp;
+			text-align: right;
+		}
+		/* the left column holds the alliance label or the team's name */
+		.name {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			width: 118dp;
+			overflow: hidden;
+		}
+		/* one column per resource; the last has no gap after it */
+		.col {
+			flex: 1;
+			margin-left: 10dp;
+		}
+		.sw {
+			width: 10dp;
+			height: 10dp;
+			margin-right: 7dp;
+			border-radius: 2dp;
+		}
+		.tname {
+			flex: 1;
+			font-size: 13dp;
+			white-space: nowrap;
+			overflow: hidden;
+		}
+		.trow {
+			height: 24dp;
+		}
+		.trow .col {
+			display: flex;
+			flex-direction: column;
+		}
+		.figures {
+			display: flex;
+			flex-direction: row;
+			align-items: baseline;
+			height: 15dp;
+		}
+		.inc {
+			flex: 1;
+			font-size: 13dp;
+			color: #eceef0;
+		}
+		.cur {
+			font-size: 11dp;
+		}
+		.trow .bar, .trow .bar-fill {
+			height: 3dp;
+		}
+		/* a team that has resigned or been eliminated */
+		.trow.dead .tname, .trow.dead .inc, .trow.dead .cur {
+			color: #8a9099;
+		}
+		.trow.dead .sw, .trow.dead .bar-fill {
+			opacity: 0.35;
+		}
+	</style>
+</head>
+<body>
+	<div id="ecostats" class="panel hidden">
+		<div id="rows"/>
+	</div>
+</body>
+</rml>

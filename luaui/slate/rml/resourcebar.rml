@@ -1,0 +1,137 @@
+<rml>
+<head>
+	<title>Slate resource bar</title>
+	<link type="text/rcss" href="theme.rcss"/>
+	<style>
+		/* One strip at the top centre: one cell per resource (metal and energy
+		   by default), then the optional wind and tidal read-outs. Its
+		   position and width are set from Lua (hud.PlacePanel); its height
+		   here must match BAR_HEIGHT in slate_resourcebar.lua. */
+		#resbar {
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			width: 680dp;
+			height: 64dp;
+			box-sizing: border-box;
+			display: flex;
+			flex-direction: row;
+			align-items: stretch;
+			pointer-events: auto;
+		}
+		#cells {
+			flex: 1;
+			display: flex;
+			flex-direction: row;
+			align-items: stretch;
+		}
+		.cell {
+			flex: 1;
+			padding: 7dp 14dp 0dp 14dp;
+		}
+		.addon {
+			flex: none;
+			width: 150dp;
+			padding: 7dp 12dp 0dp 12dp;
+		}
+		.addon.tidal {
+			width: 90dp;
+		}
+		.divider {
+			margin: 8dp 0dp;
+		}
+		.line {
+			display: flex;
+			flex-direction: row;
+			align-items: flex-end;
+		}
+		.grow {
+			flex: 1;
+		}
+		.head {
+			height: 16dp;
+		}
+		.figures {
+			height: 26dp;
+		}
+		.icon {
+			width: 14dp;
+			height: 14dp;
+			margin: 0dp 6dp 1dp 0dp;
+		}
+		.net {
+			font-size: 13dp;
+		}
+		.value {
+			line-height: 24dp;
+		}
+		.sub {
+			margin: 0dp 0dp 2dp 5dp;
+		}
+		.flow {
+			font-size: 12dp;
+			margin: 0dp 0dp 2dp 8dp;
+		}
+		.slash {
+			font-size: 12dp;
+			color: #8a9099;
+			margin: 0dp 0dp 2dp 5dp;
+		}
+		.range {
+			font-size: 12dp;
+			color: #b5bac1;
+			margin: 0dp 0dp 2dp 6dp;
+		}
+
+		/* The storage bar. The taller box around it is what the mouse grabs
+		   to set the share level, so the 6dp bar is not a fiddly target. */
+		.grab {
+			height: 14dp;
+			padding-top: 4dp;
+			box-sizing: border-box;
+		}
+		.grab.live {
+			cursor: ew-resize;
+		}
+		/* share level: above this much of storage, the excess goes to allies */
+		.share {
+			position: absolute;
+			top: -3dp;
+			width: 2dp;
+			height: 12dp;
+			margin-left: -1dp;
+			background-color: #f4f5f7;
+		}
+		.share.dragging {
+			background-color: #f2c230;
+		}
+
+		/* each resource keeps its own colour (set from slate_game.lua); a bar
+		   changes colour only to say something (see the widget) */
+	</style>
+</head>
+<body>
+	<div id="resbar" class="panel">
+		<div id="cells"/>
+		<div id="wind-divider" class="divider hidden"/>
+		<div id="wind" class="addon wind hidden">
+			<div class="line head">
+				<div class="label">Wind</div>
+			</div>
+			<div class="line figures">
+				<div id="wind-cur" class="value">0.0</div>
+				<div id="wind-range" class="range">(0 - 0)</div>
+			</div>
+		</div>
+		<div id="tidal-divider" class="divider hidden"/>
+		<div id="tidal" class="addon tidal hidden">
+			<div class="line head">
+				<div class="label">Tidal</div>
+			</div>
+			<div class="line figures">
+				<div id="tidal-cur" class="value">0.0</div>
+			</div>
+		</div>
+	</div>
+</body>
+</rml>

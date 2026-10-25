@@ -1,0 +1,238 @@
+<rml>
+<head>
+	<title>Slate players list</title>
+	<link type="text/rcss" href="theme.rcss"/>
+	<style>
+		/* The players list, at the bottom right. Its position and its height
+		   are set from Lua: the height is worked out from the rows, so the
+		   heights here must match the ones in slate_playerslist.lua
+		   (CHROME, TOPBAR, ROW, GROUP_GAP, SPEC_HEADER, SPEC_ROW). */
+		#players {
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			width: 336dp;
+			box-sizing: border-box;
+			padding: 9dp;
+			pointer-events: auto;
+		}
+		#topbar {
+			display: flex;
+			flex-direction: row;
+			height: 24dp;
+			font-size: 12dp;
+			line-height: 18dp;
+			box-sizing: border-box;
+			padding-bottom: 6dp;
+		}
+		#topbar .label {
+			margin-right: 5dp;
+			line-height: 18dp;
+		}
+		#topbar .fig {
+			margin-right: 16dp;
+			color: #f4f5f7;
+		}
+		#topbar .grow {
+			flex: 1;
+		}
+		/* erases every map mark and drawing (the engine's /clearmapmarks) */
+		#tb-marks {
+			height: 18dp;
+			box-sizing: border-box;
+			padding: 0dp 7dp;
+			font-size: 10dp;
+			line-height: 15dp;
+			letter-spacing: 1dp;
+			text-transform: uppercase;
+			color: #b5bac1;
+			border: 1dp rgba(255,255,255,60);
+			border-radius: 5dp;
+		}
+		#tb-marks:hover {
+			color: #f4f5f7;
+			border-color: #a9bdd0;
+			background-color: rgba(255,255,255,18);
+		}
+
+		/* ---- one alliance ----------------------------------------------- */
+		.group {
+			margin-bottom: 7dp;
+			background-color: rgba(255,255,255,10);
+			border-left: 2dp rgba(255,255,255,60);
+			border-radius: 5dp;
+		}
+		.group.enemy {
+			background-color: rgba(255, 90, 79, 26);
+			border-left: 2dp #a8332b;
+		}
+		.prow {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			height: 19dp;
+			box-sizing: border-box;
+			padding: 0dp 4dp 0dp 6dp;
+			font-size: 12dp;
+		}
+		/* a spectator clicks a broadcasting player to watch through their
+		   camera; a player clicks an ally to share with them */
+		.prow.watchable:hover,
+		.prow.shareable:hover {
+			background-color: rgba(255,255,255,41);
+			border-radius: 5dp;
+		}
+		.prow.locked {
+			background-color: rgba(169, 189, 208, 50);
+			border-radius: 5dp;
+		}
+		.pname {
+			white-space: nowrap;
+		}
+		.prow.dim .pname {
+			color: #8a9099;
+		}
+		.ptag {
+			margin-left: 6dp;
+			font-size: 10dp;
+			color: #a9bdd0;
+		}
+		.ptag.dc {
+			color: #ffb3a6;
+		}
+		.grow {
+			flex: 1;
+		}
+
+		/* alliance toward this team: a square you click to offer or withdraw */
+		.ally {
+			width: 9dp;
+			height: 9dp;
+			margin-right: 7dp;
+			box-sizing: border-box;
+			border: 2dp #ffb3a6;
+		}
+		.ally:hover { background-color: rgba(240, 244, 248, 90); }
+		.ally.offered { border-color: #a9bdd0; }
+		.ally.asked { border-color: #a9bdd0; }
+		.ally.mutual { border-color: #9be7a8; background-color: #9be7a8; }
+
+		/* metal over energy */
+		.res {
+			width: 58dp;
+			margin-right: 6dp;
+		}
+		.track {
+			height: 5dp;
+			margin: 1dp 0dp;
+			background-color: #0d0e10;
+		}
+		.fill {
+			height: 5dp;
+			width: 0%;
+		}
+		.fill.metal { background-color: #a9c9ea; }
+		.fill.energy { background-color: #f2d64b; }
+
+		/* cpu over ping, each a strip colored from good to bad */
+		.net {
+			display: flex;
+			flex-direction: column;
+			width: 32dp;
+			margin-right: 6dp;
+		}
+		.cell {
+			height: 9dp;
+			text-align: center;
+			font-size: 8dp;
+			line-height: 9dp;
+			color: #0d0e10;
+			background-color: rgba(255,255,255,60);
+		}
+		.cell.top {
+			margin-bottom: 1dp;
+		}
+		.cell.l1 { background-color: #1cd11c; }
+		.cell.l2 { background-color: #66bf33; }
+		.cell.l3 { background-color: #b8b833; }
+		.cell.l4 { background-color: #d1452e; color: #f4f5f7; }
+		.cell.l5 { background-color: #ff264d; color: #f4f5f7; }
+		/* as wide as the cpu/ping cells and the fps together */
+		.nonet {
+			width: 60dp;
+		}
+		/* fps: a chip naming it over the number */
+		.fpsbox {
+			width: 22dp;
+		}
+		.chip {
+			height: 9dp;
+			margin-bottom: 1dp;
+			text-align: center;
+			font-size: 8dp;
+			line-height: 9dp;
+			color: #0d0e10;
+			background-color: #b5bac1;
+		}
+		.fps {
+			height: 9dp;
+			text-align: center;
+			font-size: 9dp;
+			line-height: 9dp;
+			color: #c4ced8;
+		}
+
+		/* ---- spectators --------------------------------------------------- */
+		#spechdr {
+			height: 20dp;
+			box-sizing: border-box;
+			padding: 0dp 6dp;
+			font-size: 11dp;
+			line-height: 20dp;
+			color: #b5bac1;
+			background-color: rgba(255,255,255,18);
+			border-radius: 5dp;
+		}
+		#spechdr:hover {
+			color: #f4f5f7;
+			background-color: rgba(255,255,255,41);
+		}
+		.srow {
+			height: 16dp;
+			padding-left: 14dp;
+			font-size: 11dp;
+			line-height: 16dp;
+			color: #b5bac1;
+		}
+
+		/* what is under the mouse: a player's system, or what the alliance
+		   square will do. Beside the list, its bottom level with the row. */
+		#popup {
+			position: absolute;
+			padding: 6dp 10dp 7dp 10dp;
+			font-size: 12dp;
+			line-height: 15dp;
+			white-space: nowrap;
+			color: #b5bac1;
+			border-color: rgba(255,255,255,60);
+		}
+		#popup .first { color: #f4f5f7; }
+		#popup .second { color: #eceef0; }
+	</style>
+</head>
+<body>
+	<div id="players" class="panel">
+		<div id="topbar">
+			<div class="label">Time</div><div id="tb-time" class="fig">0:00</div>
+			<div class="label">Speed</div><div id="tb-speed" class="fig">1.00</div>
+			<div class="label">FPS</div><div id="tb-fps" class="fig">0</div>
+			<div class="grow"/>
+			<div id="tb-marks">Clear marks</div>
+		</div>
+		<div id="list"/>
+		<div id="spechdr"/>
+		<div id="speclist"/>
+	</div>
+	<div id="popup" class="panel window hidden"/>
+</body>
+</rml>

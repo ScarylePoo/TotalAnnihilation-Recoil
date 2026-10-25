@@ -1,0 +1,120 @@
+[UNITINFO]
+	{
+	//************************************************************
+	//  Unit Description
+	//********************
+	Side=ARM;
+	UnitName=Yeomen;
+	Description=Anti-Sky Cruiser Ship;
+	Version=1;
+	icontype=sea;
+	Copyright=Copyright 1997 Humongous Entertainment. All rights reserved.;
+	GermanName=Yeomen;
+	GermanDescription=Rakete Battlecruiser;
+	UnitNumber=50;
+	FrenchName=Yeomen;
+	Frenchdescription=Croiseur cuirassé de fusée;
+	
+	//************************************************************
+	//  Categories
+	//**************
+	Category=ARM SHIP WEAPON NOTAIR NOTSUB;
+	TEDClass=SHIP;
+	
+	//************************************************************
+	//  External Specs
+	//******************
+	
+	Objectname=Yeomen;
+	Name=Yeomen;
+	buildpic=yeomen.jpg;
+	SoundCategory=ARM_SHIP;
+	Corpse=Yeomen_dead;
+	
+	//************************************************************
+	//  Health/Cost/Size
+	//********************
+	MaxDamage=5950;
+	BuildTime=43189;
+	BuildCostEnergy=21442;
+	BuildCostMetal=3342;
+	FootprintX=4;
+	FootprintZ=4;
+	
+	//************************************************************
+	//  Resources
+	//*************
+	EnergyUse=60;
+	EnergyMake=0.8;
+	EnergyStorage=0;
+	MetalStorage=0;
+	
+	//************************************************************
+	//  Building
+	//************
+	activatewhenbuilt=1;
+	
+	//************************************************************
+	//  Constructor
+	//***************
+	WorkerTime=0;
+	Builder=0;
+	
+	//************************************************************
+	//  Abilities
+	//*************
+	canstop=1;
+	canguard=1;
+	canmove=1;
+	canpatrol=1;
+	onoffable=1;
+	floater=1;
+	canattack=1;
+		
+	//************************************************************
+	//  Movement
+	//************
+	MaxVelocity=2.8;
+	BrakeRate=0.44;
+	Acceleration=0.02;
+	TurnRate=134;
+	SteeringMode=1;
+	ShootMe=1;
+	Waterline=1;
+	movementclass=MEDIUMBOAT;
+	MinWaterDepth=12;
+	
+	//************************************************************
+	//  Sight/Radar/Sonar
+	//*********************
+	SightDistance=490;
+	RadarDistance=1250;
+	
+	//************************************************************
+	//  Weapons
+	//***********
+	Weapon1=SEACRUISE_MISSILEFAST;
+	Weapon2=SEACRUISE_MISSILEFAST;
+	wsec_badTargetCategory=NOTAIR;
+	ExplodeAs=BIG_UNITEX;
+	SelfDestructAs=BIG_UNIT;
+	
+	//************************************************************
+	//  Orders
+	//**********
+	firestandorders=1;
+	StandingFireOrder=2;
+	mobilestandorders=1;
+	StandingMoveOrder=1;
+	NoAutoFire=0;
+	DefaultMissionType=Standby;
+	
+	//************************************************************
+	//  Miscellaneous
+	//*****************
+	Designation=ASD-SM;
+	BMcode=1;
+	ThreeD=1;
+	ZBuffer=1;
+	maneuverleashlength=640;
+	}

@@ -1,0 +1,34 @@
+<rml>
+<head>
+	<title>Slate minimap frame</title>
+	<link type="text/rcss" href="theme.rcss"/>
+	<style>
+		/* A frame around the engine's minimap. The minimap itself is drawn by
+		   the engine, underneath; this is only the border, and it never takes
+		   the mouse. Position and size are set
+		   from Lua to wrap the minimap. */
+		#minimap-frame {
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			width: 100px;
+			height: 100px;
+			box-sizing: border-box;
+			border: 2dp rgba(13, 14, 16, 200);
+			border-radius: 4dp;
+		}
+		#minimap-line {
+			width: 100%;
+			height: 100%;
+			box-sizing: border-box;
+			border: 1dp rgba(255, 255, 255, 60);
+			border-radius: 3dp;
+		}
+	</style>
+</head>
+<body>
+	<div id="minimap-frame">
+		<div id="minimap-line"/>
+	</div>
+</body>
+</rml>

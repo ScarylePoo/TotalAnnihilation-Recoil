@@ -1,0 +1,483 @@
+[NANO]//Gives better effect
+{
+	useAirLos=0;
+	usedefaultexplosions=0;
+	[heatcloud]// Fire burst
+   		{
+      		[properties]
+      		{
+      		heat = 25;
+			Texture=Light;
+      		maxheat = 25;
+      		heatFalloff = 1.5;
+      		size = 8.0 r1;
+      		sizeGrowth = 0.08 r.16;
+      		sizemod = 0;
+      		sizemodmod = 0;
+      		speed = 0.05 r-0.1, 0.05 r-0.1, 0.05 r-0.1;
+      		pos = 0, 0.0, 0;
+			useAirLos=0;
+      		}
+		air=1;
+      	water=0;
+      	ground=1;
+      	count=1;
+		useAirLos=0;
+   	}
+}
+[NANOFARK]//Gives better effect
+{
+	usedefaultexplosions=0;
+[heatcloud]// Fire burst
+   		{
+      		[properties]
+      		{
+      		heat = 25;
+		Texture=Light;
+      		maxheat = 25;
+      		heatFalloff = 1.5;
+      		size = 12.0 r1;
+      		sizeGrowth = 0.08 r.16;
+      		sizemod = 0;
+      		sizemodmod = 0;
+      		speed = 0.05 r-0.1, 0.05 r-0.1, 0.05 r-0.1;
+      		pos = 0, 0.0, 0;
+		useAirLos=0;
+      		}
+	air=1;
+      	water=0;
+      	ground=1;
+      	count=1;
+   	}
+}
+
+[NANONECRO]//Gives better effect
+{
+	usedefaultexplosions=0;
+	[heatcloud]// Fire burst
+   		{
+      		[properties]
+      		{
+      		heat = 25;
+			Texture=Light;
+      		maxheat = 25;
+      		heatFalloff = 1.5;
+      		size = 16.0 r1;
+      		sizeGrowth = 0.08 r.16;
+      		sizemod = 0;
+      		sizemodmod = 0;
+      		speed = 0.05 r-0.1, 0.05 r-0.1, 0.05 r-0.1;
+      		pos = 0, 0.0, 0;
+      		}
+		air=1;
+      	water=0;
+      	ground=1;
+      	count=1;
+   	}
+}
+
+[YellowLight]//Gives better effect
+{
+	useAirLos=0;
+	usedefaultexplosions=0;
+	[heatcloud]// Fire burst
+   		{
+      		[properties]
+      		{
+      		heat = 25;
+			Texture=YellowLight;
+      		maxheat = 25;
+      		heatFalloff = 0.55;
+      		size = 12.0 r1;
+      		sizeGrowth = 0.08 r.16;
+      		sizemod = 0;
+      		sizemodmod = 0;
+      		speed = 0.05 r-0.1, 0.05 r-0.1, 0.05 r-0.1;
+      		pos = 0, 0.0, 0;
+			useAirLos=0;
+      		}
+		air=1;
+      	water=0;
+      	ground=1;
+      	count=2;
+		useAirLos=0;
+   	}
+}
+
+[YellowLight1]//Gives better effect
+{
+	useAirLos=0;
+	usedefaultexplosions=0;
+	[heatcloud]// Fire burst
+   		{
+      		[properties]
+      		{
+      		heat = 25;
+			Texture=YellowLight;
+      		maxheat = 25;
+      		heatFalloff = 0.8;
+      		size = 16.0 r1;
+      		sizeGrowth = 0.08 r.16;
+      		sizemod = 0;
+      		sizemodmod = 0;
+      		speed = 0.05 r-0.1, 0.05 r-0.1, 0.05 r-0.1;
+      		pos = 0, 0.0, 0;
+		useAirLos=0;
+      		}
+		air=1;
+      	water=0;
+      	ground=1;
+      	count=2;
+   	}
+}
+
+[WhiteLight]//Gives better effect
+{
+	useAirLos=0;
+	usedefaultexplosions=0;
+	[heatcloud]// Fire burst
+   		{
+      		[properties]
+      		{
+      		heat = 25;
+			Texture=WhiteLight;
+      		maxheat = 25;
+      		heatFalloff = 1.14;
+      		size = 12.0 r1;
+      		sizeGrowth = 0.08 r.16;
+      		sizemod = 0;
+      		sizemodmod = 0;
+      		speed = 0.05 r-0.1, 0.05 r-0.1, 0.05 r-0.1;
+      		pos = 0, 0.0, 0;
+		useAirLos=0;
+      		}
+		air=1;
+      	water=1;
+      	ground=1;
+      	count=2;
+   	}
+}
+
+[WhiteLightFast]//Gives better effect
+{
+	useAirLos=0;
+	usedefaultexplosions=0;
+	[heatcloud]// Fire burst
+   		{
+      		[properties]
+      		{
+      		heat = 25;
+			Texture=WhiteLight;
+      		maxheat = 25;
+      		heatFalloff = 2.5;
+      		size = 12.0 r2;
+      		sizeGrowth = 0.08 r.16;
+      		sizemod = 0;
+      		sizemodmod = 0;
+      		speed = 0.05 r-0.1, 0.05 r-0.1, 0.05 r-0.1;
+      		pos = 0, 0.0, 0;
+		useAirLos=0;
+      		}
+		air=1;
+      	water=1;
+      	ground=1;
+      	count=1;
+   	}
+}
+
+[WhiteLightBIGFast]//Gives better effect
+{
+	useAirLos=0;
+	usedefaultexplosions=0;
+	[heatcloud]// Fire burst
+   		{
+      		[properties]
+      		{
+      		heat = 25;
+			Texture=WhiteLight;
+      		maxheat = 25;
+      		heatFalloff = 2.5;
+      		size = 15.0 r3;
+      		sizeGrowth = 0.08 r.16;
+      		sizemod = 0;
+      		sizemodmod = 0;
+      		speed = 0.05 r-0.1, 0.05 r-0.1, 0.05 r-0.1;
+      		pos = 0, 0.0, 0;
+		useAirLos=0;
+      		}
+		air=1;
+      	water=1;
+      	ground=1;
+      	count=1;
+   	}
+}
+
+[WhiteLightSmall]//Gives better effect
+{
+	useAirLos=0;
+	usedefaultexplosions=0;
+	[heatcloud]// Fire burst
+   		{
+      		[properties]
+      		{
+      		heat = 25;
+			Texture=WhiteLight;
+      		maxheat = 25;
+      		heatFalloff = 1.14;
+      		size = 8.0 r1;
+      		sizeGrowth = 0.08 r.16;
+      		sizemod = 0;
+      		sizemodmod = 0;
+      		speed = 0.05 r-0.1, 0.05 r-0.1, 0.05 r-0.1;
+      		pos = 0, 0.0, 0;
+			useAirLos=0;
+      		}
+		air=1;
+      	water=1;
+      	ground=1;
+      	count=3;
+   	}
+}
+
+[RedLightSmall]//Gives better effect
+{
+	useAirLos=0;
+	usedefaultexplosions=0;
+	[heatcloud]// Fire burst
+   		{
+      		[properties]
+      		{
+      		heat = 25;
+			Texture=RedLight;
+      		maxheat = 25;
+      		heatFalloff = 1.14;
+      		size = 8.0 r1;
+      		sizeGrowth = 0.08 r.16;
+      		sizemod = 0;
+      		sizemodmod = 0;
+      		speed = 0.05 r-0.1, 0.05 r-0.1, 0.05 r-0.1;
+      		pos = 0, 0.0, 0;
+			useAirLos=0;
+      		}
+		air=1;
+      	water=1;
+      	ground=1;
+      	count=5;
+   	}
+}
+
+[RedLight]
+{
+	useAirLos=0;
+	usedefaultexplosions=0;
+	[heatcloud]// Fire burst
+   		{
+      		[properties]
+      		{
+      		heat = 25;
+			Texture=RedLight;
+      		maxheat = 25;
+      		heatFalloff = 1.14;
+      		size = 12.0 r1;
+      		sizeGrowth = 0.08 r.16;
+      		sizemod = 0;
+      		sizemodmod = 0;
+      		speed = 0.05 r-0.1, 0.05 r-0.1, 0.05 r-0.1;
+      		pos = 0, 0.0, 0;
+			useAirLos=0;
+      		}
+		air=1;
+      	water=1;
+      	ground=1;
+      	count=2;
+   	}
+}
+
+[RedLightBig]
+{
+	useAirLos=0;
+	usedefaultexplosions=0;
+	[heatcloud]// Fire burst
+   		{
+      		[properties]
+      		{
+      		heat = 25;
+			Texture=RedLight;
+      		maxheat = 25;
+      		heatFalloff = 1.14;
+      		size = 12.0 r1;
+      		sizeGrowth = 0.08 r.16;
+      		sizemod = 0;
+      		sizemodmod = 0;
+      		speed = 0.05 r-0.1, 0.05 r-0.1, 0.05 r-0.1;
+      		pos = 0, 0.0, 0;
+			useAirLos=0;
+      		}
+		air=1;
+      	water=1;
+      	ground=1;
+      	count=5;
+   	}
+}
+
+[NORMALLight]//Gives better effect
+{
+	useAirLos=0;
+	usedefaultexplosions=0;
+	[heatcloud]// Fire burst
+   		{
+      		[properties]
+      		{
+      		heat = 25;
+			Texture=YellowLight;
+      		maxheat = 25;
+      		heatFalloff = 1.14;
+      		size = 12.0 r1;
+      		sizeGrowth = 0.08 r.16;
+      		sizemod = 0;
+      		sizemodmod = 0;
+      		speed = 0.05 r-0.1, 0.05 r-0.1, 0.05 r-0.1;
+      		pos = 0, 0.0, 0;
+		useAirLos=0;
+      		}
+		air=1;
+      	water=1;
+      	ground=1;
+      	count=2;
+   	}
+}
+
+[Glow]//Gives better effect
+{
+	useAirLos=0;
+	usedefaultexplosions=0;
+	[groundflash]//fake dynamic lighting technique
+	{
+		flashSize = 75;
+		flashAlpha = 0.075;
+		circleGrowth = 0.1;
+		circleAlpha = 0.2;
+		ttl = 50;
+		color = 0.75,1.0,0.2;
+	alwaysVisible=0;
+	}
+}
+
+[GlowSmall]//Gives better effect
+{
+	useAirLos=0;
+	usedefaultexplosions=0;
+	[groundflash]//fake dynamic lighting technique
+	{
+		flashSize = 30;
+		flashAlpha = 0.075;
+		circleGrowth = 0.1;
+		circleAlpha = 0.2;
+		ttl = 50;
+		color = 0.75,1.0,0.2;
+	alwaysVisible=0;
+	}
+}
+
+[GlowWhite]
+{
+	useAirLos=0;
+	usedefaultexplosions=0;
+	[groundflash]//fake dynamic lighting technique
+	{
+		flashSize = 100;
+		flashAlpha = 0.075;
+		circleGrowth = 0.1;
+		circleAlpha = 0.15;
+		ttl = 50;
+		color = 0.40,0.70,1.0;
+	alwaysVisible=0;
+	}
+}
+[GlowBlue]
+{
+	useAirLos=0;
+	usedefaultexplosions=0;
+	[groundflash]//fake dynamic lighting technique
+	{
+		flashSize = 100;
+		flashAlpha = 0.075;
+		circleGrowth = 0.1;
+		circleAlpha = 0.15;
+		ttl = 50;
+		color = 0.25,0.85,0.55;
+	alwaysVisible=0;
+	}
+}
+
+[PORTALGLOW]
+{
+	usedefaultexplosions=0;	
+
+	[GLOW]
+	{
+		class=CSimpleParticleSystem;
+		[properties]
+		{
+			sizeGrowth=0.05;
+			sizeMod=1.0;
+			pos=0, 0, 0;
+			emitVector=dir;
+			gravity= 0.01 r-0.02, 0.01 r-0.02, 0.01 r-0.02;
+         		colorMap=1.0 1.0 1.0 0.1	0.8 1.0 0.8 0.05	0.5 1.0 0.5 0.025	0.1 0.9 0.1 0.01	0 0 0 0.01; 
+			Texture=circularthingy;
+			airdrag=0.1;
+			particleLife=10;
+			particleLifeSpread=0;
+			numParticles=1;
+			particleSpeed=0;
+			particleSpeedSpread=0; //12
+			particleSize=15;
+			particleSizeSpread=3;
+			emitRot=0;
+			emitRotSpread=20;
+			directional=0;
+			alwaysVisible=0;
+		}
+		air=1;
+		water=1;
+		ground=1;
+		count=1;
+	}
+}
+
+[WANDGLOW]
+{
+	usedefaultexplosions=0;	
+
+	[WANDGLOW]
+	{
+		class=CSimpleParticleSystem;
+		[properties]
+		{
+			sizeGrowth=0.05;
+			sizeMod=1.0;
+			pos=0, 0, 0;
+			emitVector=dir;
+			gravity= 0.01 r-0.02, 0.01 r-0.02, 0.01 r-0.02;
+         		colorMap=1.0 1.0 1.0 0.1	0.8 1.0 0.8 0.05	0.5 1.0 0.5 0.025	0.1 0.9 0.1 0.01	0 0 0 0.01; 
+			Texture=circularthingy;
+			airdrag=0.1;
+			particleLife=7;
+			particleLifeSpread=0;
+			numParticles=1;
+			particleSpeed=0;
+			particleSpeedSpread=0; //12
+			particleSize=8;
+			particleSizeSpread=3;
+			emitRot=0;
+			emitRotSpread=20;
+			directional=0;
+			alwaysVisible=0;
+		}
+		air=1;
+		water=1;
+		ground=1;
+		count=1;
+	}
+}

@@ -1,0 +1,356 @@
+/*
+ * Slate theme. Every Slate document links this file, so colors, type sizes and
+ * shared states are changed here and nowhere else. The look is dark,
+ * translucent glass with soft corners and no faction styling; the accent is a
+ * cool grey-blue that a colour tint (settings) can lean elsewhere.
+ *
+ * The player's settings go on top of this file at run time: slate_api_core.lua
+ * generates a few rules (panel colour and opacity, tint) that every document
+ * appends to its stylesheet (see ThemeRules there), so a value that the
+ * settings can change must stay in a class listed in that function.
+ *
+ * RmlUi notes: there are no default styles (hence the display rules below),
+ * there are no variables (the palette is repeated as literal values), rgba()
+ * alpha runs 0-255, and borders are "width color" with no style word.
+ * Sizes are in dp: one dp is one pixel at 1920x1080 and scales from there.
+ *
+ * Type: both Saira SemiCondensed files register under the one family name
+ * "Saira SemiCondensed" (SemiBold as weight 600, Bold as 700). "normal" picks
+ * the SemiBold face, "bold" the Bold face. A family name that does not exist
+ * draws no text at all, so do not invent one.
+ *
+ * Images: the engine draws RmlUi with premultiplied alpha but loads image
+ * files as they are. An image with transparency must therefore be saved
+ * premultiplied (color already multiplied by alpha), or its transparent
+ * parts show as a solid box. Premultiplied copies live in luaui/slate/images/.
+ *
+ * Palette (matches configs/slate_theme.lua)
+ *   panel glass     rgba(13,14,16, opacity)    text        #eceef0
+ *   raised          rgba(255,255,255,18)       heading     #f4f5f7
+ *   hover           rgba(255,255,255,41)       muted       #b5bac1
+ *   border          rgba(255,255,255,36)       dimmer      #8a9099
+ *   firm border     rgba(255,255,255,60)
+ *   accent          #a9bdd0      dim accent  #8ea2b5    bright accent #c3d3e2
+ *   good #9be7a8    warn #f2c230    bad #ffb3a6
+ *   danger (button) #a8332b
+ *
+ * Shape: panels have 8dp corners, buttons and tiles 5dp.
+ */
+
+body {
+	font-family: Saira SemiCondensed;
+	font-size: 14dp;
+	font-weight: normal;
+	font-style: normal;
+	color: #eceef0;
+	width: 100%;
+	height: 100%;
+	/* the HUD lets clicks through unless a panel asks for them */
+	pointer-events: none;
+}
+
+div {
+	display: block;
+}
+
+/* ---- panels ------------------------------------------------------------ */
+
+.panel {
+	background-color: rgba(13, 14, 16, 153);
+	border: 1dp rgba(255, 255, 255, 36);
+	border-radius: 8dp;
+}
+
+/* a window: a panel with a title bar that holds a lot of text; never more
+   see-through than this whatever the opacity setting */
+.panel.window {
+	background-color: rgba(13, 14, 16, 224);
+}
+
+/* a popup: a list or prompt drawn over other content (a dropdown's choices,
+   the keybind picker); solid enough to read whatever is behind it */
+.popup {
+	background-color: rgba(13, 14, 16, 240);
+}
+
+/* a panel inside a panel */
+.raised {
+	background-color: rgba(255, 255, 255, 18);
+	border: 1dp rgba(255, 255, 255, 33);
+	border-radius: 5dp;
+}
+
+/* corner brackets are a Splinter Faction thing; any left in markup draw nothing */
+.bracket {
+	display: none;
+}
+
+/* a section rule */
+.accent-line {
+	height: 1dp;
+	background-color: rgba(169, 189, 208, 120);
+}
+
+.divider {
+	width: 1dp;
+	background-color: rgba(255, 255, 255, 30);
+}
+
+/* ---- type -------------------------------------------------------------- */
+
+/* small capitals above a figure */
+.label {
+	font-size: 11dp;
+	color: #b5bac1;
+	letter-spacing: 1.5dp;
+	text-transform: uppercase;
+}
+
+/* the figure itself */
+.value {
+	font-family: Saira SemiCondensed;
+	font-weight: bold;
+	font-size: 21dp;
+	color: #f4f5f7;
+}
+
+.sub {
+	font-size: 12dp;
+	color: #b5bac1;
+}
+
+.strong {
+	font-family: Saira SemiCondensed;
+	font-weight: bold;
+	color: #f4f5f7;
+}
+
+/* a heading: small capitals in the accent colour */
+.title {
+	font-family: Saira SemiCondensed;
+	font-weight: bold;
+	font-size: 14dp;
+	letter-spacing: 2dp;
+	text-transform: uppercase;
+	color: #a9bdd0;
+}
+
+.accent {
+	color: #a9bdd0;
+}
+
+/* ---- status colors: reserved meanings, never decoration ------------------ */
+
+.good {
+	color: #9be7a8;
+}
+
+.warn {
+	color: #f2c230;
+}
+
+.bad {
+	color: #ffb3a6;
+}
+
+.signal {
+	color: #a9bdd0;
+}
+
+/* ---- windows: a panel with a title, a close button and tabs ----------------- */
+
+.window-head {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	height: 30dp;
+	padding-bottom: 8dp;
+	border-bottom: 1dp rgba(255, 255, 255, 36);
+}
+
+.close {
+	width: 26dp;
+	height: 22dp;
+	text-align: center;
+	font-size: 13dp;
+	line-height: 21dp;
+	color: #b5bac1;
+	background-color: rgba(255, 255, 255, 18);
+	border: 1dp rgba(255, 255, 255, 33);
+	border-radius: 5dp;
+	pointer-events: auto;
+}
+
+.close:hover {
+	color: #ffffff;
+	background-color: #a8332b;
+	border-color: #ffb3a6;
+}
+
+.tab {
+	margin-right: 6dp;
+	padding: 3dp 14dp 4dp 14dp;
+	font-size: 12dp;
+	letter-spacing: 1.5dp;
+	text-transform: uppercase;
+	color: #b5bac1;
+	border: 1dp rgba(255, 255, 255, 33);
+	border-bottom: 2dp rgba(255, 255, 255, 33);
+	border-radius: 5dp 5dp 0dp 0dp;
+	pointer-events: auto;
+}
+
+.tab:hover {
+	color: #f4f5f7;
+	background-color: rgba(255, 255, 255, 41);
+}
+
+.tab.active {
+	color: #f4f5f7;
+	background-color: rgba(255, 255, 255, 18);
+	border-bottom: 2dp #a9bdd0;
+}
+
+/* ---- progress bars -------------------------------------------------------- */
+
+.bar {
+	position: relative;
+	height: 6dp;
+	background-color: rgba(255, 255, 255, 26);
+	border-radius: 3dp;
+}
+
+.bar-fill {
+	height: 6dp;
+	width: 0%;
+	background-color: #a9bdd0;
+	border-radius: 3dp;
+}
+
+/* ---- buttons ---------------------------------------------------------------- */
+
+.button {
+	display: block;
+	text-align: center;
+	font-family: Saira SemiCondensed;
+	font-weight: bold;
+	font-size: 13dp;
+	letter-spacing: 1.5dp;
+	text-transform: uppercase;
+	color: #f4f5f7;
+	background-color: rgba(255, 255, 255, 18);
+	border: 1dp rgba(255, 255, 255, 33);
+	border-radius: 5dp;
+	padding: 7dp 14dp 8dp 14dp;
+	pointer-events: auto;
+}
+
+.button:hover {
+	background-color: rgba(255, 255, 255, 41);
+	border-color: rgba(255, 255, 255, 60);
+}
+
+.button:active {
+	background-color: rgba(255, 255, 255, 51);
+	border-color: #a9bdd0;
+}
+
+/* the main action of a window: picked out in the accent */
+.button.primary {
+	color: #0d0e10;
+	background-color: #a9bdd0;
+	border-color: #a9bdd0;
+}
+
+.button.primary:hover {
+	background-color: #c3d3e2;
+	border-color: #c3d3e2;
+}
+
+.button.primary:active {
+	background-color: #8ea2b5;
+	border-color: #8ea2b5;
+}
+
+/* a secondary action next to a main one */
+.button.quiet {
+	color: #f4f5f7;
+	background-color: rgba(0, 0, 0, 0);
+	border-color: rgba(255, 255, 255, 60);
+}
+
+.button.quiet:hover {
+	background-color: rgba(255, 255, 255, 18);
+	border-color: #a9bdd0;
+}
+
+/* something that cannot be undone */
+.button.danger {
+	color: #ffffff;
+	background-color: #a8332b;
+	border-color: #ffb3a6;
+}
+
+/* cannot be used right now; the widget also ignores clicks on it */
+.button.disabled {
+	color: #8a9099;
+	background-color: rgba(0, 0, 0, 0);
+	border-color: rgba(255, 255, 255, 36);
+}
+
+/* a tile: the frame around a build card, order button or list row */
+.tile {
+	background-color: rgba(255, 255, 255, 18);
+	border: 1dp rgba(255, 255, 255, 33);
+	border-radius: 5dp;
+}
+
+.tile:hover {
+	background-color: rgba(255, 255, 255, 41);
+}
+
+.tile.active {
+	background-color: rgba(255, 255, 255, 51);
+	border-color: #a9bdd0;
+}
+
+/* ---- scrollbars -------------------------------------------------------------
+   RmlUi gives a scrollbar no size of its own; without these rules it takes
+   the whole width of a scrolling element and squeezes the content to nothing. */
+
+scrollbarvertical {
+	width: 6dp;
+	margin-left: 4dp;
+}
+
+scrollbarvertical slidertrack {
+	background-color: rgba(255, 255, 255, 12);
+	border-radius: 3dp;
+}
+
+scrollbarvertical sliderbar {
+	width: 6dp;
+	min-height: 24dp;
+	background-color: rgba(255, 255, 255, 60);
+	border-radius: 3dp;
+}
+
+scrollbarvertical sliderbar:hover {
+	background-color: #a9bdd0;
+}
+
+scrollbarvertical sliderarrowdec,
+scrollbarvertical sliderarrowinc {
+	width: 0dp;
+	height: 0dp;
+}
+
+scrollbarhorizontal {
+	height: 0dp;
+}
+
+/* ---- hidden: keep this the last rule, so it wins over any display above ---- */
+
+.hidden {
+	display: none;
+}

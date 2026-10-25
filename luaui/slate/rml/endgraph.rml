@@ -1,0 +1,314 @@
+<rml>
+<head>
+	<title>Slate end graph</title>
+	<link type="text/rcss" href="theme.rcss"/>
+	<style>
+		/* The end-of-game statistics window. Its position is set from Lua
+		   (hud.PlacePanel); its size here must match PANEL_WIDTH and
+		   PANEL_HEIGHT in slate_endgraph.lua.
+
+		   As in econgraph.rml, the plot (#plot) is drawn with gl UNDER RmlUi,
+		   so the window's own glass is turned off (an id rule beats
+		   .panel.window, including the theme rules appended at run time) and
+		   every part except #plot carries the glass instead (class "panel
+		   window fill"), tiling the window exactly. Use padding, not margins,
+		   between parts. The gl side paints the hole in the same themed
+		   colour first (HoleColor in the widget). */
+		#endgraph {
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			width: 1100dp;
+			height: 660dp;
+			box-sizing: border-box;
+			background-color: rgba(0, 0, 0, 0);
+			pointer-events: auto;
+		}
+		/* the parts keep only the dividers between them (set per id below) */
+		.fill {
+			border-width: 0dp;
+			border-radius: 0dp;
+		}
+		.grow {
+			flex: 1;
+		}
+		#head {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			height: 50dp;
+			box-sizing: border-box;
+			padding: 0dp 14dp 0dp 16dp;
+			border-bottom-width: 1dp;
+			border-radius: 7dp 7dp 0dp 0dp;
+		}
+		#subtitle {
+			margin-left: 14dp;
+			font-size: 13dp;
+			color: #b5bac1;
+		}
+		#total {
+			margin-right: 14dp;
+			font-size: 12dp;
+			color: #b5bac1;
+		}
+		#total-value {
+			color: #f4f5f7;
+		}
+		/* 660 less the borders and the head */
+		#main {
+			display: flex;
+			flex-direction: row;
+			height: 608dp;
+		}
+
+		/* ---- left: which figure, and whose lines -------------------------------- */
+		#side {
+			display: flex;
+			flex-direction: column;
+			width: 200dp;
+			box-sizing: border-box;
+			padding: 10dp 12dp 10dp 16dp;
+			border-right-width: 1dp;
+			border-radius: 0dp 0dp 0dp 7dp;
+		}
+		.pick {
+			height: 26dp;
+			box-sizing: border-box;
+			margin-bottom: 4dp;
+			padding-left: 9dp;
+			font-size: 13dp;
+			line-height: 24dp;
+			color: #b5bac1;
+			background-color: rgba(255,255,255,10);
+			border: 1dp rgba(255,255,255,36);
+			border-left: 2dp rgba(255,255,255,36);
+			border-radius: 5dp;
+		}
+		.pick:hover {
+			color: #f4f5f7;
+			background-color: rgba(255,255,255,18);
+		}
+		.pick.active {
+			color: #f4f5f7;
+			background-color: rgba(255,255,255,18);
+			border-left: 2dp #a9bdd0;
+		}
+		#delta {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			margin-top: 6dp;
+		}
+		#delta-box {
+			width: 12dp;
+			height: 12dp;
+			margin-right: 8dp;
+			box-sizing: border-box;
+			background-color: #0d0e10;
+			border: 1dp rgba(255,255,255,60);
+			border-radius: 3dp;
+		}
+		#delta.active #delta-box {
+			background-color: #a9bdd0;
+			border-color: #a9bdd0;
+		}
+		#delta.active {
+			border-left: 2dp #a9bdd0;
+		}
+		#teams-head {
+			height: 16dp;
+			margin-top: 12dp;
+			font-size: 10dp;
+		}
+		#legend {
+			flex: 1;
+			overflow-y: auto;
+			overflow-x: hidden;
+		}
+		/* one team; a click hides or shows its line */
+		.lrow {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			height: 22dp;
+			padding: 0dp 4dp;
+			font-size: 13dp;
+			border-radius: 5dp;
+		}
+		.lrow:hover {
+			background-color: rgba(255,255,255,18);
+		}
+		.sw {
+			width: 12dp;
+			height: 12dp;
+			margin-right: 7dp;
+			box-sizing: border-box;
+			border-radius: 2dp;
+		}
+		.lname {
+			flex: 1;
+			white-space: nowrap;
+			overflow: hidden;
+		}
+		.lrow.off .sw {
+			opacity: 0.35;
+		}
+		.lrow.off .lname {
+			color: #8a9099;
+		}
+
+		/* ---- right: the plot and its scales --------------------------------------- */
+		#right {
+			flex: 1;
+			display: flex;
+			flex-direction: column;
+		}
+		#right-top {
+			height: 10dp;
+		}
+		#plotrow {
+			display: flex;
+			flex-direction: row;
+			height: 576dp;
+		}
+		#axis {
+			position: relative;
+			width: 50dp;
+		}
+		/* gl draws here */
+		#plot {
+			position: relative;
+			flex: 1;
+		}
+		#values {
+			position: relative;
+			width: 56dp;
+		}
+		.tick {
+			position: absolute;
+			right: 6dp;
+			height: 14dp;
+			margin-bottom: -7dp;
+			font-size: 11dp;
+			line-height: 14dp;
+			color: #b5bac1;
+		}
+		#ax0 { bottom: 0%; margin-bottom: 0dp; }
+		#ax1 { bottom: 20%; }
+		#ax2 { bottom: 40%; }
+		#ax3 { bottom: 60%; }
+		#ax4 { bottom: 80%; }
+		#ax5 { bottom: 100%; margin-bottom: -14dp; }
+		/* each line's last value, right of where the line ends */
+		.end {
+			position: absolute;
+			left: 6dp;
+			height: 14dp;
+			margin-bottom: -7dp;
+			font-weight: bold;
+			font-size: 12dp;
+			line-height: 14dp;
+		}
+		#nodata {
+			position: absolute;
+			left: 0dp;
+			top: 46%;
+			width: 100%;
+			text-align: center;
+			font-size: 15dp;
+			color: #b5bac1;
+		}
+		#times {
+			height: 22dp;
+			box-sizing: border-box;
+			padding: 0dp 56dp 0dp 50dp;
+			border-radius: 0dp 0dp 7dp 0dp;
+		}
+		#times-inner {
+			position: relative;
+			height: 22dp;
+		}
+		.time {
+			position: absolute;
+			top: 4dp;
+			width: 60dp;
+			margin-left: -30dp;
+			text-align: center;
+			font-size: 11dp;
+			color: #b5bac1;
+		}
+		#tm0 { left: 0%; margin-left: 0dp; text-align: left; }
+		#tm1 { left: 20%; }
+		#tm2 { left: 40%; }
+		#tm3 { left: 60%; }
+		#tm4 { left: 80%; }
+		#tm5 { left: 100%; margin-left: -60dp; text-align: right; }
+
+		/* ---- what is under the mouse in the plot ----------------------------------- */
+		#tip {
+			position: absolute;
+			padding: 6dp 9dp;
+			font-size: 12dp;
+			line-height: 16dp;
+			white-space: nowrap;
+			pointer-events: none;
+			background-color: rgba(5, 7, 10, 240);
+			border: 1dp rgba(255,255,255,60);
+			border-radius: 5dp;
+		}
+		#tip .d { color: #b5bac1; }
+		#tip .n { color: #f4f5f7; }
+	</style>
+</head>
+<body>
+	<div id="endgraph" class="panel window hidden">
+		<div id="head" class="panel window fill">
+			<div id="title" class="title"/>
+			<div id="subtitle"/>
+			<div class="grow"/>
+			<div id="total">Total time <span id="total-value"/></div>
+			<div id="close" class="close">X</div>
+		</div>
+		<div id="main">
+			<div id="side" class="panel window fill">
+				<div id="stats"/>
+				<div id="delta" class="pick">
+					<div id="delta-box"/>
+					<div>Delta (rate)</div>
+				</div>
+				<div id="teams-head" class="label">Teams</div>
+				<div id="legend"/>
+			</div>
+			<div id="right">
+				<div id="right-top" class="panel window fill"/>
+				<div id="plotrow">
+					<div id="axis" class="panel window fill">
+						<div id="ax0" class="tick"/>
+						<div id="ax1" class="tick"/>
+						<div id="ax2" class="tick"/>
+						<div id="ax3" class="tick"/>
+						<div id="ax4" class="tick"/>
+						<div id="ax5" class="tick"/>
+					</div>
+					<div id="plot">
+						<div id="nodata">Collecting stats data...</div>
+					</div>
+					<div id="values" class="panel window fill"/>
+				</div>
+				<div id="times" class="panel window fill">
+					<div id="times-inner">
+						<div id="tm0" class="time"/>
+						<div id="tm1" class="time"/>
+						<div id="tm2" class="time"/>
+						<div id="tm3" class="time"/>
+						<div id="tm4" class="time"/>
+						<div id="tm5" class="time"/>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="tip" class="hidden"/>
+	</div>
+</body>
+</rml>

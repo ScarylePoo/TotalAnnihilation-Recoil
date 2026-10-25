@@ -1,0 +1,132 @@
+[UNITINFO]
+{
+	//************************************************************
+	//  Unit Description
+	//********************
+	side=Core;
+	name=Nibiru;
+	description=Close-Range Combat Crawler;
+
+	//************************************************************
+	//  Categories
+	//**************
+	Category=CORE KBOT WEAPON NOTAIR NOTSUB;
+	tedclass=KBOT;
+
+	//************************************************************
+	//  External Specs
+	//******************
+	unitname=core_nibiru;
+	unitnumber=269;
+	objectname=core_nibiru.3do;
+	corpse=core_nibiru_dead;
+	buildpic=core_nibiru.png;
+	soundcategory=COR_KBOT;
+
+	//************************************************************
+	//  Health/Cost/Size
+	//********************
+	maxdamage=90000;
+	healtime=30;
+	buildcostmetal=18865;
+	buildcostenergy=65734;
+	buildtime=200000;
+	footprintx=4;
+	footprintz=4;
+
+	//************************************************************
+	//  Resources
+	//*************
+	metalstorage=0;
+	energymake=5;
+	energyuse=5;
+	energystorage=4000;
+
+	//************************************************************
+	//  Building
+	//************
+
+	//************************************************************
+	//  Constructor
+	//***************
+	builder=0;
+	workertime=0;
+
+	//************************************************************
+	//  Abilities
+	//*************
+	canattack=1;
+	canguard=1;
+	canmove=1;
+	canpatrol=1;
+	canstop=1;
+	upright=0;
+
+	//************************************************************
+	//  Movement
+	//************
+	movementclass=KBOTSf3;
+	turnrate=300;
+	acceleration=0.333;
+	brakerate=0.5;
+	maxvelocity=0.666;
+	maxslope=14;
+	maxwaterdepth=12;
+
+	//************************************************************
+	//  Sight/Radar/Sonar
+	//*********************
+	sightdistance=480;
+	radardistance=0;
+
+	//************************************************************
+	//  Weapons
+	//***********
+	weapon1=NIBIRU_LASER;
+	nochasecategory=VTOL;
+	wpri_badtargetcategory=VTOL;
+	weapon2=CORE_DOOMSNIB;
+	explodeas=ATOMIC_BLAST;
+	selfdestructas=ATOMIC_BLAST;
+
+	//************************************************************
+	//  Orders
+	//**********
+	noautofire=0;
+	firestandorders=1;
+	mobilestandorders=1;
+	standingfireorder=2;
+	standingmoveorder=1;
+	defaultmissiontype=Standby;
+
+	//************************************************************
+	//  Miscellaneous
+	//*****************
+	bmcode=1;
+	cantbetransported=0;
+	designation=KG-EHL;
+	downloadable=1;
+	maneuverleashlength=640;
+	shootme=1;
+	smoothanim=1;
+	steeringmode=2;
+	threed=1;
+	version=1.2;
+	zbuffer=1;
+	collisionVolumeType = box;
+	collisionVolumeScales =70 40 70;
+	collisionVolumeOffsets = 0 0 0;
+	collisionVolumeTest = 1;
+	pieceTrailCEGTag=Debree;//bleh
+	pieceTrailCEGRange = 4;
+
+	//************************************************************
+	//  To be removed
+	//*****************
+
+	[SFXTypes]
+	{
+	explosiongenerator0=custom:snipeflare;
+	explosiongenerator1=custom:unitfire;
+	}
+}
