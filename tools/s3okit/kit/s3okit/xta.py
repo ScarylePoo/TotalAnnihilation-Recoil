@@ -239,6 +239,29 @@ def _set_lua_key(text, key, value, block=None):
     return text[:lo] + seg + text[hi:]
 
 
+REF_DIR = os.path.join('tools', 's3okit', 'ref')
+
+
+def preserve_original(fname, repo=REPO):
+    """Before the kit overwrites objects3d/<fname> (third-party S3O remodels share the canonical name), keep the
+    original in tools/s3okit/ref/: it is the reference model whose pieces the script drives, and later rebuilds
+    must read it, not our own output. Only the first, non-kit version is kept."""
+    dst = os.path.join(repo, 'objects3d', fname)
+    keep = os.path.join(repo, REF_DIR, fname)
+    if os.path.exists(dst) and not os.path.exists(keep):
+        os.makedirs(os.path.dirname(keep), exist_ok=True)
+        shutil.copy(dst, keep)
+        return keep
+
+
+def ref_model(model_rel, repo=REPO):
+    """the reference for a unit's current model: the preserved original if the kit has replaced it."""
+    if not model_rel:
+        return None
+    keep = os.path.join(REF_DIR, os.path.basename(model_rel))
+    return keep if os.path.exists(os.path.join(repo, keep)) else model_rel
+
+
 def install_unit(unitname, workdir, repo=REPO):
     """copy model + textures for the unit and its corpses into the repo and point the defs at them.
     Explicit .s3o extensions: without one the engine picks whichever registered format it finds first."""
@@ -249,6 +272,7 @@ def install_unit(unitname, workdir, repo=REPO):
     for f in sorted(os.listdir(out)):
         src = os.path.join(out, f)
         if f.endswith('.s3o'):
+            preserve_original(f, repo)
             shutil.copy(src, os.path.join(repo, 'objects3d', f)); done.append('objects3d/' + f)
         elif re.search(r'_[12]\.dds$', f):          # DDS only; the PNGs are compose intermediates
             shutil.copy(src, os.path.join(repo, 'unittextures', f)); done.append('unittextures/' + f)

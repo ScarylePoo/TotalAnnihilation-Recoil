@@ -102,7 +102,7 @@ def make(size, seed=1):
 
     me = bpy.data.meshes.new('base'); bm.to_mesh(me); bm.free()
     for m in MATS:
-        me.materials.append(bpy.data.materials[m])
+        me.materials.append(geom.material(m))
     ob = bpy.data.objects.new('base', me)
     bpy.context.scene.collection.objects.link(ob)
     return ob
