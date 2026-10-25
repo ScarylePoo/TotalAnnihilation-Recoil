@@ -85,3 +85,33 @@ def summary(path):
                     and 0 <= ops[0] < len(P):
                 use[P[ops[0]]].add('query/aimfrom')
     return P, {k: sorted(v) for k, v in use.items()}
+
+
+def dump(path):
+    """Readable listing (for porting a COB to a Lua unit script): one line per instruction, piece names and axes
+    resolved, constants shown as integers and as COB linear (/65536 elmo) or angular (*360/65536 deg) values."""
+    c = read(path)
+    P = c['pieces']
+    out = [f'-- {path}', f'-- pieces: {", ".join(P)}']
+    for name, ins in c['scripts'].items():
+        out.append(f'\n{name}:')
+        pc = 0
+        for nm, ops in ins:
+            if nm in PIECE_OPS or nm in ('wait-turn', 'wait-move'):
+                arg = P[ops[0]] if ops and 0 <= ops[0] < len(P) else ops
+                ax = f' {AXES[ops[1]]}-axis' if len(ops) > 1 and 0 <= ops[1] < 3 else ''
+                out.append(f'  {pc:4d} {nm} {arg}{ax}')
+            elif nm == 'pushc':
+                v = ops[0]
+                out.append(f'  {pc:4d} pushc {v}  (lin {v / 65536:.3f}, ang {v * 360 / 65536:.2f}deg)')
+            elif nm in ('start', 'call', 'lua-call'):
+                out.append(f'  {pc:4d} {nm} {list(c["scripts"])[ops[0]] if 0 <= ops[0] < len(c["scripts"]) else ops[0]} args={ops[1]}')
+            else:
+                out.append(f'  {pc:4d} {nm} {" ".join(map(str, ops))}'.rstrip())
+            pc += 1 + len(ops)
+    return '\n'.join(out)
+
+
+if __name__ == '__main__':
+    import sys
+    print(dump(sys.argv[1]))
