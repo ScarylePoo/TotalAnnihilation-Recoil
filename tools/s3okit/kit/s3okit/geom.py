@@ -168,9 +168,10 @@ class Unit:
         l = self.piece(src + 'leg'); B = l.at
         an = Vector(self.T[src + 'foot']['off'])        # ankle, relative to the knee
         l.cyl(B(-1.1 * w, 0, 0), B(1.1 * w, 0, 0), 0.1 * H, 10, joint, bevel=0.02 * H)
-        l.hull([B(x, y, z) for x in (-0.75 * w, 0.75 * w) for (y, z) in
-                [(0.07 * H, -0.07 * H), (-0.06 * H, 0.08 * H), (an.y + 0.07 * H, an.z - 0.05 * H), (an.y - 0.03 * H, an.z + 0.06 * H)]],
-               shin, bevel=0.02 * H)
+        # shin depth ~0.16 H at the knee: the first walker (Peewee) showed 0.1 H reads as a thin strut from the side
+        l.hull([B(x, y, z) for x in (-0.85 * w, 0.85 * w) for (y, z) in
+                [(0.11 * H, -0.11 * H), (-0.09 * H, 0.12 * H), (an.y + 0.1 * H, an.z - 0.08 * H), (an.y - 0.05 * H, an.z + 0.09 * H)]],
+               shin, bevel=0.025 * H)
         f = self.piece(src + 'foot'); C = f.at
         g = -self.T[src + 'foot']['gpos'][1]            # ground, relative to the ankle
         f.cyl(C(-0.9 * w, 0, 0), C(0.9 * w, 0, 0), 0.07 * H, 8, joint)

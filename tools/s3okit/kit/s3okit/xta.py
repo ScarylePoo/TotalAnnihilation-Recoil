@@ -156,8 +156,11 @@ def model_path(name, repo=REPO, prefer=('.s3o', '.3do')):
 
 
 def script_path(name, repo=REPO):
-    stem = os.path.splitext(os.path.basename(name))[0]
-    f = _find_ci(os.path.join(repo, 'scripts'), [stem + '.cob', stem + '.lua', stem + '_lus.lua', stem + '.bos'])
+    """the def's `script` (with its extension, e.g. a walker's new .lua) first, then <stem>.cob/.lua/..."""
+    base = os.path.basename(name)
+    stem, ext = os.path.splitext(base)
+    cands = ([base] if ext else []) + [stem + '.cob', stem + '.lua', stem + '_lus.lua', stem + '.bos']
+    f = _find_ci(os.path.join(repo, 'scripts'), cands)
     return os.path.join('scripts', f) if f else None
 
 
@@ -215,7 +218,7 @@ def lus_summary(path):
     for fn in re.finditer(r'function\s+script\.(Query\w*|AimFrom\w*)\s*\([^)]*\)(.*?)\bend\b', t, re.S):
         for pc in re.findall(r'return\s+(\w+)', fn.group(2)):
             use.setdefault(pc.lower(), set()).add('query/aimfrom')
-    return pieces, {k: sorted(v) for k, v in use.items() if k in use}
+    return pieces, {k: sorted(v) for k, v in use.items() if k in pieces}   # loop variables are not pieces
 
 
 # ------------------------------------------------------------------ install into the repo
