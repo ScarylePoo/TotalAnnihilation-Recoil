@@ -1,13 +1,13 @@
-return {
-  name='Total Annihilation: Recoil',
-  description='A faithful Total Annihilation Remake using the Recoil Engine',
-  URL='https://github.com/ScarylePoo/TotalAnnihilation-Recoil/',
-  shortname='TAR',
-  version='$VERSION',
-  mutator='',
-  game='Total Annihilation: Recoil',
-  shortGame='TAR',
-  modtype=1,
-  mt=1,
-}
+return
+{
+  name = "Total Annihilation: Recoil",
+  shortName = "TAR",
 
+  game = "Total Annihilation: Recoil",
+  shortGame = "TAR",
+  mutator = "development",
+  version = "$VERSION",
+
+  url = "https://github.com/ScarylePoo/TotalAnnihilation-Recoil",
+  modtype = "1",
+}

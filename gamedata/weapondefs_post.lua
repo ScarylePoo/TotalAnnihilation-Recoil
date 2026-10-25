@@ -3,7 +3,6 @@
 --------------------------------------------------------------------------------
 local pairs = pairs
 local math = math
-local Echo = Spring.Echo
 
 local function isbool(x)   return (type(x) == 'boolean') end
 local function istable(x)  return (type(x) == 'table')   end
@@ -61,17 +60,6 @@ local function hs2rgb(h, s)
 end
 
 local function ProcessWeaponDef(wdName,wd)
-  -- Change sounds/sounds.wav => sounds/battle/sounds.wav:
-	if wd.soundhitdry and #wd.soundhitdry > 0 then
-		wd.soundhitdry = "battle/" .. wd.soundhitdry
-	end
-	
-	if wd.soundstart and #wd.soundstart > 0 then
-		wd.soundstart = "battle/" .. wd.soundstart
-	end
-	--Echo("WD:",wdName,wd.soundstart,wd.soundhitdry)
-
-	
   -- weapon reloadTime and stockpileTime were seperated in 77b1
   if (tobool(wd.stockpile) and (wd.stockpiletime==nil)) then
     wd.stockpiletime = wd.reloadtime
@@ -144,54 +132,11 @@ for wdName, wd in pairs(WeaponDefs) do
   if (isstring(wdName) and istable(wd)) then
     ProcessWeaponDef(wdName, wd)
   end
-end	
+end
 
-local ObsoleteTags = {
-	"aimrate",
-    "ballistic",
-    "beamlaser",
-    "beamweapon",
-    "color",
-    "color2",
-    "dropped",
-    "endsmoke",
-    "explosionart",
-    "explosiongaf",
-    "guidance",
-    "holdtime",
-    "lavaexplosionart",
-    "lavaexplosiongaf",
-    "lineofsight",
-    "manualbombsettings",
-    "meteor",
-    "minbarrelangle",
-    "noautorange",
-    "noradar",
-    "pitchtolerance",
-    "propeller",
-    "randomdecay",
-    "rendertype",
-    "selfprop",
-    "shakeduration",
-    "shakemagnitude",
-    "shieldrepulsor",
-    "smokedelay",
-    "soundwater",
-    "startfire",
-    "startsmoke",
-    "targetmoveerro",
-    "toairweapon",
-    "twophase",
-    "unitsonly",
-    "useairlos",
-    "vlaunch",
-    "w",
-    "waterexplosionart",
-    "waterexplosiongaf",
-}
 
 --------------------------------------------------------------------------------
--- XTA Weapon Definitions Post-processing
+-- BOTA Weapon Definitions Post-processing
 --------------------------------------------------------------------------------
 local explosiveWeapons = {
 	MissileLauncher = true,
@@ -212,28 +157,15 @@ local inertialessWeapons = {
 local modOptions = Spring.GetModOptions()
 
 -- Adjustment of terrain damage, area of effect, kinetic force of weapons and cannon trajectory height
--- also add water and lava sounds if not present
-
 local customGravity = 0.25
 local maxRangeAngle = 30  --in degrees >0 and <=45
 if modOptions and modOptions.gravity then customGravity=modOptions.gravity end
 local velGravFactor = customGravity * 900 / math.sin(math.rad(2 * maxRangeAngle))
 local interceptorStyle = 2
 if modOptions and modOptions.nuke and not tobool(modOptions.nuke) then interceptorStyle = 1 end
- -- local waterColour = Game.waterBaseColor
--- Echo("Water color:",waterColour)
---local isLava = (waterColour and waterColour[1] > waterColour[3]) or Game.waterDamage > 0 
-local warnings = 0
 
 for id, weaponDef in pairs(WeaponDefs) do
-	for _, tag in pairs(ObsoleteTags) do
-		weaponDef[tag] = nil
-		warnings = warnings + 1
-		if warnings < 5 then
-			Echo("Removing obsolete weapondef tag: " .. tag .. " (in '" .. id .. "')")
-		end
-	end
-		
+	
 	weaponDef.soundhitwet = ""
 	if weaponDef.range and tonumber(weaponDef.range) < 550 or 
 		weaponDef.reloadtime and tonumber(weaponDef.reloadtime)<1.5 or
@@ -258,21 +190,21 @@ for id, weaponDef in pairs(WeaponDefs) do
 		else
 			local AoE = tonumber(weaponDef.areaofeffect) or 0
 			if AoE<50 then
-				weaponDef.soundhitwet = "battle/splshbig" -- isLava and "battle/magma1" or 
+				weaponDef.soundhitwet = "splshbig"
 			elseif AoE<88 then
-				weaponDef.soundhitwet = "battle/splssml" -- isLava and "battle/magma2" or 
+				weaponDef.soundhitwet = "splssml"
 			elseif AoE<145 then
-				weaponDef.soundhitwet = "battle/splsmed" -- isLava and "battle/magma3" or 
+				weaponDef.soundhitwet = "splsmed"
 			elseif AoE>450 then
-				weaponDef.soundhitwet = weaponDef.soundhitdry -- isLava and "battle/lavaeruption2" or 
+				weaponDef.soundhitwet = weaponDef.soundhitdry
 			else
-				weaponDef.soundhitwet = "battle/splslrg" -- isLava and "battle/magma4" or 
+				weaponDef.soundhitwet = "splslrg"
 			end
 		end
 	elseif inertialessWeapons[weaponDef.weapontype] then
 		weaponDef.impulseboost = 0
 		weaponDef.impulsefactor = 0
-		weaponDef.soundhitwet = "battle/sizzle"		
+		weaponDef.soundhitwet = "sizzle"		
 		if weaponDef.weapontype == "LaserCannon" or weaponDef.weapontype == "EmgCannon" then
 			weaponDef.cegtag = ""	-- we use the projectile lights widget now
 		elseif weaponDef.weapontype == "BeamLaser" then
@@ -300,111 +232,6 @@ for id, weaponDef in pairs(WeaponDefs) do
 	end
 end
 
-if warnings > 5 then
-	Echo("Removed " .. warnings - 5 .. " additional obsolete weapondef tags")
-end
-
---- Localised sounds, put sounds in customparams and access them from snd_local gadget.
---- NOTE:
----    dguns are excluded from this since the gadget breaks Spring's ability to
----    limit playback concurrency which we want for the dgun's explosion sounds
----    EDIT: Jan, 25: Should be fixed now, so dguns are again included
-if modOptions and modOptions.sounds and modOptions.sounds ~= 'global' then
-	Spring.Echo("Weapons_post: Local sound option detected, moving sounds to customparams")
-
-	for id, weaponDef in pairs(WeaponDefs) do
-	--if (weaponDef.name == nil or weaponDef.name:find("Disintegrator") == nil) then
-		--Spring.Echo("Old weaponsdef:",id,WeaponDefs[id].soundhitwet)
-		if weaponDef.soundhitwet then
-			if not weaponDef.customparams then
-				weaponDef.customparams = {}
-			end
-			weaponDef.customparams.soundhitwet = weaponDef.soundhitwet -- for sound localisation gadget
-		end
-	
-		if weaponDef.soundhitdry then
-			if not weaponDef.customparams then
-				weaponDef.customparams = {}
-			end
-			weaponDef.customparams.soundhitdry = weaponDef.soundhitdry -- for sound localisation gadget
-		end
-	
-		if weaponDef.soundstart then
-			if not weaponDef.customparams then
-				weaponDef.customparams = {}
-			end
-			weaponDef.customparams.soundstart = weaponDef.soundstart -- for sound localisation gadget
-		end
-		weaponDef.soundhitwet = nil
-		weaponDef.soundhitdry = nil
-		weaponDef.soundstart = nil
-		if weaponDef.customparams then 
-			--Spring.Echo("New dry weaponsdef (wd -> cp):",id,weaponDef.soundhitdry,"-->", weaponDef.customparams.soundhitdry)
-			--Spring.Echo("New wet weaponsdef (wd -> cp):",id,weaponDef.soundhitwet,"-->", weaponDef.customparams.soundhitwet)
-		else
-			Spring.Echo("No customparams:", id)
-		end
-	--end
-	end
-end
-
-
-if (modOptions) then
-
---------------------------------------------------------------------------------
--- Relistical scaling
-
-if (modOptions.realscale and tobool(modOptions.realscale)) then
-  local rngMul, velMul, stVelMul, acclMul, fltMul, durMul
-  for id in pairs(WeaponDefs) do
-	if (WeaponDefs[id].weapontype == "LaserCannon" or WeaponDefs[id].weapontype == "BeamLaser" or WeaponDefs[id].weapontype == "EmgCannon" or WeaponDefs[id].weapontype == "LightningCannon") then
-		rngMul, velMul, stVelMul, acclMul, fltMul, durMul = 5, 4, 4, 0.5, 1, 0.5
-		if (WeaponDefs[id].cegtag) then
-			WeaponDefs[id].cegtag = ""
-		end
-	elseif (WeaponDefs[id].weapontype == "StarburstLauncher") then
-		rngMul, velMul, stVelMul, acclMul, fltMul, durMul = 9, 2, 2, 1.5, 5, 1	
-		if (WeaponDefs[id].cegtag) then
-			WeaponDefs[id].cegtag = ""
-		end
-	elseif (WeaponDefs[id].weapontype == "MissileLauncher") then 
-		rngMul, velMul, stVelMul, acclMul, fltMul, durMul = 9, 3, 3, 1, 5, 1
-		if (WeaponDefs[id].cegtag) then
-			WeaponDefs[id].cegtag = ""
-		end
-	elseif (WeaponDefs[id].weapontype == "TorpedoLauncher") then 
-		rngMul, velMul, stVelMul, acclMul, fltMul, durMul = 7, 2, 2, 1.3, 3, 1
-	elseif (WeaponDefs[id].weapontype == "Flame" or WeaponDefs[id].weapontype == "DGun" or WeaponDefs[id].weapontype == "AircraftBomb") then 
-		rngMul, velMul, stVelMul, acclMul, fltMul, durMul = 2, 2, 2, 0.5, 1, 2
-	elseif (WeaponDefs[id].weapontype == "Melee") then 
-		rngMul, velMul, stVelMul, acclMul, fltMul, durMul = 1, 1, 1, 1, 1, 1
-	else
-		rngMul, velMul, stVelMul, acclMul, fltMul, durMul = 9, 3, 3, 0.333, 1, 1
-	end
-	if (WeaponDefs[id].range) then
-		WeaponDefs[id].range = rngMul * WeaponDefs[id].range
-	end
-	if (WeaponDefs[id].weaponvelocity) then
-		WeaponDefs[id].weaponvelocity = velMul * WeaponDefs[id].weaponvelocity
-	end
-	if (WeaponDefs[id].startvelocity) then
-		WeaponDefs[id].startvelocity = stVelMul * WeaponDefs[id].startvelocity
-	end
-	if (WeaponDefs[id].weaponacceleration) then
-		WeaponDefs[id].weaponacceleration = acclMul * WeaponDefs[id].weaponacceleration
-	end
-	if (WeaponDefs[id].flighttime) then
-		WeaponDefs[id].flighttime = fltMul * WeaponDefs[id].flighttime
-	end
-	if (WeaponDefs[id].duration) then
-		WeaponDefs[id].duration = durMul * WeaponDefs[id].duration
-	end
-	if (WeaponDefs[id].sprayangle) then
-		WeaponDefs[id].sprayangle = WeaponDefs[id].sprayangle / rngMul
-	end
-  end
-end
-
 --------------------------------------------------------------------------------
 -- Don't Collide with friendlies for all weapons
 
@@ -412,30 +239,4 @@ if (modOptions.nocollide and tobool(modOptions.nocollide)) then
 	for id in pairs(WeaponDefs) do
 		WeaponDefs[id].collidefriendly = false
 	end
-end
-
--- Low performance computer mode
-if (modOptions.lowcpu and tobool(modOptions.lowcpu)) then
-	for id in pairs(WeaponDefs) do
-		WeaponDefs[id].cegtag = ""
-		local burst = tonumber(WeaponDefs[id].burst or 1)
-		local rTime = tonumber(WeaponDefs[id].reloadtime or 1)
-		if rTime<0.5 then
-			WeaponDefs[id].reloadtime = rTime * 2
-			if WeaponDefs[id].energypershot then WeaponDefs[id].energypershot = WeaponDefs[id].energypershot * 2 end
-			if WeaponDefs[id].metalpershot then WeaponDefs[id].metalpershot = WeaponDefs[id].metalpershot * 2 end
-			if WeaponDefs[id].beamtime then WeaponDefs[id].beamtime = WeaponDefs[id].beamtime * 2 end
-			for weap, dmg in pairs(WeaponDefs[id].damage) do
-				WeaponDefs[id].damage[weap] = dmg * 2
-			end
-		elseif rTime/burst<0.5 then
-			WeaponDefs[id].reloadtime = WeaponDefs[id].reloadtime * 2
-			WeaponDefs[id].burstrate = (WeaponDefs[id].burstrate or 0.1) * 2
-			for weap, dmg in pairs(WeaponDefs[id].damage) do
-				WeaponDefs[id].damage[weap] = dmg * 2
-			end
-		end
-	end
-end
-
 end

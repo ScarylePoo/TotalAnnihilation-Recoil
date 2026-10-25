@@ -1,4 +1,0 @@
-
-function script.Create ()
-	end
-
