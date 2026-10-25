@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t1_bot_crasher",
 		objectname = "CORE_T1_BOT_Crasher.s3o",
+		script = "CORE_T1_BOT_Crasher.lua",          -- walker: Lua script on the standard skeleton (was the COB)
 		-- Script=CORE_T1_BOT_Crasher.lua;
 		corpse = "CORE_T1_BOT_Crasher_dead",
 		icontype = "kbot",
