@@ -1,4 +1,4 @@
--- Weapon definitions (converted from BOTA_CORE_Annihilator_beams.TDF)
+-- Weapon definitions (native Recoil tags; converted from BOTA_CORE_Annihilator_beams.TDF)
 
 return {
 	doomsday_annihilator_beam = {
@@ -36,6 +36,7 @@ return {
 		range = 950,
 		reloadtime = 8,
 		areaofeffect = 32,
+		craterareaofeffect = 48,
 		minintensity = 1,
 		damage = {
 			default = 2500,
@@ -76,6 +77,7 @@ return {
 		range = 1000,
 		reloadtime = 4,
 		areaofeffect = 32,
+		craterareaofeffect = 48,
 		minintensity = 1,
 		damage = {
 			default = 2500,

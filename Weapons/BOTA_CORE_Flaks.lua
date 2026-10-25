@@ -1,4 +1,4 @@
--- Weapon definitions (converted from BOTA_CORE_Flaks.TDF)
+-- Weapon definitions (native Recoil tags; converted from BOTA_CORE_Flaks.TDF)
 
 return {
 	corflak_gun = {
@@ -10,10 +10,10 @@ return {
 		-- behaviour
 		-- costs
 		-- stats
-		id = 43,
 		name = "Flak Cannon",
-		rendertype = 4,
-		ballistic = 1,
+		weapontype = "Cannon",
+		rgbcolor = "1.0 0.5 0.0",
+		gravityaffected = true,
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
@@ -23,21 +23,13 @@ return {
 		weapontimer = 1,
 		weaponvelocity = 950,
 		areaofeffect = 225,  -- 125
+		craterareaofeffect = 337.5,
 		edgeeffectiveness = 0.90,
 		soundstart = "canlite2",
 		soundhit = "flakhit",  -- xplomed2
-		minbarrelangle = -24,
 		accuracy = 1000,
 		tolerance = 767,
 		burnblow = 1,
-		explosiongaf = "fx",
-		explosionart = "explode2",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2o",
-		lavaexplosiongaf = "fx",
-		lavaexplosionart = "lavasplash",
-		color = 1,
-		startsmoke = 1,
 		explosiongenerator = "custom:FLAK_BURST_Expl",
 		damage = {
 			default = 186,
@@ -53,33 +45,24 @@ return {
 		-- behaviour
 		-- costs
 		-- stats
-		id = 180,
 		name = "Flak Cannon",
-		rendertype = 4,
-		ballistic = 1,
+		weapontype = "Cannon",
+		rgbcolor = "1.0 0.5 0.0",
+		gravityaffected = true,
 		turret = 1,
-		toairweapon = 1,
 		canattackground = 0,
 		range = 1000,  -- 750
 		reloadtime = 0.7,
 		weapontimer = 1,
 		weaponvelocity = 950,
 		areaofeffect = 225,  -- 125
+		craterareaofeffect = 337.5,
 		edgeeffectiveness = 0.90,
 		soundstart = "canlite2",
 		soundhit = "flakhit",  -- xplomed2
-		minbarrelangle = -24,
 		accuracy = 1000,
 		tolerance = 767,
 		burnblow = 1,
-		explosiongaf = "fx",
-		explosionart = "explode2",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2o",
-		lavaexplosiongaf = "fx",
-		lavaexplosionart = "lavasplash",
-		color = 1,
-		startsmoke = 1,
 		explosiongenerator = "custom:FLAK_BURST_Expl",
 		damage = {
 			default = 186,  -- 146
@@ -94,10 +77,10 @@ return {
 		-- behaviour
 		-- costs
 		-- stats
-		id = 133,
 		name = "Flak Cannon",
-		rendertype = 4,
-		ballistic = 1,
+		weapontype = "Cannon",
+		rgbcolor = "1.0 0.5 0.0",
+		gravityaffected = true,
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		canattackground = 0,
@@ -107,21 +90,13 @@ return {
 		weapontimer = 1,
 		weaponvelocity = 900,
 		areaofeffect = 200,  -- 110
+		craterareaofeffect = 300,
 		edgeeffectiveness = 0.90,
 		soundstart = "canlite2",
 		soundhit = "flakhit",  -- xplomed2
-		minbarrelangle = -24,
 		accuracy = 1000,
 		tolerance = 767,
 		burnblow = 1,
-		explosiongaf = "fx",
-		explosionart = "explode3",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2o",
-		lavaexplosiongaf = "fx",
-		lavaexplosionart = "lavasplash",
-		color = 1,
-		startsmoke = 1,
 		explosiongenerator = "custom:FLAK_BURST_Expl",
 		damage = {
 			default = 170,  -- 130

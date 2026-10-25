@@ -1,11 +1,11 @@
--- Weapon definitions (converted from ARM_T1_DEF.TDF)
+-- Weapon definitions (native Recoil tags; converted from ARM_T1_DEF.TDF)
 
 return {
 	armfixed_gun = {
-		id = 70,
 		name = "Plasma Cannon",
-		rendertype = 4,
-		ballistic = 1,
+		weapontype = "Cannon",
+		rgbcolor = "1.0 0.5 0.0",
+		gravityaffected = true,
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
@@ -13,16 +13,10 @@ return {
 		reloadtime = 3,
 		weaponvelocity = 470,
 		areaofeffect = 64,
+		craterareaofeffect = 96,
 		soundstart = "cannhvy5",
 		soundhit = "xplomed2",
 		accuracy = 300,
-		explosiongaf = "fx",
-		explosionart = "explode2",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2o",
-		lavaexplosiongaf = "fx",
-		lavaexplosionart = "lavasplash",
-		startsmoke = 1,
 		explosiongenerator = "custom:PLASMA_Expl",
 		damage = {
 			default = 360,

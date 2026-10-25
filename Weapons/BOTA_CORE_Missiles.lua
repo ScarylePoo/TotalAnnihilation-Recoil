@@ -1,4 +1,4 @@
--- Weapon definitions (converted from BOTA_CORE_Missiles.TDF)
+-- Weapon definitions (native Recoil tags; converted from BOTA_CORE_Missiles.TDF)
 
 return {
 	corvtol_missile = {
@@ -10,12 +10,11 @@ return {
 		-- behaviour
 		-- costs
 		-- stats
-		id = 109,
 		name = "Guided Missiles",
-		rendertype = 1,
+		weapontype = "MissileLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		avoidfriendly = 0,
 		collidefriendly = 0,
-		lineofsight = 1,
 		model = "missile",
 		range = 620,  -- 502
 		reloadtime = 5,  -- 3
@@ -25,23 +24,14 @@ return {
 		weaponacceleration = 149,
 		turnrate = 16384,
 		areaofeffect = 48,
+		craterareaofeffect = 72,
 		metalpershot = 0,
 		soundstart = "Rocklit3",
 		soundhit = "xplosml2",
 		firestarter = 70,
-		smokedelay = .1,
-		guidance = 1,
 		tracks = 1,
-		selfprop = 1,
 		smoketrail = 1,
 		tolerance = 8000,
-		explosiongaf = "fx",
-		explosionart = "explode3",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2o",
-		lavaexplosiongaf = "fx",
-		lavaexplosionart = "lavasplash",
-		startsmoke = 1,
 		damage = {
 			default = 136,
 		},
@@ -55,10 +45,9 @@ return {
 		-- behaviour
 		-- costs
 		-- stats
-		id = 101,
 		name = "Missiles",
-		rendertype = 1,
-		lineofsight = 1,
+		weapontype = "MissileLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
@@ -71,23 +60,14 @@ return {
 		weaponacceleration = 104,
 		turnrate = 17000,  -- 33000
 		areaofeffect = 48,
+		craterareaofeffect = 72,
 		metalpershot = 0,
 		soundstart = "rocklit1",
 		soundhit = "xplosml2",
 		firestarter = 70,
-		smokedelay = .1,
-		guidance = 1,
 		tracks = 1,
-		selfprop = 1,
 		smoketrail = 1,
 		tolerance = 9000,
-		explosiongaf = "fx",
-		explosionart = "explode3",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2o",
-		lavaexplosiongaf = "fx",
-		lavaexplosionart = "lavasplash",
-		startsmoke = 1,
 		damage = {
 			default = 43,  -- 32
 			-- ArmLandAir=80;//48
@@ -103,10 +83,9 @@ return {
 		-- behaviour
 		-- costs
 		-- stats
-		id = 107,
 		name = "Missiles",
-		rendertype = 1,
-		lineofsight = 1,
+		weapontype = "MissileLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
@@ -119,23 +98,14 @@ return {
 		weaponacceleration = 152,
 		turnrate = 20000,
 		areaofeffect = 48,
+		craterareaofeffect = 72,
 		metalpershot = 0,
 		soundstart = "rockhvy2",
 		soundhit = "xplomed2",
 		firestarter = 70,
-		smokedelay = .1,
-		guidance = 1,
 		tracks = 1,
-		selfprop = 1,
 		smoketrail = 1,
 		tolerance = 10000,
-		explosiongaf = "fx",
-		explosionart = "explode3",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2o",
-		lavaexplosiongaf = "fx",
-		lavaexplosionart = "lavasplash",
-		startsmoke = 1,
 		damage = {
 			default = 67,
 			planes = 67,  -- armor group needed only for defense range
@@ -150,10 +120,9 @@ return {
 		-- behaviour
 		-- costs
 		-- stats
-		id = 199,
 		name = "Missiles",
-		rendertype = 1,
-		lineofsight = 1,
+		weapontype = "MissileLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
@@ -166,23 +135,14 @@ return {
 		weaponacceleration = 154,
 		turnrate = 50000,
 		areaofeffect = 48,
+		craterareaofeffect = 72,
 		metalpershot = 0,
 		soundstart = "rockhvy2",
 		soundhit = "xplomed2",
 		firestarter = 70,
-		smokedelay = .1,
-		guidance = 1,
 		tracks = 1,
-		selfprop = 1,
 		smoketrail = 1,
 		tolerance = 10000,
-		explosiongaf = "fx",
-		explosionart = "explode3",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2o",
-		lavaexplosiongaf = "fx",
-		lavaexplosionart = "lavasplash",
-		startsmoke = 1,
 		damage = {
 			default = 46,
 			-- ArmLandAir=107;//97
@@ -198,12 +158,11 @@ return {
 		-- behaviour
 		-- costs
 		-- stats
-		id = 148,
 		name = "Missiles",
-		rendertype = 1,
+		weapontype = "MissileLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		avoidfriendly = 0,
 		collidefriendly = 0,
-		lineofsight = 1,
 		turret = 1,
 		model = "missile",
 		range = 700,
@@ -214,23 +173,14 @@ return {
 		weaponacceleration = 152,
 		turnrate = 50000,
 		areaofeffect = 48,
+		craterareaofeffect = 72,
 		metalpershot = 0,
 		soundstart = "rockhvy2",
 		soundhit = "xplomed2",
 		firestarter = 70,
-		smokedelay = .1,
-		guidance = 1,
 		tracks = 1,
-		selfprop = 1,
 		smoketrail = 1,
 		tolerance = 10000,
-		explosiongaf = "fx",
-		explosionart = "explode3",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2o",
-		lavaexplosiongaf = "fx",
-		lavaexplosionart = "lavasplash",
-		startsmoke = 1,
 		damage = {
 			default = 45,
 			planes = 45,  -- armor group needed only for defense range
@@ -245,10 +195,9 @@ return {
 		-- behaviour
 		-- costs
 		-- stats
-		id = 98,
 		name = "Guided Missiles",
-		rendertype = 1,
-		lineofsight = 1,
+		weapontype = "MissileLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		model = "missile",
 		range = 610,  -- 510
 		reloadtime = 3,
@@ -258,23 +207,14 @@ return {
 		weaponacceleration = 146,
 		turnrate = 16384,
 		areaofeffect = 48,
+		craterareaofeffect = 72,
 		metalpershot = 0,
 		soundstart = "Rocklit3",
 		soundhit = "xplosml2",
 		firestarter = 70,
-		smokedelay = .1,
-		guidance = 1,
 		tracks = 1,
-		selfprop = 1,
 		smoketrail = 1,
 		tolerance = 8000,
-		explosiongaf = "fx",
-		explosionart = "explode3",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2o",
-		lavaexplosiongaf = "fx",
-		lavaexplosionart = "lavasplash",
-		startsmoke = 1,
 		damage = {
 			default = 44,
 			-- ArmLandAir=130;
@@ -290,12 +230,11 @@ return {
 		-- behaviour
 		-- costs
 		-- stats
-		id = 76,
 		name = "Guided Missiles",
-		rendertype = 1,
+		weapontype = "MissileLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		avoidfriendly = 0,
 		collidefriendly = 0,
-		lineofsight = 1,
 		model = "missile",
 		range = 510,
 		reloadtime = 3,
@@ -305,23 +244,14 @@ return {
 		weaponacceleration = 146,
 		turnrate = 19384,
 		areaofeffect = 48,
+		craterareaofeffect = 72,
 		metalpershot = 0,
 		soundstart = "Rocklit3",
 		soundhit = "xplosml2",
 		firestarter = 70,
-		smokedelay = .1,
-		guidance = 1,
 		tracks = 1,
-		selfprop = 1,
 		smoketrail = 1,
 		tolerance = 8000,
-		explosiongaf = "fx",
-		explosionart = "explode3",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2o",
-		lavaexplosiongaf = "fx",
-		lavaexplosionart = "lavasplash",
-		startsmoke = 1,
 		damage = {
 			default = 50,
 			-- ArmLandAir=140;
@@ -337,10 +267,9 @@ return {
 		-- behaviour
 		-- costs
 		-- stats
-		id = 105,
 		name = "Missiles",
-		rendertype = 1,
-		lineofsight = 1,
+		weapontype = "MissileLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
@@ -353,23 +282,14 @@ return {
 		weaponacceleration = 136,
 		turnrate = 15000,  -- 30000
 		areaofeffect = 48,
+		craterareaofeffect = 72,
 		metalpershot = 0,
 		soundstart = "rockhvy2",
 		soundhit = "xplomed2",
 		firestarter = 70,
-		smokedelay = .1,
-		guidance = 1,
 		tracks = 1,
-		selfprop = 1,
 		smoketrail = 1,
 		tolerance = 8000,
-		explosiongaf = "fx",
-		explosionart = "explode3",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2o",
-		lavaexplosiongaf = "fx",
-		lavaexplosionart = "lavasplash",
-		startsmoke = 1,
 		damage = {
 			default = 53,  -- 41//61
 			-- ArmLandAir=92;
@@ -385,12 +305,11 @@ return {
 		-- behaviour
 		-- costs
 		-- stats
-		id = 113,
 		name = "Guided Missiles",
-		rendertype = 1,
+		weapontype = "MissileLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		avoidfriendly = 0,
 		collidefriendly = 0,
-		lineofsight = 1,
 		model = "missile",
 		range = 650,
 		reloadtime = 3,
@@ -400,23 +319,14 @@ return {
 		weaponacceleration = 131,
 		turnrate = 24384,
 		areaofeffect = 48,
+		craterareaofeffect = 72,
 		metalpershot = 0,
 		soundstart = "Rocklit3",
 		soundhit = "xplosml2",
 		firestarter = 70,
-		smokedelay = .1,
-		guidance = 1,
 		tracks = 1,
-		selfprop = 1,
 		smoketrail = 1,
 		tolerance = 8000,
-		explosiongaf = "fx",
-		explosionart = "explode3",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2o",
-		lavaexplosiongaf = "fx",
-		lavaexplosionart = "lavasplash",
-		startsmoke = 1,
 		damage = {
 			default = 68,
 			-- ArmLandAir=155;
@@ -432,10 +342,9 @@ return {
 		-- behaviour
 		-- costs
 		-- stats
-		id = 102,
 		name = "Missiles",
-		rendertype = 1,
-		lineofsight = 1,
+		weapontype = "MissileLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
@@ -448,23 +357,14 @@ return {
 		weaponacceleration = 121,
 		turnrate = 15000,  -- 30000
 		areaofeffect = 48,
+		craterareaofeffect = 72,
 		metalpershot = 0,
 		soundstart = "rockhvy2",
 		soundhit = "xplomed2",
 		firestarter = 70,
-		smokedelay = .1,
-		guidance = 1,
 		tracks = 1,
-		selfprop = 1,
 		smoketrail = 1,
 		tolerance = 8000,
-		explosiongaf = "fx",
-		explosionart = "explode3",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2o",
-		lavaexplosiongaf = "fx",
-		lavaexplosionart = "lavasplash",
-		startsmoke = 1,
 		damage = {
 			default = 62,  -- 62
 			-- ArmLandAir=111;
@@ -480,10 +380,9 @@ return {
 		-- behaviour
 		-- costs
 		-- stats
-		id = 178,
 		name = "Missiles",
-		rendertype = 1,
-		lineofsight = 1,
+		weapontype = "MissileLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
@@ -496,23 +395,14 @@ return {
 		weaponacceleration = 121,
 		turnrate = 30000,
 		areaofeffect = 48,
+		craterareaofeffect = 72,
 		metalpershot = 0,
 		soundstart = "rockhvy2",
 		soundhit = "xplomed2",
 		firestarter = 70,
-		smokedelay = .1,
-		guidance = 1,
 		tracks = 1,
-		selfprop = 1,
 		smoketrail = 1,
 		tolerance = 8000,
-		explosiongaf = "fx",
-		explosionart = "explode3",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2o",
-		lavaexplosiongaf = "fx",
-		lavaexplosionart = "lavasplash",
-		startsmoke = 1,
 		damage = {
 			default = 57,
 			-- ArmLandAir=108;

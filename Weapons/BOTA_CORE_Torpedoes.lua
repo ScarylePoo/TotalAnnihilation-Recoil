@@ -1,4 +1,4 @@
--- Weapon definitions (converted from BOTA_CORE_Torpedoes.TDF)
+-- Weapon definitions (native Recoil tags; converted from BOTA_CORE_Torpedoes.TDF)
 
 return {
 	core_torpedo = {
@@ -6,6 +6,7 @@ return {
 		-- CORE_T1_SEA_Snake
 		-- type
 		weapontype = "TorpedoLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		turret = 0,
 		tolerance = 32767,
 		tracks = 1,
@@ -28,6 +29,7 @@ return {
 		range = 500,
 		reloadtime = 4,
 		areaofeffect = 16,
+		craterareaofeffect = 24,
 		damage = {
 			default = 546,
 			-- subkillers=191;
@@ -38,6 +40,7 @@ return {
 		-- CORE_T1_SEADEF_TorpedoLauncher
 		-- type
 		weapontype = "TorpedoLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		turret = 1,
 		tracks = 1,
 		waterweapon = 1,
@@ -59,6 +62,7 @@ return {
 		range = 500,
 		reloadtime = 2.6,
 		areaofeffect = 16,
+		craterareaofeffect = 24,
 		damage = {
 			default = 400,
 		},
@@ -68,6 +72,7 @@ return {
 		-- CORE_T1_SEAPL_Typhoon
 		-- type
 		weapontype = "TorpedoLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		turret = 0,
 		tolerance = 12000,
 		tracks = 1,
@@ -90,8 +95,8 @@ return {
 		range = 480,
 		reloadtime = 6,
 		areaofeffect = 16,
+		craterareaofeffect = 24,
 		burst = 2,
-		bursttime = 0.35,
 		damage = {
 			default = 600,
 		},
@@ -101,6 +106,7 @@ return {
 		-- CORE_T1_SEAPL_Typhoon
 		-- type
 		weapontype = "TorpedoLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		turret = 0,
 		tolerance = 12000,
 		tracks = 1,
@@ -123,6 +129,7 @@ return {
 		range = 480,
 		reloadtime = 6,
 		areaofeffect = 16,
+		craterareaofeffect = 24,
 		damage = {
 			default = 400,
 		},
@@ -132,6 +139,7 @@ return {
 		-- CORE_T2_AIR_Titan
 		-- type
 		weapontype = "TorpedoLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		turret = 0,
 		tolerance = 6000,
 		tracks = 1,
@@ -154,6 +162,7 @@ return {
 		range = 400,
 		reloadtime = 9,
 		areaofeffect = 16,
+		craterareaofeffect = 24,
 		damage = {
 			default = 780,
 			-- subs=1100;
@@ -164,6 +173,7 @@ return {
 		-- CORE_T2_SEA_Leviathan
 		-- type
 		weapontype = "TorpedoLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		turret = 0,
 		tolerance = 37152,
 		tracks = 1,
@@ -186,6 +196,7 @@ return {
 		range = 750,
 		reloadtime = 5.8,
 		areaofeffect = 5,
+		craterareaofeffect = 7.5,
 		damage = {
 			default = 812,
 			-- subkillers=300;
@@ -202,6 +213,7 @@ return {
 		-- CORE_T2_SEA_Shark
 		-- type
 		weapontype = "TorpedoLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		turret = 0,
 		tolerance = 32767,
 		tracks = 1,
@@ -224,6 +236,7 @@ return {
 		range = 550,
 		reloadtime = 2.28,
 		areaofeffect = 16,
+		craterareaofeffect = 24,
 		damage = {
 			default = 210,
 			-- subs=1100;//800
@@ -234,6 +247,7 @@ return {
 		-- CORE_T2_SEADEF_AdvancedTorpedoLauncher
 		-- type
 		weapontype = "TorpedoLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		turret = 1,
 		tolerance = 2767,
 		tracks = 1,
@@ -256,6 +270,7 @@ return {
 		range = 900,
 		reloadtime = 4.4,
 		areaofeffect = 16,
+		craterareaofeffect = 24,
 		damage = {
 			default = 1000,
 		},

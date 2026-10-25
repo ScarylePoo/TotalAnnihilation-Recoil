@@ -1,4 +1,4 @@
--- Weapon definitions (converted from BOTA_ARM_Torpedoes.TDF)
+-- Weapon definitions (native Recoil tags; converted from BOTA_ARM_Torpedoes.TDF)
 
 return {
 	arm_torpedo = {
@@ -6,6 +6,7 @@ return {
 		-- ARM_T1_SEA_Lurker
 		-- type
 		weapontype = "TorpedoLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		turret = 0,
 		tolerance = 32767,
 		tracks = 1,
@@ -28,6 +29,7 @@ return {
 		range = 500,
 		reloadtime = 4,
 		areaofeffect = 16,
+		craterareaofeffect = 24,
 		damage = {
 			default = 518,
 			-- subkillers=170;
@@ -38,6 +40,7 @@ return {
 		-- ARM_T1_SEADEF_TorpedoLauncher
 		-- type
 		weapontype = "TorpedoLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		turret = 1,
 		tracks = 1,
 		waterweapon = 1,
@@ -59,6 +62,7 @@ return {
 		range = 500,
 		reloadtime = 2.6,
 		areaofeffect = 16,
+		craterareaofeffect = 24,
 		damage = {
 			default = 400,
 		},
@@ -68,6 +72,7 @@ return {
 		-- ARM_T1_SEAPL_Albatross
 		-- type
 		weapontype = "TorpedoLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		turret = 0,
 		tolerance = 12000,
 		tracks = 1,
@@ -90,8 +95,8 @@ return {
 		range = 480,
 		reloadtime = 6,
 		burst = 2,
-		bursttime = 0.35,
 		areaofeffect = 16,
+		craterareaofeffect = 24,
 		damage = {
 			default = 600,
 		},
@@ -101,6 +106,7 @@ return {
 		-- ARM_T1_SEAPL_Albatross
 		-- type
 		weapontype = "TorpedoLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		turret = 0,
 		tolerance = 12000,
 		tracks = 1,
@@ -123,6 +129,7 @@ return {
 		range = 480,
 		reloadtime = 6,
 		areaofeffect = 16,
+		craterareaofeffect = 24,
 		damage = {
 			default = 400,
 		},
@@ -132,6 +139,7 @@ return {
 		-- ARM_T2_AIR_Lancet
 		-- type
 		weapontype = "TorpedoLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		turret = 0,
 		tolerance = 6000,
 		tracks = 1,
@@ -154,6 +162,7 @@ return {
 		range = 400,
 		reloadtime = 8.5,
 		areaofeffect = 16,
+		craterareaofeffect = 24,
 		damage = {
 			default = 750,
 			-- subs=1000;
@@ -164,6 +173,7 @@ return {
 		-- ARM_T2_SEA_Piranha
 		-- type
 		weapontype = "TorpedoLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		turret = 0,
 		tolerance = 32767,
 		tracks = 1,
@@ -186,6 +196,7 @@ return {
 		range = 550,
 		reloadtime = 2.3,
 		areaofeffect = 16,
+		craterareaofeffect = 24,
 		damage = {
 			default = 200,
 			-- subs=1060;//760
@@ -196,6 +207,7 @@ return {
 		-- ARM_T2_SEADEF_AdvancedTorpedoLauncher
 		-- type
 		weapontype = "TorpedoLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		turret = 1,
 		tolerance = 1167,
 		tracks = 1,
@@ -218,6 +230,7 @@ return {
 		range = 970,
 		reloadtime = 4.5,
 		areaofeffect = 16,
+		craterareaofeffect = 24,
 		damage = {
 			default = 1000,
 		},

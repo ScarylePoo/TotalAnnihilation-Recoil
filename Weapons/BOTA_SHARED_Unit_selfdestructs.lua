@@ -1,4 +1,4 @@
--- Weapon definitions (converted from BOTA_SHARED_Unit_selfdestructs.TDF)
+-- Weapon definitions (native Recoil tags; converted from BOTA_SHARED_Unit_selfdestructs.TDF)
 
 return {
 	small_unit = {
@@ -9,22 +9,18 @@ return {
 		-- behaviour
 		-- costs
 		-- stats
-		rendertype = 4,
-		ballistic = 1,
 		turret = 1,
 		range = 480,
 		reloadtime = 3.6,
 		weaponvelocity = 250,
 		areaofeffect = 75,
+		craterareaofeffect = 112.5,
 		soundstart = "largegun",
 		soundhit = "xplomed2",
-		explosiongaf = "fx",
-		explosionart = "explode2",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2o",
-		shakemagnitude = 0,
-		shakeduration = 0,
 		explosiongenerator = "custom:SMALL_SUICIDE_Expl",
+		weapontype = "Cannon",
+		rgbcolor = "1.0 0.5 0.0",
+		gravityaffected = true,
 		damage = {
 			default = 200,
 		},
@@ -37,22 +33,18 @@ return {
 		-- behaviour
 		-- costs
 		-- stats
-		rendertype = 4,
-		ballistic = 1,
 		turret = 1,
 		range = 480,
 		reloadtime = 3.6,
 		weaponvelocity = 250,
 		areaofeffect = 95,
+		craterareaofeffect = 142.5,
 		soundstart = "largegun",
 		soundhit = "xplolrg3",
-		explosiongaf = "fx",
-		explosionart = "explode2",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2oboom2",
-		shakemagnitude = 0,
-		shakeduration = 0,
 		explosiongenerator = "custom:MED_SUICIDE_Expl",
+		weapontype = "Cannon",
+		rgbcolor = "1.0 0.5 0.0",
+		gravityaffected = true,
 		damage = {
 			default = 250,
 		},
@@ -65,22 +57,18 @@ return {
 		-- behaviour
 		-- costs
 		-- stats
-		rendertype = 4,
-		ballistic = 1,
 		turret = 1,
 		range = 480,
 		reloadtime = 3.6,
 		weaponvelocity = 250,
 		areaofeffect = 110,
+		craterareaofeffect = 165,
 		soundstart = "largegun",
 		soundhit = "xplolrg3",
-		explosiongaf = "fx",
-		explosionart = "explode2",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2oboom2",
-		shakemagnitude = 8,
-		shakeduration = .3,
 		explosiongenerator = "custom:BIG_SUICIDE_Expl",
+		weapontype = "Cannon",
+		rgbcolor = "1.0 0.5 0.0",
+		gravityaffected = true,
 		damage = {
 			default = 350,
 		},
@@ -93,22 +81,18 @@ return {
 		-- behaviour
 		-- costs
 		-- stats
-		rendertype = 4,
-		ballistic = 1,
 		turret = 1,
 		range = 480,
 		reloadtime = 3.6,
 		weaponvelocity = 250,
 		areaofeffect = 556,
+		craterareaofeffect = 834,
 		soundstart = "largegun",
 		soundhit = "xplonuk3",
-		explosiongaf = "fx",
-		explosionart = "explode2",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2oboom2",
-		shakemagnitude = 24,
-		shakeduration = 1.5,
 		explosiongenerator = "custom:CRAWL_SUICIDE_Expl",
+		weapontype = "Cannon",
+		rgbcolor = "1.0 0.5 0.0",
+		gravityaffected = true,
 		damage = {
 			default = 2500,
 		},
@@ -121,21 +105,18 @@ return {
 		-- behaviour
 		-- costs
 		-- stats
-		ballistic = 1,
 		turret = 1,
 		range = 480,
 		reloadtime = 3.6,
 		weaponvelocity = 250,
 		areaofeffect = 325,
+		craterareaofeffect = 487.5,
 		soundstart = "largegun",
 		soundhit = "xplomed1",
-		explosiongaf = "fx",
-		explosionart = "explode2",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2o",
-		shakemagnitude = 0,
-		shakeduration = 0,
 		explosiongenerator = "custom:PYRO_SUICIDE_Expl",
+		weapontype = "Cannon",
+		rgbcolor = "1.0 0.5 0.0",
+		gravityaffected = true,
 		damage = {
 			default = 1400,
 		},

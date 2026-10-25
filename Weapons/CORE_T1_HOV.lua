@@ -1,11 +1,11 @@
--- Weapon definitions (converted from CORE_T1_HOV.TDF)
+-- Weapon definitions (native Recoil tags; converted from CORE_T1_HOV.TDF)
 
 return {
 	corsnap_weapon = {
-		id = 154,
 		name = "Plasma Cannon",
-		rendertype = 4,
-		ballistic = 1,
+		weapontype = "Cannon",
+		rgbcolor = "1.0 0.5 0.0",
+		gravityaffected = true,
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
@@ -13,15 +13,9 @@ return {
 		reloadtime = 1.3,
 		weaponvelocity = 260,
 		areaofeffect = 48,
+		craterareaofeffect = 72,
 		soundstart = "cannon2",
 		soundhit = "xplomed4",
-		explosiongaf = "fx",
-		explosionart = "explode3",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2o",
-		lavaexplosiongaf = "fx",
-		lavaexplosionart = "lavasplash",
-		startsmoke = 1,
 		damage = {
 			default = 85,
 		},

@@ -1,4 +1,4 @@
--- Weapon definitions (converted from BOTA_ARM_Lasers.TDF)
+-- Weapon definitions (native Recoil tags; converted from BOTA_ARM_Lasers.TDF)
 
 return {
 	arm_flea_laser = {
@@ -29,6 +29,7 @@ return {
 		range = 420,
 		reloadtime = 0.8,
 		areaofeffect = 8,
+		craterareaofeffect = 12,
 		damage = {
 			default = 8,
 		},
@@ -63,6 +64,7 @@ return {
 		range = 315,
 		reloadtime = 1,
 		areaofeffect = 8,
+		craterareaofeffect = 12,
 		damage = {
 			default = 23,
 		},
@@ -95,6 +97,7 @@ return {
 		range = 600,
 		reloadtime = 0.4,
 		areaofeffect = 8,
+		craterareaofeffect = 12,
 		damage = {
 			default = 16,
 		},
@@ -126,6 +129,7 @@ return {
 		range = 360,
 		reloadtime = 0.9,
 		areaofeffect = 8,
+		craterareaofeffect = 12,
 		damage = {
 			default = 70,
 		},
@@ -158,6 +162,7 @@ return {
 		range = 367,
 		reloadtime = 0.8,
 		areaofeffect = 8,
+		craterareaofeffect = 12,
 		damage = {
 			default = 46,
 		},

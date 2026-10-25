@@ -1,4 +1,4 @@
--- Weapon definitions (converted from BOTA_ARM_Missiles.TDF)
+-- Weapon definitions (native Recoil tags; converted from BOTA_ARM_Missiles.TDF)
 
 return {
 	armvtol_missile = {
@@ -6,6 +6,7 @@ return {
 		-- ARM_T1_AIR_FreedomFighter
 		-- type
 		weapontype = "MissileLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		tolerance = 8000,
 		tracks = 1,
 		-- visuals
@@ -27,6 +28,7 @@ return {
 		range = 630,
 		reloadtime = 5,
 		areaofeffect = 48,
+		craterareaofeffect = 72,
 		damage = {
 			default = 130,
 		},
@@ -36,6 +38,7 @@ return {
 		-- ARM_T1_BOT_Jethro
 		-- type
 		weapontype = "MissileLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		turret = 1,
 		tolerance = 9000,
 		tracks = 1,
@@ -58,6 +61,7 @@ return {
 		range = 804,
 		reloadtime = 2.4,
 		areaofeffect = 48,
+		craterareaofeffect = 72,
 		damage = {
 			default = 42,
 			-- ArmLandAir=83;
@@ -70,6 +74,7 @@ return {
 		-- ARM_T1_SEADEF_Defender
 		-- type
 		weapontype = "MissileLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		turret = 1,
 		tolerance = 10000,
 		tracks = 1,
@@ -92,6 +97,7 @@ return {
 		range = 820,
 		reloadtime = 2,
 		areaofeffect = 48,
+		craterareaofeffect = 72,
 		damage = {
 			default = 68,
 			planes = 68,  -- armor group needed only for defense range
@@ -102,6 +108,7 @@ return {
 		-- ARM_T1_HOV_Swatter
 		-- type
 		weapontype = "MissileLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		turret = 1,
 		tolerance = 10000,
 		tracks = 1,
@@ -124,6 +131,7 @@ return {
 		range = 820,
 		reloadtime = 2.1,
 		areaofeffect = 48,
+		craterareaofeffect = 72,
 		damage = {
 			default = 49,
 		},
@@ -133,6 +141,7 @@ return {
 		-- ARM_T1_SEAPL_Albatross
 		-- type
 		weapontype = "MissileLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		tolerance = 8000,
 		tracks = 1,
 		-- visuals
@@ -154,6 +163,7 @@ return {
 		range = 610,
 		reloadtime = 3,
 		areaofeffect = 48,
+		craterareaofeffect = 72,
 		damage = {
 			default = 44,
 			-- ArmLandAir=130;
@@ -165,6 +175,7 @@ return {
 		-- ARM_T1_SEAPL_Tornado
 		-- type
 		weapontype = "MissileLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		tolerance = 8000,
 		tracks = 1,
 		-- visuals
@@ -186,6 +197,7 @@ return {
 		range = 510,
 		reloadtime = 3,
 		areaofeffect = 48,
+		craterareaofeffect = 72,
 		damage = {
 			default = 50,
 			-- ArmLandAir=140;
@@ -197,15 +209,13 @@ return {
 		-- ARM_T1_VEH_Samson
 		-- type
 		weapontype = "MissileLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		-- visuals
 		-- sounds
 		-- behaviour
 		-- costs
 		-- stats
-		id = 104,
 		name = "Missiles",
-		rendertype = 1,
-		lineofsight = 1,
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
@@ -218,23 +228,14 @@ return {
 		weaponacceleration = 141,
 		turnrate = 15000,  -- 30000
 		areaofeffect = 48,
+		craterareaofeffect = 72,
 		metalpershot = 0,
 		soundstart = "rockhvy2",
 		soundhit = "xplomed2",
 		firestarter = 70,
-		smokedelay = .1,
-		guidance = 1,
 		tracks = 1,
-		selfprop = 1,
 		smoketrail = 1,
 		tolerance = 8000,
-		explosiongaf = "fx",
-		explosionart = "explode3",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2o",
-		lavaexplosiongaf = "fx",
-		lavaexplosionart = "lavasplash",
-		startsmoke = 1,
 		damage = {
 			default = 54,  -- 40//62
 			-- ArmLandAir=90;
@@ -246,17 +247,15 @@ return {
 		-- ARM_T2_AIR_Hawk
 		-- type
 		weapontype = "MissileLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		-- visuals
 		-- sounds
 		-- behaviour
 		-- costs
 		-- stats
-		id = 112,
 		name = "Guided Missiles",
-		rendertype = 1,
 		avoidfriendly = 0,
 		collidefriendly = 0,
-		lineofsight = 1,
 		model = "missile",
 		range = 659,
 		reloadtime = 3,
@@ -266,23 +265,14 @@ return {
 		weaponacceleration = 130,
 		turnrate = 24384,
 		areaofeffect = 48,
+		craterareaofeffect = 72,
 		metalpershot = 0,
 		soundstart = "Rocklit3",
 		soundhit = "xplosml2",
 		firestarter = 70,
-		smokedelay = .1,
-		guidance = 1,
 		tracks = 1,
-		selfprop = 1,
 		smoketrail = 1,
 		tolerance = 8000,
-		explosiongaf = "fx",
-		explosionart = "explode3",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2o",
-		lavaexplosiongaf = "fx",
-		lavaexplosionart = "lavasplash",
-		startsmoke = 1,
 		damage = {
 			default = 70,
 			-- ArmLandAir=150;
@@ -294,15 +284,13 @@ return {
 		-- ARM_T2_BOT_Pelican
 		-- type
 		weapontype = "MissileLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		-- visuals
 		-- sounds
 		-- behaviour
 		-- costs
 		-- stats
-		id = 38,
 		name = "Missiles",
-		rendertype = 1,
-		lineofsight = 1,
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
@@ -315,23 +303,14 @@ return {
 		weaponacceleration = 154,
 		turnrate = 50000,
 		areaofeffect = 48,
+		craterareaofeffect = 72,
 		metalpershot = 0,
 		soundstart = "rockhvy2",
 		soundhit = "xplomed2",
 		firestarter = 70,
-		smokedelay = .1,
-		guidance = 1,
 		tracks = 1,
-		selfprop = 1,
 		smoketrail = 1,
 		tolerance = 10000,
-		explosiongaf = "fx",
-		explosionart = "explode3",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2o",
-		lavaexplosiongaf = "fx",
-		lavaexplosionart = "lavasplash",
-		startsmoke = 1,
 		damage = {
 			default = 46,
 			-- ArmLandAir=97;
@@ -343,15 +322,13 @@ return {
 		-- ARM_T2_SEA_Archer
 		-- type
 		weapontype = "MissileLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		-- visuals
 		-- sounds
 		-- behaviour
 		-- costs
 		-- stats
-		id = 77,
 		name = "Missiles",
-		rendertype = 1,
-		lineofsight = 1,
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
@@ -364,23 +341,14 @@ return {
 		weaponacceleration = 121,
 		turnrate = 30000,
 		areaofeffect = 48,
+		craterareaofeffect = 72,
 		metalpershot = 0,
 		soundstart = "rockhvy2",
 		soundhit = "xplomed2",
 		firestarter = 70,
-		smokedelay = .1,
-		guidance = 1,
 		tracks = 1,
-		selfprop = 1,
 		smoketrail = 1,
 		tolerance = 8000,
-		explosiongaf = "fx",
-		explosionart = "explode3",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2o",
-		lavaexplosiongaf = "fx",
-		lavaexplosionart = "lavasplash",
-		startsmoke = 1,
 		damage = {
 			default = 57,
 			-- ArmLandAir=108;
@@ -392,15 +360,13 @@ return {
 		-- ARM_T2_SEA_Ranger
 		-- type
 		weapontype = "MissileLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		-- visuals
 		-- sounds
 		-- behaviour
 		-- costs
 		-- stats
-		id = 103,
 		name = "Missiles",
-		rendertype = 1,
-		lineofsight = 1,
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
@@ -413,23 +379,14 @@ return {
 		weaponacceleration = 121,
 		turnrate = 15000,  -- 30000
 		areaofeffect = 48,
+		craterareaofeffect = 72,
 		metalpershot = 0,
 		soundstart = "rockhvy2",
 		soundhit = "xplomed2",
 		firestarter = 70,
-		smokedelay = .1,
-		guidance = 1,
 		tracks = 1,
-		selfprop = 1,
 		smoketrail = 1,
 		tolerance = 8000,
-		explosiongaf = "fx",
-		explosionart = "explode3",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2o",
-		lavaexplosiongaf = "fx",
-		lavaexplosionart = "lavasplash",
-		startsmoke = 1,
 		damage = {
 			default = 57,  -- 57
 			-- ArmLandAir=108;

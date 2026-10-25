@@ -1,4 +1,4 @@
--- Weapon definitions (converted from BOTA_Krogoth.TDF)
+-- Weapon definitions (native Recoil tags; converted from BOTA_Krogoth.TDF)
 
 return {
 	krogoth_arm_cannon = {
@@ -6,6 +6,7 @@ return {
 		-- CORE_T3_BOT_Krogoth
 		-- type
 		weapontype = "EmgCannon",
+		rgbcolor = "0.9 0.9 0.2",
 		turret = 1,
 		-- sounds
 		soundstart = "Krogun1",
@@ -17,6 +18,7 @@ return {
 		range = 525,
 		reloadtime = 1.6,
 		areaofeffect = 48,
+		craterareaofeffect = 72,
 		damage = {
 			default = 480,
 		},

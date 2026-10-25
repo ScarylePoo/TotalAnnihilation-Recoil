@@ -1,4 +1,4 @@
--- Weapon definitions (converted from BOTA_SHARED_Building_explosions.TDF)
+-- Weapon definitions (native Recoil tags; converted from BOTA_SHARED_Building_explosions.TDF)
 
 return {
 	small_buildingex = {
@@ -13,16 +13,18 @@ return {
 		-- behaviour
 		-- costs
 		-- stats
-		rendertype = 4,
-		ballistic = 1,
 		turret = 1,
 		range = 480,
 		reloadtime = 3.6,
 		weaponvelocity = 70,
 		areaofeffect = 205,
+		craterareaofeffect = 307.5,
 		soundstart = "largegun",
 		soundhit = "xplosml3",
 		explosiongenerator = "custom:SMALL_SUICIDE_Expl",
+		weapontype = "Cannon",
+		rgbcolor = "1.0 0.5 0.0",
+		gravityaffected = true,
 		damage = {
 			default = 40,
 		},
@@ -35,18 +37,18 @@ return {
 		-- behaviour
 		-- costs
 		-- stats
-		rendertype = 4,
-		ballistic = 1,
 		turret = 1,
 		range = 480,
 		reloadtime = 3.6,
 		weaponvelocity = 250,
 		areaofeffect = 105,
+		craterareaofeffect = 157.5,
 		soundstart = "largegun",
 		soundhit = "xplomed1",
 		explosiongenerator = "custom:MED_SUICIDE_Expl",
-		shakemagnitude = 0,
-		shakeduration = 0,
+		weapontype = "Cannon",
+		rgbcolor = "1.0 0.5 0.0",
+		gravityaffected = true,
 		damage = {
 			default = 100,
 		},
@@ -61,18 +63,18 @@ return {
 		-- behaviour
 		-- costs
 		-- stats
-		rendertype = 4,
-		ballistic = 1,
 		turret = 1,
 		range = 480,
 		reloadtime = 3.6,
 		weaponvelocity = 250,
 		areaofeffect = 120,
+		craterareaofeffect = 180,
 		soundstart = "largegun",
 		soundhit = "xplolrg4",
 		explosiongenerator = "custom:FACTORY_Expl",
-		shakemagnitude = 8,
-		shakeduration = .3,
+		weapontype = "Cannon",
+		rgbcolor = "1.0 0.5 0.0",
+		gravityaffected = true,
 		damage = {
 			default = 300,
 		},
@@ -85,18 +87,18 @@ return {
 		-- behaviour
 		-- costs
 		-- stats
-		rendertype = 4,
-		ballistic = 1,
 		turret = 1,
 		range = 480,
 		reloadtime = 3.6,
 		weaponvelocity = 250,
 		areaofeffect = 150,
+		craterareaofeffect = 225,
 		soundstart = "largegun",
 		soundhit = "xplonuk1",
 		explosiongenerator = "custom:ESTORBUILDING_Expl",
-		shakemagnitude = 8,
-		shakeduration = .5,
+		weapontype = "Cannon",
+		rgbcolor = "1.0 0.5 0.0",
+		gravityaffected = true,
 		damage = {
 			default = 900,
 		},
@@ -109,18 +111,18 @@ return {
 		-- behaviour
 		-- costs
 		-- stats
-		rendertype = 4,
-		ballistic = 1,
 		turret = 1,
 		range = 480,
 		reloadtime = 3.6,
 		weaponvelocity = 250,
 		areaofeffect = 300,
+		craterareaofeffect = 450,
 		soundstart = "earthyboom",
 		soundhit = "heavyexplosion",
 		explosiongenerator = "custom:GEOPLANT_Expl",
-		shakemagnitude = 12,
-		shakeduration = 1,
+		weapontype = "Cannon",
+		rgbcolor = "1.0 0.5 0.0",
+		gravityaffected = true,
 		damage = {
 			default = 1200,
 		},
@@ -128,9 +130,7 @@ return {
 	atomic_blastex = {
 		-- used by units
 		-- type
-		rendertype = 4,
 		turret = 1,
-		ballistic = 1,
 		-- visuals
 		-- sounds
 		soundstart = "largegun",
@@ -141,6 +141,10 @@ return {
 		range = 480,
 		reloadtime = 3.6,
 		areaofeffect = 260,
+		craterareaofeffect = 390,
+		weapontype = "Cannon",
+		rgbcolor = "1.0 0.5 0.0",
+		gravityaffected = true,
 		damage = {
 			default = 1000,
 		},

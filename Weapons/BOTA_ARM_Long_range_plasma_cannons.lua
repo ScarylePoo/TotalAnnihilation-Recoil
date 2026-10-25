@@ -1,4 +1,4 @@
--- Weapon definitions (converted from BOTA_ARM_Long_range_plasma_cannons.TDF)
+-- Weapon definitions (native Recoil tags; converted from BOTA_ARM_Long_range_plasma_cannons.TDF)
 
 return {
 	big_bertha = {
@@ -6,10 +6,10 @@ return {
 		-- type
 		weapontype = "Cannon",
 		turret = 1,
-		ballistic = 1,
 		-- visuals
 		size = 40,
 		rgbcolor = "1.0 0.5 0",
+		gravityaffected = true,
 		intensity = 0.2,
 		explosiongenerator = "custom:LRPC_Expl",
 		-- sounds
@@ -28,6 +28,7 @@ return {
 		range = 4608,
 		reloadtime = 20,
 		areaofeffect = 80,
+		craterareaofeffect = 120,
 		damage = {
 			default = 1500,
 		},
@@ -37,10 +38,10 @@ return {
 		-- type
 		weapontype = "Cannon",
 		turret = 1,
-		ballistic = 1,
 		-- visuals
 		size = 20,
 		rgbcolor = "1.0 0.5 0",
+		gravityaffected = true,
 		intensity = 0.2,
 		explosiongenerator = "custom:LRPC_Expl",
 		-- sounds
@@ -58,6 +59,7 @@ return {
 		range = 3584,
 		reloadtime = 1,
 		areaofeffect = 100,
+		craterareaofeffect = 150,
 		damage = {
 			default = 400,
 		},

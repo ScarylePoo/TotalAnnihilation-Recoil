@@ -1,11 +1,9 @@
 --------------------------------------------------------------------------------
--- Default Engine Weapon Definitions Post-processing
+-- Weapon Definitions Post-processing
 --------------------------------------------------------------------------------
 local pairs = pairs
 local math = math
 
-local function istable(x)  return (type(x) == 'table')   end
-local function isstring(x) return (type(x) == 'string')  end
 
 local function tobool(val)
   local t = type(val)
@@ -21,26 +19,10 @@ local function tobool(val)
   return false
 end
 
--- The engine's own post-processor turns TA weapon tags (rendertype, lineofsight,
--- ballistic, dropped, vlaunch, beamlaser, color/color2 ...) into Spring weapon
--- types and rgbColor, fills craterAreaOfEffect, and removes the legacy tags so
--- the engine does not warn about them. It is maintained with the engine, so use
--- it instead of an old copy.
-VFS.Include('gamedata/weapondefs_post.lua', nil, VFS.BASE)
-
--- TA tags the engine has no use for (TA's own effects, ids, smoke and screen
--- shake, guidance flags). Strip them so the log only shows real problems.
-local TA_ONLY_TAGS = {
-  'id', 'explosionart', 'explosiongaf', 'waterexplosionart', 'waterexplosiongaf',
-  'lavaexplosionart', 'lavaexplosiongaf', 'startsmoke', 'endsmoke', 'smokedelay',
-  'shakemagnitude', 'shakeduration', 'minbarrelangle', 'selfprop', 'guidance',
-  'bursttime', 'toairweapon', 'randomdecay', 'pitchtolerance',
-}
-for _, wd in pairs(WeaponDefs) do
-  if istable(wd) then
-    for i = 1, #TA_ONLY_TAGS do wd[TA_ONLY_TAGS[i]] = nil end
-  end
-end
+-- Weapons/*.lua use native Recoil tags (weapontype, rgbcolor, gravityaffected,
+-- craterareaofeffect...). The TA tags (rendertype, lineofsight, ballistic,
+-- color...) were converted with springcontent's weapondefs_post.lua once and
+-- removed, so neither that conversion nor a TA-tag strip runs here any more.
 
 
 --------------------------------------------------------------------------------

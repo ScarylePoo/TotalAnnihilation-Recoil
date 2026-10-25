@@ -1,4 +1,4 @@
--- Weapon definitions (converted from BOTA_ARM_Annihilator_beams.TDF)
+-- Weapon definitions (native Recoil tags; converted from BOTA_ARM_Annihilator_beams.TDF)
 
 return {
 	annihilator_beam = {
@@ -36,6 +36,7 @@ return {
 		range = 1480,
 		reloadtime = 6,
 		areaofeffect = 42,
+		craterareaofeffect = 63,
 		minintensity = 1,
 		damage = {
 			default = 3200,
@@ -76,6 +77,7 @@ return {
 		range = 1250,
 		reloadtime = 7,
 		areaofeffect = 32,
+		craterareaofeffect = 48,
 		minintensity = 1,
 		damage = {
 			default = 2000,

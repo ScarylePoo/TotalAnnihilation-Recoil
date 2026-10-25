@@ -1,11 +1,10 @@
--- Weapon definitions (converted from ARM_T1_HOV.TDF)
+-- Weapon definitions (native Recoil tags; converted from ARM_T1_HOV.TDF)
 
 return {
 	armanac_weapon = {
-		id = 153,
 		name = "Light Guass",
-		rendertype = 4,
-		lineofsight = 1,
+		weapontype = "Cannon",
+		rgbcolor = "1.0 0.5 0.0",
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
@@ -13,15 +12,9 @@ return {
 		reloadtime = 1.2,
 		weaponvelocity = 350,
 		areaofeffect = 16,
+		craterareaofeffect = 24,
 		soundstart = "canlite3",
 		soundhit = "xplosml3",
-		explosiongaf = "fx",
-		explosionart = "explode4",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2o",
-		lavaexplosiongaf = "fx",
-		lavaexplosionart = "lavasplash",
-		startsmoke = 1,
 		damage = {
 			default = 80,
 		},

@@ -1,4 +1,4 @@
--- Weapon definitions (converted from BOTA_CORE_Long_range_plasma_cannons.TDF)
+-- Weapon definitions (native Recoil tags; converted from BOTA_CORE_Long_range_plasma_cannons.TDF)
 
 return {
 	intimidator = {
@@ -6,10 +6,10 @@ return {
 		-- type
 		weapontype = "Cannon",
 		turret = 1,
-		ballistic = 1,
 		-- visuals
 		size = 40,
 		rgbcolor = "1.0 0.5 0",
+		gravityaffected = true,
 		intensity = 0.2,
 		explosiongenerator = "custom:LRPC_Expl",
 		-- sounds
@@ -28,6 +28,7 @@ return {
 		range = 5120,
 		reloadtime = 23,
 		areaofeffect = 100,
+		craterareaofeffect = 150,
 		damage = {
 			default = 1800,
 		},
@@ -37,10 +38,10 @@ return {
 		-- type
 		weapontype = "Cannon",
 		turret = 1,
-		ballistic = 1,
 		-- visuals
 		size = 20,
 		rgbcolor = "1.0 0.5 0",
+		gravityaffected = true,
 		intensity = 0.2,
 		explosiongenerator = "custom:LRPC_Expl",
 		-- sounds
@@ -59,6 +60,7 @@ return {
 		range = 4096,
 		reloadtime = 1.2,
 		areaofeffect = 120,
+		craterareaofeffect = 180,
 		damage = {
 			default = 450,
 		},

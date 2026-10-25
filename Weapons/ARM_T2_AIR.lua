@@ -1,14 +1,12 @@
--- Weapon definitions (converted from ARM_T2_AIR.TDF)
+-- Weapon definitions (native Recoil tags; converted from ARM_T2_AIR.TDF)
 
 return {
 	vtol_emg = {
-		id = 18,
 		name = "E.M.G.",
-		rendertype = 4,
+		weapontype = "Cannon",
+		rgbcolor = "1.0 0.5 0.0",
 		-- 2D bitmap
-		color = 1,
 		-- EMG bitmap
-		lineofsight = 1,
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 0,
@@ -21,15 +19,14 @@ return {
 		-- weaponacceleration=200;
 		sprayangle = 1024,
 		areaofeffect = 8,
+		craterareaofeffect = 12,
 		burst = 4,
 		burstrate = .1,
 		soundstart = "armsml3",
 		soundhit = "lasrhit1",
 		soundtrigger = 1,
 		tolerance = 6000,
-		pitchtolerance = 12000,
 		explosiongenerator = "custom:FLASH1white",
-		startsmoke = 1,
 		damage = {
 			default = 11,
 		},

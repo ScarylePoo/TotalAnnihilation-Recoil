@@ -1,4 +1,4 @@
--- Weapon definitions (converted from BOTA_CORE_Depthcharges.TDF)
+-- Weapon definitions (native Recoil tags; converted from BOTA_CORE_Depthcharges.TDF)
 
 return {
 	core_depthcharge = {
@@ -7,6 +7,7 @@ return {
 		-- CORE_T2_SEA_Executioner
 		-- type
 		weapontype = "TorpedoLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		turret = 0,
 		tolerance = 32767,
 		tracks = 1,
@@ -29,6 +30,7 @@ return {
 		range = 400,
 		reloadtime = 2.6,
 		areaofeffect = 16,
+		craterareaofeffect = 24,
 		damage = {
 			default = 80,
 			-- subs=130;

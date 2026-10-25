@@ -1,4 +1,4 @@
--- Weapon definitions (converted from BOTA_CORE_Lasers_for_towers.TDF)
+-- Weapon definitions (native Recoil tags; converted from BOTA_CORE_Lasers_for_towers.TDF)
 
 return {
 	core_light_laser = {
@@ -32,6 +32,7 @@ return {
 		range = 512,
 		reloadtime = 0.52,
 		areaofeffect = 8,
+		craterareaofeffect = 12,
 		damage = {
 			default = 72,
 		},
@@ -67,6 +68,7 @@ return {
 		range = 650,
 		reloadtime = 0.965,
 		areaofeffect = 8,
+		craterareaofeffect = 12,
 		damage = {
 			default = 240,
 		},
@@ -100,6 +102,7 @@ return {
 		range = 690,
 		reloadtime = 1,
 		areaofeffect = 8,
+		craterareaofeffect = 12,
 		damage = {
 			default = 220,
 		},

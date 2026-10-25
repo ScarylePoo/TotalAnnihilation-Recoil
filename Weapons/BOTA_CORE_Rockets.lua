@@ -1,4 +1,4 @@
--- Weapon definitions (converted from BOTA_CORE_Rockets.TDF)
+-- Weapon definitions (native Recoil tags; converted from BOTA_CORE_Rockets.TDF)
 
 return {
 	core_hover_rocket = {
@@ -6,6 +6,7 @@ return {
 		-- CORE_T1_HOV_Nixer
 		-- type
 		weapontype = "StarburstLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		tolerance = 4000,
 		-- visuals
 		model = "cormhmsl",
@@ -26,6 +27,7 @@ return {
 		range = 1100,
 		reloadtime = 13,
 		areaofeffect = 140,
+		craterareaofeffect = 210,
 		edgeeffectiveness = 0.75,
 		damage = {
 			default = 600,
@@ -36,6 +38,7 @@ return {
 		-- CORE_T2_BOT_Dominator
 		-- type
 		weapontype = "StarburstLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		tolerance = 1000,
 		-- visuals
 		model = "CorKBMissl1",
@@ -56,6 +59,7 @@ return {
 		range = 1000,
 		reloadtime = 12,
 		areaofeffect = 140,
+		craterareaofeffect = 210,
 		edgeeffectiveness = 0.75,
 		damage = {
 			default = 500,
@@ -66,6 +70,7 @@ return {
 		-- CORE_T2_SEA_MissileFrigate
 		-- type
 		weapontype = "StarburstLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		tolerance = 4000,
 		-- visuals
 		model = "corshiprckt1",
@@ -86,6 +91,7 @@ return {
 		range = 1680,
 		reloadtime = 9,
 		areaofeffect = 215,
+		craterareaofeffect = 322.5,
 		edgeeffectiveness = 0.50,
 		damage = {
 			default = 900,
@@ -96,6 +102,7 @@ return {
 		-- CORE_T2_VEH_Diplomat
 		-- type
 		weapontype = "StarburstLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		tolerance = 4000,
 		-- visuals
 		model = "corvrocket",
@@ -116,6 +123,7 @@ return {
 		range = 1200,
 		reloadtime = 13,
 		areaofeffect = 150,
+		craterareaofeffect = 225,
 		edgeeffectiveness = 0.75,
 		damage = {
 			default = 600,
@@ -126,6 +134,7 @@ return {
 		-- CORE_T3_BOT_Krogoth
 		-- type
 		weapontype = "StarburstLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		tolerance = 9000,
 		tracks = 1,
 		-- visuals
@@ -148,6 +157,7 @@ return {
 		range = 1300,
 		reloadtime = 1.4,
 		areaofeffect = 120,
+		craterareaofeffect = 180,
 		damage = {
 			default = 251,
 		},

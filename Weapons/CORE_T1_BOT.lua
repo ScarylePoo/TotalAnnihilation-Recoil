@@ -1,11 +1,10 @@
--- Weapon definitions (converted from CORE_T1_BOT.TDF)
+-- Weapon definitions (native Recoil tags; converted from CORE_T1_BOT.TDF)
 
 return {
 	corkbot_rocket = {
-		id = 121,
 		name = "Rockets",
-		rendertype = 1,
-		lineofsight = 1,
+		weapontype = "MissileLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
@@ -17,41 +16,32 @@ return {
 		startvelocity = 250,
 		weaponacceleration = 120,
 		areaofeffect = 48,
+		craterareaofeffect = 72,
 		metalpershot = 0,
 		soundstart = "rocklit1",
 		soundhit = "xplosml2",
 		firestarter = 70,
-		smokedelay = .1,
-		selfprop = 1,
 		smoketrail = 1,
-		explosiongaf = "fx",
-		explosionart = "explode3",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2o",
-		lavaexplosiongaf = "fx",
-		lavaexplosionart = "lavasplash",
-		startsmoke = 1,
 		damage = {
 			default = 220,  -- 100//250
 		},
 	},
 	core_thud = {
-		id = 55,
 		name = "Plasma Cannon",
-		rendertype = 4,
-		ballistic = 1,
+		weapontype = "Cannon",
+		rgbcolor = "1.0 0.5 0.0",
+		gravityaffected = true,
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
-		minbarrelangle = -35,
 		range = 590,  -- 320//403//500//690//630//650//530
 		reloadtime = 2.5,  -- 1.9//2.4//3.4//1.9
 		weaponvelocity = 270,  -- 210//270//305
 		areaofeffect = 48,
+		craterareaofeffect = 72,
 		soundstart = "cannon1",
 		soundhit = "xplomed3",
 		explosiongenerator = "custom:MARY_SUE",
-		startsmoke = 1,
 		damage = {
 			default = 100,  -- 105//80//95
 		},

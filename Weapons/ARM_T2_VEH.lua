@@ -1,11 +1,11 @@
--- Weapon definitions (converted from ARM_T2_VEH.TDF)
+-- Weapon definitions (native Recoil tags; converted from ARM_T2_VEH.TDF)
 
 return {
 	arm_bull = {
-		id = 56,
 		name = "Plasma Cannon",
-		rendertype = 4,
-		ballistic = 1,
+		weapontype = "Cannon",
+		rgbcolor = "1.0 0.5 0.0",
+		gravityaffected = true,
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
@@ -13,19 +13,19 @@ return {
 		reloadtime = 1.1,
 		weaponvelocity = 330,  -- 210
 		areaofeffect = 48,
+		craterareaofeffect = 72,
 		soundstart = "cannon3",
 		soundhit = "xplomed2",
 		explosiongenerator = "custom:LITTLEBANG_Expl",
-		startsmoke = 1,
 		damage = {
 			default = 127,  -- 110 7-10-97//147
 		},
 	},
 	arm_artillery = {
-		id = 58,
 		name = "Plasma Cannon",
-		rendertype = 4,
-		ballistic = 1,
+		weapontype = "Cannon",
+		rgbcolor = "1.0 0.5 0.0",
+		gravityaffected = true,
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
@@ -33,6 +33,7 @@ return {
 		reloadtime = 2.5,
 		weaponvelocity = 420,  -- 310//415
 		areaofeffect = 85,  -- 48
+		craterareaofeffect = 127.5,
 		soundstart = "cannhvy2",
 		soundhit = "xplomed4",
 		accuracy = 500,  -- 2000
@@ -40,16 +41,14 @@ return {
 		cratermult = .5,
 		craterboost = .5,
 		impulsefactor = .7,
-		startsmoke = 1,
 		damage = {
 			default = 170,
 		},
 	},
 	armlatnk_weapon = {
-		id = 166,
 		name = "Lightning Gun",
-		rendertype = 7,
-		lineofsight = 1,
+		weapontype = "LightningCannon",
+		rgbcolor = "0.000 1.000 0.800",
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
@@ -57,59 +56,44 @@ return {
 		reloadtime = 1.55,
 		weaponvelocity = 400,
 		areaofeffect = 8,
+		craterareaofeffect = 12,
 		duration = 10,
 		soundtrigger = 1,
 		soundstart = "lghthvy1",
 		soundhit = "lashit",
 		firestarter = 50,
-		beamweapon = 1,
-		color = 119,  -- 208	/* Yellow */
-		color2 = 240,  -- 196
-		explosiongaf = "fx",
-		explosionart = "explode5",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2oboom1",
-		startsmoke = 1,
 		damage = {
 			default = 200,  -- 120
 		},
 	},
 	arm_paralyzer = {
-		id = 29,
 		name = "Paralyzer",
-		rendertype = 0,
-		lineofsight = 1,
+		weapontype = "LaserCannon",
+		rgbcolor = "1.000 0.000 0.482",
 		turret = 1,
 		paralyzer = 1,
 		avoidfriendly = 0,
 		collidefriendly = 0,
-		minbarrelangle = 0,
 		range = 550,  -- 220 //380
 		reloadtime = 1.2,
 		weaponvelocity = 800,
 		areaofeffect = 8,
+		craterareaofeffect = 12,
 		duration = .04,
 		soundtrigger = 1,
 		soundstart = "lasrlit1",
 		soundhit = "lashit",
-		beamweapon = 1,
-		color = 209,
 		-- Redish
-		color2 = 211,
-		explosiongaf = "fx",
-		explosionart = "explode5",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2oboom1",
 		damage = {
 			default = 1200,
 			-- 15 seconds of paralysis
 		},
 	},
 	arm_mediumcannon = {
-		id = 52,
 		name = "Plasma Cannon",
-		rendertype = 4,
-		ballistic = 1,
+		weapontype = "Cannon",
+		rgbcolor = "1.0 0.5 0.0",
+		gravityaffected = true,
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
@@ -117,10 +101,10 @@ return {
 		reloadtime = 1.8,
 		weaponvelocity = 270,  -- 210
 		areaofeffect = 48,
+		craterareaofeffect = 72,
 		soundstart = "cannon2",
 		soundhit = "xplomed4",
 		explosiongenerator = "custom:LITTLEPLASMA_Expl",
-		startsmoke = 1,
 		damage = {
 			default = 160,  -- 112//140
 		},

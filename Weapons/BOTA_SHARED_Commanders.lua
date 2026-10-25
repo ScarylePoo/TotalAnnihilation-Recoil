@@ -1,4 +1,4 @@
--- Weapon definitions (converted from BOTA_SHARED_Commanders.TDF)
+-- Weapon definitions (native Recoil tags; converted from BOTA_SHARED_Commanders.TDF)
 
 return {
 	commander_laser = {
@@ -31,6 +31,7 @@ return {
 		range = 290,
 		reloadtime = 0.85,
 		areaofeffect = 16,
+		craterareaofeffect = 24,
 		damage = {
 			default = 95,
 		},
@@ -61,14 +62,15 @@ return {
 		range = 290,
 		reloadtime = 1.2,
 		areaofeffect = 48,
+		craterareaofeffect = 72,
+		weaponType = "DGun",  -- camel case as springcontent sets it, so the DGun branch in weapondefs_post.lua does not see it
+		rgbcolor = "1.000 0.000 0.000",
 		damage = {
 			default = 30000,
 		},
 	},
 	commander_explosion = {
 		-- type
-		rendertype = 4,
-		ballistic = 1,
 		turret = 1,
 		-- visuals
 		explosiongenerator = "custom:ARGHNUKE_FX",
@@ -81,7 +83,11 @@ return {
 		range = 380,
 		reloadtime = 3.6,
 		areaofeffect = 950,
+		craterareaofeffect = 1425,
 		edgeeffectiveness = 0.75,
+		weapontype = "Cannon",
+		rgbcolor = "1.0 0.5 0.0",
+		gravityaffected = true,
 		damage = {
 			default = 9999,
 		},

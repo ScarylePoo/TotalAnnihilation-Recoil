@@ -1,14 +1,12 @@
--- Weapon definitions (converted from ARM_T1_VEH.TDF)
+-- Weapon definitions (native Recoil tags; converted from ARM_T1_VEH.TDF)
 
 return {
 	emg = {
-		id = 16,
 		name = "E.M.G.",
-		rendertype = 4,
+		weapontype = "EmgCannon",
+		rgbcolor = "0.9 0.9 0.2",
 		-- 2D bitmap
-		color = 2,
 		-- EMG bitmap shell, its a hack
-		lineofsight = 1,
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
@@ -19,6 +17,7 @@ return {
 		weaponvelocity = 400,
 		sprayangle = 768,
 		areaofeffect = 8,
+		craterareaofeffect = 12,
 		burst = 4,
 		burstrate = .1,
 		soundstart = "armsml2",
@@ -26,16 +25,15 @@ return {
 		soundtrigger = 1,
 		tolerance = 6000,
 		explosiongenerator = "custom:FLASH1white",
-		startsmoke = 1,
 		damage = {
 			default = 14,
 		},
 	},
 	arm_lightcannon = {
-		id = 50,
 		name = "Light Cannon",
-		rendertype = 4,
-		ballistic = 1,
+		weapontype = "Cannon",
+		rgbcolor = "1.0 0.5 0.0",
+		gravityaffected = true,
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
@@ -43,10 +41,10 @@ return {
 		reloadtime = 1.33,
 		weaponvelocity = 350,  -- 170
 		areaofeffect = 32,
+		craterareaofeffect = 48,
 		soundstart = "canlite3",
 		soundhit = "xplosml3",
 		explosiongenerator = "custom:TANKSHOT_Expl",
-		startsmoke = 1,
 		damage = {
 			default = 70,  -- 50//75
 		},

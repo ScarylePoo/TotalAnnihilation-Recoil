@@ -1,59 +1,48 @@
--- Weapon definitions (converted from ARM_T2_BOT.TDF)
+-- Weapon definitions (native Recoil tags; converted from ARM_T2_BOT.TDF)
 
 return {
 	gauss = {
-		id = 60,
 		name = "Gauss Cannon",
-		rendertype = 4,
-		lineofsight = 1,
+		weapontype = "Cannon",
+		rgbcolor = "1.0 0.5 0.0",
 		turret = 1,
 		avoidfriendly = 0,
 		collidefriendly = 0,
-		minbarrelangle = -15,
 		range = 680,
 		reloadtime = 1.25,
 		weaponvelocity = 600,
 		areaofeffect = 12,
+		craterareaofeffect = 18,
 		soundstart = "cannhvy1",
 		soundhit = "xplomed2",
 		explosiongenerator = "custom:GAUSS_Expl",
-		startsmoke = 1,
 		damage = {
 			default = 120,
 		},
 	},
 	armmav_weapon = {
-		id = 190,
 		name = "Gauss Cannon",
-		rendertype = 4,
-		lineofsight = 1,
+		weapontype = "Cannon",
+		rgbcolor = "1.0 0.5 0.0",
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
-		minbarrelangle = -15,
 		range = 580,
 		reloadtime = 0.8,
 		weaponvelocity = 680,
 		areaofeffect = 8,
+		craterareaofeffect = 12,
 		soundstart = "Mavgun2",
 		soundhit = "xplomed2",
 		tolerance = 300,
-		explosiongaf = "fx",
-		explosionart = "explode5",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2oboom1",
-		lavaexplosiongaf = "fx",
-		lavaexplosionart = "lavasplashsm",
-		startsmoke = 1,
 		damage = {
 			default = 320,
 		},
 	},
 	armsnipe_weapon = {
-		id = 160,
 		name = "Annihilator Weapon",
-		rendertype = 0,
-		lineofsight = 1,
+		weapontype = "LaserCannon",
+		rgbcolor = "0.000 0.012 1.000",
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
@@ -62,19 +51,11 @@ return {
 		energypershot = 1500,
 		weaponvelocity = 1200,  -- 1000
 		areaofeffect = 8,
+		craterareaofeffect = 12,
 		soundstart = "annigun1",
 		soundhit = "xplolrg1",
 		firestarter = 90,
-		beamweapon = 1,
-		color = 144,
 		-- PURPLE
-		color2 = 217,
-		explosiongaf = "fx",
-		explosionart = "explode5",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2oboom1",
-		lavaexplosiongaf = "fx",
-		lavaexplosionart = "lavasplashsm",
 		damage = {
 			default = 1800,  -- 1230//2460//1500//882
 			-- CoreSumoKrog=4860;//2460//4860//2859
@@ -93,10 +74,9 @@ return {
 		heightboostfactor = 0,
 	},
 	lightning = {
-		id = 26,
 		name = "Lightning Gun",
-		rendertype = 7,
-		lineofsight = 1,
+		weapontype = "LightningCannon",
+		rgbcolor = "0.000 1.000 0.776",
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
@@ -104,17 +84,14 @@ return {
 		reloadtime = 1.85,  -- 1.45
 		weaponvelocity = 400,
 		areaofeffect = 8,
+		craterareaofeffect = 12,
 		duration = 10,
 		soundtrigger = 1,
 		soundstart = "lghthvy1",
 		soundhit = "lashit",
 		firestarter = 50,
-		beamweapon = 1,
-		color = 118,
 		-- Yellow
-		color2 = 240,  -- 196
 		explosiongenerator = "custom:LIGHTNING",
-		startsmoke = 1,
 		damage = {
 			default = 240,  -- 180//320
 		},

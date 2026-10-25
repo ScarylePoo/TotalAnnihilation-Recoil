@@ -1,4 +1,4 @@
--- Weapon definitions (converted from BOTA_ARM_Rockets.TDF)
+-- Weapon definitions (native Recoil tags; converted from BOTA_ARM_Rockets.TDF)
 
 return {
 	arm_hover_rocket = {
@@ -6,6 +6,7 @@ return {
 		-- ARM_T1_HOV_Wombat
 		-- type
 		weapontype = "StarburstLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		tolerance = 4000,
 		-- visuals
 		model = "BOTA_ARM_Hover_Rocket",
@@ -26,6 +27,7 @@ return {
 		range = 1100,
 		reloadtime = 12,
 		areaofeffect = 140,
+		craterareaofeffect = 210,
 		edgeeffectiveness = 0.75,
 		damage = {
 			default = 600,
@@ -36,6 +38,7 @@ return {
 		-- ARM_T2_SEA_Ranger
 		-- type
 		weapontype = "StarburstLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		tolerance = 4000,
 		-- visuals
 		model = "BOTA_Rocket",
@@ -56,6 +59,7 @@ return {
 		range = 1630,
 		reloadtime = 12,
 		areaofeffect = 215,
+		craterareaofeffect = 322.5,
 		edgeeffectiveness = 0.50,
 		damage = {
 			default = 900,
@@ -66,6 +70,7 @@ return {
 		-- ARM_T2_VEH_Merl
 		-- type
 		weapontype = "StarburstLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		tolerance = 4000,
 		-- visuals
 		model = "BOTA_Rocket",
@@ -87,6 +92,7 @@ return {
 		reloadtime = 12,
 		edgeeffectiveness = 0.75,
 		areaofeffect = 150,
+		craterareaofeffect = 225,
 		damage = {
 			default = 600,
 		},

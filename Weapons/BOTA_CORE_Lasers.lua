@@ -1,4 +1,4 @@
--- Weapon definitions (converted from BOTA_CORE_Lasers.TDF)
+-- Weapon definitions (native Recoil tags; converted from BOTA_CORE_Lasers.TDF)
 
 return {
 	core_scout_laser = {
@@ -31,6 +31,7 @@ return {
 		range = 305,
 		reloadtime = 0.8,
 		areaofeffect = 8,
+		craterareaofeffect = 12,
 		damage = {
 			default = 18,
 		},
@@ -62,6 +63,7 @@ return {
 		range = 600,
 		reloadtime = 0.39,
 		areaofeffect = 8,
+		craterareaofeffect = 12,
 		damage = {
 			default = 15,
 		},
@@ -93,6 +95,7 @@ return {
 		range = 271,
 		reloadtime = 0.7,
 		areaofeffect = 8,
+		craterareaofeffect = 12,
 		damage = {
 			default = 44,
 		},
@@ -124,6 +127,7 @@ return {
 		range = 270,
 		reloadtime = 1,
 		areaofeffect = 8,
+		craterareaofeffect = 12,
 		damage = {
 			default = 70,
 		},
@@ -156,6 +160,7 @@ return {
 		range = 315,
 		reloadtime = 0.6,
 		areaofeffect = 8,
+		craterareaofeffect = 12,
 		damage = {
 			default = 57,
 		},
@@ -189,6 +194,7 @@ return {
 		range = 525,
 		reloadtime = 1.05,
 		areaofeffect = 12,
+		craterareaofeffect = 18,
 		damage = {
 			default = 90,
 		},
@@ -221,6 +227,7 @@ return {
 		range = 600,
 		reloadtime = 1.05,
 		areaofeffect = 19,
+		craterareaofeffect = 28.5,
 		damage = {
 			default = 330,
 		},
@@ -253,6 +260,7 @@ return {
 		range = 520,
 		reloadtime = 0.95,
 		areaofeffect = 18,
+		craterareaofeffect = 27,
 		damage = {
 			default = 220,
 		},
@@ -285,6 +293,7 @@ return {
 		range = 810,
 		reloadtime = 1.1,
 		areaofeffect = 8,
+		craterareaofeffect = 12,
 		damage = {
 			default = 159,
 		},

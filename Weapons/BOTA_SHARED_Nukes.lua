@@ -1,4 +1,4 @@
--- Weapon definitions (converted from BOTA_SHARED_Nukes.TDF)
+-- Weapon definitions (native Recoil tags; converted from BOTA_SHARED_Nukes.TDF)
 
 return {
 	nuclear_missile = {
@@ -7,6 +7,7 @@ return {
 		-- CORE_T2_DEF_Silencer
 		-- type
 		weapontype = "StarburstLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		stockpile = 1,
 		targetable = 1,
 		commandfire = 1,
@@ -31,8 +32,10 @@ return {
 		turnrate = 32768,
 		-- stats
 		range = 32000,
-		reloadtime = 190,
+		reloadtime = 2,
+		stockpiletime = 190,
 		areaofeffect = 1024,
+		craterareaofeffect = 1536,
 		edgeeffectiveness = 0.3,
 		damage = {
 			default = 10000,
@@ -44,6 +47,7 @@ return {
 		-- CORE_T2_DEF_FortitudeMissileDefense
 		-- type
 		weapontype = "StarburstLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		stockpile = 1,
 		interceptor = 1,
 		coverage = 1100,
@@ -69,8 +73,10 @@ return {
 		metalpershot = 200,
 		-- stats
 		range = 32000,
-		reloadtime = 100,
+		reloadtime = 2,
+		stockpiletime = 100,
 		areaofeffect = 96,
+		craterareaofeffect = 144,
 		damage = {
 			default = 500,
 		},
@@ -81,6 +87,7 @@ return {
 		-- CORE_T2_VEH_Hedgehog
 		-- type
 		weapontype = "StarburstLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		stockpile = 1,
 		interceptor = 1,
 		coverage = 600,
@@ -106,8 +113,10 @@ return {
 		metalpershot = 200,
 		-- stats
 		range = 25000,
-		reloadtime = 100,
+		reloadtime = 2,
+		stockpiletime = 100,
 		areaofeffect = 96,
+		craterareaofeffect = 144,
 		damage = {
 			default = 500,
 		},
@@ -117,6 +126,7 @@ return {
 		-- ARM_T2_DEF_Stunner
 		-- type
 		weapontype = "StarburstLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		stockpile = 1,
 		targetable = 1,
 		commandfire = 1,
@@ -144,8 +154,10 @@ return {
 		metalpershot = 400,
 		-- stats
 		range = 32000,
-		reloadtime = 150,
+		reloadtime = 2,
+		stockpiletime = 150,
 		areaofeffect = 768,
+		craterareaofeffect = 1152,
 		edgeeffectiveness = 0.3,
 		damage = {
 			default = 80000,
@@ -156,6 +168,7 @@ return {
 		-- CORE_T2_DEF_Neutron
 		-- type
 		weapontype = "StarburstLauncher",
+		rgbcolor = "1.000 0.000 0.000",
 		stockpile = 1,
 		targetable = 1,
 		commandfire = 1,
@@ -180,8 +193,10 @@ return {
 		metalpershot = 700,
 		-- stats
 		range = 32000,
-		reloadtime = 170,
+		reloadtime = 2,
+		stockpiletime = 170,
 		areaofeffect = 512,
+		craterareaofeffect = 768,
 		edgeeffectiveness = 0.3,
 		damage = {
 			default = 2000,
