@@ -19,6 +19,12 @@ from . import threedo
 SHARP = math.radians(40)
 
 
+def material(name):
+    """the kit material slot `name`, created if missing (blends saved before a slot was added to MATS lack it)."""
+    m = bpy.data.materials.get(name)
+    return m if m is not None else bpy.data.materials.new(name)
+
+
 def reset_scene():
     bpy.ops.wm.read_factory_settings(use_empty=True)
     for m in MATS:
@@ -190,7 +196,7 @@ class Unit:
                 me = bpy.data.meshes.new(name)
                 bm.to_mesh(me); bm.free()
                 for m in MATS:
-                    me.materials.append(bpy.data.materials[m])
+                    me.materials.append(material(m))
                 ob = bpy.data.objects.new(name, me)
             else:
                 ob = bpy.data.objects.new(name, None)

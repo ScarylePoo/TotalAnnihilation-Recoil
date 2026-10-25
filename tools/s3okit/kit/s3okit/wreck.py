@@ -105,7 +105,7 @@ def make(unit_T, objs, level=1, seed=1, pose=None, drop=(), remove=()):
         bpy.data.objects.remove(o)
     if not me.materials:
         for m in MATS:
-            me.materials.append(bpy.data.materials[m])
+            me.materials.append(geom.material(m))
     ob = bpy.data.objects.new('base', me)
     bpy.context.scene.collection.objects.link(ob)
     geom.finalize_shading([ob])
