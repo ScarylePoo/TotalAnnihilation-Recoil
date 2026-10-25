@@ -3,7 +3,9 @@ Maps: id (material slot), pos (engine coords), nrm, edge (bevel-normal dot), aon
 import bpy, numpy as np
 from .common import MATS
 
-QUALITY = {'draft': dict(edge=4, aonear=6, aofar=10), 'final': dict(edge=16, aonear=24, aofar=48)}
+# final was edge 16 / aonear 24 / aofar 48. Measured on the Instigator (2048 bake, 1024 texture): 6/8/12 differs from it
+# by < 0.4 % mean, ~2-3 % p99 after the 2x2 downsample (below DXT error) and bakes 4.7x faster (498 s vs 2348 s).
+QUALITY = {'draft': dict(edge=4, aonear=6, aofar=10), 'final': dict(edge=6, aonear=8, aofar=12)}
 
 
 def _setup(kind, img, ao_far, ao_near):
