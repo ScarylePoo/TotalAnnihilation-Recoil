@@ -1,10 +1,10 @@
 --------------------------------------------------------------------------------
 -- Build lists
 --
--- Every builder names its list in its FBI with BuildList=<name>; and
--- gamedata/unitdefs_post.lua sets that unit's buildoptions to Shared[<name>].
--- The lists are BOTA's original [CANBUILD] lists from sidedata.tdf, in their
--- original order, assembled from the groups below.
+-- Builders use them as  buildoptions = Shared.buildList<Name>,  in their
+-- units/*.lua (as Splinter Faction does). The lists are BOTA's original
+-- [CANBUILD] lists from sidedata.tdf, in their original order, assembled from
+-- the groups below.
 --------------------------------------------------------------------------------
 
 -- concatenates any number of lists into a new one
@@ -488,3 +488,11 @@ Shared.buildListCoreAdvancedShipyard = {
 Shared.buildListCoreKrogothGantry = {
 	[[CORE_T3_BOT_Krogoth]],
 }
+
+--------------------------------------------------------------------------------
+-- unitdef names are lowercase; the engine checks build options against them
+for _, list in pairs(Shared) do
+	for i = 1, #list do
+		list[i] = list[i]:lower()
+	end
+end
