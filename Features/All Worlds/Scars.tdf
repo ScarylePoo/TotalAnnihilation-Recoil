@@ -10,7 +10,6 @@
 	filename=scars;
 	seqname=scar01;
 
-	featuredead=Scar01;
 
 	animtrans=1;
 	flamable=0;
@@ -34,7 +33,6 @@
 	filename=scars;
 	seqname=scar02;
 
-	featuredead=Scar02;
 
 	animtrans=1;
 	flamable=0;
@@ -58,7 +56,6 @@
 	filename=scars;
 	seqname=scar03;
 
-	featuredead=Scar03;
 
 	animtrans=1;
 	flamable=0;
@@ -82,7 +79,6 @@
 	filename=scars;
 	seqname=scar04;
 
-	featuredead=Scar04;
 
 	animtrans=1;
 	flamable=0;
@@ -106,7 +102,6 @@
 	filename=scars;
 	seqname=scar05;
 
-	featuredead=Scar05;
 
 	animtrans=1;
 	flamable=0;
@@ -130,7 +125,6 @@
 	filename=scars;
 	seqname=scar06;
 
-	featuredead=Scar06;
 
 	animtrans=1;
 	flamable=0;
@@ -154,7 +148,6 @@
 	filename=scars;
 	seqname=scar07;
 
-	featuredead=Scar07;
 
 	animtrans=1;
 	flamable=0;
@@ -178,7 +171,6 @@
 	filename=scars;
 	seqname=scar08;
 
-	featuredead=Scar08;
 
 	animtrans=1;
 	flamable=0;
@@ -202,7 +194,6 @@
 	filename=scars;
 	seqname=scar09;
 
-	featuredead=Scar09;
 
 	animtrans=1;
 	flamable=0;
@@ -226,7 +217,6 @@
 	filename=scars;
 	seqname=scar10;
 
-	featuredead=Scar10;
 
 	animtrans=1;
 	flamable=0;
