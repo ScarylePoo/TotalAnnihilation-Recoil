@@ -15,6 +15,12 @@ def _srgb(hx):
     return [x / 12.92 if x <= 0.04045 else ((x + 0.055) / 1.055) ** 2.4 for x in c] + [1]
 
 
+def _png(texdir, name):
+    """the S3O names the shipped .dds; preview renders from the .png intermediate compose made (same orientation)."""
+    p = os.path.join(texdir, os.path.splitext(name)[0] + '.png')
+    return p if os.path.exists(p) else os.path.join(texdir, name)
+
+
 def render(path, texdir, prefix, team='2255dd', pose=None, views=('front34', 'rear34', 'side', 'rts'),
            samples=32, size=(900, 650), thumb=True):
     bpy.ops.wm.read_factory_settings(use_empty=True)
@@ -23,9 +29,9 @@ def render(path, texdir, prefix, team='2255dd', pose=None, views=('front34', 're
     mat = bpy.data.materials.new('s3o'); mat.use_nodes = True
     nt = mat.node_tree; N = nt.nodes; L = nt.links
     bsdf = N['Principled BSDF']
-    i1 = N.new('ShaderNodeTexImage'); i1.image = bpy.data.images.load(os.path.join(texdir, m['tex1']))
+    i1 = N.new('ShaderNodeTexImage'); i1.image = bpy.data.images.load(_png(texdir, m['tex1']))
     i1.image.alpha_mode = 'CHANNEL_PACKED'
-    i2 = N.new('ShaderNodeTexImage'); i2.image = bpy.data.images.load(os.path.join(texdir, m['tex2']))
+    i2 = N.new('ShaderNodeTexImage'); i2.image = bpy.data.images.load(_png(texdir, m['tex2']))
     i2.image.colorspace_settings.name = 'Non-Color'
     mix = N.new('ShaderNodeMix'); mix.data_type = 'RGBA'
     A = [s for s in mix.inputs if s.name == 'A' and s.type == 'RGBA'][0]
@@ -50,7 +56,7 @@ def render(path, texdir, prefix, team='2255dd', pose=None, views=('front34', 're
             me.from_pydata([V[i][:3] for i in used], [], [[remap[i] for i in I[k:k + 3]] for k in range(0, len(I), 3)])
             uvl = me.uv_layers.new()
             for li, lp in enumerate(me.loops):
-                v = V[used[lp.vertex_index]]; uvl.data[li].uv = (v[6], 1 - v[7])
+                v = V[used[lp.vertex_index]]; uvl.data[li].uv = (v[6], v[7])
             me.normals_split_custom_set([V[used[lp.vertex_index]][3:6] for lp in me.loops])
             me.materials.append(mat)
         ob = bpy.data.objects.new(p['name'], me if I else None)
@@ -59,9 +65,12 @@ def render(path, texdir, prefix, team='2255dd', pose=None, views=('front34', 're
             ob.parent = objs[p['parent']]
         ob.location = p['off']
         objs[p['name']] = ob
-    for name, rot in (pose or {}).items():   # rot in degrees, COB-like Euler XYZ
+    for name, rot in (pose or {}).items():   # rot in degrees, COB-like Euler XYZ; 'hide' = hidden by the script
         if name in objs:
-            objs[name].rotation_euler = Euler([math.radians(a) for a in rot])
+            if rot == 'hide':
+                objs[name].hide_render = True
+            else:
+                objs[name].rotation_euler = Euler([math.radians(a) for a in rot])
 
     sc.render.engine = 'CYCLES'; sc.cycles.samples = samples; sc.cycles.use_denoising = True
     sc.view_settings.view_transform = 'Standard'

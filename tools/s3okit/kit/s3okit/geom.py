@@ -349,7 +349,7 @@ def _scale_island(isl, uv, s):
             l[uv].uv = cen + (l[uv].uv - cen) * s
 
 
-IMPORTANCE = {'tread': 0.6, 'black': 0.4, 'ash': 0.7, 'team': 1.0, 'lightw': 0.8, 'lightc': 0.8, 'lightr': 0.8}
+IMPORTANCE = {'tread': 0.6, 'tread2': 0.6, 'tread3': 0.6, 'tread4': 0.6, 'black': 0.4, 'ash': 0.7, 'team': 1.0, 'lightw': 0.8, 'lightc': 0.8, 'lightr': 0.8}
 
 
 def unwrap(objs, margin_px=3, res=1024, angle=55, ground=True, air=False):

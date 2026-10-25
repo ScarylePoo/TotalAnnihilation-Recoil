@@ -3,7 +3,8 @@
 Conventions verified against the Recoil source:
 - S3O and 3DO share the engine coordinate frame here; we write engine coords directly.
 - triangles (primitiveType 0), winding such that cross(b-a, c-a) points along the vertex normals.
-- texv = 1 - blender_v (non-DDS images load with an upper-left origin).
+- texv = blender_v, unflipped, with DDS textures written unflipped (s3okit/dds.py). Confirmed in game by the user
+  (2026-10-25): the old texv = 1 - v with PNG textures came out upside down and had to be fixed by hand.
 - Emit points: S3DModelPiece::GetEmitPos/GetEmitDir use vertex 0 (and 1). 0 verts -> pos 0, dir +Z;
   1 vert -> pos 0, dir = v0; 2+ -> pos v0, dir v1-v0. Weapons fire from and emit-sfx uses these, so we
   PREPEND the original 3DO piece's first one/two vertices (unreferenced by triangles) to every piece.
@@ -24,7 +25,7 @@ def mesh_data(ob, dg):
         for li in tri.loops:
             co = me.vertices[me.loops[li].vertex_index].co
             n = cn[li].vector
-            u, v = (uvl[li].vector.x, 1.0 - uvl[li].vector.y) if uvl else (0.0, 0.0)
+            u, v = (uvl[li].vector.x, uvl[li].vector.y) if uvl else (0.0, 0.0)
             k = (round(co.x, 5), round(co.y, 5), round(co.z, 5), round(n.x, 4), round(n.y, 4), round(n.z, 4),
                  round(u, 6), round(v, 6))
             if k not in key:

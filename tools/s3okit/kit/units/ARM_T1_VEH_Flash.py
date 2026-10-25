@@ -1,8 +1,11 @@
-"""Flash (arm_flash) - Arm fast assault tank. Twin guns on side pods, turret at the rear.
+"""Flash (ARM_T1_VEH_Flash) - Arm fast assault tank. Twin guns on side pods, turret at the rear.
+Built on XTA's arm_flash.3do piece layout: it has exactly the 7 pieces the BOTA COB drives (BOTA's own 3DO adds a
+`sleeves2` the script never turns, so its second gun never elevated).
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
 
 UNIT = dict(
+    ref_model='objects3d/arm_flash.3do',
     res=1024,
     wreck=dict(seed=3, drop=['barrel2']),
     preview_pose={'turret': (0, -25, 0), 'sleeves': (-5, 0, 0)},

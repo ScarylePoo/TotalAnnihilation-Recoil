@@ -68,6 +68,10 @@ def compose(npz, out_prefix, final=1024, side='ARM', mode='unit', seed=0, seams=
     aof = np.clip(D(M['aofar'][..., 0].astype(np.float32)), 0, 1)
     mid = np.rint(D(M['id'][..., 0].astype(np.float32)) * 32).astype(int) - 1
     H, W = mid.shape
+    tread_phase = np.zeros((H, W), np.float32)          # tread2..4 = tread advanced by 1/4, 2/4, 3/4 of a link
+    for k, n in enumerate(('tread2', 'tread3', 'tread4'), 1):
+        sel = mid == MATS.index(n)
+        tread_phase[sel] = 0.25 * k; mid[sel] = MATS.index('tread')
     pal = PALETTES[side]
     x, y, z = pos[..., 0], pos[..., 1], pos[..., 2]
     up = np.clip(nrm[..., 1], 0, 1)
@@ -104,7 +108,7 @@ def compose(npz, out_prefix, final=1024, side='ARM', mode='unit', seed=0, seams=
     paint2 = paint2 * (1 - W3) + hexc(pal['wear']) * W3
     dark = hexc(pal['dark']) * (0.9 + 0.2 * fine[..., None]) * (0.95 + 0.1 * grain[..., None]) * (1 - 0.35 * seam[..., None])
     dark = dark * (1 - W3) + hexc('#9aa1a8') * W3
-    link = np.mod(z * 1.35 + 0.15 * x, 1.0)
+    link = np.mod(z * 1.35 + 0.15 * x + tread_phase, 1.0)
     grouser = sm(0.05, 0.12, link) - sm(0.38, 0.45, link)
     pin = np.where(np.abs(nrm[..., 0]) > 0.7, sm(0.6, 0.8, np.mod(y * 1.6, 1.0)) * 0.5, 0)
     tread = hexc('#2c2b29') * (1 - grouser[..., None]) + hexc('#4d4a45') * grouser[..., None]

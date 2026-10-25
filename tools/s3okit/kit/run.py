@@ -32,7 +32,8 @@ def load_spec(unitname):
     air = (info.get('canfly') or '0').strip() == '1'
     U.setdefault('air', air)
     U.setdefault('ground', not air and (info.get('floater') or '0').strip() != '1')
-    U.setdefault('ref', os.path.join(REPO, info['model']))
+    # ref = the model whose pieces the script drives; ref_model (repo-relative) overrides the def's current model
+    U.setdefault('ref', os.path.join(REPO, U.pop('ref_model', None) or info['model']))
     U.setdefault('wreck', {})
     U.setdefault('wreck_res', U['res'] // 2)      # wrecks matter less; halves repo size
     U.setdefault('preview_pose', {})
@@ -100,6 +101,8 @@ def st_compose(unitname, draft=False):
     mod, U, info = load_spec(unitname)
     wd = workdir(unitname)
     compose.compose(os.path.join(wd, 'maps.npz'), os.path.join(wd, 'out', unitname), final=U['res'], side=U['side'])
+    from s3okit import dds
+    dds.convert_pair(os.path.join(wd, 'out', unitname))
 
 
 def st_export(unitname, draft=False):
@@ -116,7 +119,7 @@ def st_export(unitname, draft=False):
         v, i = s3o.mesh_data(ob, dg)
         pieces.append(dict(name=name, parent=t['parent'], off=t['off'], gpos=t['gpos'], verts=v, idx=i,
                            emit=s3o.emit_verts_from_3do(t, bool(i))))
-    r = s3o.write(os.path.join(wd, 'out', unitname + '.s3o'), pieces, unitname + '_1.png', unitname + '_2.png')
+    r = s3o.write(os.path.join(wd, 'out', unitname + '.s3o'), pieces, unitname + '_1.dds', unitname + '_2.dds')
     print('EXPORT', unitname, r)
     return r
 
@@ -147,12 +150,14 @@ def st_wreck(unitname, draft=False):
         bake.bake_maps(os.path.join(wd, f'{obj}.npz'), res=r, quality='draft' if draft else 'final')
         compose.compose(os.path.join(wd, f'{obj}.npz'), os.path.join(wd, 'out', obj), final=U['wreck_res'],
                         side=U['side'], mode='wreck', seed=lvl)
+        from s3okit import dds
+        dds.convert_pair(os.path.join(wd, 'out', obj))
         bpy.ops.wm.open_mainfile(filepath=os.path.join(wd, f'{obj}.blend'))
         dg = bpy.context.evaluated_depsgraph_get()
         v, i = s3o.mesh_data(bpy.data.objects['base'], dg)
         rr = s3o.write(os.path.join(wd, 'out', obj + '.s3o'),
                        [dict(name='base', parent=None, off=(0, 0, 0), gpos=(0, 0, 0), verts=v, idx=i)],
-                       obj + '_1.png', obj + '_2.png')
+                       obj + '_1.dds', obj + '_2.dds')
         print('WRECK', obj, 'level', lvl, rr)
         made.append(obj)
     return made
@@ -189,11 +194,13 @@ def st_heap(name, size, seed=1, draft=False):
                    ao_far=2.0, ao_near=0.4)
     compose.compose(os.path.join(wd, 'maps.npz'), os.path.join(wd, 'out', name), final=res, side='SCRAP', mode='heap',
                     seed=seed, seams=False)
+    from s3okit import dds
+    dds.convert_pair(os.path.join(wd, 'out', name))
     bpy.ops.wm.open_mainfile(filepath=os.path.join(wd, 'heap.blend'))
     dg = bpy.context.evaluated_depsgraph_get()
     v, i = s3o.mesh_data(bpy.data.objects['base'], dg)
     r = s3o.write(os.path.join(wd, 'out', name + '.s3o'), [dict(name='base', parent=None, off=(0, 0, 0), gpos=(0, 0, 0), verts=v, idx=i)],
-                  name + '_1.png', name + '_2.png')
+                  name + '_1.dds', name + '_2.dds')
     p = preview.render(os.path.join(wd, 'out', name + '.s3o'), os.path.join(wd, 'out'), os.path.join(wd, 'prev', name),
                        views=('front34', 'top'), samples=16)
     preview.sheet(p, os.path.join(wd, 'prev', 'sheet.png'))

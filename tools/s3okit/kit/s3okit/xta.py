@@ -250,7 +250,7 @@ def install_unit(unitname, workdir, repo=REPO):
         src = os.path.join(out, f)
         if f.endswith('.s3o'):
             shutil.copy(src, os.path.join(repo, 'objects3d', f)); done.append('objects3d/' + f)
-        elif f.endswith('.png') and re.search(r'_[12]\.png$', f):
+        elif re.search(r'_[12]\.dds$', f):          # DDS only; the PNGs are compose intermediates
             shutil.copy(src, os.path.join(repo, 'unittextures', f)); done.append('unittextures/' + f)
     p = os.path.join(repo, info['def'])
     t = open(p, newline='', encoding='latin-1').read()
@@ -273,7 +273,7 @@ def install_heap(name, workdir, repo=REPO):
     for f in os.listdir(out):
         if f.endswith('.s3o'):
             shutil.copy(os.path.join(out, f), os.path.join(repo, 'objects3d', f)); done.append(f)
-        elif f.endswith('.png'):
+        elif re.search(r'_[12]\.dds$', f):
             shutil.copy(os.path.join(out, f), os.path.join(repo, 'unittextures', f)); done.append(f)
     for p in sorted(glob.glob(os.path.join(repo, 'Features', '**', '*.lua'), recursive=True)):
         t = open(p, newline='', encoding='latin-1').read()
