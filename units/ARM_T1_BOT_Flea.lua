@@ -7,7 +7,8 @@ return {
 		description = "Fast Light Scout Kbot",
 		side = "ARM",
 		unitname = "arm_t1_bot_flea",
-		objectname = "ARM_T1_BOT_Flea",
+		objectname = "ARM_T1_BOT_Flea.s3o",
+		script = "ARM_T1_BOT_Flea.lua",          -- walker: Lua script on the standard skeleton (was the COB)
 		corpse = "ARM_T1_BOT_Flea_dead",
 		icontype = "kbot",
 		category = "ARM KBOT LEVEL1 WEAPON NOTAIR NOTSUB",
