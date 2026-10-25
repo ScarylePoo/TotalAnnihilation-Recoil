@@ -296,6 +296,10 @@ matches the skeleton proportions) and derive the quad walk from it.
   (`python3 -m s3okit.cob scripts/<stem>.COB`): same turn speeds (COB angle units: 65536 = 360 deg, speeds per second),
   same idle pose, same Explode flags and corpse types; drop the old walk/MotionControl and flare show/hide.
   Worked example: `scripts/ARM_T1_BOT_Peewee.lua`. Add `script = "<stem>.lua",` to the unit def.
+- **COB -> Lua sign flips** (verified, Recoil `CobInstance.h` "COBWTF"): the engine negates COB `turn`/`turn-now`/`spin`
+  values on the **z axis** and `move`/`move-now` values on the **x axis**. A Lua port must negate those itself
+  (`Turn(p, z_axis, -a)`, `Move(p, x_axis, -d)`); x/y turns and y/z moves map unchanged. COB moves/turns at speed 0
+  do nothing in the engine and can be dropped.
 - **The stock unit_script gadget loads `scripts/<unitname>.lua` automatically, even without `script =` in the def**
   (it beats the COB). So a walker's .lua must land in the SAME commit as its new model: committed alone it breaks the
   unit (`piece not found: legs` against the old 3DO).
@@ -344,6 +348,10 @@ heap; it also lists **unit defs no request names**. Notes (2026-10-25, BOTA base
 - Count distinct models, not names, when estimating work: many units share wrecks/heaps.
 
 ## Timings (2-core container)
+
+Background jobs: a `run_in_background` Bash command dies at its `timeout` (default 30 min, max 2 h) and Monitors expire
+after a few minutes; run each unit's final `all` as its own background command with `timeout` 7200000, never one queue
+spanning several units. With two agents baking at once a final takes ~10-25 min. Prefix scratch/queue files per agent.
 
 build ~10 s; draft bake (1024, low samples) ~30 s; final bake (2048) ~7.5 min; compose ~20 s; preview ~1-2 min;
 heap draft ~1.5 min. Budget ~12-15 min of machine time per finished unit + wreck, plus the modelling.
