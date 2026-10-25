@@ -420,7 +420,7 @@
 {
 	[SMOKIN01]
 	{
-	class=CSphereParticleSpawner;
+	class=CSimpleParticleSystem;
 	[properties]
  		{
     alwaysvisible=1;
@@ -454,7 +454,7 @@
 {
 	[SMOKIN02]
 	{
-	class=CSphereParticleSpawner;
+	class=CSimpleParticleSystem;
 	[properties]
  		{
     alwaysvisible=1;

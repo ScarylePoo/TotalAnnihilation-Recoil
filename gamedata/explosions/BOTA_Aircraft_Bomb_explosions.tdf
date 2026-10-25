@@ -46,7 +46,6 @@
       		class=heatcloud;
                 [properties]
       		{
-			ageSpeed=0.005;		
 			texture=sparkexplogs;
 	      		heat = 12;
 	      		maxheat = 12;
@@ -54,7 +53,6 @@
 	      		size = 10;
 	      		sizeGrowth= 30;
 	      		speed = 0, 0, 0;
-			color=.4 .7 0.9;
 	      		pos = 0, 5, 0;
       		}
 		air=1;
@@ -117,7 +115,6 @@
       		class=heatcloud;
                 [properties]
       		{
-			ageSpeed=0.005;		
 			texture=sparkexplogs;
 	      		heat = 12;
 	      		maxheat = 12;
@@ -126,7 +123,6 @@
 	      		sizeGrowth= 30;
 	      		speed = 0, 0, 0;
 	      		pos = 0, 5, 0;
-			color=.4 1 0.1;
       		}
 		air=1;
 		water=1;

@@ -23,7 +23,6 @@
       		class=heatcloud;
                 [properties]
       		{
-			ageSpeed=0.005;		
 			texture=sparkexplo;
 	      		heat = 12;
 	      		maxheat = 12;
@@ -864,7 +863,6 @@
 		{
 			ageSpeed=0.005;
 			size = 20;
-			sizeGrowth = 1.9;
 			pos = 4 r-2,4 r-2,4 r-2;
 			speed=.1 r-.2,.1 r-.2,.1 r-.2;
 		}

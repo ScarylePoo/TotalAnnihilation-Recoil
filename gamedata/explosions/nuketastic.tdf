@@ -205,7 +205,7 @@
 {
 	[SMOKIN]
 	{
-	class=CSphereParticleSpawner;
+	class=CSimpleParticleSystem;
 	[properties]
       		{
 		sizeGrowth=0 r0.075;
