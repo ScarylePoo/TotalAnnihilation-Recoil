@@ -44,7 +44,7 @@ if (gadgetHandler:IsSyncedCode()) then
 
 
 		-- teamDeathMode possible values: "none", "teamzerounits" , "allyzerounits". Teamzerounits = killall, allyzerounits = team
-		local teamDeathMode = modOptions.mode or TEAMZERO
+		local teamDeathMode = modOptions.mode or TEAMCOMENDS -- same default as modoptions.lua
 
 		-- ignoreGaia is a C-like bool
 		local ignoreGaia = 1

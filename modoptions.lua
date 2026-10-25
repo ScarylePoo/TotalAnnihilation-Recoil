@@ -33,12 +33,12 @@ local options =
 	},
 
 	{
-		key="gamemode",
+		key="mode", -- read by game_end.lua and game_com_ends.lua
 		name="Game End Mode",
 		desc="What it takes to eliminate a player or team\nkey: mode",
 		type="list",
 		section= 'botagame',
-		def=2,
+		def="comends",
 		items={
 			{key="commander", name="Commander Ends", desc="Player will die if commander is killed"},
 			{key="comends", name="Team Commander Ends", desc="Team will die if commanders of all players are killed."},
