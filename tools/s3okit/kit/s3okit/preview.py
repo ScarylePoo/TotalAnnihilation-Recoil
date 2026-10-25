@@ -69,6 +69,9 @@ def render(path, texdir, prefix, team='2255dd', pose=None, views=('front34', 're
         if name in objs:
             if rot == 'hide':
                 objs[name].hide_render = True
+            elif isinstance(rot, dict):   # {'move': (x, y, z) engine-frame offset (COB x is negated), 'rot': (deg...)}
+                objs[name].location = Vector(objs[name].location) + Vector(rot.get('move', (0, 0, 0)))
+                objs[name].rotation_euler = Euler([math.radians(a) for a in rot.get('rot', (0, 0, 0))])
             else:
                 objs[name].rotation_euler = Euler([math.radians(a) for a in rot])
 
