@@ -7,7 +7,7 @@ return {
 		description = "Transport Hovercraft",
 		side = "ARM",
 		unitname = "arm_t1_hov_bear",
-		objectname = "ARM_T1_HOV_Bear",
+		objectname = "ARM_T1_HOV_Bear.s3o",
 		corpse = "ARM_T1_HOV_Bear_dead",
 		icontype = "hover",
 		category = "ARM HOVER LEVEL1 NOWEAPON NOTAIR NOTSUB",
