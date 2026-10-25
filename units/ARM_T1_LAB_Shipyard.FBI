@@ -6,6 +6,7 @@
 	Side=ARM;
 
 	UnitName=ARM_T1_LAB_Shipyard;
+	BuildList=buildListArmShipyard;  // gamedata/unitdefs_pre.lua
 	Objectname=ARM_T1_LAB_Shipyard;
 	Corpse=ARM_T1_LAB_Shipyard_dead;
 	SoundCategory=SHIPYARD;

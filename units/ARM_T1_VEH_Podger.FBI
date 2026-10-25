@@ -6,6 +6,7 @@
 	Side=ARM;
 
 	UnitName=ARM_T1_VEH_Podger;
+	BuildList=buildListArmMineLayer;  // gamedata/unitdefs_pre.lua
 	Objectname=ARM_T1_VEH_Podger;
 	Corpse=ARM_T1_VEH_Podger_dead;
 	SoundCategory=ARM_CVEHICLE;

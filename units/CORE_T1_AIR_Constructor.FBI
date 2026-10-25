@@ -6,6 +6,7 @@
 	Side=CORE;
 
 	UnitName=CORE_T1_AIR_Constructor;
+	BuildList=buildListCoreT1AircraftConstructor;  // gamedata/unitdefs_pre.lua
 	Objectname=CORE_T1_AIR_Constructor;
 	Corpse=CORE_T1_AIR_Constructor_dead;
 	SoundCategory=CORE_CVTOL;

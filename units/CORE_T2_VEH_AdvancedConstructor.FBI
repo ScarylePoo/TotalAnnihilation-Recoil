@@ -6,6 +6,7 @@
 	Side=CORE;
 
 	UnitName=CORE_T2_VEH_AdvancedConstructor;
+	BuildList=buildListCoreT2VehicleConstructor;  // gamedata/unitdefs_pre.lua
 	Objectname=CORE_T2_VEH_AdvancedConstructor;
 	Corpse=CORE_T2_VEH_AdvancedConstructor_dead;
 	SoundCategory=CORE_CVEHICLE;

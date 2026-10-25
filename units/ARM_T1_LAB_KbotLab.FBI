@@ -6,6 +6,7 @@
 	Side=ARM;
 
 	UnitName=ARM_T1_LAB_KbotLab;
+	BuildList=buildListArmKbotLab;  // gamedata/unitdefs_pre.lua
 	Objectname=ARM_T1_LAB_KbotLab;
 	Corpse=ARM_T1_LAB_KbotLab_dead;
 	SoundCategory=KBOTPLANT;

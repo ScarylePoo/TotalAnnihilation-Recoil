@@ -6,6 +6,7 @@
 	Side=CORE;
 
 	UnitName=CORE_T2_LAB_AdvancedShipyard;
+	BuildList=buildListCoreAdvancedShipyard;  // gamedata/unitdefs_pre.lua
 	Objectname=CORE_T2_LAB_AdvancedShipyard;
 	Corpse=CORE_T2_LAB_AdvancedShipyard_dead;
 	SoundCategory=SHIPYARD;

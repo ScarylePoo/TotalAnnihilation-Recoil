@@ -6,6 +6,7 @@
 	Side=CORE;
 
 	UnitName=CORE_T1_VEH_Constructor;
+	BuildList=buildListCoreT1VehicleConstructor;  // gamedata/unitdefs_pre.lua
 	Objectname=CORE_T1_VEH_Constructor.s3o;
 	Corpse=CORE_T1_VEH_Constructor_dead;
 	SoundCategory=CORE_CVEHICLE;

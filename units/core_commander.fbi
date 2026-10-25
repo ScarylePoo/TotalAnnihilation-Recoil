@@ -6,6 +6,7 @@
 	Side=CORE;
 
 	UnitName=CORE_Commander;
+	BuildList=buildListCoreCommander;  // gamedata/unitdefs_pre.lua
 	Objectname=CORE_Commander.s3o;
 	SoundCategory=CORE_COM;
 	IconType=commander;

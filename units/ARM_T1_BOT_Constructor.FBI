@@ -6,6 +6,7 @@
 	Side=ARM;
 
 	UnitName=ARM_T1_BOT_Constructor;
+	BuildList=buildListArmT1KbotConstructor;  // gamedata/unitdefs_pre.lua
 	Objectname=ARM_T1_BOT_Constructor;
 	Corpse=ARM_T1_BOT_Constructor_dead;
 	SoundCategory=ARM_CKBOT;

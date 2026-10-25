@@ -6,6 +6,7 @@
 	Side=ARM;
 
 	UnitName=ARM_T1_LAB_SeaplanePlatform;
+	BuildList=buildListArmSeaplanePlatform;  // gamedata/unitdefs_pre.lua
 	Objectname=ARM_T1_LAB_SeaplanePlatform;
 	Corpse=ARM_T1_LAB_SeaplanePlatform_dead;
 	SoundCategory=ARM_SEAPLN_PLANT;

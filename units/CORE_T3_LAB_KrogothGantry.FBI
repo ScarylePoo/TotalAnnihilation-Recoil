@@ -6,6 +6,7 @@
 	Side=CORE;
 
 	UnitName=CORE_T3_LAB_KrogothGantry;
+	BuildList=buildListCoreKrogothGantry;  // gamedata/unitdefs_pre.lua
 	Objectname=CORE_T3_LAB_KrogothGantry;
 	Corpse=CORE_T3_LAB_KrogothGantry_dead;
 	SoundCategory=CORE_GANTRY;

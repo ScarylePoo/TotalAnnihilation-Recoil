@@ -6,6 +6,7 @@
 	Side=CORE;
 
 	UnitName=CORE_T2_BOT_AdvancedConstructor;
+	BuildList=buildListCoreT2KbotConstructor;  // gamedata/unitdefs_pre.lua
 	Objectname=CORE_T2_BOT_AdvancedConstructor;
 	Corpse=CORE_T2_BOT_AdvancedConstructor_dead;
 	SoundCategory=COR_CKBOT;

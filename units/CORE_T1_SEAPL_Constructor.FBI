@@ -6,6 +6,7 @@
 	Side=CORE;
 
 	UnitName=CORE_T1_SEAPL_Constructor;
+	BuildList=buildListCoreT1SeaplaneConstructor;  // gamedata/unitdefs_pre.lua
 	Objectname=CORE_T1_SEAPL_Constructor;
 	Corpse=CORE_T1_SEAPL_Constructor_dead;
 	SoundCategory=CORE_CVTOL;

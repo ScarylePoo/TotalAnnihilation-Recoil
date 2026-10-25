@@ -6,6 +6,7 @@
 	Side=CORE;
 
 	UnitName=CORE_T1_LAB_VehiclePlant;
+	BuildList=buildListCoreVehiclePlant;  // gamedata/unitdefs_pre.lua
 	Objectname=CORE_T1_LAB_VehiclePlant.s3o;
 	Corpse=CORE_T1_LAB_VehiclePlant_dead;
 	SoundCategory=TANKPLANT;

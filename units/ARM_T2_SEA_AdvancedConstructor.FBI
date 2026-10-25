@@ -6,6 +6,7 @@
 	Side=ARM;
 
 	UnitName=ARM_T2_SEA_AdvancedConstructor;
+	BuildList=buildListArmT2SeaConstructor;  // gamedata/unitdefs_pre.lua
 	Objectname=ARM_T2_SEA_AdvancedConstructor;
 	Corpse=ARM_T2_SEA_AdvancedConstructor_dead;
 	SoundCategory=ARM_CSUB;

@@ -6,6 +6,7 @@
 	Side=CORE;
 
 	UnitName=CORE_T2_LAB_AdvancedAircraftPlant;
+	BuildList=buildListCoreAdvancedAircraftPlant;  // gamedata/unitdefs_pre.lua
 	Objectname=CORE_T2_LAB_AdvancedAircraftPlant;
 	Corpse=CORE_T2_LAB_AdvancedAircraftPlant_dead;
 	SoundCategory=AIRPLANT;

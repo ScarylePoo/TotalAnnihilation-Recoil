@@ -6,6 +6,7 @@
 	Side=CORE;
 
 	UnitName=CORE_T1_LAB_HovercraftPlatform;
+	BuildList=buildListCoreHovercraftPlatform;  // gamedata/unitdefs_pre.lua
 	Objectname=CORE_T1_LAB_HovercraftPlatform;
 	Corpse=CORE_T1_LAB_HovercraftPlatform_dead;
 	SoundCategory=CORE_HOVER_PLANT;

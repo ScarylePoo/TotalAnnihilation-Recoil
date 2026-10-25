@@ -6,6 +6,7 @@
 	Side=CORE;
 
 	UnitName=CORE_T1_LAB_AircraftPlant;
+	BuildList=buildListCoreAircraftPlant;  // gamedata/unitdefs_pre.lua
 	Objectname=CORE_T1_LAB_AircraftPlant.s3o;
 	Script=CORE_T1_LAB_AircraftPlant.lua;
 	Corpse=CORE_T1_LAB_AircraftPlant_dead;

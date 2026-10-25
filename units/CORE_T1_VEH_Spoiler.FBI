@@ -6,6 +6,7 @@
 	Side=CORE;
 
 	UnitName=CORE_T1_VEH_Spoiler;
+	BuildList=buildListCoreMineLayer;  // gamedata/unitdefs_pre.lua
 	Objectname=CORE_T1_VEH_Spoiler;
 	Corpse=CORE_T1_VEH_Spoiler_dead;
 	SoundCategory=CORE_CVEHICLE;

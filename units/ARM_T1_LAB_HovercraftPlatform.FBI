@@ -6,6 +6,7 @@
 	Side=ARM;
 
 	UnitName=ARM_T1_LAB_HovercraftPlatform;
+	BuildList=buildListArmHovercraftPlatform;  // gamedata/unitdefs_pre.lua
 	Objectname=ARM_T1_LAB_HovercraftPlatform;
 	Corpse=ARM_T1_LAB_HovercraftPlatform_dead;
 	SoundCategory=ARM_HOVER_PLANT;
