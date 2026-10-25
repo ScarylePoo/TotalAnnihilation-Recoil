@@ -1,0 +1,37 @@
+-- Feature definitions (converted from ARM_T1_LAB_AircraftPlant_dead.tdf)
+
+return {
+	arm_t1_lab_aircraftplant_dead = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "arm_corpses",
+		object = "ARM_T1_LAB_AircraftPlant_dead",
+		featuredead = "ARM_T1_LAB_AircraftPlant_heap",
+		footprintx = 7,
+		footprintz = 6,
+		height = 40,
+		blocking = 1,
+		hitdensity = 100,
+		metal = 705,
+		damage = 2370,
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+	arm_t1_lab_aircraftplant_heap = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "heaps",
+		object = "6x6b",
+		footprintx = 6,
+		footprintz = 6,
+		height = 4,
+		blocking = 0,
+		hitdensity = 100,
+		metal = 340,
+		damage = 2370,
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+}

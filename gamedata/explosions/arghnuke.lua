@@ -1,0 +1,471 @@
+-- CEG definitions (converted from arghnuke.tdf)
+-- values are strings on purpose: the CEG parser reads them itself
+
+return {
+	-- /Used to be Someone Elses's GPL Nuke.  But no more.  Yarr!  I be commendering this FX. STILL GPL PLESASE DON"T SUE CAME FROM ARGH. IT WAS ARGH.  ITS NOT REALLY THE SAME I CHANGED EVERYTHING.  PLEASE DONT BE MAD
+	arghnuke_fx = {
+		-- INITIAL SPARK EFFECT
+		flamey = {
+			class = "heatcloud",
+			properties = {
+				alwaysvisible = "1",
+				texture = "burn",
+				heat = "40",
+				maxheat = "40",
+				heatfalloff = "1",
+				size = "1",
+				sizegrowth = "5",
+				speed = "0, 0, 0",
+				pos = "0, 5, 0",
+			},
+			air = "1",
+			water = "1",
+			ground = "1",
+			count = "2",
+		},
+		center = {
+			class = "heatcloud",
+			properties = {
+				alwaysvisible = "1",
+				texture = "burn",
+				heat = "25",
+				maxheat = "25",
+				heatfalloff = "1",
+				size = "1",
+				sizegrowth = "10",
+				speed = "0, 1, 0",
+				pos = "r-3 r3, 5, r-3 r3",
+			},
+			air = "1",
+			water = "1",
+			ground = "1",
+			count = "2",
+		},
+		pikes = {
+			class = "explspike",
+			properties = {
+				alwaysvisible = "1",
+				dir = "-15 r30,-15 r30,-15 r30",
+				width = "100",
+				length = "300",
+				alpha = "0.99",
+				alphadecay = "0.03",
+				color = "1.0,1.0,1.0",
+			},
+			air = "1",
+			water = "1",
+			ground = "1",
+			count = "20",
+		},
+		-- THE REAL FX DOWN HERE
+		smokey = {
+			class = "CExpGenSpawner",
+			properties = {
+				pos = "0, 0, 0",
+				delay = "0 180",
+				explosiongenerator = "custom:SMOKE_COLUMN_NUKE_FX_01_01",
+			},
+			air = "1",
+			water = "1",
+			ground = "1",
+			count = "1",
+		},
+		smokey2 = {
+			class = "CExpGenSpawner",
+			properties = {
+				pos = "0, 0, 0",
+				delay = "0 180",
+				explosiongenerator = "custom:SMOKE_COLUMN_NUKE_FX_02_01",
+			},
+			air = "1",
+			water = "1",
+			ground = "1",
+			count = "1",
+		},
+		groundflash = {
+			alwaysvisible = "1",
+			flashsize = "2400",
+			flashalpha = "2.5",
+			circlegrowth = "4.1",
+			circlealpha = "1.4",
+			ttl = "300",
+			color = {1, 0.8, 0.6},
+			air = "1",
+			ground = "1",
+			water = "1",
+		},
+		glow = {
+			class = "CExpGenSpawner",
+			properties = {
+				alwaysvisible = "1",
+				pos = "0, 0, 0",
+				delay = "0 10",
+				explosiongenerator = "custom:ARGHNUKE_GLOW",
+			},
+			air = "1",
+			water = "1",
+			ground = "1",
+			count = "5",
+		},
+		-- [oohshiny]
+		-- {
+		-- class=CExpGenSpawner;
+		-- [properties]
+		-- {
+		-- alwaysvisible=1;
+		-- pos=0, 0, 0;
+		-- delay=0 10;
+		-- explosionGenerator=custom:ARGHNUKE_GROUNDFLASH;
+		-- }
+		-- air=1;
+		-- water=1;
+		-- ground=1;
+		-- count=3;
+		-- }
+		firecloud = {
+			class = "CExpGenSpawner",
+			properties = {
+				alwaysvisible = "1",
+				pos = "0, 0, 0",
+				delay = "0 30",
+				explosiongenerator = "custom:ARGHNUKE_FIRECLOUD",
+			},
+			air = "1",
+			water = "1",
+			ground = "1",
+			count = "5",
+		},
+		cap = {
+			class = "CExpGenSpawner",
+			properties = {
+				alwaysvisible = "1",
+				pos = "-10 r20, 480 i4, -10 r20",
+				delay = "445 i8",
+				explosiongenerator = "custom:ARGH_CAP",
+			},
+			air = "1",
+			water = "1",
+			ground = "1",
+			count = "25",
+		},
+	},
+	-- /////////////////////////////////////////////////////////////////////////////////////////END MAIN CODE HERE
+	arghnuke_glow = {
+		glow = {
+			class = "CSimpleParticleSystem",
+			properties = {
+				alwaysvisible = "1",
+				sizegrowth = "0",
+				sizemod = "1.0",
+				pos = "0, 2, 0",
+				emitvector = "-0, 1, 0",
+				gravity = "0, 0.00, 0",
+				colormap = "0 0 0 0.01   1 1 0.8 0.9              0 0 0 0.01",
+				texture = "diamondstar",
+				airdrag = "1",
+				particlelife = "60",
+				particlelifespread = "0",
+				numparticles = "1",
+				particlespeed = "1",
+				particlespeedspread = "0",
+				particlesize = "800",
+				particlesizespread = "10",
+				emitrot = "0",
+				emitrotspread = "180",
+				directional = "1",
+			},
+			air = "1",
+			water = "1",
+			ground = "1",
+			count = "3",
+		},
+		groundflash = {
+			alwaysvisible = "1",
+			flashsize = "800",
+			flashalpha = "1",
+			circlegrowth = "0",
+			circlealpha = "1",
+			ttl = "150",
+			color = {1, 0.8, 0.7},
+		},
+	},
+	-- [ARGHNUKE_GROUNDFLASH]
+	-- {
+	-- [groundflash]
+	-- {
+	-- alwaysvisible=1;
+	-- flashsize=800;
+	-- flashalpha=2;
+	-- circlegrowth=0;
+	-- circlealpha=1;
+	-- ttl=150;
+	-- color=1.7,1.7,1.7;
+	-- }
+	-- }
+	arghnuke_firecloud = {
+		first = {
+			class = "CExpGenSpawner",
+			properties = {
+				alwaysvisible = "1",
+				pos = "10 r20, i5, -10 r20",
+				delay = "0  i4",
+				explosiongenerator = "custom:ARGHNUKE_FIREPILLAR",
+			},
+			air = "1",
+			water = "1",
+			ground = "1",
+			count = "20",
+		},
+		second = {
+			class = "CExpGenSpawner",
+			properties = {
+				alwaysvisible = "1",
+				pos = "10 r20, 100 i10, -10 r20",
+				delay = "80  i8",
+				explosiongenerator = "custom:ARGHNUKE_FIREPILLARRED",
+			},
+			air = "1",
+			water = "1",
+			ground = "1",
+			count = "20",
+		},
+		third = {
+			class = "CExpGenSpawner",
+			properties = {
+				alwaysvisible = "1",
+				pos = "10 r20, 300 i6, -10 r20",
+				delay = "240  i6",
+				explosiongenerator = "custom:ARGHNUKE_REDPLOOM2",
+			},
+			air = "1",
+			water = "1",
+			ground = "1",
+			count = "30",
+		},
+	},
+	arghnuke_firepillar = {
+		rocks = {
+			class = "CSimpleParticleSystem",
+			properties = {
+				alwaysvisible = "1",
+				sizegrowth = "0.05",
+				sizemod = "1.0",
+				pos = "0, 0, 0",
+				emitvector = "0, 1, 0",
+				gravity = "0.001 r-0.002, 0.01 r-0.02, 0.001 r-0.002",
+				colormap = "0 0 0  0.01   0.9 0.9 0.9 0.5  0.9 0.9 0.9 0.5  0.9 0.9 0.9 0.5     0.9 0.9 0.9 0.5     0.9 0.9 0.9 0.5       0.8 0.8 0.8 0.5       0.7 0.7 0.7 0.5      0.5 0.5 0.5 0.5   0.5 0.5 0.5 0.5   0.5 0.5 0.5 0.5    0.5 0.5 0.5 0.5   0 0 0 0.01",
+				texture = "flame",  -- fireball
+				airdrag = "0.97",
+				particlelife = "150",
+				particlelifespread = "100",
+				numparticles = "1",
+				particlespeed = "3",
+				particlespeedspread = "3",
+				particlesize = "50",
+				particlesizespread = "50",
+				emitrot = "90",
+				emitrotspread = "10",
+				directional = "1",
+			},
+			air = "1",
+			water = "1",
+			ground = "1",
+			count = "1",
+		},
+	},
+	arghnuke_firepillarred = {
+		rocks = {
+			class = "CSimpleParticleSystem",
+			properties = {
+				alwaysvisible = "1",
+				sizegrowth = "0.05",
+				sizemod = "1.0",
+				pos = "0, 0, 0",
+				emitvector = "0, 1, 0",
+				gravity = "0.001 r-0.002, 0.01 r-0.02, 0.001 r-0.002",
+				-- colorMap= 0 0 0 0.01   0.9 0.9 .9 0.5     0.9 0.9 .9 0.5    0.9 0.9 .9 0.5   0 0 0 0.01;
+				colormap = "0 0 0  0.01   0.9 0.9 0 0.5  0.9 0.9 0 0.5  0.9 0.9 0 0.5     0.9 0.9 0 0.5     0.9 0.9 0 0.5       0.8 0.8 0.1 0.5       0.7 0.7 0.2 0.5      0.5 0.35 0. 0.5   0.5 0.35 0. 0.5   0.5 0.35 0. 0.5    0.5 0.35 0. 0.5   0 0 0 0.01",
+				texture = "fireball",
+				airdrag = "0.97",
+				particlelife = "80",
+				particlelifespread = "80",
+				numparticles = "1",
+				particlespeed = "3",
+				particlespeedspread = "3",
+				particlesize = "50",
+				particlesizespread = "50",
+				emitrot = "90",
+				emitrotspread = "10",
+				directional = "1",
+			},
+			air = "1",
+			water = "1",
+			ground = "1",
+			count = "1",
+		},
+		socks = {
+			class = "CSimpleParticleSystem",
+			properties = {
+				alwaysvisible = "1",
+				sizegrowth = "0.05",
+				sizemod = "1.0",
+				pos = "0, 0, 0",
+				emitvector = "0, 1, 0",
+				gravity = "0.001 r-0.002, 0.01 r-0.02, 0.001 r-0.002",
+				colormap = "0 0 0  0.01   0.9 0.9 0.9 0.5  0.9 0.9 0.9 0.5  0.9 0.9 0.9 0.5     0.9 0.9 0.9 0.5     0.9 0.9 0.9 0.5       0.8 0.8 0.8 0.5       0.7 0.7 0.7 0.5      0.5 0.5 0.5 0.5   0.5 0.5 0.5 0.5   0.5 0.5 0.5 0.5    0.5 0.5 0.5 0.5   0 0 0 0.01",
+				texture = "flame",  -- fireball
+				airdrag = "0.97",
+				particlelife = "80",
+				particlelifespread = "80",
+				numparticles = "1",
+				particlespeed = "3",
+				particlespeedspread = "3",
+				particlesize = "50",
+				particlesizespread = "50",
+				emitrot = "90",
+				emitrotspread = "10",
+				directional = "1",
+			},
+			air = "1",
+			water = "1",
+			ground = "1",
+			count = "1",
+		},
+	},
+	arghnuke_redploom2 = {
+		rocks = {
+			class = "CSimpleParticleSystem",
+			properties = {
+				alwaysvisible = "1",
+				sizegrowth = "0.05",
+				sizemod = "1.0",
+				pos = "0, 0, 0",
+				emitvector = "0, 1, 0",
+				gravity = "0.001 r-0.002, 0.01 r-0.02, 0.001 r-0.002",
+				-- colorMap= 0 0 0 0.01   0.9 0.9 .9 0.5     0.9 0.9 .9 0.5    0.9 0.9 .9 0.5   0 0 0 0.01;
+				colormap = "0 0 0  0.01   0.9 0.9 0 0.5  0.9 0.9 0 0.5  0.9 0.9 0 0.5     0.9 0.9 0 0.5     0.9 0.9 0 0.5       0.8 0.8 0.1 0.5       0.7 0.7 0.2 0.5      0.5 0.35 0. 0.5   0.5 0.35 0. 0.5   0.5 0.35 0. 0.5    0.5 0.35 0. 0.5   0 0 0 0.01",
+				texture = "fireball",
+				airdrag = "0.97",
+				particlelife = "80",
+				particlelifespread = "80",
+				numparticles = "1",
+				particlespeed = "3",
+				particlespeedspread = "3",
+				particlesize = "40",
+				particlesizespread = "40",
+				emitrot = "90",
+				emitrotspread = "10",
+				directional = "1",
+			},
+			air = "1",
+			water = "1",
+			ground = "1",
+			count = "1",
+		},
+	},
+	smoke_column_nuke_fx_01_01 = {
+		smokin01 = {
+			class = "CSimpleParticleSystem",
+			properties = {
+				alwaysvisible = "1",
+				sizegrowth = "0 r0.05",
+				sizemod = "1.0",
+				pos = "-7 r14, 10 i-60, -7 r14",
+				emitvector = "0, 1, 0",
+				gravity = "0.00125 r-0.0025, 0.035 r0.02, 0.00125 r-0.0025",
+				colormap = "1.0 1.0 0.8 1.0   0.75 0.75 0.5 1.0    0.9 0.9 0.9 1.0    0 0 0 0.01",
+				texture = "smokesmall",
+				airdrag = "0.96",
+				particlelife = "510",
+				particlelifespread = "10",
+				numparticles = "1",
+				particlespeed = "0.6",
+				particlespeedspread = "0.3",
+				particlesize = "30",
+				particlesizespread = "15",
+				emitrot = "85",
+				emitrotspread = "5",
+				directional = "0",
+			},
+			air = "1",
+			water = "1",
+			ground = "1",
+			count = "9",
+		},
+	},
+	smoke_column_nuke_fx_02_01 = {
+		smokin02 = {
+			class = "CSimpleParticleSystem",
+			properties = {
+				alwaysvisible = "1",
+				sizegrowth = "0 r-0.01",
+				sizemod = "1.0",
+				pos = "-15 r30, 10 i-15, -15 r30",
+				emitvector = "0, 1, 0",
+				gravity = "0.00125 r-0.0025, 0.035, 0.00125 r-0.0025",
+				colormap = "1.0 1.0 0.8 1.0   0.75 0.75 0.5 1.0    0.9 0.9 0.9 1.0    0 0 0 0.01",
+				texture = "smokesmall",
+				airdrag = "0.96",
+				particlelife = "510",
+				particlelifespread = "30",
+				numparticles = "1",
+				particlespeed = "1.5",
+				particlespeedspread = "0.3",
+				particlesize = "30",
+				particlesizespread = "15",
+				emitrot = "85",
+				emitrotspread = "5",
+				directional = "0",
+			},
+			air = "1",
+			water = "1",
+			ground = "1",
+			count = "90",
+		},
+	},
+	argh_cap = {
+		smoke = {
+			class = "CSimpleParticleSystem",
+			properties = {
+				alwaysvisible = "1",
+				sizegrowth = "0.05",
+				sizemod = "1.0",
+				pos = "0, 0, 0",
+				emitvector = "0, 1, 0",
+				gravity = "0.001 r-0.002, 0.00, 0.001 r-0.002",
+				colormap = "0 0 0  0.01 1 0.8 0.6 .9     0.8 0.8 0.8 .8        0.8 0.8 0.8 .8  0.6 0.6 0.6 .6  0.4 0.4 0.4 .4  0.2 0.2 0.2 .2  0.1 0.1 0.1 .1  0.05 0.05 0.05 .05  0 0 0 0.01",
+				texture = "smokesmall",
+				airdrag = "0.98",
+				particlelife = "350",
+				particlelifespread = "40",
+				numparticles = "1",
+				particlespeed = "6 i-2",
+				particlespeedspread = "0",
+				particlesize = "100 i12",
+				particlesizespread = "20",
+				emitrot = "90",
+				emitrotspread = "0",
+				directional = "0",
+			},
+			air = "1",
+			water = "1",
+			ground = "1",
+			count = "3",
+		},
+	},
+	arghnuke_fx_low = {
+		kabloom = {
+			class = "CExpGenSpawner",
+			properties = {
+				alwaysvisible = "1",
+				pos = "-0, -25, 0",
+				delay = "0",
+				explosiongenerator = "custom:ARGHNUKE_FX",
+			},
+			air = "1",
+			water = "1",
+			ground = "1",
+			count = "1",
+		},
+	},
+}

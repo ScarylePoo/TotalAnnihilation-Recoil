@@ -1,0 +1,19 @@
+-- Feature definitions (converted from CORE_T1_SEAECO_FloatingMetalMaker_dead.tdf)
+
+return {
+	core_t1_seaeco_floatingmetalmaker_dead = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "core_corpses",
+		object = "CORE_T1_SEAECO_FloatingMetalMaker_dead",
+		footprintx = 3,
+		footprintz = 3,
+		height = 20,
+		blocking = 1,
+		hitdensity = 100,
+		damage = 60,  -- 88
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+}

@@ -1,0 +1,37 @@
+-- Feature definitions (converted from ARM_T2_ECO_FusionPowerplant_dead.tdf)
+
+return {
+	arm_t2_eco_fusionpowerplant_dead = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "arm_corpses",
+		object = "ARM_T2_ECO_FusionPowerplant_dead",
+		featuredead = "ARM_T2_ECO_FusionPowerplant_heap",
+		footprintx = 5,
+		footprintz = 4,
+		height = 40,
+		blocking = 1,
+		hitdensity = 100,
+		metal = 4104,
+		damage = 619,  -- 2480
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+	arm_t2_eco_fusionpowerplant_heap = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "heaps",
+		object = "4x4a",
+		footprintx = 4,
+		footprintz = 4,
+		height = 4,
+		blocking = 0,
+		hitdensity = 100,
+		metal = 2052,
+		damage = 619,  -- 2480
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+}

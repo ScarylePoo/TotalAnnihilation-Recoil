@@ -1,0 +1,37 @@
+-- Feature definitions (converted from CORE_T1_LAB_VehiclePlant_dead.tdf)
+
+return {
+	core_t1_lab_vehicleplant_dead = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "core_corpses",
+		object = "CORE_T1_LAB_VehiclePlant_dead",
+		featuredead = "CORE_T1_LAB_VehiclePlant_heap",
+		footprintx = 7,
+		footprintz = 7,
+		height = 20,
+		blocking = 1,
+		hitdensity = 100,
+		metal = 580,
+		damage = 2510,
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+	core_t1_lab_vehicleplant_heap = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "heaps",
+		object = "7x7b",
+		footprintx = 7,
+		footprintz = 7,
+		height = 4,
+		blocking = 0,
+		hitdensity = 100,
+		metal = 270,
+		damage = 2540,
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+}

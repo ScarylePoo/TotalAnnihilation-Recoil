@@ -1,0 +1,37 @@
+-- Feature definitions (converted from ARM_T2_DEF_Retaliator_dead.tdf)
+
+return {
+	arm_t2_def_retaliator_dead = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "arm_corpses",
+		object = "ARM_T2_DEF_Retaliator_dead",
+		featuredead = "ARM_T2_DEF_Retaliator_heap",
+		footprintx = 3,
+		footprintz = 3,
+		height = 40,
+		blocking = 1,
+		hitdensity = 100,
+		metal = 2434,
+		damage = 1459,
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+	arm_t2_def_retaliator_heap = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "heaps",
+		object = "3x3f",
+		footprintx = 3,
+		footprintz = 3,
+		height = 4,
+		blocking = 0,
+		hitdensity = 100,
+		metal = 1167,
+		damage = 1459,
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+}

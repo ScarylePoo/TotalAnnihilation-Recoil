@@ -1,0 +1,37 @@
+-- Feature definitions (converted from ARM_T2_DEF_Stunner_dead.tdf)
+
+return {
+	arm_t2_def_stunner_dead = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "arm_corpses",
+		object = "ARM_T2_DEF_Stunner_dead",
+		featuredead = "ARM_T2_DEF_Stunner_heap",
+		footprintx = 3,
+		footprintz = 3,
+		height = 20,
+		blocking = 1,
+		hitdensity = 100,
+		metal = 1741,
+		damage = 2512,
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+	arm_t2_def_stunner_heap = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "heaps",
+		object = "3x3a",
+		footprintx = 3,
+		footprintz = 3,
+		height = 4,
+		blocking = 0,
+		hitdensity = 100,
+		metal = 781,
+		damage = 2512,
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+}

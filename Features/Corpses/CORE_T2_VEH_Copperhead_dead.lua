@@ -1,0 +1,37 @@
+-- Feature definitions (converted from CORE_T2_VEH_Copperhead_dead.tdf)
+
+return {
+	core_t2_veh_copperhead_dead = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "core_corpses",
+		object = "CORE_T2_VEH_Copperhead_dead",
+		featuredead = "CORE_T2_VEH_Copperhead_heap",
+		footprintx = 2,
+		footprintz = 2,
+		height = 20,
+		blocking = 1,
+		hitdensity = 100,
+		metal = 709,
+		damage = 580,  -- 2280
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+	core_t2_veh_copperhead_heap = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "heaps",
+		object = "2x2a",
+		footprintx = 2,
+		footprintz = 2,
+		height = 4,
+		blocking = 0,
+		hitdensity = 100,
+		metal = 354,
+		damage = 307,  -- 1240
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+}

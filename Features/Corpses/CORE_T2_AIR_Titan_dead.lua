@@ -1,0 +1,37 @@
+-- Feature definitions (converted from CORE_T2_AIR_Titan_dead.tdf)
+
+return {
+	core_t2_air_titan_dead = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "core_corpses",
+		object = "CORE_T2_AIR_Titan_dead",
+		featuredead = "CORE_T2_AIR_Titan_heap",
+		footprintx = 4,
+		footprintz = 4,
+		height = 20,
+		blocking = 1,
+		hitdensity = 100,
+		metal = 126,
+		damage = 30,  -- 160
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+	core_t2_air_titan_heap = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "heaps",
+		object = "4x4f",
+		footprintx = 4,
+		footprintz = 4,
+		height = 4,
+		blocking = 0,
+		hitdensity = 100,
+		metal = 63,
+		damage = 44,  -- 160
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+}

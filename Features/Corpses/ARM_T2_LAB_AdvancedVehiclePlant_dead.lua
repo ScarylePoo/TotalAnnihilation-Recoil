@@ -1,0 +1,37 @@
+-- Feature definitions (converted from ARM_T2_LAB_AdvancedVehiclePlant_dead.tdf)
+
+return {
+	arm_t2_lab_advancedvehicleplant_dead = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "arm_corpses",
+		object = "ARM_T2_LAB_AdvancedVehiclePlant_dead",
+		featuredead = "ARM_T2_LAB_AdvancedVehiclePlant_heap",
+		footprintx = 6,
+		footprintz = 6,
+		height = 20,
+		blocking = 1,
+		hitdensity = 100,
+		metal = 1587,
+		damage = 2586,
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+	arm_t2_lab_advancedvehicleplant_heap = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "heaps",
+		object = "6x6d",
+		footprintx = 6,
+		footprintz = 6,
+		height = 4,
+		blocking = 0,
+		hitdensity = 100,
+		metal = 794,
+		damage = 2487,
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+}

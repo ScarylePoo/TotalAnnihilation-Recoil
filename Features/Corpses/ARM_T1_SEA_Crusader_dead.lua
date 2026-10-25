@@ -1,0 +1,20 @@
+-- Feature definitions (converted from ARM_T1_SEA_Crusader_dead.tdf)
+
+return {
+	arm_t1_sea_crusader_dead = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "arm_corpses",
+		object = "ARM_T1_SEA_Crusader_dead",
+		footprintx = 5,
+		footprintz = 5,
+		height = 4,
+		blocking = 0,
+		hitdensity = 100,
+		metal = 718,
+		damage = 36000,
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+}

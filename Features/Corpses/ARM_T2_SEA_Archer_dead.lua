@@ -1,0 +1,20 @@
+-- Feature definitions (converted from ARM_T2_SEA_Archer_dead.tdf)
+
+return {
+	arm_t2_sea_archer_dead = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "arm_corpses",
+		object = "ARM_T2_SEA_Archer_dead",
+		footprintx = 3,
+		footprintz = 3,
+		height = 20,
+		blocking = 1,
+		hitdensity = 100,
+		metal = 1086,
+		damage = 36000,
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+}

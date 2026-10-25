@@ -1,0 +1,37 @@
+-- Feature definitions (converted from CORE_T2_DEF_TargetingFacility_dead.tdf)
+
+return {
+	core_t2_def_targetingfacility_dead = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "core_corpses",
+		object = "CORE_T2_DEF_TargetingFacility_dead",
+		featuredead = "CORE_T2_DEF_TargetingFacility_heap",
+		footprintx = 5,
+		footprintz = 4,
+		height = 20,
+		blocking = 1,
+		hitdensity = 100,
+		metal = 3006,
+		damage = 2573,
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+	core_t2_def_targetingfacility_heap = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "heaps",
+		object = "4x4d",
+		footprintx = 5,
+		footprintz = 4,
+		height = 4,
+		blocking = 0,
+		hitdensity = 100,
+		metal = 1493,
+		damage = 2287,
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+}

@@ -1,0 +1,37 @@
+-- Feature definitions (converted from CORE_T1_DEF_Punisher_dead.tdf)
+
+return {
+	core_t1_def_punisher_dead = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "core_corpses",
+		object = "CORE_T1_DEF_Punisher_dead",
+		featuredead = "CORE_T1_DEF_Punisher_heap",
+		footprintx = 4,
+		footprintz = 3,
+		height = 20,
+		blocking = 1,
+		hitdensity = 100,
+		metal = 1510,
+		damage = 588,  -- 2352
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+	core_t1_def_punisher_heap = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "heaps",
+		object = "3x3b",
+		footprintx = 4,
+		footprintz = 3,
+		height = 4,
+		blocking = 0,
+		hitdensity = 100,
+		metal = 755,
+		damage = 592,  -- 2352
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+}

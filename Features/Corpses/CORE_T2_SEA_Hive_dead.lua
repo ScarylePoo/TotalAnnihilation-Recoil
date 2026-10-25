@@ -1,0 +1,20 @@
+-- Feature definitions (converted from CORE_T2_SEA_Hive_dead.tdf)
+
+return {
+	core_t2_sea_hive_dead = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "core_corpses",
+		object = "CORE_T2_SEA_Hive_dead",
+		footprintx = 2,
+		footprintz = 2,
+		height = 4,
+		blocking = 1,
+		hitdensity = 100,
+		metal = 1103,
+		damage = 36000,
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+}

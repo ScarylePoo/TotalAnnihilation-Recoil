@@ -1,0 +1,37 @@
+-- Feature definitions (converted from ARM_T2_LAB_AdvancedShipyard_dead.tdf)
+
+return {
+	arm_t2_lab_advancedshipyard_dead = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "arm_corpses",
+		object = "ARM_T2_LAB_AdvancedShipyard_dead",
+		featuredead = "ARM_T2_LAB_AdvancedShipyard_heap",
+		footprintx = 7,
+		footprintz = 7,
+		height = 4,
+		blocking = 0,
+		hitdensity = 100,
+		metal = 2219,
+		damage = 36000,
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+	arm_t2_lab_advancedshipyard_heap = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "heaps",
+		object = "7x7a",
+		footprintx = 5,
+		footprintz = 5,
+		height = 4,
+		blocking = 0,
+		hitdensity = 100,
+		metal = 903,
+		damage = 36000,
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+}

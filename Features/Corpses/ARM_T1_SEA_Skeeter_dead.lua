@@ -1,0 +1,20 @@
+-- Feature definitions (converted from ARM_T1_SEA_Skeeter_dead.tdf)
+
+return {
+	arm_t1_sea_skeeter_dead = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "arm_corpses",
+		object = "ARM_T1_SEA_Skeeter_dead",
+		footprintx = 3,
+		footprintz = 3,
+		height = 4,
+		blocking = 0,
+		hitdensity = 100,
+		metal = 80,
+		damage = 36000,
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+}

@@ -1,0 +1,20 @@
+-- Feature definitions (converted from ARM_T2_SEA_Escort_dead.tdf)
+
+return {
+	arm_t2_sea_escort_dead = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "arm_corpses",
+		object = "ARM_T2_SEA_Escort_dead",
+		footprintx = 4,
+		footprintz = 4,
+		height = 40,
+		blocking = 1,
+		hitdensity = 100,
+		metal = 104.8,
+		damage = 36000,
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+}

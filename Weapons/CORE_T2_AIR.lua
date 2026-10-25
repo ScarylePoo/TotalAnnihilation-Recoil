@@ -1,0 +1,76 @@
+-- Weapon definitions (converted from CORE_T2_AIR.TDF)
+
+return {
+	vtol_rocket = {
+		id = 135,
+		name = "Rockets",
+		rendertype = 1,
+		avoidfriendly = 0,
+		collidefriendly = 0,
+		lineofsight = 1,
+		model = "missile",
+		range = 520,  -- 450
+		reloadtime = 2,
+		weapontimer = 5,
+		weaponvelocity = 350,
+		startvelocity = 100,
+		weaponacceleration = 51,
+		metalpershot = 0,
+		turnrate = 5680,  -- 7680
+		areaofeffect = 48,
+		soundstart = "rocklit3",
+		soundhit = "explode",
+		firestarter = 70,
+		smokedelay = .1,
+		selfprop = 1,
+		smoketrail = 1,
+		tolerance = 8000,
+		explosiongaf = "fx",
+		explosionart = "explode3",
+		waterexplosiongaf = "fx",
+		waterexplosionart = "h2o",
+		lavaexplosiongaf = "fx",
+		lavaexplosionart = "lavasplash",
+		startsmoke = 1,
+		guidance = 1,
+		damage = {
+			default = 145,  -- 125
+		},
+	},
+	vtol_rocket2 = {
+		id = 136,
+		name = "Rockets",
+		rendertype = 1,
+		avoidfriendly = 0,
+		collidefriendly = 0,
+		lineofsight = 1,
+		model = "missile",
+		range = 520,  -- 450
+		reloadtime = 2,
+		weapontimer = 5,
+		weaponvelocity = 350,
+		startvelocity = 250,
+		weaponacceleration = 131,
+		metalpershot = 0,
+		turnrate = 4680,  -- 7680
+		areaofeffect = 48,
+		soundstart = "rocklit3",
+		soundhit = "explode",
+		firestarter = 70,
+		smokedelay = .1,
+		selfprop = 1,
+		smoketrail = 1,
+		tolerance = 8000,
+		explosiongaf = "fx",
+		explosionart = "explode3",
+		waterexplosiongaf = "fx",
+		waterexplosionart = "h2o",
+		lavaexplosiongaf = "fx",
+		lavaexplosionart = "lavasplash",
+		startsmoke = 1,
+		guidance = 1,
+		damage = {
+			default = 145,  -- 125
+		},
+	},
+}

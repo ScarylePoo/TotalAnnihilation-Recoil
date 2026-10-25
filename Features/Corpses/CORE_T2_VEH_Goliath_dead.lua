@@ -1,0 +1,37 @@
+-- Feature definitions (converted from CORE_T2_VEH_Goliath_dead.tdf)
+
+return {
+	core_t2_veh_goliath_dead = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "core_corpses",
+		object = "CORE_T2_VEH_Goliath_dead",
+		featuredead = "CORE_T2_VEH_Goliath_heap",
+		footprintx = 4,
+		footprintz = 4,
+		height = 20,
+		blocking = 1,
+		hitdensity = 100,
+		metal = 558,
+		damage = 2000,  -- 2276,570
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+	core_t2_veh_goliath_heap = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "heaps",
+		object = "4x4c",
+		footprintx = 4,
+		footprintz = 4,
+		height = 4,
+		blocking = 0,
+		hitdensity = 100,
+		metal = 279,
+		damage = 1200,  -- 2276,580
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+}

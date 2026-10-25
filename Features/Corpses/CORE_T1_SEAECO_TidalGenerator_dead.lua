@@ -1,0 +1,20 @@
+-- Feature definitions (converted from CORE_T1_SEAECO_TidalGenerator_dead.tdf)
+
+return {
+	core_t1_seaeco_tidalgenerator_dead = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "core_corpses",
+		object = "CORE_T1_SEAECO_TidalGenerator_dead",
+		footprintx = 4,
+		footprintz = 4,
+		height = 4,
+		blocking = 0,
+		hitdensity = 100,
+		metal = 65,
+		damage = 36000,
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+}

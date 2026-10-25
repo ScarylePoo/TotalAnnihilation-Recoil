@@ -1,0 +1,37 @@
+-- Feature definitions (converted from ARM_T2_BOT_Pelican_dead.tdf)
+
+return {
+	arm_t2_bot_pelican_dead = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "arm_corpses",
+		object = "ARM_T2_BOT_Pelican_dead",
+		featuredead = "ARM_T2_BOT_Pelican_heap",
+		footprintx = 3,
+		footprintz = 3,
+		height = 20,
+		blocking = 1,
+		hitdensity = 100,
+		metal = 204,
+		damage = 160,  -- 640
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+	arm_t2_bot_pelican_heap = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "heaps",
+		object = "3x3d",
+		footprintx = 3,
+		footprintz = 3,
+		height = 4,
+		blocking = 0,
+		hitdensity = 100,
+		metal = 102,
+		damage = 80,  -- 320
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+}

@@ -1,0 +1,37 @@
+-- Feature definitions (converted from CORE_T2_BOT_Pyro_dead.tdf)
+
+return {
+	core_t2_bot_pyro_dead = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "core_corpses",
+		object = "CORE_T2_BOT_Pyro_dead",
+		featuredead = "CORE_T2_BOT_Pyro_heap",
+		footprintx = 2,
+		footprintz = 2,
+		height = 20,
+		blocking = 1,
+		hitdensity = 100,
+		metal = 208,
+		damage = 139,  -- 560
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+	core_t2_bot_pyro_heap = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "heaps",
+		object = "2x2c",
+		footprintx = 2,
+		footprintz = 2,
+		height = 4,
+		blocking = 0,
+		hitdensity = 100,
+		metal = 104,
+		damage = 153,  -- 560
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+}

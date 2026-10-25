@@ -1,0 +1,37 @@
+-- Feature definitions (converted from CORE_T1_LAB_HovercraftPlatform_dead.tdf)
+
+return {
+	core_t1_lab_hovercraftplatform_dead = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "core_corpses",
+		object = "CORE_T1_LAB_HovercraftPlatform_dead",
+		featuredead = "CORE_T1_LAB_HovercraftPlatform_heap",
+		footprintx = 8,
+		footprintz = 7,
+		height = 20,
+		blocking = 1,
+		hitdensity = 100,
+		metal = 1034,
+		damage = 2647,
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+	core_t1_lab_hovercraftplatform_heap = {
+		world = "All Worlds",
+		description = "Wreckage",
+		category = "heaps",
+		object = "7x7d",
+		footprintx = 8,
+		footprintz = 7,
+		height = 4,
+		blocking = 0,
+		hitdensity = 100,
+		metal = 417,
+		damage = 2323,
+		reclaimable = 1,
+		featurereclamate = "smudge01",
+		seqnamereclamate = "tree1reclamate",
+	},
+}

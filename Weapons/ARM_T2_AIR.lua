@@ -1,0 +1,37 @@
+-- Weapon definitions (converted from ARM_T2_AIR.TDF)
+
+return {
+	vtol_emg = {
+		id = 18,
+		name = "E.M.G.",
+		rendertype = 4,
+		-- 2D bitmap
+		color = 1,
+		-- EMG bitmap
+		lineofsight = 1,
+		avoidfriendly = 0,
+		collidefriendly = 0,
+		turret = 0,
+		-- model=plasma;
+		range = 450,  -- 370//400
+		reloadtime = 0.6,
+		weapontimer = 1,
+		weaponvelocity = 450,
+		-- startvelocity=150;
+		-- weaponacceleration=200;
+		sprayangle = 1024,
+		areaofeffect = 8,
+		burst = 4,
+		burstrate = .1,
+		soundstart = "armsml3",
+		soundhit = "lasrhit1",
+		soundtrigger = 1,
+		tolerance = 6000,
+		pitchtolerance = 12000,
+		explosiongenerator = "custom:FLASH1white",
+		startsmoke = 1,
+		damage = {
+			default = 11,
+		},
+	},
+}
