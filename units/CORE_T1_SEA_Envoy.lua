@@ -7,7 +7,7 @@ return {
 		description = "Transport Ship",
 		side = "CORE",
 		unitname = "core_t1_sea_envoy",
-		objectname = "CORE_T1_SEA_Envoy",
+		objectname = "CORE_T1_SEA_Envoy.s3o",
 		corpse = "CORE_T1_SEA_Envoy_dead",
 		icontype = "ship",
 		category = "CORE SHIP LEVEL1 NOWEAPON NOTAIR NOTSUB",
