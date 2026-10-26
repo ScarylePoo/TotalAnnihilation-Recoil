@@ -406,6 +406,15 @@ Base branch `s3o-remodel`; each family on `s3o-<family>`, merged back after revi
   ~1.5 GB) and compose runs in row strips, so 2048-texture units keep bake_res 4096. Run at most two agents, each with
   one final bake at a time; headless engine test once per batch.
 
+## Team-colour pass (queued, 2026-10-26)
+
+`teamfrac.py` (top-view team fraction, preview pose) audit of the first 117 units: the approved Flash measures 15.5 %,
+but 67 units (excluding Dragon's Teeth and mines, which stay low on purpose) are under 15 %, most at 5-12 %:
+agents judged team colour by eye on the sheet. Fix: change top-facing plates/panels in the spec to `team` (or add
+flat team plates >= 0.05 elmo above the surface), keep geometry otherwise, `teamfrac` until 15-25 %, final `all`,
+install, commit per unit. From now on every batch checks teamfrac before the final bake.
+List (team %): ARM_T1_HOV_Skimmer (3.2), CORE_T1_SEA_Enforcer (4.6), ARM_T2_VEH_Panther (5.1), CORE_T2_VEH_Goliath (5.6), CORE_T1_HOV_Turtle (5.7), CORE_T2_VEH_Deleter (6.4), CORE_T1_HOV_Constructor (6.5), CORE_T1_SEA_Searcher (6.6), CORE_T1_HOV_Scrubber (6.9), CORE_T1_SEA_Constructor (7.2), CORE_T2_VEH_Diplomat (7.2), CORE_T1_BOT_Crasher (7.3), ARM_T1_HOV_Anaconda (7.5), CORE_T1_HOV_Snapper (7.5), CORE_T2_VEH_Crock (7.7), ARM_T2_VEH_Jammer (7.8), ARM_T2_VEH_Phalanx (7.8), CORE_T2_VEH_Pillager (7.9), ARM_T1_SEA_Crusader (8.1), ARM_T1_SEA_Skeeter (8.1), CORE_T1_SEA_Envoy (8.2), ARM_T1_AIR_Thunder (8.3), ARM_T1_BOT_Warrior (8.3), CORE_T1_BOT_Constructor (8.4), ARM_T1_HOV_Constructor (8.8), ARM_T2_VEH_Triton (8.8), ARM_T1_DEF_Sentinel (8.9), ARM_T1_VEH_Constructor (9.1), CORE_T1_SEA_Snake (9.1), CORE_T2_VEH_Reaper (9.2), CORE_T2_VEH_AdvancedConstructor (9.4), ARM_T1_HOV_Bear (9.6), CORE_T2_VEH_Hedgehog (9.6), CORE_T1_HOV_Nixer (9.7), ARM_T1_BOT_Flea (9.8), ARM_T1_BOT_Rocko (9.8), ARM_T1_SEA_Lurker (9.8), ARM_T2_VEH_Seer (9.8), CORE_T2_VEH_Informer (9.9), ARM_T1_DEF_Guardian (10.1), ARM_T2_VEH_Bulldog (10.1), ARM_T1_BOT_Hammer (10.3), ARM_T1_DEF_RadarTower (10.7), CORE_T1_VEH_Weasel (10.7), ARM_T1_HOV_Wombat (10.9), ARM_T1_VEH_Jeffy (11.1), ARM_T2_VEH_Merl (11.3), ARM_T1_SEA_Hulk (11.4), ARM_T2_VEH_Penetrator (11.4), ARM_T1_AIR_Peeper (11.5), CORE_T1_VEH_Leveler (11.6), CORE_T2_VEH_Copperhead (11.7), CORE_T1_AIR_Constructor (11.8), CORE_T1_DEF_Immolator (11.8), CORE_T1_VEH_Slasher (12.1), CORE_T1_BOT_Thud (12.8), CORE_T1_HOV_Slinger (13.3), ARM_T1_SEA_Constructor (13.5), ARM_T1_BOT_Constructor (13.6), ARM_T1_BOT_Peewee (14.0), ARM_T2_VEH_AdvancedConstructor (14.0), CORE_T1_VEH_Spoiler (14.0), ARM_T1_AIR_Constructor (14.1), ARM_T2_VEH_Luger (14.2), CORE_T1_VEH_Constructor (14.2), CORE_T1_DEF_Viper (14.4), ARM_T1_AIR_FreedomFighter (14.5).
+
 ## Suggested order of work
 
 1. Get the user's in-game verdict on the Flash; adjust the kit globally.
