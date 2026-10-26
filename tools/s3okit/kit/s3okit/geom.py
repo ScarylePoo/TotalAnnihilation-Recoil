@@ -287,6 +287,16 @@ def visibility_cull(objs, ground=True, air=False, rays=48, interior_thresh=0.7, 
     return stats
 
 
+def force_exposure(objs, value=1.0):
+    """set the culling exposure of every face of objs (pieces enclosed at rest that the script reveals)."""
+    for ob in objs:
+        bm = bmesh.new(); bm.from_mesh(ob.data)
+        expo = bm.faces.layers.float.get('expo') or bm.faces.layers.float.new('expo')
+        for f in bm.faces:
+            f[expo] = value
+        bm.to_mesh(ob.data); bm.free()
+
+
 def _islands(bm, uv):
     parent = {f.index: f.index for f in bm.faces}
     def find(a):

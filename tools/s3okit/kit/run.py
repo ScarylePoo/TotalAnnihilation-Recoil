@@ -56,6 +56,8 @@ def st_build(unitname, draft=False):
     bpy.context.view_layer.update()
     meshes = [o for o in objs.values() if o.type == 'MESH']
     cull = geom.visibility_cull(meshes, ground=U['ground'] and U['water'] is None, air=U['air'])
+    # pieces hidden at rest but shown by the script (builder cranes in a closed hangar, ...): full texture priority
+    geom.force_exposure([o for o in meshes if o.name in set(U.get('always_visible', ()))])
     geom.unwrap(meshes, res=U['res'], ground=U['ground'] and U['water'] is None, air=U['air'], water=U['water'])
     geom.add_mirrors(meshes)
     geom.apply_clones(k)
