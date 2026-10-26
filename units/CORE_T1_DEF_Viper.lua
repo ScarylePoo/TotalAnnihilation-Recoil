@@ -7,7 +7,7 @@ return {
 		description = "Pop-Up Heavy Laser",
 		side = "CORE",
 		unitname = "core_t1_def_viper",
-		objectname = "CORE_T1_DEF_Viper",
+		objectname = "CORE_T1_DEF_Viper.s3o",
 		corpse = "CORE_T1_DEF_Viper_dead",
 		icontype = "turret",
 		category = "CORE LEVEL1 WEAPON NOTAIR NOTSUB",
