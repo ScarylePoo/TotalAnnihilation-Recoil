@@ -7,7 +7,7 @@ return {
 		description = "Missile Tower",
 		side = "ARM",
 		unitname = "arm_t1_def_defender",
-		objectname = "ARM_T1_DEF_Defender",
+		objectname = "ARM_T1_DEF_Defender.s3o",
 		script = "ARM_T1_DEF_Defender.lua",
 		corpse = "ARM_T1_DEF_Defender_dead",
 		icontype = "turret",
