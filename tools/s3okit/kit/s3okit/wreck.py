@@ -32,20 +32,33 @@ def make(unit_T, objs, level=1, seed=1, pose=None, drop=(), remove=()):
             objs[n].rotation_euler = Euler([math.radians(a) for a in r])
     bpy.context.view_layer.update()
     # 2. bake transforms into one mesh
-    meshes = []
+    # a dropped piece takes its descendants with it (else e.g. a barrel stays floating where its dropped sleeve was)
+    def drop_root(n):
+        while n:
+            if n in drop:
+                return n
+            n = unit_T[n]['parent'] if n in unit_T else None
+        return None
+    meshes, groups = [], {}
     for n, ob in objs.items():
         if ob.type != 'MESH' or not len(ob.data.polygons) or n in remove:
             continue
         me = ob.data.copy(); me.transform(ob.matrix_world)
-        if n in drop:   # lay detached pieces on the ground beside the hull
-            bb = [v.co for v in me.vertices]
-            c = sum(bb, Vector()) / len(bb)
-            ang = rnd.uniform(0, 2 * math.pi)
-            M = (Matrix.Translation(Vector((math.cos(ang) * 6, 0.3 - min(v.y for v in bb), math.sin(ang) * 6)) + Vector((c.x, 0, c.z)))
-                 @ Matrix.Rotation(rnd.uniform(0, 6.28), 4, 'Y') @ Matrix.Rotation(math.radians(rnd.uniform(70, 100)), 4, 'Z')
-                 @ Matrix.Translation(-c))
+        r = drop_root(n)
+        if r:
+            groups.setdefault(r, []).append(me)
+        else:
+            meshes.append(me)
+    for r in [d for d in drop if d in groups]:      # lay detached pieces on the ground beside the hull
+        bb = [v.co for me in groups[r] for v in me.vertices]
+        c = sum(bb, Vector()) / len(bb)
+        ang = rnd.uniform(0, 2 * math.pi)
+        M = (Matrix.Translation(Vector((math.cos(ang) * 6, 0.3 - min(v.y for v in bb), math.sin(ang) * 6)) + Vector((c.x, 0, c.z)))
+             @ Matrix.Rotation(rnd.uniform(0, 6.28), 4, 'Y') @ Matrix.Rotation(math.radians(rnd.uniform(70, 100)), 4, 'Z')
+             @ Matrix.Translation(-c))
+        for me in groups[r]:
             me.transform(M)
-        meshes.append(me)
+            meshes.append(me)
     bm = bmesh.new()
     for me in meshes:
         bm.from_mesh(me)
