@@ -5,7 +5,7 @@ return {
 		world = "All Worlds",
 		description = "Wreckage",
 		category = "core_corpses",
-		object = "CORE_T1_DEF_Pulverizer_dead",
+		object = "CORE_T1_DEF_Pulverizer_dead.s3o",
 		featuredead = "CORE_T1_DEF_Pulverizer_heap",
 		footprintx = 3,
 		footprintz = 3,
