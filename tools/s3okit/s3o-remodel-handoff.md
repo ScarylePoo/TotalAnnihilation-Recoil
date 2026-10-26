@@ -392,6 +392,15 @@ Skip legged walkers (standard skeleton + LUS walk: handled separately, see "Walk
 only if told to. Air units: `air` is automatic from `canfly`. Ships/hovers: check `floater`/`waterline`; underwater
 parts are seen from above through water. Report at the end: units done, units skipped and why, problems, proposals.
 
+## Progress (coordinator log)
+
+Base branch `s3o-remodel`; each family on `s3o-<family>`, merged back after review + headless test.
+- 2026-10-25: Flash, Instigator, Peewee (references); T1 vehicles (11), T1 bots (11, walkers), T1 aircraft (10),
+  T1 hovercraft (12), T1 ships (10) merged = 57 units. In progress: T1 defences, T2 vehicles (minus Spider/Scarab).
+- Machine: 2 cores; all shell processes share a ~5.8 GB memory cgroup. Bakes above 2048 run in 2048 tiles (peak
+  ~1.5 GB) and compose runs in row strips, so 2048-texture units keep bake_res 4096. Run at most two agents, each with
+  one final bake at a time; headless engine test once per batch.
+
 ## Suggested order of work
 
 1. Get the user's in-game verdict on the Flash; adjust the kit globally.
