@@ -7,7 +7,7 @@ return {
 		description = "Scout Ship",
 		side = "ARM",
 		unitname = "arm_t1_sea_skeeter",
-		objectname = "ARM_T1_SEA_Skeeter",
+		objectname = "ARM_T1_SEA_Skeeter.s3o",
 		corpse = "ARM_T1_SEA_Skeeter_dead",
 		icontype = "ship",
 		category = "ARM SHIP LEVEL1 WEAPON NOTAIR NOTSUB",
