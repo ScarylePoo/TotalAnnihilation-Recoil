@@ -7,7 +7,7 @@ return {
 		description = "Mobile Radar Jammer",
 		side = "CORE",
 		unitname = "core_t2_veh_deleter",
-		objectname = "CORE_T2_VEH_Deleter",
+		objectname = "CORE_T2_VEH_Deleter.s3o",
 		corpse = "CORE_T2_VEH_Deleter_dead",
 		icontype = "tank",
 		category = "CORE TANK LEVEL2 NOWEAPON NOTAIR NOTSUB",

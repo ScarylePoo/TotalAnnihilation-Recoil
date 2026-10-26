@@ -7,7 +7,7 @@ return {
 		description = "Amphibious Tank",
 		side = "ARM",
 		unitname = "arm_t2_veh_triton",
-		objectname = "ARM_T2_VEH_Triton",
+		objectname = "ARM_T2_VEH_Triton.s3o",
 		corpse = "ARM_T2_VEH_Triton_dead",
 		icontype = "tank",
 		category = "ARM TANK LEVEL2 WEAPON NOTAIR NOTSUB",

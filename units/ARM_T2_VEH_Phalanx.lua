@@ -7,7 +7,7 @@ return {
 		description = "Mobile Flak Vehicle",
 		side = "ARM",
 		unitname = "arm_t2_veh_phalanx",
-		objectname = "ARM_T2_VEH_Phalanx",
+		objectname = "ARM_T2_VEH_Phalanx.s3o",
 		corpse = "ARM_T2_VEH_Phalanx_dead",
 		icontype = "tank",
 		category = "ARM TANK LEVEL2 WEAPON NOTAIR NOTSUB",

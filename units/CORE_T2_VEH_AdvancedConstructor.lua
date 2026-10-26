@@ -8,7 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_veh_advancedconstructor",
 		buildoptions = Shared.buildListCoreT2VehicleConstructor,
-		objectname = "CORE_T2_VEH_AdvancedConstructor",
+		objectname = "CORE_T2_VEH_AdvancedConstructor.s3o",
 		corpse = "CORE_T2_VEH_AdvancedConstructor_dead",
 		icontype = "tank",
 		category = "CORE TANK LEVEL2 NOWEAPON NOTAIR NOTSUB",
