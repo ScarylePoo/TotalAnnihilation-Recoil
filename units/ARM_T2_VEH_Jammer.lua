@@ -7,7 +7,7 @@ return {
 		description = "Mobile Radar Jammer",
 		side = "ARM",
 		unitname = "arm_t2_veh_jammer",
-		objectname = "ARM_T2_VEH_Jammer",
+		objectname = "ARM_T2_VEH_Jammer.s3o",
 		corpse = "ARM_T2_VEH_Jammer_dead",
 		icontype = "tank",
 		category = "ARM TANK LEVEL2 NOWEAPON NOTAIR NOTSUB",
