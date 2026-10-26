@@ -7,7 +7,7 @@ return {
 		description = "Radar Plane",
 		side = "CORE",
 		unitname = "core_t2_air_vulture",
-		objectname = "CORE_T2_AIR_Vulture",
+		objectname = "CORE_T2_AIR_Vulture.s3o",
 		corpse = "CORE_T2_AIR_Vulture_dead",
 		icontype = "aircraft",
 		category = "CORE VTOL LEVEL2 NOWEAPON NOTSUB",

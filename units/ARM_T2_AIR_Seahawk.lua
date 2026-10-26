@@ -7,7 +7,7 @@ return {
 		description = "Airborne Sonar",
 		side = "ARM",
 		unitname = "arm_t2_air_seahawk",
-		objectname = "ARM_T2_AIR_Seahawk",
+		objectname = "ARM_T2_AIR_Seahawk.s3o",
 		corpse = "ARM_T2_AIR_Seahawk_dead",
 		icontype = "aircraft",
 		category = "ARM VTOL LEVEL2 NOWEAPON NOTSUB",

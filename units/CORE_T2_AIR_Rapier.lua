@@ -7,7 +7,7 @@ return {
 		description = "Gunship",
 		side = "CORE",
 		unitname = "core_t2_air_rapier",
-		objectname = "CORE_T2_AIR_Rapier",
+		objectname = "CORE_T2_AIR_Rapier.s3o",
 		corpse = "CORE_T2_AIR_Rapier_dead",
 		icontype = "aircraft",
 		category = "CORE VTOL LEVEL2 WEAPON NOTSUB",
