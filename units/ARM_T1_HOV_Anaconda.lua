@@ -7,7 +7,7 @@ return {
 		description = "Hovertank",
 		side = "ARM",
 		unitname = "arm_t1_hov_anaconda",
-		objectname = "ARM_T1_HOV_Anaconda",
+		objectname = "ARM_T1_HOV_Anaconda.s3o",
 		corpse = "ARM_T1_HOV_Anaconda_dead",
 		icontype = "hover",
 		category = "ARM HOVER LEVEL1 WEAPON NOTAIR NOTSUB",

@@ -7,7 +7,7 @@ return {
 		description = "Hovertank",
 		side = "CORE",
 		unitname = "core_t1_hov_snapper",
-		objectname = "CORE_T1_HOV_Snapper",
+		objectname = "CORE_T1_HOV_Snapper.s3o",
 		corpse = "CORE_T1_HOV_Snapper_dead",
 		icontype = "hover",
 		category = "CORE HOVER LEVEL1 WEAPON NOTAIR NOTSUB",

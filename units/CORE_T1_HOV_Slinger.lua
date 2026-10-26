@@ -7,7 +7,7 @@ return {
 		description = "Anti-Air Hovercraft",
 		side = "CORE",
 		unitname = "core_t1_hov_slinger",
-		objectname = "CORE_T1_HOV_Slinger",
+		objectname = "CORE_T1_HOV_Slinger.s3o",
 		corpse = "CORE_T1_HOV_Slinger_dead",
 		icontype = "hover",
 		category = "CORE HOVER LEVEL1 WEAPON NOTAIR NOTSUB",

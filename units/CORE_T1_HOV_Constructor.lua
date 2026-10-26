@@ -8,7 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t1_hov_constructor",
 		buildoptions = Shared.buildListCoreT1HovercraftConstructor,
-		objectname = "CORE_T1_HOV_Constructor",
+		objectname = "CORE_T1_HOV_Constructor.s3o",
 		corpse = "CORE_T1_HOV_Constructor_dead",
 		icontype = "hover",
 		category = "CORE HOVER LEVEL1 NOWEAPON NOTAIR NOTSUB",

@@ -7,7 +7,7 @@ return {
 		description = "Scout Hovercraft",
 		side = "ARM",
 		unitname = "arm_t1_hov_skimmer",
-		objectname = "ARM_T1_HOV_Skimmer",
+		objectname = "ARM_T1_HOV_Skimmer.s3o",
 		corpse = "ARM_T1_HOV_Skimmer_dead",
 		icontype = "hover",
 		category = "ARM HOVER LEVEL1 WEAPON NOTAIR NOTSUB",

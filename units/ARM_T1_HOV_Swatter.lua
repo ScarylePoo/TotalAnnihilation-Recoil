@@ -7,7 +7,7 @@ return {
 		description = "Anti-Air Hovercraft",
 		side = "ARM",
 		unitname = "arm_t1_hov_swatter",
-		objectname = "ARM_T1_HOV_Swatter",
+		objectname = "ARM_T1_HOV_Swatter.s3o",
 		corpse = "ARM_T1_HOV_Swatter_dead",
 		icontype = "hover",
 		category = "ARM HOVER LEVEL1 WEAPON NOTAIR NOTSUB",
