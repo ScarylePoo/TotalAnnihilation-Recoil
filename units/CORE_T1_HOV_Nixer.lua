@@ -7,7 +7,7 @@ return {
 		description = "Hovercraft Rocket Launcher",
 		side = "CORE",
 		unitname = "core_t1_hov_nixer",
-		objectname = "CORE_T1_HOV_Nixer",
+		objectname = "CORE_T1_HOV_Nixer.s3o",
 		corpse = "CORE_T1_HOV_Nixer_dead",
 		icontype = "hover",
 		category = "CORE HOVER LEVEL1 WEAPON NOTAIR NOTSUB",
