@@ -7,7 +7,7 @@ return {
 		description = "Transport Hovercraft",
 		side = "CORE",
 		unitname = "core_t1_hov_turtle",
-		objectname = "CORE_T1_HOV_Turtle",
+		objectname = "CORE_T1_HOV_Turtle.s3o",
 		corpse = "CORE_T1_HOV_Turtle_dead",
 		icontype = "hover",
 		category = "CORE HOVER LEVEL1 NOWEAPON NOTAIR NOTSUB",
