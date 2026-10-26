@@ -5,7 +5,7 @@ return {
 		world = "All Worlds",
 		description = "Wreckage",
 		category = "core_corpses",
-		object = "CORE_T2_VEH_Goliath_dead",
+		object = "CORE_T2_VEH_Goliath_dead.s3o",
 		featuredead = "CORE_T2_VEH_Goliath_heap",
 		footprintx = 4,
 		footprintz = 4,
