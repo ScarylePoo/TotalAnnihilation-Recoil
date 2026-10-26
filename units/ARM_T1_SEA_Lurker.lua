@@ -7,7 +7,7 @@ return {
 		description = "Submarine",
 		side = "ARM",
 		unitname = "arm_t1_sea_lurker",
-		objectname = "ARM_T1_SEA_Lurker",
+		objectname = "ARM_T1_SEA_Lurker.s3o",
 		corpse = "ARM_T1_SEA_Lurker_dead",
 		icontype = "ship",
 		category = "ARM UNDERWATER LEVEL1 WEAPON NOTAIR",
