@@ -63,7 +63,9 @@ def write(path, pieces, tex1, tex2):
         emit = [tuple(e) + (0.0, 1.0, 0.0, 0.0, 0.0) for e in p.get('emit', [])]
         verts = emit + list(p['verts'])
         idx = [i + len(emit) for i in p['idx']]
-        name_o = cstr(n)
+        # lower case: the engine lowercases 3DO piece names but takes S3O names as written, and the scripts
+        # (COB and Lua) use the lowercased names (BOTA's Arm mine 3DOs name their piece 'Base')
+        name_o = cstr(n.lower())
         ch_o = put(struct.pack('<%di' % len(ch), *ch)) if ch else 0
         vo = put(b''.join(struct.pack('<8f', *v) for v in verts)) if verts else 0
         io = put(struct.pack('<%di' % len(idx), *idx)) if idx else 0

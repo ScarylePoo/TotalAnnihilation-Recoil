@@ -7,7 +7,7 @@ return {
 		description = "Heavy Laser Tower",
 		side = "CORE",
 		unitname = "core_t1_def_gaatgun",
-		objectname = "CORE_T1_DEF_GaatGun",
+		objectname = "CORE_T1_DEF_GaatGun.s3o",
 		corpse = "CORE_T1_DEF_GaatGun_dead",
 		icontype = "turret",
 		category = "CORE LEVEL1 WEAPON NOTAIR NOTSUB",

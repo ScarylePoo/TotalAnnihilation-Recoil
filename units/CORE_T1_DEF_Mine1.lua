@@ -7,7 +7,7 @@ return {
 		description = "Low Damage, Med. Range Mine",
 		side = "CORE",
 		unitname = "core_t1_def_mine1",
-		objectname = "CORE_T1_DEF_Mine1",
+		objectname = "CORE_T1_DEF_Mine1.s3o",
 		script = "CORE_T1_DEF_Mine1.lua",
 		category = "CORE MINE LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage

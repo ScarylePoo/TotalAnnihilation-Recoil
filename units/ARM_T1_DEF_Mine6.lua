@@ -7,7 +7,7 @@ return {
 		description = "Nuclear Mine",
 		side = "ARM",
 		unitname = "arm_t1_def_mine6",
-		objectname = "ARM_T1_DEF_Mine6",
+		objectname = "ARM_T1_DEF_Mine6.s3o",
 		script = "ARM_T1_DEF_Mine6.lua",
 		category = "ARM MINE LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage

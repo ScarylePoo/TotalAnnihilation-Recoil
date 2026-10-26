@@ -7,7 +7,7 @@ return {
 		description = "Plasma Battery",
 		side = "ARM",
 		unitname = "arm_t1_def_guardian",
-		objectname = "ARM_T1_DEF_Guardian",
+		objectname = "ARM_T1_DEF_Guardian.s3o",
 		script = "ARM_T1_DEF_Guardian.lua",
 		corpse = "ARM_T1_DEF_Guardian_dead",
 		icontype = "turret",

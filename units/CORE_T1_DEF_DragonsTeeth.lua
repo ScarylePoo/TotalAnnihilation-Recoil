@@ -7,7 +7,7 @@ return {
 		description = "Perimeter Defense",
 		side = "CORE",
 		unitname = "core_t1_def_dragonsteeth",
-		objectname = "CORE_T1_DEF_DragonsTeeth",
+		objectname = "CORE_T1_DEF_DragonsTeeth.s3o",
 		script = "CORE_T1_DEF_DragonsTeeth.lua",
 		corpse = "CORE_T1_DEF_DragonsTeeth_dead",
 		category = "CORE LEVEL1 NOWEAPON NOTAIR NOTSUB",

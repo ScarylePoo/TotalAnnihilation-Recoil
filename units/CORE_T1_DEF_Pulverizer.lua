@@ -7,7 +7,7 @@ return {
 		description = "Missile Tower",
 		side = "CORE",
 		unitname = "core_t1_def_pulverizer",
-		objectname = "CORE_T1_DEF_Pulverizer",
+		objectname = "CORE_T1_DEF_Pulverizer.s3o",
 		script = "CORE_T1_DEF_Pulverizer.lua",
 		corpse = "CORE_T1_DEF_Pulverizer_dead",
 		icontype = "turret",

@@ -7,7 +7,7 @@ return {
 		description = "Heavy Laser Tower",
 		side = "ARM",
 		unitname = "arm_t1_def_sentinel",
-		objectname = "ARM_T1_DEF_Sentinel",
+		objectname = "ARM_T1_DEF_Sentinel.s3o",
 		script = "ARM_T1_DEF_Sentinel.lua",
 		corpse = "ARM_T1_DEF_Sentinel_dead",
 		icontype = "turret",

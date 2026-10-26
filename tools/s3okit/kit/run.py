@@ -146,6 +146,8 @@ def st_wreck(unitname, draft=False):
         obj = os.path.splitext(c['object'] or '')[0]
         if not obj or _is_generic_heap(obj) or obj.lower() == 'rock_teeth':
             continue
+        if obj.lower() == unitname.lower():     # feature reuses the unit's own model (Dragon's Teeth): no wreck
+            continue
         bpy.ops.wm.open_mainfile(filepath=os.path.join(wd, 'unit.blend'))
         objs = {n: bpy.data.objects[n] for n in T if n in bpy.data.objects}
         W = U['wreck']

@@ -5,7 +5,7 @@ return {
 		world = "allworld",
 		description = "DragonsTeeth",
 		category = "dragonteeth",
-		object = "ARM_T1_DEF_DragonsTeeth",
+		object = "ARM_T1_DEF_DragonsTeeth.s3o",
 		footprintx = 2,
 		footprintz = 2,
 		height = 20,
