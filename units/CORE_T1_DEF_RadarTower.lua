@@ -7,7 +7,7 @@ return {
 		description = "Radar Tower",
 		side = "CORE",
 		unitname = "core_t1_def_radartower",
-		objectname = "CORE_T1_DEF_RadarTower",
+		objectname = "CORE_T1_DEF_RadarTower.s3o",
 		corpse = "CORE_T1_DEF_RadarTower_dead",
 		icontype = "building_radar_sonar",
 		category = "CORE SPECIAL LEVEL1 NOTAIR NOTSUB",
