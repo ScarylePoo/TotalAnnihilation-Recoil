@@ -5,7 +5,7 @@ return {
 		world = "All Worlds",
 		description = "Wreckage",
 		category = "core_corpses",
-		object = "CORE_T1_SEA_Constructor_dead",
+		object = "CORE_T1_SEA_Constructor_dead.s3o",
 		footprintx = 5,
 		footprintz = 5,
 		height = 4,
