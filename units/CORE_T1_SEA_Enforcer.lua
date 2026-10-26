@@ -7,7 +7,7 @@ return {
 		description = "Destroyer",
 		side = "CORE",
 		unitname = "core_t1_sea_enforcer",
-		objectname = "CORE_T1_SEA_Enforcer",
+		objectname = "CORE_T1_SEA_Enforcer.s3o",
 		corpse = "CORE_T1_SEA_Enforcer_dead",
 		icontype = "ship",
 		category = "CORE SHIP LEVEL1 WEAPON NOTAIR NOTSUB",
