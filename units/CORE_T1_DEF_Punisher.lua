@@ -7,7 +7,7 @@ return {
 		description = "Plasma Battery",
 		side = "CORE",
 		unitname = "core_t1_def_punisher",
-		objectname = "CORE_T1_DEF_Punisher",
+		objectname = "CORE_T1_DEF_Punisher.s3o",
 		corpse = "CORE_T1_DEF_Punisher_dead",
 		icontype = "turret",
 		category = "CORE LEVEL1 WEAPON NOTAIR NOTSUB",
