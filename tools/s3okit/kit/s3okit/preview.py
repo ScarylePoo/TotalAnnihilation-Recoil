@@ -65,7 +65,9 @@ def render(path, texdir, prefix, team='2255dd', pose=None, views=('front34', 're
             ob.parent = objs[p['parent']]
         ob.location = p['off']
         objs[p['name']] = ob
+    objs = {n.lower(): o for n, o in objs.items()}
     for name, rot in (pose or {}).items():   # rot in degrees, COB-like Euler XYZ; 'hide' = hidden by the script
+        name = name.lower()                  # S3O piece names are written lower case; specs use the 3DO spelling
         if name in objs:
             if rot == 'hide':
                 objs[name].hide_render = True
