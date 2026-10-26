@@ -57,18 +57,45 @@ def srgb2lin(c): return np.where(c <= 0.04045, c / 12.92, ((c + 0.055) / 1.055) 
 def lin2srgb(c): c = np.clip(c, 0, 1); return np.where(c <= 0.0031308, c * 12.92, 1.055 * c ** (1 / 2.4) - 0.055)
 
 
-def compose(npz, out_prefix, final=1024, side='ARM', mode='unit', seed=0, seams=True):
-    M = np.load(npz)
+def compose(npz, out_prefix, final=1024, side='ARM', mode='unit', seed=0, seams=True, strip=512):
+    """Synthesise tex1/tex2 from the baked maps. Every step is per texel except the dilation (one distance transform,
+    done once) and the final resize, so the texel work runs in row strips: full-frame float intermediates at 4096^2
+    (2048 textures are composed at 2x) got compose OOM-killed in the shared memory cgroup."""
+    Z = np.load(npz)
+    M = {k: Z[k] for k in ('pos', 'nrm', 'edge', 'aonear', 'aofar', 'id')}   # stored precision, decompressed once
     # dilate: every empty texel takes the maps of the nearest baked texel (replaces Cycles' bake margin)
     from scipy.ndimage import distance_transform_edt
-    cover = M['cover'][..., 0] > 0
-    _, (iy, ix) = distance_transform_edt(~cover, return_indices=True)
+    cover = Z['cover'][..., 0] > 0
+    _, (IY, IX) = distance_transform_edt(~cover, return_indices=True)
+    IY = IY.astype(np.int32); IX = IX.astype(np.int32); del cover
+    Hf, Wf = IY.shape
+    out1 = np.empty((Hf, Wf, 4), np.uint8); out2 = np.empty((Hf, Wf, 4), np.uint8)
+    u8 = lambda a: (np.clip(a, 0, 1) * 255 + 0.5).astype(np.uint8)
+    for r0 in range(0, Hf, strip):
+        r1 = min(Hf, r0 + strip)
+        col, tc, emi, refl = _compose_block(M, IY[r0:r1], IX[r0:r1], side, mode, seed, seams)
+        out1[r0:r1] = u8(np.dstack([col, tc]))
+        out2[r0:r1] = u8(np.dstack([emi, refl, np.zeros_like(emi), np.ones_like(emi)]))
+        del col, tc, emi, refl
+
+    def save(arr, path, mode_):
+        im = Image.fromarray(arr, mode_)
+        if final != Wf:  # per channel: PIL premultiplies alpha when resizing RGBA, which blackens RGB where A=0
+            im = Image.merge(mode_, [c.resize((final, final), Image.LANCZOS) for c in im.split()])
+        im.save(path)
+    save(out1, out_prefix + '_1.png', 'RGBA')
+    save(out2, out_prefix + '_2.png', 'RGBA')
+    return dict(texture=final)
+
+
+def _compose_block(M, iy, ix, side, mode, seed, seams):
+    """texel synthesis for one row strip; iy/ix are that strip's dilation indices into the full maps."""
     D = lambda a: a[iy, ix]
-    pos = D(M['pos'].astype(np.float32)); nrm = D(M['nrm'].astype(np.float32))
-    edge = np.clip((1 - D(M['edge'][..., 0].astype(np.float32))) * 9.0, 0, 1)
-    aon = np.clip(D(M['aonear'][..., 0].astype(np.float32)), 0, 1)
-    aof = np.clip(D(M['aofar'][..., 0].astype(np.float32)), 0, 1)
-    mid = np.rint(D(M['id'][..., 0].astype(np.float32)) * 32).astype(int) - 1
+    pos = D(M['pos']).astype(np.float32); nrm = D(M['nrm']).astype(np.float32)
+    edge = np.clip((1 - D(M['edge'][..., 0]).astype(np.float32)) * 9.0, 0, 1)
+    aon = np.clip(D(M['aonear'][..., 0]).astype(np.float32), 0, 1)
+    aof = np.clip(D(M['aofar'][..., 0]).astype(np.float32), 0, 1)
+    mid = np.rint(D(M['id'][..., 0]).astype(np.float32) * 32).astype(int) - 1
     H, W = mid.shape
     tread_phase = np.zeros((H, W), np.float32)          # tread2..4 = tread advanced by 1/4, 2/4, 3/4 of a link
     for k, n in enumerate(('tread2', 'tread3', 'tread4'), 1):
@@ -178,11 +205,5 @@ def compose(npz, out_prefix, final=1024, side='ARM', mode='unit', seed=0, seams=
     col = lin2srgb(srgb2lin(col) * occ[..., None])
     refl = np.clip(refl * (1 - dust * 0.8) * (0.4 + 0.6 * aof), 0, 1)
 
-    def save(arr, path, mode_):
-        im = Image.fromarray((np.clip(arr, 0, 1) * 255 + 0.5).astype(np.uint8), mode_)
-        if final != W:   # per channel: PIL premultiplies alpha when resizing RGBA, which blackens RGB where A=0
-            im = Image.merge(mode_, [c.resize((final, final), Image.LANCZOS) for c in im.split()])
-        im.save(path)
-    save(np.dstack([col, tc]), out_prefix + '_1.png', 'RGBA')
-    save(np.dstack([emi, refl, np.zeros_like(emi), np.ones_like(emi)]), out_prefix + '_2.png', 'RGBA')
-    return dict(texture=final)
+    return col, tc, emi, refl
+
