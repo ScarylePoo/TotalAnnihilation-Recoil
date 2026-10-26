@@ -7,7 +7,7 @@ return {
 		description = "Gunship",
 		side = "ARM",
 		unitname = "arm_t2_air_brawler",
-		objectname = "ARM_T2_AIR_Brawler",
+		objectname = "ARM_T2_AIR_Brawler.s3o",
 		corpse = "ARM_T2_AIR_Brawler_dead",
 		icontype = "aircraft",
 		category = "ARM VTOL LEVEL2 WEAPON NOTSUB",
