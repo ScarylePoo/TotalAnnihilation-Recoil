@@ -7,7 +7,7 @@ return {
 		description = "Light Laser Tower",
 		side = "CORE",
 		unitname = "core_t1_def_lightlasertower",
-		objectname = "CORE_T1_DEF_LightLaserTower",
+		objectname = "CORE_T1_DEF_LightLaserTower.s3o",
 		script = "CORE_T1_DEF_LightLaserTower.lua",
 		corpse = "CORE_T1_DEF_LightLaserTower_dead",
 		icontype = "turret",
