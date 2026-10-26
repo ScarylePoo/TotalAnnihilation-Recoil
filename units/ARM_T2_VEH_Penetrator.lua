@@ -7,7 +7,7 @@ return {
 		description = "Mobile Energy Weapon",
 		side = "ARM",
 		unitname = "arm_t2_veh_penetrator",
-		objectname = "ARM_T2_VEH_Penetrator",
+		objectname = "ARM_T2_VEH_Penetrator.s3o",
 		corpse = "ARM_T2_VEH_Penetrator_dead",
 		icontype = "tank",
 		category = "ARM TANK LEVEL2 WEAPON NOTAIR NOTSUB",
