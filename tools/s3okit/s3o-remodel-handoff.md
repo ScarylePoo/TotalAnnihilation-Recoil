@@ -396,8 +396,8 @@ parts are seen from above through water. Report at the end: units done, units sk
 
 Base branch `s3o-remodel`; each family on `s3o-<family>`, merged back after review + headless test.
 - 2026-10-25: Flash, Instigator, Peewee (references); T1 vehicles (11), T1 bots (11, walkers), T1 aircraft (10),
-  T1 hovercraft (12), T1 ships (10), T1 defences (26, incl. 12 mines) merged = 83 units. In progress: T2 vehicles
-  (minus Spider/Scarab).
+  T1 hovercraft (12), T1 ships (10), T1 defences (26, incl. 12 mines) merged = 83 units; T2 vehicles (20, minus Spider/Scarab)
+  merged = 103. In progress: T2 bots.
 - Learned in the defence batch: S3O piece names are written lowercase (the engine lowercases 3DO names but not S3O
   ones; a LUS `piece('base')` failed on a 3DO piece named `Base`). Wreck `drop` carries child pieces. Pop-up
   structures: preview_pose shows the OPEN state (CORE_T1_DEF_Viper.py is the model). Specs import mathutils inside
