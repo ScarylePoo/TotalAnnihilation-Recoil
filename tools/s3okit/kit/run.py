@@ -106,7 +106,8 @@ def st_compose(unitname, draft=False):
     from s3okit import compose
     mod, U, info = load_spec(unitname)
     wd = workdir(unitname)
-    compose.compose(os.path.join(wd, 'maps.npz'), os.path.join(wd, 'out', unitname), final=U['res'], side=U['side'])
+    compose.compose(os.path.join(wd, 'maps.npz'), os.path.join(wd, 'out', unitname), final=U['res'], side=U['side'],
+                    tread_step=U.get('tread_step', 0.25))
     from s3okit import dds
     dds.convert_pair(os.path.join(wd, 'out', unitname))
 

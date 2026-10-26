@@ -57,7 +57,7 @@ def srgb2lin(c): return np.where(c <= 0.04045, c / 12.92, ((c + 0.055) / 1.055) 
 def lin2srgb(c): c = np.clip(c, 0, 1); return np.where(c <= 0.0031308, c * 12.92, 1.055 * c ** (1 / 2.4) - 0.055)
 
 
-def compose(npz, out_prefix, final=1024, side='ARM', mode='unit', seed=0, seams=True, strip=512):
+def compose(npz, out_prefix, final=1024, side='ARM', mode='unit', seed=0, seams=True, strip=512, tread_step=0.25):
     """Synthesise tex1/tex2 from the baked maps. Every step is per texel except the dilation (one distance transform,
     done once) and the final resize, so the texel work runs in row strips: full-frame float intermediates at 4096^2
     (2048 textures are composed at 2x) got compose OOM-killed in the shared memory cgroup."""
@@ -73,7 +73,7 @@ def compose(npz, out_prefix, final=1024, side='ARM', mode='unit', seed=0, seams=
     u8 = lambda a: (np.clip(a, 0, 1) * 255 + 0.5).astype(np.uint8)
     for r0 in range(0, Hf, strip):
         r1 = min(Hf, r0 + strip)
-        col, tc, emi, refl = _compose_block(M, IY[r0:r1], IX[r0:r1], side, mode, seed, seams)
+        col, tc, emi, refl = _compose_block(M, IY[r0:r1], IX[r0:r1], side, mode, seed, seams, tread_step)
         out1[r0:r1] = u8(np.dstack([col, tc]))
         out2[r0:r1] = u8(np.dstack([emi, refl, np.zeros_like(emi), np.ones_like(emi)]))
         del col, tc, emi, refl
@@ -88,7 +88,7 @@ def compose(npz, out_prefix, final=1024, side='ARM', mode='unit', seed=0, seams=
     return dict(texture=final)
 
 
-def _compose_block(M, iy, ix, side, mode, seed, seams):
+def _compose_block(M, iy, ix, side, mode, seed, seams, tread_step=0.25):
     """texel synthesis for one row strip; iy/ix are that strip's dilation indices into the full maps."""
     D = lambda a: a[iy, ix]
     pos = D(M['pos']).astype(np.float32); nrm = D(M['nrm']).astype(np.float32)
@@ -97,10 +97,11 @@ def _compose_block(M, iy, ix, side, mode, seed, seams):
     aof = np.clip(D(M['aofar'][..., 0]).astype(np.float32), 0, 1)
     mid = np.rint(D(M['id'][..., 0]).astype(np.float32) * 32).astype(int) - 1
     H, W = mid.shape
-    tread_phase = np.zeros((H, W), np.float32)          # tread2..4 = tread advanced by 1/4, 2/4, 3/4 of a link
+    # tread2..4 = tread advanced by 1, 2, 3 x tread_step of a link (1/4 for 4-frame track cycles, 1/3 for 3-frame ones)
+    tread_phase = np.zeros((H, W), np.float32)
     for k, n in enumerate(('tread2', 'tread3', 'tread4'), 1):
         sel = mid == MATS.index(n)
-        tread_phase[sel] = 0.25 * k; mid[sel] = MATS.index('tread')
+        tread_phase[sel] = tread_step * k; mid[sel] = MATS.index('tread')
     pal = PALETTES[side]
     x, y, z = pos[..., 0], pos[..., 1], pos[..., 2]
     up = np.clip(nrm[..., 1], 0, 1)
