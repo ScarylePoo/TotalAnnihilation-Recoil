@@ -8,7 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t2_veh_advancedconstructor",
 		buildoptions = Shared.buildListArmT2VehicleConstructor,
-		objectname = "ARM_T2_VEH_AdvancedConstructor",
+		objectname = "ARM_T2_VEH_AdvancedConstructor.s3o",
 		corpse = "ARM_T2_VEH_AdvancedConstructor_dead",
 		icontype = "tank",
 		category = "ARM TANK LEVEL2 NOWEAPON NOTAIR NOTSUB",
