@@ -7,7 +7,7 @@ return {
 		description = "Transport Ship",
 		side = "ARM",
 		unitname = "arm_t1_sea_hulk",
-		objectname = "ARM_T1_SEA_Hulk",
+		objectname = "ARM_T1_SEA_Hulk.s3o",
 		corpse = "ARM_T1_SEA_Hulk_dead",
 		icontype = "ship",
 		category = "ARM SHIP LEVEL1 NOWEAPON NOTAIR NOTSUB",
