@@ -8,7 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t2_air_advancedconstructor",
 		buildoptions = Shared.buildListArmT2AircraftConstructor,
-		objectname = "ARM_T2_AIR_AdvancedConstructor",
+		objectname = "ARM_T2_AIR_AdvancedConstructor.s3o",
 		corpse = "ARM_T2_AIR_AdvancedConstructor_dead",
 		icontype = "aircraft",
 		category = "ARM VTOL LEVEL2 NOWEAPON NOTSUB",
