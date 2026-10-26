@@ -114,6 +114,39 @@ def remap(T, kind='biped', height=None, hipx=None, hipz=None, drop=(), keep=()):
     return new, report
 
 
+def edit(T, drop=(), add=None):
+    """Piece edits for a unit WITHOUT the walker skeleton (skeleton=None, skeleton_opts=dict(drop=[...], add={...})).
+    drop: pieces removed (their children are re-parented to the dropped piece's parent, keeping global positions).
+    add: {name: (parent, (x, y, z) global origin)} new empty pieces (e.g. track animation frames).
+    Returns (newT, report)."""
+    T = {n: dict(t, children=list(t['children'])) for n, t in T.items()}
+    def reoff(n):
+        par = T[n]['parent']
+        pg = T[par]['gpos'] if par else (0.0, 0.0, 0.0)
+        T[n]['off'] = tuple(T[n]['gpos'][i] - pg[i] for i in range(3))
+    report = dict(kind=None, dropped=[], added=[], reparented={})
+    for n in drop:
+        t = T.pop(n)
+        par = t['parent']
+        if par in T:
+            T[par]['children'] = [c for c in T[par]['children'] if c != n]
+        for c in t['children']:
+            if c in T:
+                T[c]['parent'] = par
+                reoff(c)
+                if par in T:
+                    T[par]['children'].append(c)
+                report['reparented'][c] = f'{n} -> {par}'
+        report['dropped'].append(n)
+    for n, (par, g) in (add or {}).items():
+        T[n] = dict(parent=par, off=(0.0, 0.0, 0.0), gpos=tuple(float(v) for v in g), verts=[], prims=[], children=[],
+                    src=None)
+        reoff(n)
+        T[par]['children'].append(n)
+        report['added'].append(n)
+    return T, report
+
+
 def leg_points(T, i):
     """global hip/knee/ankle positions of leg i ('r', 'l', 'rf', ...) in a remapped table"""
     from mathutils import Vector

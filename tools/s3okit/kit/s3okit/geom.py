@@ -135,6 +135,9 @@ class Unit:
         if skeleton:     # standard walker hierarchy replaces the original leg pieces (see skeleton.py)
             from . import skeleton as SK
             self.T, self.skel_report = SK.remap(self.T, skeleton, **(skel_opts or {}))
+        elif skel_opts:  # no skeleton: plain piece edits (e.g. The Can / Sumo: legs dropped for a tracked hull)
+            from . import skeleton as SK
+            self.T, self.skel_report = SK.edit(self.T, **skel_opts)
         self.P = {n: Vector(p['gpos']) for n, p in self.T.items()}
         self.builders, self.clones = {}, {}
         self.ground, self.air = ground, air
