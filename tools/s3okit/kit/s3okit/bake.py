@@ -40,11 +40,19 @@ def _setup(kind, img, ao_far, ao_near):
         nt.nodes.active = tex
 
 
+TILE = 2048    # largest image baked in one go; larger bakes are done tile by tile
+
+
 def bake_maps(out_npz, res=2048, quality='final', ao_far=3.0, ao_near=0.6):
+    """Bake the helper maps at res x res. Above TILE the bake is split into (res/TILE)^2 tiles: the UVs are scaled and
+    offset so each tile fills a TILE x TILE image, baked, and stitched. The shell's memory cgroup (~5.8 GB shared by
+    every agent's processes) OOM-killed 4096 bakes; tiling keeps the peak at the 2048 level for any size."""
     sc = bpy.context.scene
     sc.render.engine = 'CYCLES'; sc.cycles.device = 'CPU'
     sc.render.bake.margin = 0
-    img = bpy.data.images.new('bake', res, res, alpha=True, float_buffer=True)
+    n = max(1, res // TILE) if res > TILE else 1
+    tile = res // n
+    img = bpy.data.images.new('bake', tile, tile, alpha=True, float_buffer=True)
     img.colorspace_settings.name = 'Non-Color'
     meshes = [o for o in bpy.data.objects if o.type == 'MESH' and len(o.data.polygons)]
     bpy.ops.object.select_all(action='DESELECT')
@@ -52,18 +60,40 @@ def bake_maps(out_npz, res=2048, quality='final', ao_far=3.0, ao_near=0.6):
         o.select_set(True)
     bpy.context.view_layer.objects.active = meshes[0]
     q = QUALITY[quality]
+    # original UVs, restored after every tile
+    uv0 = {}
+    for o in meshes:
+        uvl = o.data.uv_layers.active
+        a = np.empty(len(uvl.data) * 2, np.float32); uvl.data.foreach_get('uv', a)
+        uv0[o.name] = a
     res_maps = {}
-    # margin MUST be 0: with several objects baking into one image, Cycles applies each object's margin
-    # over the other objects' texels. compose.py dilates islands itself using the coverage mask.
-    for kind, spp, mg in [('id', 1, 0), ('pos', 1, 0), ('nrm', 1, 0), ('edge', q['edge'], 0),
-                          ('aonear', q['aonear'], 0), ('aofar', q['aofar'], 0)]:
-        _setup(kind, img, ao_far, ao_near)
-        sc.cycles.samples = spp
-        img.pixels.foreach_set(np.zeros(res * res * 4, np.float32))
-        bpy.ops.object.bake(type='EMIT', margin=mg)
-        a = np.empty(res * res * 4, np.float32); img.pixels.foreach_get(a)
-        a = a.reshape(res, res, 4)[::-1, :, :3]
-        res_maps[kind] = (a[..., :1] if kind in ('id', 'edge', 'aonear', 'aofar') else a).astype(np.float16 if kind != 'pos' else np.float32).copy()
-        print('baked', kind, flush=True)
+    kinds = [('id', 1), ('pos', 1), ('nrm', 1), ('edge', q['edge']), ('aonear', q['aonear']), ('aofar', q['aofar'])]
+    for kind, spp in kinds:
+        res_maps[kind] = np.zeros((res, res, 1 if kind in ('id', 'edge', 'aonear', 'aofar') else 3),
+                                  np.float16 if kind != 'pos' else np.float32)
+    try:
+        for ty in range(n):
+            for tx in range(n):
+                if n > 1:     # map this tile's UV square onto the whole image
+                    for o in meshes:
+                        a = uv0[o.name].reshape(-1, 2) * n - (tx, ty)
+                        o.data.uv_layers.active.data.foreach_set('uv', a.astype(np.float32).ravel())
+                # margin MUST be 0: with several objects baking into one image, Cycles applies each object's margin
+                # over the other objects' texels. compose.py dilates islands itself using the coverage mask.
+                for kind, spp in kinds:
+                    _setup(kind, img, ao_far, ao_near)
+                    sc.cycles.samples = spp
+                    img.pixels.foreach_set(np.zeros(tile * tile * 4, np.float32))
+                    bpy.ops.object.bake(type='EMIT', margin=0)
+                    a = np.empty(tile * tile * 4, np.float32); img.pixels.foreach_get(a)
+                    a = a.reshape(tile, tile, 4)[::-1, :, :3]          # rows top (v=1) first
+                    r0 = (n - 1 - ty) * tile                            # tile ty counts v from the bottom
+                    dst = res_maps[kind]
+                    dst[r0:r0 + tile, tx * tile:(tx + 1) * tile] = a[..., :dst.shape[2]]
+                    del a
+                print('baked tile', tx, ty, 'of', n, 'x', n, flush=True)
+    finally:
+        for o in meshes:
+            o.data.uv_layers.active.data.foreach_set('uv', uv0[o.name])
     res_maps['cover'] = (res_maps['id'] > 0.5 / 32).astype(np.uint8)
     np.savez_compressed(out_npz, **res_maps)
