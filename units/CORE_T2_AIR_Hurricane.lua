@@ -7,7 +7,7 @@ return {
 		description = "Strategic Bomber",
 		side = "CORE",
 		unitname = "core_t2_air_hurricane",
-		objectname = "CORE_T2_AIR_Hurricane",
+		objectname = "CORE_T2_AIR_Hurricane.s3o",
 		corpse = "CORE_T2_AIR_Hurricane_dead",
 		icontype = "aircraft",
 		category = "CORE VTOL LEVEL2 WEAPON NOTSUB",
