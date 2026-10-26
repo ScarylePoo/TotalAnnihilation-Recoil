@@ -22,7 +22,7 @@ def _png(texdir, name):
 
 
 def render(path, texdir, prefix, team='2255dd', pose=None, views=('front34', 'rear34', 'side', 'rts'),
-           samples=32, size=(900, 650), thumb=True):
+           samples=32, size=(900, 650), thumb=True, water=None):
     bpy.ops.wm.read_factory_settings(use_empty=True)
     sc = bpy.context.scene
     m = S3O.read(path)
@@ -107,6 +107,23 @@ def render(path, texdir, prefix, team='2255dd', pose=None, views=('front34', 're
         # in a 2000 px screen), sandy ground, no scaling with model size - big units must look big.
         gm.node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value = (0.42, 0.29, 0.14, 1)
         sc.render.resolution_x, sc.render.resolution_y = 240, 180
+        if water is not None:
+            # ships: the engine floats them with the water surface at model y = waterline. Murky water plane there
+            # (partly transparent, so submerged hulls and submarines show through as in game), sea floor below.
+            bpy.ops.mesh.primitive_plane_add(size=600, location=(0, water, 0), rotation=(-math.pi / 2, 0, 0))
+            wm = bpy.data.materials.new('water'); wm.use_nodes = True; wn = wm.node_tree.nodes
+            wb = wn['Principled BSDF']; wb.inputs['Base Color'].default_value = (0.02, 0.06, 0.08, 1)
+            wb.inputs['Roughness'].default_value = 0.8
+            wb.inputs['Specular IOR Level'].default_value = 0.1
+            tr = wn.new('ShaderNodeBsdfTransparent'); mx = wn.new('ShaderNodeMixShader')
+            mx.inputs[0].default_value = 0.6
+            wm.node_tree.links.new(tr.outputs[0], mx.inputs[1]); wm.node_tree.links.new(wb.outputs[0], mx.inputs[2])
+            wm.node_tree.links.new(mx.outputs[0], wn['Material Output'].inputs['Surface'])
+            bpy.context.object.data.materials.append(wm)
+            for o in bpy.data.objects:
+                if o.type == 'MESH' and o.data.materials and o.data.materials[0] == gm:
+                    o.location.y = min(-10.0, water - 60.0)
+            gm.node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value = (0.06, 0.11, 0.11, 1)
         az = math.radians(35); dist = 430; pitch = math.radians(65)
         pos = Vector((math.sin(az) * math.cos(pitch) * dist, math.sin(pitch) * dist, math.cos(az) * math.cos(pitch) * dist))
         cam.data.lens = 70

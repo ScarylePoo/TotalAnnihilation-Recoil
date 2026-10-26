@@ -32,6 +32,9 @@ def load_spec(unitname):
     air = (info.get('canfly') or '0').strip() == '1'
     U.setdefault('air', air)
     U.setdefault('ground', not air and (info.get('floater') or '0').strip() != '1')
+    # ships and submarines: water surface height in model space (the engine floats a floater at y = -waterline)
+    naval = (info.get('floater') or '0').strip() == '1' or 'SUB' in (info.get('movementclass') or '').upper()
+    U.setdefault('water', float(info.get('waterline') or 0) if naval else None)
     # ref = the model whose pieces the script drives; ref_model (repo-relative) overrides the def's current model
     # (a third-party S3O replaced by install is read from its preserved copy in tools/s3okit/ref/)
     U.setdefault('ref', os.path.join(REPO, U.pop('ref_model', None) or xta.ref_model(info['model'])))
@@ -52,8 +55,10 @@ def st_build(unitname, draft=False):
     objs = k.realize()
     bpy.context.view_layer.update()
     meshes = [o for o in objs.values() if o.type == 'MESH']
-    cull = geom.visibility_cull(meshes, ground=U['ground'], air=U['air'])
-    geom.unwrap(meshes, res=U['res'], ground=U['ground'], air=U['air'])
+    cull = geom.visibility_cull(meshes, ground=U['ground'] and U['water'] is None, air=U['air'])
+    # pieces hidden at rest but shown by the script (builder cranes in a closed hangar, ...): full texture priority
+    geom.force_exposure([o for o in meshes if o.name in set(U.get('always_visible', ()))])
+    geom.unwrap(meshes, res=U['res'], ground=U['ground'] and U['water'] is None, air=U['air'], water=U['water'])
     geom.add_mirrors(meshes)
     geom.apply_clones(k)
     allobjs = list(k.objs.values())
@@ -170,7 +175,7 @@ def st_preview(unitname, draft=False):
     wd = workdir(unitname); out = os.path.join(wd, 'out')
     pose = U['preview_pose'] or {}
     paths = preview.render(os.path.join(out, unitname + '.s3o'), out, os.path.join(wd, 'prev', unitname),
-                           pose=pose, samples=16 if draft else 32)
+                           pose=pose, samples=16 if draft else 32, water=U['water'])
     for f in sorted(os.listdir(out)):
         if f.endswith('.s3o') and f != unitname + '.s3o':
             paths += preview.render(os.path.join(out, f), out, os.path.join(wd, 'prev', f[:-4]),

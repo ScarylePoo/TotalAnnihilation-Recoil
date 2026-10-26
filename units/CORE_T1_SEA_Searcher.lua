@@ -7,7 +7,7 @@ return {
 		description = "Scout Ship",
 		side = "CORE",
 		unitname = "core_t1_sea_searcher",
-		objectname = "CORE_T1_SEA_Searcher",
+		objectname = "CORE_T1_SEA_Searcher.s3o",
 		corpse = "CORE_T1_SEA_Searcher_dead",
 		icontype = "ship",
 		category = "CORE SHIP LEVEL1 WEAPON NOTAIR NOTSUB",

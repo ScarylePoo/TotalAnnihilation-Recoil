@@ -7,7 +7,7 @@ return {
 		description = "Submarine",
 		side = "CORE",
 		unitname = "core_t1_sea_snake",
-		objectname = "CORE_T1_SEA_Snake",
+		objectname = "CORE_T1_SEA_Snake.s3o",
 		corpse = "CORE_T1_SEA_Snake_dead",
 		icontype = "ship",
 		category = "CORE UNDERWATER LEVEL1 WEAPON NOTAIR",
