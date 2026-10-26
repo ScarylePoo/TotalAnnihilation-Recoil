@@ -7,7 +7,7 @@ return {
 		description = "Hovercraft Rocket Launcher",
 		side = "ARM",
 		unitname = "arm_t1_hov_wombat",
-		objectname = "ARM_T1_HOV_Wombat",
+		objectname = "ARM_T1_HOV_Wombat.s3o",
 		corpse = "ARM_T1_HOV_Wombat_dead",
 		icontype = "hover",
 		category = "ARM HOVER LEVEL1 WEAPON NOTAIR NOTSUB",
