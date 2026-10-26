@@ -396,7 +396,12 @@ parts are seen from above through water. Report at the end: units done, units sk
 
 Base branch `s3o-remodel`; each family on `s3o-<family>`, merged back after review + headless test.
 - 2026-10-25: Flash, Instigator, Peewee (references); T1 vehicles (11), T1 bots (11, walkers), T1 aircraft (10),
-  T1 hovercraft (12), T1 ships (10) merged = 57 units. In progress: T1 defences, T2 vehicles (minus Spider/Scarab).
+  T1 hovercraft (12), T1 ships (10), T1 defences (26, incl. 12 mines) merged = 83 units. In progress: T2 vehicles
+  (minus Spider/Scarab).
+- Learned in the defence batch: S3O piece names are written lowercase (the engine lowercases 3DO names but not S3O
+  ones; a LUS `piece('base')` failed on a 3DO piece named `Base`). Wreck `drop` carries child pieces. Pop-up
+  structures: preview_pose shows the OPEN state (CORE_T1_DEF_Viper.py is the model). Specs import mathutils inside
+  build(), never at module level (compose loads specs without bpy). Mines and other 1x1 footprints: `res=512`.
 - Machine: 2 cores; all shell processes share a ~5.8 GB memory cgroup. Bakes above 2048 run in 2048 tiles (peak
   ~1.5 GB) and compose runs in row strips, so 2048-texture units keep bake_res 4096. Run at most two agents, each with
   one final bake at a time; headless engine test once per batch.
