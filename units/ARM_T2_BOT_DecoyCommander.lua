@@ -7,7 +7,8 @@ return {
 		description = "Commander",
 		side = "ARM",
 		unitname = "arm_t2_bot_decoycommander",
-		objectname = "ARM_T2_BOT_DecoyCommander",
+		objectname = "ARM_T2_BOT_DecoyCommander.s3o",
+		script = "ARM_T2_BOT_DecoyCommander.lua",
 		icontype = "kbot",
 		category = "ARM KBOT LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
