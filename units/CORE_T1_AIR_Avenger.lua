@@ -7,7 +7,7 @@ return {
 		description = "Fighter",
 		side = "CORE",
 		unitname = "core_t1_air_avenger",
-		objectname = "CORE_T1_AIR_Avenger",
+		objectname = "CORE_T1_AIR_Avenger.s3o",
 		corpse = "CORE_T1_AIR_Avenger_dead",
 		icontype = "aircraft",
 		category = "CORE VTOL LEVEL1 WEAPON NOTSUB",

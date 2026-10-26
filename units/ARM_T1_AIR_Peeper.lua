@@ -7,7 +7,7 @@ return {
 		description = "Air Scout",
 		side = "ARM",
 		unitname = "arm_t1_air_peeper",
-		objectname = "ARM_T1_AIR_Peeper",
+		objectname = "ARM_T1_AIR_Peeper.s3o",
 		corpse = "ARM_T1_AIR_Peeper_dead",
 		icontype = "aircraft",
 		category = "ARM VTOL LEVEL1 NOWEAPON NOTSUB",

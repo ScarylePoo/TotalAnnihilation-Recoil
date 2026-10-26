@@ -8,7 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t1_air_constructor",
 		buildoptions = Shared.buildListCoreT1AircraftConstructor,
-		objectname = "CORE_T1_AIR_Constructor",
+		objectname = "CORE_T1_AIR_Constructor.s3o",
 		corpse = "CORE_T1_AIR_Constructor_dead",
 		icontype = "aircraft",
 		category = "CORE VTOL LEVEL1 NOWEAPON NOTSUB",
