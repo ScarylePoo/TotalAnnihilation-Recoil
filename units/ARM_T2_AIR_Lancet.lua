@@ -7,7 +7,7 @@ return {
 		description = "Torpedo Bomber",
 		side = "ARM",
 		unitname = "arm_t2_air_lancet",
-		objectname = "ARM_T2_AIR_Lancet",
+		objectname = "ARM_T2_AIR_Lancet.s3o",
 		corpse = "ARM_T2_AIR_Lancet_dead",
 		icontype = "aircraft",
 		category = "ARM VTOL LEVEL2 WEAPON NOTSUB",
