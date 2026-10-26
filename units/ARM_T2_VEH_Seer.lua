@@ -7,7 +7,7 @@ return {
 		description = "Mobile Radar",
 		side = "ARM",
 		unitname = "arm_t2_veh_seer",
-		objectname = "ARM_T2_VEH_Seer",
+		objectname = "ARM_T2_VEH_Seer.s3o",
 		corpse = "ARM_T2_VEH_Seer_dead",
 		icontype = "tank",
 		category = "ARM TANK LEVEL2 NOWEAPON NOTAIR NOTSUB",
