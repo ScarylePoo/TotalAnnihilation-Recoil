@@ -7,7 +7,7 @@ return {
 		description = "Stealth Fighter",
 		side = "CORE",
 		unitname = "core_t2_air_vamp",
-		objectname = "CORE_T2_AIR_Vamp",
+		objectname = "CORE_T2_AIR_Vamp.s3o",
 		corpse = "CORE_T2_AIR_Vamp_dead",
 		icontype = "aircraft",
 		category = "CORE VTOL LEVEL2 WEAPON NOTSUB",
