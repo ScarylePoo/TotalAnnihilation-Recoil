@@ -434,7 +434,7 @@ def unwrap(objs, margin_px=3, res=1024, angle=55, ground=True, air=False, water=
     flipped: names of pieces the script turns upside down (their rest-pose undersides face the camera when open):
     no downward-facing penalty for them.
     water_lift: {piece: dy} for pieces the script raises out of the water (a seaplane platform surfacing): the
-    submerged test uses their raised position (children inherit the lift)."""
+    submerged test uses their raised position (the caller resolves children: a flat {object name: dy})."""
     meshes = [o for o in objs if o.type == 'MESH' and len(o.data.polygons)]
     bpy.ops.object.select_all(action='DESELECT')
     for o in meshes:
@@ -467,9 +467,7 @@ def unwrap(objs, margin_px=3, res=1024, angle=55, ground=True, air=False, water=
                 k *= (1 - 0.6 * down)
             elif water is not None:
                 M = o.matrix_world
-                lift, p = 0.0, o
-                while p is not None:
-                    lift += (water_lift or {}).get(p.name, 0.0); p = p.parent
+                lift = (water_lift or {}).get(o.name, 0.0)
                 sub = sum(f.calc_area() for f in isl if (M @ f.calc_center_median()).y + lift < water - 0.5) / area
                 k *= (1 - 0.5 * sub) * (1 - 0.5 * down)
             _scale_island(isl, uv, math.sqrt(max(k, 0.06)))
