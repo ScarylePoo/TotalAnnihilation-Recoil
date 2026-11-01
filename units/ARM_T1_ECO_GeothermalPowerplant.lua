@@ -7,7 +7,7 @@ return {
 		description = "Produces Energy",
 		side = "ARM",
 		unitname = "arm_t1_eco_geothermalpowerplant",
-		objectname = "ARM_T1_ECO_GeothermalPowerplant",
+		objectname = "ARM_T1_ECO_GeothermalPowerplant.s3o",
 		script = "ARM_T1_ECO_GeothermalPowerplant.lua",
 		corpse = "ARM_T1_ECO_GeothermalPowerplant_dead",
 		icontype = "building",
