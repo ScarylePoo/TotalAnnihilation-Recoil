@@ -3,8 +3,8 @@ long pointed bow, broad angular side sponsons with lift fans and two swept tail 
 A raised bay on the spine is closed by two flat doors that flip ~210 deg outwards about the centre-line edges
 (door1/door2 turn z) to lie on the sponsons; the `boom` then pitches up 43 deg about its front pivot, the `neck`
 counter-rotates to keep the `gun` (nano projector) level and the gun turns y; `beam` (empty) is the emit point.
-Value groups from above: black skirt, dark warm sponsons/bow (paint), darker paint2 spine bay, team plates on the
-doors (wide, the spine read), light steel nano gear, ochre hazard on the tail fins and bay sills.
+Value groups from above: black skirt, dark warm sponsons/bow (paint) with team deck plates, a team spine housing
+whose doors are in construction stripes (the builder read), light steel nano gear, ochre hazard on the tail fins.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
 
@@ -50,10 +50,13 @@ def build(k):
                     pts += [(px, 10.15, pz), (px, 10.45, pz)]
             b.hull(pts, 'steel', bevel=0.0, mirror=True)
         b.cyl((x, 10.1, z), (x, 10.8, z), 1.1, 10, 'steel', bevel=0.05, mirror=True)
-    # spine bay walls (raised housing the doors close over), darker
+    # spine bay walls (raised housing the doors close over), team coloured
     b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
             [(7.8, 9.6, -15.6), (7.8, 9.6, 12.6), (5.6, 13.6, -12.0), (5.6, 13.6, 10.6), (3.0, 9.6, 16.4), (2.4, 12.4, 13.6)]],
-           'paint2', bevel=0.2)
+           'team', bevel=0.2)
+    # team plates on the sponson decks fore and aft of the fans
+    for pl in ([(8.4, 5.4), (14.4, 5.4), (9.8, 16.0), (8.4, 16.0)], [(8.4, -6.0), (14.8, -6.0), (12.2, -17.6), (8.4, -17.6)]):
+        b.hull([(x, y, z) for x, z in pl for y in (9.86, 10.0)], 'team', bevel=0.03, mirror=True)
     # bay floor (visible when open)
     b.box((-4.8, 13.5, -11.4), (4.8, 13.62, 10.2), 'dark', bevel=0.0)
     # hazard sills along the bay edges
@@ -79,8 +82,7 @@ def build(k):
 
     # ------------------------------------------------------------------ doors: flat plates, hinge on the centre line
     d = k.piece('door2'); D = d.at          # origin (5.52, 13.68, 0), plate spans x -5.5..0 (towards the centre)
-    d.box(D(-5.45, -0.05, -11.6), D(-0.1, 0.75, 10.3), 'paint', bevel=0.14)
-    d.box(D(-4.6, 0.7, -9.8), D(-0.9, 0.92, 8.6), 'team', bevel=0.04)
+    d.box(D(-5.45, -0.05, -11.6), D(-0.1, 0.75, 10.3), 'hazard', bevel=0.14)   # construction stripes: builder read
     d.box(D(-5.4, -0.25, -11.0), D(-0.2, 0.0, 9.8), 'dark', bevel=0.04)    # underside ribbing (seen when open)
     k.clone('door1', 'door2', mirror_x=True)
 
