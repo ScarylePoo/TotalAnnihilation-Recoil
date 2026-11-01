@@ -5,7 +5,7 @@ return {
 		world = "All Worlds",
 		description = "Wreckage",
 		category = "core_corpses",
-		object = "CORE_T1_ECO_MetalMaker_dead",
+		object = "CORE_T1_ECO_MetalMaker_dead.s3o",
 		featuredead = "CORE_T1_ECO_MetalMaker_heap",
 		footprintx = 4,
 		footprintz = 3,
