@@ -7,7 +7,7 @@ return {
 		description = "Extracts Metal",
 		side = "ARM",
 		unitname = "arm_t1_eco_metalextractor",
-		objectname = "ARM_T1_ECO_MetalExtractor",
+		objectname = "ARM_T1_ECO_MetalExtractor.s3o",
 		script = "ARM_T1_ECO_MetalExtractor.lua",
 		corpse = "ARM_T1_ECO_MetalExtractor_dead",
 		icontype = "building",

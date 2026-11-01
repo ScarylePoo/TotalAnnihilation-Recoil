@@ -7,7 +7,7 @@ return {
 		description = "Converts Energy into Metal",
 		side = "ARM",
 		unitname = "arm_t2_eco_mohometalmaker",
-		objectname = "ARM_T2_ECO_MohoMetalMaker",
+		objectname = "ARM_T2_ECO_MohoMetalMaker.s3o",
 		corpse = "ARM_T2_ECO_MohoMetalMaker_dead",
 		icontype = "building_metal_source_big",
 		category = "ARM LEVEL2 NOWEAPON NOTAIR NOTSUB",

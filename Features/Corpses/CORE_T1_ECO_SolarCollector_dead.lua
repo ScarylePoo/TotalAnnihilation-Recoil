@@ -5,7 +5,7 @@ return {
 		world = "All Worlds",
 		description = "Wreckage",
 		category = "core_corpses",
-		object = "CORE_T1_ECO_SolarCollector_dead",
+		object = "CORE_T1_ECO_SolarCollector_dead.s3o",
 		featuredead = "CORE_T1_ECO_SolarCollector_heap",
 		footprintx = 4,
 		footprintz = 4,

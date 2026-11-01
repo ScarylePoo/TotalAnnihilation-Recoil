@@ -7,7 +7,7 @@ return {
 		description = "Produces Energy",
 		side = "ARM",
 		unitname = "arm_t2_eco_cloakablefusion",
-		objectname = "ARM_T2_ECO_CloakableFusion",
+		objectname = "ARM_T2_ECO_CloakableFusion.s3o",
 		script = "ARM_T2_ECO_CloakableFusion.lua",
 		corpse = "ARM_T2_ECO_CloakableFusion_dead",
 		icontype = "building_energy_source_big",

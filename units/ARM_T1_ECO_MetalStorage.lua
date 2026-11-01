@@ -7,7 +7,7 @@ return {
 		description = "Increases Metal Storage by 1000",
 		side = "ARM",
 		unitname = "arm_t1_eco_metalstorage",
-		objectname = "ARM_T1_ECO_MetalStorage",
+		objectname = "ARM_T1_ECO_MetalStorage.s3o",
 		script = "ARM_T1_ECO_MetalStorage.lua",
 		corpse = "ARM_T1_ECO_MetalStorage_dead",
 		icontype = "building",

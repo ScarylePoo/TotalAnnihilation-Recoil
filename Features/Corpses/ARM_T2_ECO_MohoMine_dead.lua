@@ -5,7 +5,7 @@ return {
 		world = "All Worlds",
 		description = "Wreckage",
 		category = "arm_corpses",
-		object = "ARM_T2_ECO_MohoMine_dead",
+		object = "ARM_T2_ECO_MohoMine_dead.s3o",
 		featuredead = "ARM_T2_ECO_MohoMine_heap",
 		footprintx = 5,
 		footprintz = 5,

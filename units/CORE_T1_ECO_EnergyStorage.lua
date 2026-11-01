@@ -7,7 +7,7 @@ return {
 		description = "Increases Energy Storage by 3000",
 		side = "CORE",
 		unitname = "core_t1_eco_energystorage",
-		objectname = "CORE_T1_ECO_EnergyStorage",
+		objectname = "CORE_T1_ECO_EnergyStorage.s3o",
 		corpse = "CORE_T1_ECO_EnergyStorage_dead",
 		icontype = "building",
 		category = "CORE LEVEL1 NOWEAPON NOTAIR NOTSUB",
