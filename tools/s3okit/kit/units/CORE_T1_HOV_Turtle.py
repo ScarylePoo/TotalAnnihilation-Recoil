@@ -4,7 +4,7 @@ edges and drop), and a TALL gantry crane at the stern (the Turtle's signature, u
 `tower` (turn y) carries the `arm` (pitches x) with a `counterweight` block behind and a telescoping boom
 (boom1..6 slide along z) ending in the `magnet`; `link` (empty) is the transport attach point.
 `gp` (ground plate) and `botten` (TA bottom shadow plate) are kept as empty pieces.
-Value groups from above: black skirt ring, dark warm hull and sponsons, darker paint2 doors with a team chevron,
+Value groups from above: black skirt ring, dark warm hull and sponsons, darker paint2 doors with two team chevrons inside a team bay rim, team plates on the stern deck,
 light steel boom and tower (Core = light mechanics), ochre/black hazard counterweight and magnet, dark fan discs.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
@@ -65,9 +65,9 @@ def build(k):
     b.hull([(x, y, z) for y in (17.44, 17.6) for x, z in [(17.0, 36.0), (22.0, 30.0), (24.0, 31.6), (19.4, 37.2)]],
            'hazard', bevel=0.03, mirror=True)
     # bay rim around the doors (raised coaming), bay floor
-    b.box((20.2, 31.4, -25.6), (22.4, 33.4, 25.0), 'paint2', bevel=0.14, mirror=True)
-    b.box((-20.2, 31.4, 24.4), (20.2, 33.4, 26.6), 'paint2', bevel=0.14)
-    b.box((-20.2, 31.4, -27.6), (20.2, 33.4, -25.0), 'paint2', bevel=0.14)
+    b.box((20.2, 31.4, -25.6), (22.4, 33.4, 25.0), 'team', bevel=0.14, mirror=True)        # team bay rim
+    b.box((-20.2, 31.4, 24.4), (20.2, 33.4, 26.6), 'team', bevel=0.14)
+    b.box((-20.2, 31.4, -27.6), (20.2, 33.4, -25.0), 'team', bevel=0.14)
     b.box((-20.0, 31.5, -25.0), (20.0, 31.62, 24.4), 'dark', bevel=0.0)
     # bow: raised bridge with windows, ochre bow plate, lights
     b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
@@ -84,6 +84,7 @@ def build(k):
     # stern deck under the crane + exhausts
     b.box((-14.0, 31.0, -42.0), (14.0, 35.2, -27.6), 'paint2', bevel=0.16)
     b.cyl((0, 35.0, -34.1), (0, 36.7, -34.1), 8.4, 18, 'dark', bevel=0.1)
+    b.box((9.2, 35.25, -41.0), (13.4, 35.4, -28.4), 'team', bevel=0.04, mirror=True)     # team plates beside the crane ring
     for xx in (18.0,):
         b.cyl((xx, 24.0, -33.0), (xx, 24.0, -38.4), 2.8, 12, 'dark', bevel=0.08, mirror=True)
         b.cyl((xx, 24.0, -38.4), (xx, 24.0, -38.5), 2.0, 12, 'black', mirror=True)
@@ -92,10 +93,11 @@ def build(k):
     # ------------------------------------------------------------------ doors (ldoor hinge x 20, rdoor x -20)
     d = k.piece('ldoor'); D = d.at
     d.box(D(-19.9, -0.9, -24.8), D(-0.1, 0.0, 24.2), 'paint2', bevel=0.18)
-    # team chevron (both doors together: a forward-pointing arrow)
-    d.hull([D(x, y, z) for x, y, z in
-            [(-19.9, -0.04, 7.0), (-19.9, -0.04, 15.0), (-6.0, -0.04, 1.0), (-6.0, -0.04, -7.0)] +
-            [(-19.9, 0.2, 7.0), (-19.9, 0.2, 15.0), (-6.0, 0.2, 1.0), (-6.0, 0.2, -7.0)]], 'team', bevel=0.04)
+    # team chevrons (both doors together: two forward-pointing arrows)
+    for dz in (0.0, -17.0):
+        d.hull([D(x, y, z + dz) for x, y, z in
+                [(-19.9, -0.04, 7.0), (-19.9, -0.04, 15.0), (-6.0, -0.04, 1.0), (-6.0, -0.04, -7.0)] +
+                [(-19.9, 0.2, 7.0), (-19.9, 0.2, 15.0), (-6.0, 0.2, 1.0), (-6.0, 0.2, -7.0)]], 'team', bevel=0.04)
     for zz in (-20.0, -10.0, 18.0):
         d.box(D(-18.8, -0.05, zz), D(-1.2, 0.3, zz + 1.2), 'dark', bevel=0.05)
     k.clone('rdoor', 'ldoor', mirror_x=True)
