@@ -80,7 +80,7 @@ HDR = '''-- Shared walk animations for TA:Recoil walkers (Lua unit scripts). GEN
 -- Usage in a unit script (piece variables must be GLOBALS, as in SF):
 --   pelvis, legs, rthigh, rleg, rfoot, lthigh, lleg, lfoot = piece('pelvis', 'legs', 'rthigh', 'rleg', ...)
 --   local walk = include("headers/walk.lua")
---   walk.Biped()          -- or walk.Quad(); defines script.StartMoving and script.StopMoving
+--   walk.Biped()          -- or walk.Quad() / walk.Hexa(); defines script.StartMoving and script.StopMoving
 --   walk.Biped({onStep = function() ... end})   -- optional, called once per footfall
 
 local REF_HEIGHT = 23.0        -- pelvis height of SF's fedbear, on which the keys were made
@@ -153,7 +153,76 @@ bip_w = [bob_line(l) for l in walk_body]
 bip_s = [bob_line(l) for l in stop_body]
 quad_w = [x for l in walk_body for x in quad_line(l)]
 quad_s = [x for l in stop_body for x in quad_line(l, stop=True)]
-lua = HDR + fn('Biped', bip_w, bip_s) + fn('Quad', quad_w, quad_s) + '\nreturn walk\n'
+HEXA = r"""
+-- Hexapod (Spider, Scarab, Roach; user decision 2026-10-31): alternating tripod gait, lf+rm+lb then rf+lm+rb.
+-- Sideways spider legs (see skeleton.py HEXA): a leg swings on its thigh's yaw and lifts on its thigh's roll, the
+-- knee flexes to keep the foot near the ground. All six legs have identical local offsets (one UV set); the
+-- front/rear splay is the base yaw SPLAY applied here. Rotation directions are CALIBRATED at creation (each thigh is
+-- nudged and the foot's movement measured), so no axis-handedness assumption can make a leg move the wrong way.
+-- Usage: local hexaReady = walk.Hexa();  function script.Create() hexaReady() ... end
+function walk.Hexa(opts)
+	opts = opts or {}
+	local onStep = opts.onStep
+	local SPLAY = opts.splay or math.rad(32)      -- front legs yaw forward, rear legs backward
+	local SWING = opts.swing or math.rad(18)      -- stride: yaw swing either side of the base yaw
+	local LIFT = opts.lift or math.rad(22)        -- thigh roll that lifts a swinging leg
+	local legs = {
+		{thigh = rfthigh, leg = rfleg, base = 1},  {thigh = lfthigh, leg = lfleg, base = 1},
+		{thigh = rmthigh, leg = rmleg, base = 0},  {thigh = lmthigh, leg = lmleg, base = 0},
+		{thigh = rbthigh, leg = rbleg, base = -1}, {thigh = lbthigh, leg = lbleg, base = -1},
+	}
+	local feet = {rffoot, lffoot, rmfoot, lmfoot, rbfoot, lbfoot}
+	local tripodA = {[2] = true, [3] = true, [6] = true}   -- lf, rm, lb
+	local calibrated = false
+	local function calibrate()
+		for i, L in ipairs(legs) do
+			local _, y0, z0 = Spring.GetUnitPiecePosition(unitID, feet[i])
+			Turn(L.thigh, z_axis, 0.3)
+			local _, y1 = Spring.GetUnitPiecePosition(unitID, feet[i])
+			Turn(L.thigh, z_axis, 0)
+			Turn(L.thigh, y_axis, 0.3)
+			local _, _, z1 = Spring.GetUnitPiecePosition(unitID, feet[i])
+			Turn(L.thigh, y_axis, 0)
+			L.liftSign = (y1 >= y0) and 1 or -1          -- +z roll raises this foot?
+			L.fwdSign = (z1 >= z0) and 1 or -1           -- +y yaw moves this foot forward?
+			Turn(L.thigh, y_axis, L.base * SPLAY * L.fwdSign)
+		end
+		calibrated = true
+	end
+	local function pose(L, swingFwd, lifted, speed)
+		Turn(L.thigh, y_axis, (L.base * SPLAY + swingFwd * SWING) * L.fwdSign, speed)
+		Turn(L.thigh, z_axis, (lifted and LIFT or 0) * L.liftSign, speed * 2)
+		Turn(L.leg, z_axis, (lifted and -0.6 * LIFT or 0) * L.liftSign, speed * 2)
+	end
+	install(function()
+		if not calibrated then calibrate() end
+		local scale = sizeScale()
+		while true do
+			local speedMult, sleepTime = speedParams(scale)
+			local sp = (SWING * 2) / (sleepTime * 2 / 1000)     -- cover the swing arc in the swing time (rad/s)
+			for phase = 0, 1 do
+				for i, L in ipairs(legs) do
+					local moving = (tripodA[i] ~= nil) == (phase == 0)
+					pose(L, moving and 1 or -1, moving, sp)      -- swinging tripod lifts and reaches forward,
+				end                                               -- the planted tripod pushes back
+				Sleep(sleepTime * 2)
+				for i, L in ipairs(legs) do
+					local moving = (tripodA[i] ~= nil) == (phase == 0)
+					if moving then Turn(L.thigh, z_axis, 0, LIFT * 8); Turn(L.leg, z_axis, 0, LIFT * 8) end
+				end
+				if onStep then onStep() end
+				Sleep(sleepTime)
+			end
+		end
+	end, function()
+		if not calibrated then calibrate() end
+		for _, L in ipairs(legs) do pose(L, 0, false, SWING * 2) end
+	end)
+	return function() if not calibrated then calibrate() end end   -- call from script.Create (rest splay + signs)
+end
+"""
+
+lua = HDR + fn('Biped', bip_w, bip_s) + fn('Quad', quad_w, quad_s) + HEXA + '\nreturn walk\n'
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 open(OUT, 'w').write(lua)
 print(os.path.relpath(OUT), len(lua.splitlines()), 'lines,', lua.count('Turn('), 'turns')

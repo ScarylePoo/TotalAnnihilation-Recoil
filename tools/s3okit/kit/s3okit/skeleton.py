@@ -5,7 +5,8 @@ drives all bipeds and one drives all quadrupeds. The Can and the Sumo get tracks
   biped:  pelvis > legs > rthigh > rleg > rfoot          (r = -X side, as in SF)
                         > lthigh > lleg > lfoot
   quad:   pelvis > legs > {rf,lf,rb,lb}thigh > ..leg > ..foot     (names confirmed by the user)
-Not converted: Spider, Roach, Scarab (keep their legs and scripts). The Can and Sumo get tracks instead.
+  hexa:   pelvis > legs > {rf,lf,rm,lm,rb,lb}thigh > ..leg > ..foot  (Spider, Scarab, Roach; user decision 2026-10-31)
+The Can and Sumo get tracks instead.
 
 Proportions are the SF Federation rig (fedbear/fedgoliath/fedstriker) scaled by pelvis height H, because SF's
 shared walk (common.WalkScript, generated from one Blender rig) only looks right on those ratios:
@@ -18,7 +19,12 @@ re-parented: to the matching new leg piece if they hung off an old leg, otherwis
 """
 import re
 
-LEGS = {'biped': ['r', 'l'], 'quad': ['rf', 'lf', 'rb', 'lb']}
+LEGS = {'biped': ['r', 'l'], 'quad': ['rf', 'lf', 'rb', 'lb'], 'hexa': ['rf', 'lf', 'rm', 'lm', 'rb', 'lb']}
+# hexapod (user decision 2026-10-31: Spider, Scarab and Roach share one six-leg skeleton and walk): spider legs splay
+# SIDEWAYS - knee up and out, foot down and further out. Every leg has the same local offsets (mirrored in x), so one
+# leg's geometry is cloned to all six (one UV set); the forward/backward splay of the front/rear legs is a yaw the walk
+# script applies (walk.Hexa), not part of the model.
+HEXA = dict(knee_out=0.55, knee_up=0.3, foot_out=0.3, foot_y=0.08)   # in units of pelvis height H
 RATIO = dict(legs_y=-0.013, knee_y=-0.32, knee_z=-0.325, ankle_y=-0.49, ankle_z=0.49)
 LEGWORD = re.compile(r'(thigh|leg|shin|calf|knee|foot|feet|boot|ankle|toe|hip)', re.I)
 NOT_LEG = re.compile(r'(flare|fire|emit|sfx|gun|barrel|nano|muzzle|cover)', re.I)
@@ -66,7 +72,7 @@ def remap(T, kind='biped', height=None, hipx=None, hipz=None, drop=(), keep=()):
         hipx = max(xs) if xs else 0.45 * H
     if hipz is None:
         zs = [abs(T[n]['gpos'][2]) for n in old_legs]
-        hipz = max(zs) if (zs and kind == 'quad') else 0.6 * H
+        hipz = max(zs) if (zs and kind in ('quad', 'hexa')) else 0.6 * H
     new = {}
     def add(name, parent, g, verts=(), prims=()):
         pg = new[parent]['gpos'] if parent else (0.0, 0.0, 0.0)
@@ -80,6 +86,13 @@ def remap(T, kind='biped', height=None, hipx=None, hipz=None, drop=(), keep=()):
     add('legs', 'pelvis', lg)
     for i in ids:
         sx = -1 if i.startswith('r') else 1
+        if kind == 'hexa':
+            sz = {'f': hipz, 'm': 0.0, 'b': -hipz}[i[1]]
+            th = (sx * hipx, lg[1], sz)
+            kn = (th[0] + sx * HEXA['knee_out'] * H, th[1] + HEXA['knee_up'] * H, sz)
+            an = (kn[0] + sx * HEXA['foot_out'] * H, HEXA['foot_y'] * H, sz)
+            add(i + 'thigh', 'legs', th); add(i + 'leg', i + 'thigh', kn); add(i + 'foot', i + 'leg', an)
+            continue
         sz = 0.0 if kind == 'biped' else (hipz if i.endswith('f') else -hipz)
         th = (sx * hipx, lg[1], sz)
         kn = (th[0], th[1] + RATIO['knee_y'] * H, th[2] + RATIO['knee_z'] * H)
@@ -99,8 +112,9 @@ def remap(T, kind='biped', height=None, hipx=None, hipz=None, drop=(), keep=()):
                     return 'pelvis'
                 s = _side_of(p, g)
                 cands = [i for i in ids if i.startswith(s)] or ids
-                if kind == 'quad':
-                    cands = sorted(cands, key=lambda i: abs((hipz if i.endswith('f') else -hipz) - g[2]))
+                if kind in ('quad', 'hexa'):
+                    zof = lambda i: {'f': hipz, 'm': 0.0, 'b': -hipz}[i[-1]]
+                    cands = sorted(cands, key=lambda i: abs(zof(i) - g[2]))
                 return cands[0] + _kind_of(p)
             p = T[p]['parent']
         return 'pelvis'
