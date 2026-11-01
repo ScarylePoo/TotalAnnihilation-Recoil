@@ -2,7 +2,7 @@
 pontoons (TA's open "H" plan), a long faceted turret carrying a thick lightning projector ringed with dark coil
 discs, and a small missile pod on a post rising out of the turret roof (Rturret/Rgun: its own traverse, child of
 base, so the post must pass through the turret's roof hole).
-Value groups from above: light pontoon tops + turret, darker paint2 centre hull with a team spine stripe, near-black
+Value groups from above: light pontoon tops with long team plates + turret, darker paint2 centre hull with a team spine stripe, near-black
 open gaps between hull and pontoons, dark coil-ringed gun, a team-coloured lid on the missile pod.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
@@ -32,6 +32,8 @@ def build(k):
     # raked hazard noses (fast-attack marking, front only)
     b.hull([(11.9, 7.05, 17.15), (17.3, 7.05, 17.15), (11.9, 8.98, 13.3), (17.3, 8.98, 13.3),
             (11.9, 7.18, 17.25), (17.3, 7.18, 17.25), (11.9, 9.12, 13.4), (17.3, 9.12, 13.4)], 'hazard', bevel=0.03, mirror=True)
+    # team plates along the pontoon tops, between the rear vents and the hazard noses
+    b.box((12.2, 9.05, -7.0), (17.0, 9.2, 12.4), 'team', bevel=0.03, mirror=True)
     # vents on the pontoon tops, rear
     b.box((12.6, 9.0, -14.2), (16.6, 9.5, -8.6), 'dark', bevel=0.08, mirror=True)
     for z in (-13.6, -12.4, -11.2, -10.0):
