@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_bot_morty",
 		objectname = "CORE_T2_BOT_Morty.s3o",
+		script = "CORE_T2_BOT_Morty.lua",
 		corpse = "CORE_T2_BOT_Morty_dead",
 		icontype = "kbot",
 		category = "CORE KBOT LEVEL2 WEAPON NOTAIR NOTSUB",

@@ -7,7 +7,8 @@ return {
 		description = "Crawling Bomb",
 		side = "ARM",
 		unitname = "arm_t2_bot_invader",
-		objectname = "ARM_T2_BOT_Invader",
+		objectname = "ARM_T2_BOT_Invader.s3o",
+		script = "ARM_T2_BOT_Invader.lua",
 		icontype = "kbot",
 		category = "ARM KBOT LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage

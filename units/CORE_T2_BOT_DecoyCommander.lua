@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_bot_decoycommander",
 		objectname = "CORE_T2_BOT_DecoyCommander.s3o",
+		script = "CORE_T2_BOT_DecoyCommander.lua",
 		icontype = "kbot",
 		decoyfor = "CORE_Commander",
 		category = "CORE KBOT LEVEL2 WEAPON NOTAIR NOTSUB",

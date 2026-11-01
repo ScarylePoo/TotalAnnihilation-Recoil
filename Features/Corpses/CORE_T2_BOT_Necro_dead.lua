@@ -5,7 +5,7 @@ return {
 		world = "All Worlds",
 		description = "Wreckage",
 		category = "core_corpses",
-		object = "CORE_T2_BOT_Necro_dead",
+		object = "CORE_T2_BOT_Necro_dead.s3o",
 		featuredead = "CORE_T2_BOT_Necro_heap",
 		footprintx = 2,
 		footprintz = 2,
