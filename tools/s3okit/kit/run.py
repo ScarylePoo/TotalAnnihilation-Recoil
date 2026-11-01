@@ -59,7 +59,7 @@ def st_build(unitname, draft=False):
     # pieces hidden at rest but shown by the script (builder cranes in a closed hangar, ...): full texture priority
     geom.force_exposure([o for o in meshes if o.name in set(U.get('always_visible', ()))])
     geom.unwrap(meshes, res=U['res'], ground=U['ground'] and U['water'] is None, air=U['air'], water=U['water'],
-                flipped=set(U.get('flipped', ())))
+                flipped=set(U.get('flipped', ())), water_lift=U.get('water_lift'))
     geom.add_mirrors(meshes)
     geom.apply_clones(k)
     allobjs = list(k.objs.values())
