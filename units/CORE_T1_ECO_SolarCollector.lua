@@ -7,7 +7,7 @@ return {
 		description = "Produces Energy",
 		side = "CORE",
 		unitname = "core_t1_eco_solarcollector",
-		objectname = "CORE_T1_ECO_SolarCollector",
+		objectname = "CORE_T1_ECO_SolarCollector.s3o",
 		corpse = "CORE_T1_ECO_SolarCollector_dead",
 		icontype = "building",
 		category = "CORE LEVEL1 NOWEAPON NOTAIR NOTSUB",
