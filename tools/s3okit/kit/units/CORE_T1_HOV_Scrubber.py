@@ -4,7 +4,8 @@ raised pylons at the stern (lthrustpoint/rthrustpoint are the exhaust emit point
 laser turret on the spine. Distinct from the Arm Skimmer: no prop ring, twin jets, two spike fins, much narrower.
 Pieces: base (rocks x/z), turret (turn y), gun (turn x), flare (empty), l/rthrustpoint (empty), wake01..08 (empty).
 Value groups from above: black skirt rails, dark warm pontoons, darker paint2 keel, two light steel jet pods
-(Core = light mechanics) with black intakes, team stripe down the keel + team fin tips, ochre nose tips.
+(Core = light mechanics) with team spines and black intakes, team stripe down the keel, team plates fore and aft of the
+pontoon fans + team fin tips, ochre nose tips.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
 
@@ -57,7 +58,10 @@ def build(k):
     b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
             [(2.2, 17.62, -12.4), (2.2, 17.62, -2.6), (2.2, 17.78, -12.4), (2.2, 17.78, -2.6)]], 'team', bevel=0.02)
     # team plates on the pontoon decks, forward of the fans (the Scrubber's two team arrows from above)
-    b.hull([(x, y, z) for y in (11.32, 11.48) for x, z in [(5.4, 3.0), (9.6, 3.0), (9.4, 9.8), (7.2, 13.6), (5.6, 12.0)]],
+    b.hull([(x, y, z) for y in (11.32, 11.48) for x, z in [(4.6, 3.4), (10.6, 3.4), (10.2, 10.6), (7.4, 15.6), (4.6, 13.0)]],
+           'team', bevel=0.03, mirror=True)
+    # and aft of the fans
+    b.hull([(x, y, z) for y in (11.32, 11.48) for x, z in [(5.0, -6.2), (10.4, -7.6), (9.4, -16.0), (7.4, -19.6), (5.0, -15.0)]],
            'team', bevel=0.03, mirror=True)
     b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
             [(1.4, 13.48, 13.8), (2.4, 14.24, 4.6), (1.4, 13.62, 13.82), (2.4, 14.38, 4.62)]], 'team', bevel=0.02)
@@ -69,6 +73,7 @@ def build(k):
     b.hull([(3.4, 14.0, -18.0), (4.6, 14.0, -18.0), (3.4, 14.0, -9.0), (4.6, 14.0, -9.0),
             (4.8, 16.0, -17.0), (6.0, 16.0, -17.0), (4.8, 16.0, -10.0), (6.0, 16.0, -10.0)], 'dark', bevel=0.1, mirror=True)
     b.cyl((jx, jy, -20.6), (jx, jy, -7.0), 2.3, 12, 'steel', bevel=0.1, mirror=True)
+    b.box((jx - 1.1, jy + 2.32, -19.6), (jx + 1.1, jy + 2.46, -8.0), 'team', bevel=0.03, mirror=True)   # team pod spine
     b.cyl((jx, jy, -7.0), (jx, jy, -5.6), 2.3, 12, 'steel', r2=1.8, mirror=True)
     b.cyl((jx, jy, -5.6), (jx, jy, -5.5), 1.5, 12, 'black', mirror=True)
     b.cyl((jx, jy, -21.6), (jx, jy, -20.6), 1.6, 12, 'dark', r2=2.1, mirror=True)
