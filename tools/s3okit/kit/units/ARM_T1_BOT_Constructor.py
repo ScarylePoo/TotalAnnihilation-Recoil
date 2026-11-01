@@ -4,8 +4,8 @@ it up, nozzle telescopes forward through the front hatch (guncover, swings up 12
 build. Standard biped skeleton (TA's model only had sliding feet; legs are new); script ported to
 scripts/ARM_T1_BOT_Constructor.lua.
 Coordinates are ENGINE/global: X right, Y up, Z forward.
-Top view (what makes it the Arm builder): one broad light gable roof with a team ridge band and dark ridge vents,
-a hazard-striped front hatch (construction equipment, it opens and the nozzle comes out there), short dark legs
+Top view (what makes it the Arm builder): one broad light gable roof with a wide team ridge band, construction
+stripes along both outer roof halves, dark vents, a hazard-striped front hatch (construction equipment, it opens and the nozzle comes out there), short dark legs
 barely showing at the sides. Open, the panels stand up like wings and the cyan nano emitter is exposed."""
 import math
 
@@ -73,9 +73,14 @@ def build(k):
             for zz in ((-11.4, 10.6) if x < 1 else (-10.8, 9.4))] +
            [F(0.2 - 8, 4.0, 12.6), F(0.2 - 8, 2.6, 12.6), F(8.0 - 8, 2.4, 11.8), F(8.0 - 8, 1.0, 11.6)],
            'paint', bevel=0.2)
+    def ry(x):                                   # roof top surface height at global x (ridge 0.2 -> eave 13.4)
+        return 5.0 - (x - 0.2) / 3.0
     # team band along the ridge
-    f.hull([F(x - 8, y, zz) for (x, y) in ((0.8, 4.84), (3.4, 3.98)) for zz in (-9.6, 8.4)] +
-           [F(x - 8, y + 0.16, zz) for (x, y) in ((0.8, 4.84), (3.4, 3.98)) for zz in (-9.5, 8.3)], 'team', bevel=0.03)
+    f.hull([F(x - 8, ry(x) + 0.06, zz) for x in (0.8, 4.8) for zz in (-9.6, 8.4)] +
+           [F(x - 8, ry(x) + 0.2, zz) for x in (0.8, 4.8) for zz in (-9.5, 8.3)], 'team', bevel=0.03)
+    # construction stripes along the outer half of the roof (the builder read from above)
+    f.hull([F(x - 8, ry(x) + 0.06, zz) for x in (6.0, 12.8) for zz in (-10.0, 8.6)] +
+           [F(x - 8, ry(x) + 0.18, zz) for x in (6.0, 12.8) for zz in (-9.9, 8.5)], 'hazard', bevel=0.03)
     # dark vent block near the rear outer corner, and a dark lip along the outer edge
     f.hull([F(x - 8, y, zz) for (x, y) in ((6.0, 3.24), (9.6, 2.04)) for zz in (-8.2, -3.6)] +
            [F(x - 8, y + 0.9, zz) for (x, y) in ((6.4, 3.1), (9.2, 2.2)) for zz in (-7.8, -4.0)], 'dark', bevel=0.08)
