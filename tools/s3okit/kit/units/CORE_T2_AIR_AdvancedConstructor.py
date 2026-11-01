@@ -3,11 +3,12 @@ with team roof doors, grown heavier: a wider armoured hull with a stepped glazed
 carrying the panel hinges, belly lift jets, a tall single fin with a stabiliser, and TWIN light steel nano turrets
 with ochre shrouds on the rear sponson corners (the right one aims at the build-beam origin, base's first vertex at
 the rear-right as in TA). The Core tip panels (wing1/wing2) stand up when landed and fold out 90 deg in flight.
-From above: a dark box with two bright team doors down the middle, flanked by sponsons and two light turrets -
+From above: a dark box with two striped roof doors (team ridge) down the middle, flanked by team-plated sponsons and
+two light turrets -
 the T1 is a plain box with one chin turret.
 Pieces (TA layout): base, door1/door2 (roof doors; door1 = mirrored clone of door2), wing1/wing2 (tip panels;
 wing1 = mirrored clone of wing2), thrusta1/thrusta2 (belly lift jets), thrustb (main nozzle) - empty emit points.
-Value groups from above: dark warm armour, team doors, darker paint2 sponsons/tail, light steel nano turrets and door
+Value groups from above: dark warm armour, doors in construction stripes, paint2 sponsons with team plates, tail, light steel nano turrets and door
 hinges, ochre hazard on the turret shrouds and the panel roots.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
@@ -56,6 +57,8 @@ def build(k):
     b.hull([(6.4, 3.6, 12.0), (13.9, 4.3, 10.0), (6.4, 6.8, 12.0), (13.9, 6.3, 10.0),
             (6.4, 3.6, -17.0), (13.9, 4.3, -15.7), (6.4, 6.8, -17.0), (13.9, 6.3, -15.7)], 'paint2', bevel=0.16, mirror=True)
     b.box((7.2, 6.7, 6.0), (12.8, 6.85, 9.0), 'dark', bevel=0.0, mirror=True)               # intake grille
+    b.hull([(x, y + dy, z) for x, y in ((7.2, 6.77), (13.2, 6.37)) for z in (4.8, -9.4) for dy in (0.06, 0.2)],
+           'team', bevel=0.03, mirror=True)                                                   # team sponson plates
     b.box((13.2, 4.0, 9.6), (13.95, 5.0, 10.3), 'lightw', bevel=0.0, mirror=True)
     # twin nano turrets on the rear sponson corners (aimed back-out, toward the beam origin 23.7, 0, -24)
     b.cyl((10.4, 6.2, -12.6), (10.4, 7.6, -12.6), 2.2, 14, 'dark', bevel=0.06, mirror=True)
@@ -66,7 +69,9 @@ def build(k):
     # ------------------------------------------------------------------ roof doors (door2 at +x; door1 = mirror)
     d = k.piece('door2')
     d.hull([(x, y + dy, z) for x, y in ((0.15, 9.3), (6.0, 8.5)) for z in (15.0, -9.3) for dy in (0.0, 0.32)],
-           'team', bevel=0.06)
+           'hazard', bevel=0.06)                    # roof doors in construction stripes: the builder read
+    yt = lambda x: 9.62 - 0.1368 * (x - 0.15)
+    d.hull([(x, yt(x) + dy, z) for x in (0.3, 2.6) for z in (12.8, -7.0) for dy in (0.05, 0.18)], 'team', bevel=0.03)
     d.box((0.6, 9.2, 13.6), (5.4, 9.62, 14.4), 'dark', bevel=0.0)
     d.box((0.6, 9.0, -8.0), (5.4, 9.42, -7.2), 'dark', bevel=0.0)
     k.clone('door1', 'door2', mirror_x=True)
