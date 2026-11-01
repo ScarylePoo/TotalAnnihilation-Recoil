@@ -403,6 +403,11 @@ Base branch `s3o-remodel`; each family on `s3o-<family>`, merged back after revi
   removed, track frames every 90 ms). `skeleton_opts` (SK.edit) drops/adds skeleton pieces. Agent proposals still
   open: preview camera crops tall units (wreck row lost); `prism()` takes global coords; the remap forces pelvis z=0;
   build_report's `script_pieces_missing` should read the Lua script once it exists.
+- 2026-11-01: hexapods (Spider, Scarab = mobile anti-nuke, Roach) merged = 145. Shared skeleton via
+  `Unit.hexa_legs()` (one leg cloned to six); per-unit height/hipx/hipz in the spec; preview splay 30 deg matches the
+  walk (change both together). walk.Hexa calibrates at creation (verified in engine on the Roach), cadence from
+  current speed and leg reach. Probe gadget tools/headless-test/tartest.sdd/luarules/gadgets/zz_hexa_walk_probe.lua
+  logs calibration and foot travel: check Spider/Scarab lines on the next headless run.
 - Learned in the defence batch: S3O piece names are written lowercase (the engine lowercases 3DO names but not S3O
   ones; a LUS `piece('base')` failed on a 3DO piece named `Base`). Wreck `drop` carries child pieces. Pop-up
   structures: preview_pose shows the OPEN state (CORE_T1_DEF_Viper.py is the model). Specs import mathutils inside
