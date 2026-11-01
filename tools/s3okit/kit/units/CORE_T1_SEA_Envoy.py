@@ -5,7 +5,7 @@ column; on top a heavy boom (counterweight behind, team top) with five telescopi
 Distinct from the Arm Hulk (side-hinged hatch halves + two-pillar gantry): here the hold reads as three light
 cross-bands with team stripes, and the crane is one central column.
 Value groups from above: dark Core hull, darker paint2 flare/skirt, light steel deck panels and crane column, team on
-the panels and counterweight, ochre hazard magnet rim.
+the panels (broad bands), the side decks and counterweight, ochre hazard magnet rim.
 Pieces (TA layout): base, turret (turn y), boom (turn x), arm1..arm5 (move z, nested), magnet (turn x), link (empty,
 cargo point), door1/door2/door3 (move z, nested), wake1/2 (empty). Floater, no waterline (water at model y = 0).
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
@@ -56,6 +56,7 @@ def build(k):
     for x0, x1 in ((23.4, 30.0),):
         b.hull([(x, y, z) for x in (23.4, 29.6) for y in (DECK - 0.6, DECK + 0.2) for z in (-17.4, 31.3)] +
                [(31.0, 8.0, z) for z in (-17.4, 31.3)], 'paint', bevel=0.15, mirror=True)
+    b.box((24.2, DECK + 0.26, -14.0), (29.0, DECK + 0.4, 28.0), 'team', bevel=0.03, mirror=True)   # team side decks
     # hold: black floor and dark inner walls just under the panels
     b.box((-23.4, 4.0, -17.4), (23.4, 4.4, 31.3), 'black', bevel=0.0)
     # rubbing strake on the flare
@@ -87,7 +88,7 @@ def build(k):
     def panel(name, z0, z1, y0, ox):
         p = k.piece(name)
         p.box((-23.2 + ox, y0 - 0.5, z0), (23.2 + ox, y0, z1), 'steel', bevel=0.12)
-        p.box((-18.0 + ox, y0 - 0.05, z0 + 4.4), (18.0 + ox, y0 + 0.2, z1 - 4.4), 'team', bevel=0.03)
+        p.box((-18.0 + ox, y0 - 0.05, z0 + 2.2), (18.0 + ox, y0 + 0.2, z1 - 2.2), 'team', bevel=0.03)
         for x in (-21.2, 21.2):
             p.box((x - 0.8 + ox, y0 - 0.05, z0 + 0.8), (x + 0.8 + ox, y0 + 0.25, z1 - 0.8), 'dark', bevel=0.03)
     panel('door1', -17.4, -1.3, 12.6, -0.16)
