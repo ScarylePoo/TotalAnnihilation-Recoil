@@ -5,7 +5,7 @@ forward and a team roof on the turret.
 Pieces (TA layout): base, turret (turn y and x), barrel1/2 (recoil 6 along z), flare1/2 (empty muzzles),
 flare3/4 (empty, secondary weapon points on the turret top: small missile rails there), wake1/2 (empty).
 Value groups from above: light Arm hull, dark paint2 spine/deckhouse, near-black engine pods and gun cradles,
-team chevron + turret roof. Floater, waterline 2 (water surface at model y = 2).
+team chevron, side-deck and spine strips, engine-pod lids + turret roof. Floater, waterline 2 (water surface at model y = 2).
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
 
@@ -40,6 +40,10 @@ def build(k):
     # dark spine: raised centre deck from the cockpit back to the deckhouse
     b.plan(DECK - 0.2, 6.6, [(0.0, 13.0), (4.6, 4.0), (6.6, -4.0), (6.6, -27.4), (3.2, -30.6),
                               (-3.2, -30.6), (-6.6, -27.4), (-6.6, -4.0), (-4.6, 4.0)], 'paint2', bevel=0.14, top_inset=1.0)
+    # team strips along the side decks amidships, outboard of the spine
+    b.hull([(x, y, z) for x, z in [(7.0, -20.0), (9.0, -20.0), (9.3, -2.0), (8.6, 2.0), (7.0, 2.0)] for y in (DECK + 0.06, DECK + 0.2)],
+           'team', bevel=0.03, mirror=True)
+    b.box((4.7, 6.62, -26.4), (5.5, 6.76, -9.6), 'team', bevel=0.02, mirror=True)       # team spine flanks
     # team chevron on the foredeck, pointing forward (the scout's tell): two wide solid arms on the sheered deck
     dy = lambda z: DECK + 1.6 * max(0.0, (z - 10.0) / 23.6) ** 1.5
     for s in (-1, 1):
@@ -69,7 +73,7 @@ def build(k):
                 [(3.2, 1.4, -27.0), (7.6, 1.4, -27.0), (3.2, 1.4, -35.0), (7.6, 1.4, -35.0),
                  (3.6, 6.2, -27.6), (7.2, 6.2, -27.6), (3.8, 5.6, -34.0), (7.0, 5.6, -34.0)]],
                'dark', bevel=0.2, mirror=True)
-        b.box((4.3, 5.9, -33.2), (6.5, 6.35, -28.6), 'paint', bevel=0.05, mirror=True)
+        b.box((3.9, 5.9, -33.4), (6.9, 6.35, -28.4), 'team', bevel=0.05, mirror=True)
         b.cyl((5.4, 3.2, -35.0), (5.4, 3.2, -35.2), 1.3, 10, 'lightc', mirror=True)
     # nav lights
     b.box((8.9, 4.3, 4.0), (9.2, 4.8, 5.4), 'lightw', bevel=0.0, mirror=True)
