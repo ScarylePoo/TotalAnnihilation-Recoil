@@ -2,7 +2,7 @@
 rear and a long forward boom carrying the jammer rotor: the `fork` spins about Z (the forward axis) when active, so it
 is built as a four-armed cross of emitter vanes (always shows a wide bar from above, whatever its spin angle) instead
 of TA's thin two-prong fork. `peices` holds the side equipment pods (static).
-Value groups from above: light cab and track guards, dark boom, the rotor as the biggest shape: four light vanes with
+Value groups from above: light cab and track guards (team plates on the front guards), dark boom, the rotor as the biggest shape: four light vanes with
 team-coloured faces and cyan emitter tips around a dark hub; darker paint2 side pods.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
@@ -30,6 +30,10 @@ def build(k):
     for z0, z1 in ((-12.6, -0.8), (0.8, 11.4)):
         b.hull([(x, y, z) for x, y in ((13.2, 6.0), (13.36, 6.12), (11.8, 6.6), (11.9, 6.74)) for z in (z0, z1)],
                'paint2', bevel=0.03, mirror=True)
+    # team plates on the front guard slopes (slope (7.2, 7.4) -> (13.2, 6.0), normal (0.227, 0.974))
+    gy = lambda x: 7.4 - (x - 7.2) * 1.4 / 6.0
+    b.hull([(x + 0.227 * d, gy(x) + 0.974 * d, z) for x in (7.8, 11.6) for z in (1.4, 11.0) for d in (0.06, 0.2)],
+           'team', bevel=0.03, mirror=True)
     # hull (crosses x = 0): low nose, high box cab at the rear
     b.prism(-7.4, 7.4, [(-15.4, 2.2), (13.6, 2.2), (16.0, 4.6), (15.0, 7.0), (-15.6, 7.0), (-16.2, 4.6)], 'paint2', bevel=0.14)
     # cab block at the rear only: the front deck stays low (y 7) as a well the spinning rotor clears
