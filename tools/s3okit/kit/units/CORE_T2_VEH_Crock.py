@@ -5,7 +5,7 @@ stern doors door1/door2 swing open 105 deg (turn y) over the propeller tunnels, 
 inside them, and the rudders rud1/2 slide back 3 and out 2.25. Turret turns y, sleeve x, barrel1/2 recoil;
 tracks1..4 frame-cycled (tread..tread4); wheels1..7 hub discs (spin x).
 Value groups from above: dark warm boat hull with a pointed paint bow plate carrying a broad team chevron (the
-amphibious read: a ship's bow on a tank), darker paint2 side sponsons, black treads, light steel twin barrels on a
+amphibious read: a ship's bow on a tank), darker paint2 side sponsons with long team plates, black treads, light steel twin barrels on a
 small turret with a team roof, ochre hazard on the stern door edges.
 Coordinates are ENGINE/global: X right, Y up, Z forward."""
 import math
@@ -39,7 +39,8 @@ def build(k):
     m.hull([(10.2, 6.8, -15.4), (16.2, 6.8, -15.4), (16.2, 6.8, 9.6), (10.2, 6.8, 9.6),
             (10.2, 5.0, 13.2), (15.8, 5.0, 12.6), (10.2, 5.0, -17.4), (15.8, 5.0, -17.0),
             (10.2, 4.4, -15.6), (16.6, 4.4, -15.4), (16.6, 4.4, 10.8), (10.2, 4.4, 11.4)], 'paint2', bevel=0.16, mirror=True)
-    m.box((11.2, 6.8, -13.6), (15.2, 7.0, 7.4), 'paint', bevel=0.04, mirror=True)
+    m.box((11.2, 6.8, -13.6), (15.2, 7.0, -10.2), 'paint', bevel=0.04, mirror=True)
+    m.box((11.2, 6.8, -10.2), (15.2, 7.0, 7.4), 'team', bevel=0.04, mirror=True)        # team sponson plates
     # hull tub between the tracks: boat section, flat deck (crosses x = 0)
     m.prism(-10.6, 10.6, [(-16.4, 1.4), (7.0, 1.0), (10.4, 2.4), (10.0, 6.0), (-16.6, 6.6), (-17.4, 3.4)], 'paint', bevel=0.16)
     m.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
