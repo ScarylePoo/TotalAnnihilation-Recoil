@@ -1,4 +1,4 @@
-"""Standard walker skeletons (user requirement, 2026-10-24): every legged unit except the Spider gets the same
+"""Standard walker skeletons (user requirement, 2026-10-24): every legged unit gets the same
 piece hierarchy and BACKWARDS (digitigrade) legs like Splinter Faction's Federation walkers, so one walk script
 drives all bipeds and one drives all quadrupeds. The Can and the Sumo get tracks instead of legs.
 
@@ -24,7 +24,9 @@ LEGS = {'biped': ['r', 'l'], 'quad': ['rf', 'lf', 'rb', 'lb'], 'hexa': ['rf', 'l
 # SIDEWAYS - knee up and out, foot down and further out. Every leg has the same local offsets (mirrored in x), so one
 # leg's geometry is cloned to all six (one UV set); the forward/backward splay of the front/rear legs is a yaw the walk
 # script applies (walk.Hexa), not part of the model.
-HEXA = dict(knee_out=0.55, knee_up=0.3, foot_out=0.3, foot_y=0.08)   # in units of pelvis height H
+# Tuned on the first three hexapods: a high knee and a shin that reaches well outward (~30 deg from vertical) give the
+# spider silhouette from the game camera (with knee_up 0.3 / foot_out 0.3 the shins stood vertical: table legs).
+HEXA = dict(knee_out=0.55, knee_up=0.5, foot_out=0.8, foot_y=0.08)   # in units of pelvis height H
 RATIO = dict(legs_y=-0.013, knee_y=-0.32, knee_z=-0.325, ankle_y=-0.49, ankle_z=0.49)
 LEGWORD = re.compile(r'(thigh|leg|shin|calf|knee|foot|feet|boot|ankle|toe|hip)', re.I)
 NOT_LEG = re.compile(r'(flare|fire|emit|sfx|gun|barrel|nano|muzzle|cover)', re.I)

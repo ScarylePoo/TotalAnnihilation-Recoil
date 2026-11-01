@@ -3,7 +3,8 @@ common.WalkScript.  usage: python3 make_walk.py [SplinterFaction checkout] [outp
 
 Biped: SF's Skeletor-generated keyframes unchanged, except SF's `turret` line is dropped and the pelvis bob is
 scaled by unit size. Quad: the same keys on diagonal leg pairs (lf+rb take the left leg's keys, rf+lb the right
-leg's; y/z turns negated on the leg that changes side), hip twist reduced to 30 %."""
+leg's; y/z turns negated on the leg that changes side), hip twist reduced to 30 %. Hexa: a procedural alternating tripod
+gait with per-leg calibrated rotation signs (see the HEXA block)."""
 import re, sys, os
 
 SF = sys.argv[1] if len(sys.argv) > 1 else '/home/claude/SplinterFaction'
@@ -155,70 +156,127 @@ quad_w = [x for l in walk_body for x in quad_line(l)]
 quad_s = [x for l in stop_body for x in quad_line(l, stop=True)]
 HEXA = r"""
 -- Hexapod (Spider, Scarab, Roach; user decision 2026-10-31): alternating tripod gait, lf+rm+lb then rf+lm+rb.
--- Sideways spider legs (see skeleton.py HEXA): a leg swings on its thigh's yaw and lifts on its thigh's roll, the
--- knee flexes to keep the foot near the ground. All six legs have identical local offsets (one UV set); the
--- front/rear splay is the base yaw SPLAY applied here. Rotation directions are CALIBRATED at creation (each thigh is
--- nudged and the foot's movement measured), so no axis-handedness assumption can make a leg move the wrong way.
+-- Sideways spider legs (skeleton.py HEXA): a leg swings on its thigh's yaw (y) and lifts on its thigh's roll (z); the
+-- knee tucks while the leg is up. All six legs have identical local offsets (one UV set); the front/rear splay is the
+-- base yaw SPLAY applied here. Rotation directions are CALIBRATED at creation: each thigh is nudged and its foot's
+-- movement measured with Spring.GetUnitPiecePosition (the engine recomputes a dirty piece's transform on read, so an
+-- instant Turn is visible at once; if a read ever comes back stale the measurement is repeated a frame later). So no
+-- axis-handedness assumption can make a leg move the wrong way. Cadence follows the unit's actual speed and the
+-- measured leg reach, so planted feet do not skate. The result is published as the private unit rules param
+-- hexaWalkCalib (1 = measured at once, 2 = measured a frame later, -1 = failed: default signs).
 -- Usage: local hexaReady = walk.Hexa();  function script.Create() hexaReady() ... end
+-- opts: splay, swing, lift (radians), knee (tuck as a fraction of lift), minStep (seconds per step), onStep.
 function walk.Hexa(opts)
 	opts = opts or {}
 	local onStep = opts.onStep
-	local SPLAY = opts.splay or math.rad(32)      -- front legs yaw forward, rear legs backward
-	local SWING = opts.swing or math.rad(18)      -- stride: yaw swing either side of the base yaw
-	local LIFT = opts.lift or math.rad(22)        -- thigh roll that lifts a swinging leg
+	local SPLAY = opts.splay or math.rad(30)      -- front legs yaw forward, rear legs backward
+	local SWING = opts.swing or math.rad(16)      -- stride: yaw swing either side of the base yaw
+	local LIFT = opts.lift or math.rad(20)        -- thigh roll that lifts a swinging leg
+	local KNEE = opts.knee or 0.6                 -- knee tuck while lifted, fraction of LIFT
+	local MIN_STEP = opts.minStep or 0.25         -- fastest step (s): tiny units would otherwise flicker
+	local GetPos = Spring.GetUnitPiecePosition
 	local legs = {
-		{thigh = rfthigh, leg = rfleg, base = 1},  {thigh = lfthigh, leg = lfleg, base = 1},
-		{thigh = rmthigh, leg = rmleg, base = 0},  {thigh = lmthigh, leg = lmleg, base = 0},
-		{thigh = rbthigh, leg = rbleg, base = -1}, {thigh = lbthigh, leg = lbleg, base = -1},
+		{thigh = rfthigh, leg = rfleg, foot = rffoot, base = 1},  {thigh = lfthigh, leg = lfleg, foot = lffoot, base = 1},
+		{thigh = rmthigh, leg = rmleg, foot = rmfoot, base = 0},  {thigh = lmthigh, leg = lmleg, foot = lmfoot, base = 0},
+		{thigh = rbthigh, leg = rbleg, foot = rbfoot, base = -1}, {thigh = lbthigh, leg = lbleg, foot = lbfoot, base = -1},
 	}
-	local feet = {rffoot, lffoot, rmfoot, lmfoot, rbfoot, lbfoot}
 	local tripodA = {[2] = true, [3] = true, [6] = true}   -- lf, rm, lb
 	local calibrated = false
-	local function calibrate()
+	local maxSpeed = UnitDefs[unitDefID].speed      -- elmos per second
+	local stroke = 1                                -- body travel per step (elmos), from the measured reach
+
+	local function probe(axis, deferred)
+		local before, d = {}, {}
 		for i, L in ipairs(legs) do
-			local _, y0, z0 = Spring.GetUnitPiecePosition(unitID, feet[i])
-			Turn(L.thigh, z_axis, 0.3)
-			local _, y1 = Spring.GetUnitPiecePosition(unitID, feet[i])
-			Turn(L.thigh, z_axis, 0)
-			Turn(L.thigh, y_axis, 0.3)
-			local _, _, z1 = Spring.GetUnitPiecePosition(unitID, feet[i])
-			Turn(L.thigh, y_axis, 0)
-			L.liftSign = (y1 >= y0) and 1 or -1          -- +z roll raises this foot?
-			L.fwdSign = (z1 >= z0) and 1 or -1           -- +y yaw moves this foot forward?
+			before[i] = {GetPos(unitID, L.foot)}
+			Turn(L.thigh, axis, 0.3)
+		end
+		if deferred then Sleep(1) end
+		for i, L in ipairs(legs) do
+			local p = {GetPos(unitID, L.foot)}
+			d[i] = {p[1] - before[i][1], p[2] - before[i][2], p[3] - before[i][3]}
+			Turn(L.thigh, axis, 0)
+		end
+		if deferred then Sleep(1) end
+		return d
+	end
+	local function solve(deferred)
+		local dz, dy = probe(z_axis, deferred), probe(y_axis, deferred)
+		for i = 1, #legs do
+			if math.abs(dz[i][2]) < 1e-3 or math.abs(dy[i][3]) < 1e-3 then return false end
+		end
+		for i, L in ipairs(legs) do
+			L.liftSign = (dz[i][2] > 0) and 1 or -1     -- +z roll raises this foot?
+			L.fwdSign = (dy[i][3] > 0) and 1 or -1      -- +y yaw moves this foot forward?
+		end
+		return true
+	end
+	local function finish(mode)
+		local reach = 0
+		for _, L in ipairs(legs) do
+			L.liftSign, L.fwdSign = L.liftSign or 1, L.fwdSign or 1
+			local hx, _, hz = GetPos(unitID, L.thigh)
+			local fx, _, fz = GetPos(unitID, L.foot)
+			reach = reach + math.sqrt((fx - hx) ^ 2 + (fz - hz) ^ 2) / #legs
 			Turn(L.thigh, y_axis, L.base * SPLAY * L.fwdSign)
+		end
+		-- foot travel along z per step, averaged over the middle (unsplayed) and the splayed legs
+		stroke = math.max(1, 2 * reach * math.sin(SWING) * (1 + 2 * math.cos(SPLAY)) / 3)
+		Spring.SetUnitRulesParam(unitID, "hexaWalkCalib", mode, {private = true})
+		if mode < 0 then
+			Spring.Echo("walk.Hexa: leg calibration failed for " .. UnitDefs[unitDefID].name .. ", using default signs")
 		end
 		calibrated = true
 	end
-	local function pose(L, swingFwd, lifted, speed)
-		Turn(L.thigh, y_axis, (L.base * SPLAY + swingFwd * SWING) * L.fwdSign, speed)
-		Turn(L.thigh, z_axis, (lifted and LIFT or 0) * L.liftSign, speed * 2)
-		Turn(L.leg, z_axis, (lifted and -0.6 * LIFT or 0) * L.liftSign, speed * 2)
+	local function calibrate()
+		if solve(false) then
+			finish(1)
+		else
+			StartThread(function() finish(solve(true) and 2 or -1) end)
+		end
 	end
+	local function waitReady()
+		while not calibrated do Sleep(33) end
+	end
+
 	install(function()
-		if not calibrated then calibrate() end
-		local scale = sizeScale()
+		waitReady()
+		local phase = 0
 		while true do
-			local speedMult, sleepTime = speedParams(scale)
-			local sp = (SWING * 2) / (sleepTime * 2 / 1000)     -- cover the swing arc in the swing time (rad/s)
-			for phase = 0, 1 do
-				for i, L in ipairs(legs) do
-					local moving = (tripodA[i] ~= nil) == (phase == 0)
-					pose(L, moving and 1 or -1, moving, sp)      -- swinging tripod lifts and reaches forward,
-				end                                               -- the planted tripod pushes back
-				Sleep(sleepTime * 2)
-				for i, L in ipairs(legs) do
-					local moving = (tripodA[i] ~= nil) == (phase == 0)
-					if moving then Turn(L.thigh, z_axis, 0, LIFT * 8); Turn(L.leg, z_axis, 0, LIFT * 8) end
+			local vx, _, vz = Spring.GetUnitVelocity(unitID)
+			local v = math.max(math.sqrt(vx * vx + vz * vz) * 30, 0.4 * maxSpeed, 1)   -- turning on the spot still steps
+			local T = math.max(MIN_STEP, stroke / v)                                     -- seconds per step
+			local swingRate = 2 * SWING / T
+			for i, L in ipairs(legs) do
+				local swinging = (tripodA[i] ~= nil) == (phase == 0)
+				-- the swinging tripod lifts and reaches forward, the planted tripod pushes back over the whole step
+				Turn(L.thigh, y_axis, (L.base * SPLAY + (swinging and SWING or -SWING)) * L.fwdSign,
+					swinging and swingRate * 1.25 or swingRate)
+				if swinging then
+					Turn(L.thigh, z_axis, LIFT * L.liftSign, LIFT / (0.3 * T))
+					Turn(L.leg, z_axis, -KNEE * LIFT * L.liftSign, KNEE * LIFT / (0.3 * T))
 				end
-				if onStep then onStep() end
-				Sleep(sleepTime)
 			end
+			Sleep(math.max(33, 500 * T))
+			for i, L in ipairs(legs) do
+				if (tripodA[i] ~= nil) == (phase == 0) then
+					Turn(L.thigh, z_axis, 0, LIFT / (0.35 * T))
+					Turn(L.leg, z_axis, 0, KNEE * LIFT / (0.35 * T))
+				end
+			end
+			Sleep(math.max(33, 500 * T))
+			if onStep then onStep() end
+			phase = 1 - phase
 		end
 	end, function()
-		if not calibrated then calibrate() end
-		for _, L in ipairs(legs) do pose(L, 0, false, SWING * 2) end
+		waitReady()
+		for _, L in ipairs(legs) do
+			Turn(L.thigh, y_axis, L.base * SPLAY * L.fwdSign, SWING * 3)
+			Turn(L.thigh, z_axis, 0, LIFT * 3)
+			Turn(L.leg, z_axis, 0, LIFT * 3)
+		end
 	end)
-	return function() if not calibrated then calibrate() end end   -- call from script.Create (rest splay + signs)
+	return function() if not calibrated then calibrate() end end   -- call from script.Create (signs + rest splay)
 end
 """
 
