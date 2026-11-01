@@ -7,7 +7,7 @@ return {
 		description = "Advanced Metal Extractor",
 		side = "ARM",
 		unitname = "arm_t2_eco_mohomine",
-		objectname = "ARM_T2_ECO_MohoMine",
+		objectname = "ARM_T2_ECO_MohoMine.s3o",
 		corpse = "ARM_T2_ECO_MohoMine_dead",
 		icontype = "building_metal_source_big",
 		category = "ARM LEVEL2 NOWEAPON NOTAIR NOTSUB",
