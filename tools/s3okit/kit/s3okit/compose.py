@@ -57,7 +57,23 @@ def srgb2lin(c): return np.where(c <= 0.04045, c / 12.92, ((c + 0.055) / 1.055) 
 def lin2srgb(c): c = np.clip(c, 0, 1); return np.where(c <= 0.0031308, c * 12.92, 1.055 * c ** (1 / 2.4) - 0.055)
 
 
-def compose(npz, out_prefix, final=1024, side='ARM', mode='unit', seed=0, seams=True, strip=512, tread_step=0.25):
+HAZARD_PERIOD = (2.0, 3.5)    # construction-stripe period (elmo, across the stripes) clamp; auto = unit span / 8
+HAZARD_SPAN_DIV = 8.0
+
+
+def hazard_period(pos, cover):
+    """stripe period for this model: scales with its size so small units still show >= 2 stripes on a striped
+    plate and big ones get stripes wide enough to read at game distance (~1 px per elmo). Mirrored halves share
+    UVs, so the x span is taken as 2 * max|x|."""
+    p = pos[cover]
+    if not len(p):
+        return HAZARD_PERIOD[1]
+    span = max(2 * np.abs(p[:, 0]).max(), np.ptp(p[:, 2]))
+    return float(np.clip(span / HAZARD_SPAN_DIV, *HAZARD_PERIOD))
+
+
+def compose(npz, out_prefix, final=1024, side='ARM', mode='unit', seed=0, seams=True, strip=512, tread_step=0.25,
+            hazard=None):
     """Synthesise tex1/tex2 from the baked maps. Every step is per texel except the dilation (one distance transform,
     done once) and the final resize, so the texel work runs in row strips: full-frame float intermediates at 4096^2
     (2048 textures are composed at 2x) got compose OOM-killed in the shared memory cgroup."""
@@ -66,6 +82,7 @@ def compose(npz, out_prefix, final=1024, side='ARM', mode='unit', seed=0, seams=
     # dilate: every empty texel takes the maps of the nearest baked texel (replaces Cycles' bake margin)
     from scipy.ndimage import distance_transform_edt
     cover = Z['cover'][..., 0] > 0
+    hz = hazard or hazard_period(M['pos'].astype(np.float32), cover)
     _, (IY, IX) = distance_transform_edt(~cover, return_indices=True)
     IY = IY.astype(np.int32); IX = IX.astype(np.int32); del cover
     Hf, Wf = IY.shape
@@ -73,7 +90,7 @@ def compose(npz, out_prefix, final=1024, side='ARM', mode='unit', seed=0, seams=
     u8 = lambda a: (np.clip(a, 0, 1) * 255 + 0.5).astype(np.uint8)
     for r0 in range(0, Hf, strip):
         r1 = min(Hf, r0 + strip)
-        col, tc, emi, refl = _compose_block(M, IY[r0:r1], IX[r0:r1], side, mode, seed, seams, tread_step)
+        col, tc, emi, refl = _compose_block(M, IY[r0:r1], IX[r0:r1], side, mode, seed, seams, tread_step, hz)
         out1[r0:r1] = u8(np.dstack([col, tc]))
         out2[r0:r1] = u8(np.dstack([emi, refl, np.zeros_like(emi), np.ones_like(emi)]))
         del col, tc, emi, refl
@@ -85,10 +102,10 @@ def compose(npz, out_prefix, final=1024, side='ARM', mode='unit', seed=0, seams=
         im.save(path)
     save(out1, out_prefix + '_1.png', 'RGBA')
     save(out2, out_prefix + '_2.png', 'RGBA')
-    return dict(texture=final)
+    return dict(texture=final, hazard_period=round(hz, 2))
 
 
-def _compose_block(M, iy, ix, side, mode, seed, seams, tread_step=0.25):
+def _compose_block(M, iy, ix, side, mode, seed, seams, tread_step=0.25, hazp=3.5):
     """texel synthesis for one row strip; iy/ix are that strip's dilation indices into the full maps."""
     D = lambda a: a[iy, ix]
     pos = D(M['pos']).astype(np.float32); nrm = D(M['nrm']).astype(np.float32)
@@ -147,7 +164,8 @@ def _compose_block(M, iy, ix, side, mode, seed, seams, tread_step=0.25):
     steel = hexc(pal['steel']) * (0.85 + 0.3 * brush[..., None])
     steel = steel * (1 - W3) + hexc('#c9ced3') * W3
     team = hexc(pal['team_base']) * np.ones((H, W, 1), np.float32)
-    haz = sm(0.48, 0.52, np.mod((np.abs(x) + z) * 0.75, 1.0))
+    # diagonal stripes; (|x| + z) / (period * sqrt 2) = `hazard` elmo between stripes measured across them
+    haz = sm(0.47, 0.53, np.mod((np.abs(x) + z) / np.float32(hazp * 1.4142), 1.0))
     hazard = hexc(pal['accent']) * (1 - haz[..., None]) + hexc('#232220') * haz[..., None]
     hazard = hazard * (0.93 + 0.14 * fine[..., None]) * (1 - W3) + hexc('#b9bdc0') * W3
     glass = hexc(pal['glass']) * (0.8 + 0.4 * up[..., None]) + 0.25 * sm(0.7, 0.95, brush)[..., None]
