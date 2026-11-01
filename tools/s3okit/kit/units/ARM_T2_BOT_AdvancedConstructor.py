@@ -3,8 +3,9 @@ pods on its shoulders under one hinged roof (guncase); to build, the roof swings
 (nanoarm + nanojoint) lifts two nano emitters out of the pods and flips them forward. Standard biped skeleton with
 wide-set legs; script ported to scripts/ARM_T2_BOT_AdvancedConstructor.lua.
 Coordinates are ENGINE/global: X right, Y up, Z forward.
-Top view (what makes it the Arm T2 builder): two large light roof panels with team plates and yellow hazard front
-edges side by side, split by a dark hinge - a wide square "double crate", bigger than the T1 builder's single dome."""
+Top view (what makes it the Arm T2 builder): two large roof panels in construction stripes with team plates on their
+inner halves, split by a dark hinge with a team block - a wide square "double crate", bigger than the T1 builder's
+single gable."""
 import math
 
 UNIT = dict(
@@ -46,15 +47,15 @@ def build(k):
     for sx in (-1, 1):
         g.hull([G(sx * x, y, z) for x, y, z in
                 [(4.6, 0.0, 0.2), (4.6, 0.0, 13.6), (13.8, 0.0, 0.2), (13.8, 0.0, 13.6), (5.6, 3.6, 1.0), (5.6, 3.6, 12.6),
-                 (12.8, 3.6, 1.0), (12.8, 3.6, 12.6)]], 'paint', bevel=0.2)
-        g.hull([G(sx * x, y, z) for x, y, z in                                            # team plate
-                [(6.6, 3.62, 2.4), (6.6, 3.62, 9.6), (11.8, 3.62, 2.4), (11.8, 3.62, 9.6),
-                 (6.6, 3.78, 2.45), (6.6, 3.78, 9.55), (11.8, 3.78, 2.45), (11.8, 3.78, 9.55)]], 'team', bevel=0.03)
+                 (12.8, 3.6, 1.0), (12.8, 3.6, 12.6)]], 'hazard', bevel=0.2)                # construction stripes
+        g.hull([G(sx * x, y, z) for x, y, z in                                            # team plate (inner half)
+                [(5.7, 3.66, 1.4), (5.7, 3.66, 12.0), (9.4, 3.66, 1.4), (9.4, 3.66, 12.0),
+                 (5.7, 3.82, 1.45), (5.7, 3.82, 11.95), (9.4, 3.82, 1.45), (9.4, 3.82, 11.95)]], 'team', bevel=0.03)
         g.hull([G(sx * x, y, z) for x, y, z in                                            # hazard front edge
                 [(5.8, 3.0, 12.7), (12.6, 3.0, 12.7), (5.8, 0.6, 13.7), (12.6, 0.6, 13.7),
                  (5.8, 3.12, 12.85), (12.6, 3.12, 12.85), (5.8, 0.7, 13.85), (12.6, 0.7, 13.85)]], 'hazard', bevel=0.02)
     g.cyl(G(-4.8, 0.8, 0.8), G(4.8, 0.8, 0.8), 1.0, 10, 'dark', bevel=0.04)              # hinge bar
-    g.box(G(-4.8, 0.0, 0.6), G(4.8, 1.2, 4.0), 'dark', bevel=0.08)
+    g.box(G(-4.8, 0.0, 0.6), G(4.8, 1.2, 4.0), 'team', bevel=0.08)                       # team hinge block
 
     # ------------------------------------------------------------------ folding frame + nano emitters
     a = k.piece('nanoarm'); N = a.at                    # (0, 26, 3.75): frame lying along -z
