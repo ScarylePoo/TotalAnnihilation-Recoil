@@ -7,7 +7,8 @@ visible together: only tracks1 gets geometry; wheels1..6 are static hub discs.
 Distinct from the Merl (Arm: centred team lids over a closed bay, wheels): asymmetric, open trough, a light missile
 with an ochre warhead lying in a dark rail, the hump as the dominant dark mass.
 Value groups from above: dark warm hump + carrier, black trough interior, the light steel missile body (the read: a long
-light bar along the left side), team colour on the hump roof ribs and the trough rims.
+light bar along the left side), team colour on the hump roof ribs, the trough rims and
+the rear halves of both track guards.
 Coordinates are ENGINE/global: X right, Y up, Z forward."""
 import math
 
@@ -32,6 +33,7 @@ def build(k):
     # track guards (flat dark plates) with Core teeth on the front
     b.hull([(14.4, 8.6, -25.0), (22.6, 8.6, -25.0), (22.6, 8.6, 18.6), (14.4, 8.6, 18.6),
             (14.4, 6.4, 22.4), (22.0, 6.4, 21.6), (14.4, 6.0, -26.6), (22.0, 6.0, -26.2)], 'paint2', bevel=0.16, mirror=True)
+    b.box((15.2, 8.65, -22.0), (21.8, 8.8, -4.0), 'team', bevel=0.03, mirror=True)        # team plates on the guards
     for x in (15.6, 18.8):
         b.hull([(x, 6.6, 22.0), (x + 2.6, 6.6, 21.6), (x, 5.0, 22.2), (x + 2.6, 5.0, 21.8), (x + 1.3, 5.6, 24.2)], 'dark', bevel=0.04, mirror=True)
     # chassis deck (crosses x = 0)
