@@ -7,7 +7,7 @@ return {
 		description = "Increases Metal Storage by 1000",
 		side = "CORE",
 		unitname = "core_t1_eco_metalstorage",
-		objectname = "CORE_T1_ECO_MetalStorage",
+		objectname = "CORE_T1_ECO_MetalStorage.s3o",
 		corpse = "CORE_T1_ECO_MetalStorage_dead",
 		icontype = "building",
 		category = "CORE LEVEL1 NOWEAPON NOTAIR NOTSUB",
