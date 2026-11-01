@@ -426,11 +426,13 @@ def _scale_island(isl, uv, s):
 IMPORTANCE = {'tread': 0.6, 'tread2': 0.6, 'tread3': 0.6, 'tread4': 0.6, 'black': 0.4, 'ash': 0.7, 'team': 1.0, 'lightw': 0.8, 'lightc': 0.8, 'lightr': 0.8}
 
 
-def unwrap(objs, margin_px=3, res=1024, angle=55, ground=True, air=False, water=None):
+def unwrap(objs, margin_px=3, res=1024, angle=55, ground=True, air=False, water=None, flipped=()):
     """Smart project -> uniform texel density -> shrink islands by visibility/importance -> tight pack.
     Faces tagged as mirror copies (mir==2) must not exist yet; mirrors are added after this.
     water: for ships, the model-space height of the water surface (= unitdef waterline). Islands below it and
-    downward-facing islands get less texture (only seen through water, or never); None for land/air units."""
+    downward-facing islands get less texture (only seen through water, or never); None for land/air units.
+    flipped: names of pieces the script turns upside down (their rest-pose undersides face the camera when open):
+    no downward-facing penalty for them."""
     meshes = [o for o in objs if o.type == 'MESH' and len(o.data.polygons)]
     bpy.ops.object.select_all(action='DESELECT')
     for o in meshes:
@@ -457,7 +459,9 @@ def unwrap(objs, margin_px=3, res=1024, angle=55, ground=True, air=False, water=
             down = sum(f.calc_area() for f in isl if f.normal.y < -0.7) / area
             mat = MATS[isl[0].material_index]
             k = (0.15 + 0.85 * min(1.0, e * 1.6) ** 0.8) * IMPORTANCE.get(mat, 1.0)
-            if ground and not air:
+            if o.name in flipped:
+                pass
+            elif ground and not air:
                 k *= (1 - 0.6 * down)
             elif water is not None:
                 M = o.matrix_world
