@@ -7,7 +7,8 @@ return {
 		description = "Crawling Bomb",
 		side = "CORE",
 		unitname = "core_t2_bot_roach",
-		objectname = "CORE_T2_BOT_Roach",
+		objectname = "CORE_T2_BOT_Roach.s3o",
+		script = "CORE_T2_BOT_Roach.lua",
 		icontype = "kbot",
 		category = "CORE KBOT LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
