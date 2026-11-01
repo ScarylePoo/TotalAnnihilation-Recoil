@@ -408,6 +408,9 @@ Base branch `s3o-remodel`; each family on `s3o-<family>`, merged back after revi
   walk (change both together). walk.Hexa calibrates at creation (verified in engine on the Roach), cadence from
   current speed and leg reach. Probe gadget tools/headless-test/tartest.sdd/luarules/gadgets/zz_hexa_walk_probe.lua
   logs calibration and foot travel: check Spider/Scarab lines on the next headless run.
+- 2026-11-01: economy (22, all 15-25 % team) merged = 167. Moving parts previewed in their activate end state.
+  Gotcha: `Builder.plan(top_inset=d)` moves CORNERS d toward the centroid (a square's sides move d/sqrt2).
+  Reskin pass running on `s3o-reskin` (builders done; hazard stripe period widened to read at game distance).
 - Learned in the defence batch: S3O piece names are written lowercase (the engine lowercases 3DO names but not S3O
   ones; a LUS `piece('base')` failed on a 3DO piece named `Base`). Wreck `drop` carries child pieces. Pop-up
   structures: preview_pose shows the OPEN state (CORE_T1_DEF_Viper.py is the model). Specs import mathutils inside
