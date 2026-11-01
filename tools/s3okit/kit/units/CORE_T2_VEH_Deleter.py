@@ -4,7 +4,8 @@ axis when active) that splits into two wide prongs carrying emitter plates (TA's
 Distinct from the Arm Jammer (four-vane rotor on a short boom): a long fork reaching well past the nose, prongs as
 two parallel light plates with ochre tips and a red emitter glow, the hub ringed with dark coils.
 Value groups from above: dark warm hull, darker paint2 cabin with a team roof, the long light-steel fork (the read: a
-light "Y" over a dark hull), black treads, team colour also on a nose plate.
+light "Y" over a dark hull), black treads, team colour also on a nose plate and
+long plates on both track guards.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
 
@@ -25,6 +26,7 @@ def build(k):
     # track guards with Core saw-tooth edge
     b.hull([(7.0, 7.4, -22.0), (13.4, 7.4, -22.0), (13.4, 7.4, 13.6), (7.0, 7.4, 13.6),
             (7.0, 5.6, 21.0), (13.0, 5.4, 20.0), (7.0, 5.4, -24.0), (13.0, 5.4, -23.4)], 'paint2', bevel=0.14, mirror=True)
+    b.box((7.8, 7.45, -16.0), (12.6, 7.6, 4.0), 'team', bevel=0.03, mirror=True)          # team plates on the guards
     for z in (-17.0, -9.0, -1.0, 7.0):
         b.hull([(13.3, 7.0, z - 2.6), (13.3, 7.0, z + 2.6), (13.3, 5.4, z - 1.6), (13.3, 5.4, z + 1.6), (14.2, 6.2, z)],
                'dark', bevel=0.05, mirror=True)
