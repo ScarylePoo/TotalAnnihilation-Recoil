@@ -5,8 +5,8 @@ the `lift` platform rises 12.5 elmo inside the bay, the `turret` column rises an
 elevates the nano head: `nano` (projector barrel, slides out 3.5) opens four petal panels (panel_t/b/l/r turn 60 deg)
 around the emitter, `rear` (counterweight) slides back 3; `firepoint` (empty) is the nano emit point.
 tracks1..4 are frame-cycled with tread..tread4; wheels hub discs spin x.
-Value groups from above: dark warm hull walls, darker paint2 doors with wide team stripes (the spine), black tracks,
-light steel side-track fenders and nose ram, light steel nano head + petals (construction gear reads light on Core).
+Value groups from above: dark warm hull walls, bay doors in construction stripes with team stripes (the builder read),
+black tracks, light steel side-track fenders with team plates and nose ram, light steel nano head + petals (construction gear reads light on Core).
 Coordinates are ENGINE/global: X right, Y up, Z forward."""
 import math
 
@@ -48,6 +48,7 @@ def build(k):
     # fenders over the side tracks with team plates
     b.hull([(9.4, 8.6, -20.6), (16.8, 8.6, -20.6), (9.4, 8.6, 8.8), (16.8, 8.6, 8.8),
             (9.4, 7.0, -21.4), (16.8, 7.0, -21.4), (9.4, 7.0, 9.6), (16.8, 7.0, 9.6)], 'steel', bevel=0.12, mirror=True)
+    b.box((10.4, 8.65, -18.6), (15.8, 8.8, 4.0), 'team', bevel=0.03, mirror=True)            # team fender plates
     # tall hull walls around the bay (inner face x 7.7 = door hinge), sloped outer faces
     b.hull([(7.7, 8.4, -25.0), (12.8, 8.4, -25.0), (7.7, 8.4, 19.0), (12.8, 8.4, 19.0),
             (7.7, 21.0, -23.6), (9.2, 21.0, -23.6), (7.7, 21.0, 15.4), (9.2, 21.0, 15.4)], 'paint', bevel=0.16, mirror=True)
@@ -83,8 +84,9 @@ def build(k):
 
     def ys(x):
         return 0.0 + 2.2 * x / 7.7
-    d.hull([D(x, ys(x) + dy, z) for x in (0.05, 7.7) for z in (-20.6, 13.0) for dy in (0.0, -0.6)], 'paint2', bevel=0.08)
-    d.hull([D(x, ys(x) + dy, z) for x in (2.2, 6.6) for z in (-17.0, 8.6) for dy in (0.07, 0.2)], 'team', bevel=0.03)
+    # bay doors in construction stripes (builder read) with a narrower team stripe
+    d.hull([D(x, ys(x) + dy, z) for x in (0.05, 7.7) for z in (-20.6, 13.0) for dy in (0.0, -0.6)], 'hazard', bevel=0.08)
+    d.hull([D(x, ys(x) + dy, z) for x in (2.6, 5.6) for z in (-17.0, 8.6) for dy in (0.07, 0.2)], 'team', bevel=0.03)
     d.cyl(D(0.0, -0.1, -20.0), D(0.0, -0.1, 12.4), 0.5, 8, 'dark')
     k.clone('door2', 'door1', mirror_x=True)
 
