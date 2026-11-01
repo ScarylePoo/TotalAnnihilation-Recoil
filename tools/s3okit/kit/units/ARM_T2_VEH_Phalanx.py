@@ -1,7 +1,7 @@
 """Phalanx (ARM_T2_VEH_Phalanx) - Arm mobile flak. Six big wheels (wheel1..6 spin x) under a long armoured wedge
 body that rises to a central pylon; on top a compact flak mount (turret turns y AND x: the whole mount elevates)
 carrying four recoiling barrels in a diamond: two outer low (gun1/gun4), two inner high (gun2/gun3).
-Value groups from above: light wedge body with a team chevron on the nose deck, darker paint2 pylon/mount,
+Value groups from above: light wedge body with a team chevron on the nose deck, team plates on the fenders, darker paint2 pylon/mount,
 four light steel barrels fanned on a dark gun frame with team cheek plates, black tyres outboard.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
@@ -33,7 +33,8 @@ def build(k):
             (7.2, 7.4, -16.4), (14.6, 7.4, -16.4), (14.6, 7.4, 14.4), (7.2, 7.4, 14.4)], 'paint', bevel=0.16, mirror=True)
     b.hull([(14.5, 7.6, -16.0), (15.1, 7.6, -15.6), (15.1, 7.6, 14.2), (14.5, 7.6, 14.6),
             (14.4, 6.0, -15.0), (15.0, 6.0, -14.6), (15.0, 6.0, 13.2), (14.4, 6.0, 13.6)], 'paint2', bevel=0.08, mirror=True)
-    b.box((9.0, 9.2, -14.6), (13.2, 9.42, -6.0), 'dark', bevel=0.06, mirror=True)
+    b.box((9.0, 9.2, -14.6), (13.2, 9.42, -6.0), 'team', bevel=0.06, mirror=True)        # team fender plates, rear
+    b.box((8.6, 9.25, 5.6), (13.4, 9.4, 12.4), 'team', bevel=0.03, mirror=True)           # and front
     # upper wedge body: long glacis to a pylon block under the turret (crosses x = 0)
     b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
             [(7.6, 6.8, -20.8), (7.6, 6.8, 19.0), (6.0, 6.2, 22.0),
