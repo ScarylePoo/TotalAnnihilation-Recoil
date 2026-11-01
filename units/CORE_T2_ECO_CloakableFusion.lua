@@ -7,7 +7,7 @@ return {
 		description = "Produces Energy",
 		side = "CORE",
 		unitname = "core_t2_eco_cloakablefusion",
-		objectname = "CORE_T2_ECO_CloakableFusion",
+		objectname = "CORE_T2_ECO_CloakableFusion.s3o",
 		corpse = "CORE_T2_ECO_CloakableFusion_dead",
 		icontype = "building_energy_source_big",
 		category = "CORE LEVEL2 NOWEAPON NOTAIR NOTSUB",
