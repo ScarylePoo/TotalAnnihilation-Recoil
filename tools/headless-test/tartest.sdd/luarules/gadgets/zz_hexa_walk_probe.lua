@@ -35,7 +35,8 @@ function gadget:GameFrame(frame)
           p.rest[i] = {x, y, z}
           p.lo[i], p.hi[i], p.zlo[i], p.zhi[i] = y, y, z, z
         end
-        p.x0, _, p.z0 = Spring.GetUnitPosition(uid)
+        local ux, _uy, uz = Spring.GetUnitPosition(uid)
+        p.x0, p.z0 = ux, uz
         probes[#probes + 1] = p
         local r = p.rest
         log(p.name, "calib", tostring(Spring.GetUnitRulesParam(uid, "hexaWalkCalib")),
