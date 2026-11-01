@@ -4,7 +4,7 @@ doors (door1/door2 turn z ~67 deg about their outer edges and drop 5). When buil
 10 to deck level, `turret` turns y, `post` swings up 90 deg (turn x) and the `nanogun` lathe stays level on top of
 it (turn x -90); `beam` (empty) is the nano emit point at the lathe tip.
 Value groups from above: black skirt ring, light Arm side hulls with team plates on their bows, dark fan discs,
-dark paint2 bay doors with yellow hazard edges along the ridge (construction gear), dark stern engine block.
+bay doors in construction stripes between team sill rails (builder read), stern engine block with a team plate.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
 
@@ -53,7 +53,7 @@ def build(k):
            'team', bevel=0.04, mirror=True)
     # ------------------------------------------------------------------ central bay housing (walls, +X mirrored)
     b.box((4.6, 6.4, -16.6), (6.9, 17.5, 13.1), 'paint', bevel=0.14, mirror=True)
-    b.box((4.7, 17.3, -16.4), (6.6, 17.6, 12.9), 'dark', bevel=0.05, mirror=True)       # door sill
+    b.box((4.7, 17.3, -16.4), (6.6, 17.6, 12.9), 'team', bevel=0.05, mirror=True)       # door sill: team rails
     # bow (crosses x = 0): glazed wedge in front of the bay
     b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
             [(6.8, 6.2, 13.0), (6.8, 6.2, 23.0), (2.0, 6.4, 24.4), (6.8, 13.0, 13.0), (6.4, 17.4, 13.1),
@@ -65,6 +65,8 @@ def build(k):
     # stern (crosses x = 0): dark engine block behind the bay, exhaust grille, two vents
     b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
             [(6.8, 6.2, -16.6), (6.8, 6.2, -23.2), (6.8, 15.0, -16.6), (6.4, 14.4, -22.4)]], 'paint2', bevel=0.16)
+    b.hull([(x * sx, y + dy, z) for sx in (-1, 1) for x, y, z in [(5.6, 15.0, -17.0), (5.4, 14.45, -22.0)]
+            for dy in (0.06, 0.2)], 'team', bevel=0.03)                                  # team plate on the stern deck
     b.box((-4.8, 8.4, -23.4), (4.8, 13.0, -22.9), 'black', bevel=0.0)
     for y in (9.0, 10.4, 11.8):
         b.box((-4.6, y, -23.55), (4.6, y + 0.5, -23.1), 'dark', bevel=0.03)
@@ -85,14 +87,7 @@ def build(k):
         for z in (-14.9 - (d.org.z), 13.1 - d.org.z):
             for (x, y) in ((0.0, 0.0), (-4.55 * sx, 1.95), (-4.55 * sx, 1.35), (0.0, -0.6)):
                 pts.append(D(x, y, z))
-        d.hull(pts, 'paint2', bevel=0.12)
-        # hazard strip along the ridge edge (yellow stripes from above when closed, meaningful: builder)
-        pts = []
-        for z in (-14.5 - d.org.z, 12.7 - d.org.z):
-            for (x, y) in ((-3.0 * sx, 1.36), (-4.5 * sx, 2.0)):
-                for dy in (0.06, 0.18):
-                    pts.append(D(x, y + dy, z))
-        d.hull(pts, 'hazard', bevel=0.02)
+        d.hull(pts, 'hazard', bevel=0.12)       # bay doors in construction stripes: the builder read from above
     k.clone('door1', 'door2', mirror_x=True)
 
     # ------------------------------------------------------------------ plate (bay floor; rises 10)
