@@ -150,6 +150,12 @@ pattern from Z position) | `steel` barrels/pistons, brushed, reflective | `team`
 `black` bores, grilles | `hazard` faction accent with diagonal warning stripes | `glass` canopies |
 `rust`, `ash` (wrecks/heaps).
 
+**Hazard stripe width (2026-11-01, coordinator/user: stripes must read as stripes at game distance)**: the
+period across the stripes is `span / 8` clamped to 2.0-3.5 elmo (`compose.hazard_period`, span = max(2*max|x|,
+z extent) of the model; `compose(..., hazard=)` overrides). The old fixed 0.94 elmo period averaged into a flat ochre
+block at the game camera. Size striped plates so they show >= 2 stripes (>= ~7 elmo along the diagonal). Every
+merged unit using `hazard` was recomposed with it (bakes unchanged).
+
 Palettes live in `compose.PALETTES`: **ARM** = cool light blue-grey 3-tone camo, hazard yellow; **CORE** = warm dark
 gunmetal, ochre/orange accent, warmer lights; **SCRAP** = neutral for heaps. The factions must separate at a glance
 (Arm light/cool, Core dark/warm). Tweak there, not per unit; per-unit overrides would need a new parameter.
