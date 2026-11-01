@@ -398,6 +398,11 @@ Base branch `s3o-remodel`; each family on `s3o-<family>`, merged back after revi
 - 2026-10-25: Flash, Instigator, Peewee (references); T1 vehicles (11), T1 bots (11, walkers), T1 aircraft (10),
   T1 hovercraft (12), T1 ships (10), T1 defences (26, incl. 12 mines) merged = 83 units; T2 vehicles (20, minus Spider/Scarab)
   merged = 103. In progress: T2 bots.
+- 2026-10-31: T2 bots (25, minus Roach) merged = 142 (branch headless test clean). Decoy commanders are modelled as
+  commander-class walkers: match them to the real commanders when those are done. TheCan/Sumo are on tracks (legs
+  removed, track frames every 90 ms). `skeleton_opts` (SK.edit) drops/adds skeleton pieces. Agent proposals still
+  open: preview camera crops tall units (wreck row lost); `prism()` takes global coords; the remap forces pelvis z=0;
+  build_report's `script_pieces_missing` should read the Lua script once it exists.
 - Learned in the defence batch: S3O piece names are written lowercase (the engine lowercases 3DO names but not S3O
   ones; a LUS `piece('base')` failed on a 3DO piece named `Base`). Wreck `drop` carries child pieces. Pop-up
   structures: preview_pose shows the OPEN state (CORE_T1_DEF_Viper.py is the model). Specs import mathutils inside
@@ -430,6 +435,10 @@ install, commit per unit. From now on every batch checks teamfrac before the fin
 is in the pass even if its team share is fine - add ARM_T2_AIR_AdvancedConstructor and
 CORE_T2_AIR_AdvancedConstructor (and ARM_T2_BOT_AdvancedConstructor once its branch is merged).
 List (team %): ARM_T1_HOV_Skimmer (3.2), CORE_T1_SEA_Enforcer (4.6), ARM_T2_VEH_Panther (5.1), CORE_T2_VEH_Goliath (5.6), CORE_T1_HOV_Turtle (5.7), CORE_T2_VEH_Deleter (6.4), CORE_T1_HOV_Constructor (6.5), CORE_T1_SEA_Searcher (6.6), CORE_T1_HOV_Scrubber (6.9), CORE_T1_SEA_Constructor (7.2), CORE_T2_VEH_Diplomat (7.2), CORE_T1_BOT_Crasher (7.3), ARM_T1_HOV_Anaconda (7.5), CORE_T1_HOV_Snapper (7.5), CORE_T2_VEH_Crock (7.7), ARM_T2_VEH_Jammer (7.8), ARM_T2_VEH_Phalanx (7.8), CORE_T2_VEH_Pillager (7.9), ARM_T1_SEA_Crusader (8.1), ARM_T1_SEA_Skeeter (8.1), CORE_T1_SEA_Envoy (8.2), ARM_T1_AIR_Thunder (8.3), ARM_T1_BOT_Warrior (8.3), CORE_T1_BOT_Constructor (8.4), ARM_T1_HOV_Constructor (8.8), ARM_T2_VEH_Triton (8.8), ARM_T1_DEF_Sentinel (8.9), ARM_T1_VEH_Constructor (9.1), CORE_T1_SEA_Snake (9.1), CORE_T2_VEH_Reaper (9.2), CORE_T2_VEH_AdvancedConstructor (9.4), ARM_T1_HOV_Bear (9.6), CORE_T2_VEH_Hedgehog (9.6), CORE_T1_HOV_Nixer (9.7), ARM_T1_BOT_Flea (9.8), ARM_T1_BOT_Rocko (9.8), ARM_T1_SEA_Lurker (9.8), ARM_T2_VEH_Seer (9.8), CORE_T2_VEH_Informer (9.9), ARM_T1_DEF_Guardian (10.1), ARM_T2_VEH_Bulldog (10.1), ARM_T1_BOT_Hammer (10.3), ARM_T1_DEF_RadarTower (10.7), CORE_T1_VEH_Weasel (10.7), ARM_T1_HOV_Wombat (10.9), ARM_T1_VEH_Jeffy (11.1), ARM_T2_VEH_Merl (11.3), ARM_T1_SEA_Hulk (11.4), ARM_T2_VEH_Penetrator (11.4), ARM_T1_AIR_Peeper (11.5), CORE_T1_VEH_Leveler (11.6), CORE_T2_VEH_Copperhead (11.7), CORE_T1_AIR_Constructor (11.8), CORE_T1_DEF_Immolator (11.8), CORE_T1_VEH_Slasher (12.1), CORE_T1_BOT_Thud (12.8), CORE_T1_HOV_Slinger (13.3), ARM_T1_SEA_Constructor (13.5), ARM_T1_BOT_Constructor (13.6), ARM_T1_BOT_Peewee (14.0), ARM_T2_VEH_AdvancedConstructor (14.0), CORE_T1_VEH_Spoiler (14.0), ARM_T1_AIR_Constructor (14.1), ARM_T2_VEH_Luger (14.2), CORE_T1_VEH_Constructor (14.2), CORE_T1_DEF_Viper (14.4), ARM_T1_AIR_FreedomFighter (14.5).
+T2 bots (merged 2026-10-31): ARM_T2_BOT_Pelican (6.9), ARM_T2_BOT_Shooter (9.0), ARM_T2_BOT_DecoyCommander (9.4),
+ARM_T2_BOT_Fido (11.0), ARM_T2_BOT_Maverick (11.2), ARM_T2_BOT_Marky (11.6), ARM_T2_BOT_FARK (12.1),
+ARM_T2_BOT_Invader (12.2), ARM_T2_BOT_Infiltrator (12.8), ARM_T2_BOT_Zipper (13.6), CORE_T2_BOT_TheCan (14.3),
+ARM_T2_BOT_AdvancedConstructor (14.5, plus stripes). CORE_T2_BOT_AdvancedConstructor already has its stripes.
 
 ## Suggested order of work
 
