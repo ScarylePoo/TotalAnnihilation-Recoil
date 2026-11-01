@@ -6,8 +6,8 @@ The TA model's body is centred at x -4; the new body is centred at x 0 so it mir
 separately (wing1 extends 2.7 elmo inboard of its origin) so that both slide out to the same span either side
 (flight roots at +-8, tips at +-22).
 Pieces (TA layout): base, wing1 (+x side, slides +11.25), wing2 (-x side, slides -14.6), rearthrust (empty).
-Value groups from above: light Arm hull and wings, dark paint2 equipment deck and wing roots, near-black vents,
-team on the tail fins, the deck centre and the wing tips; yellow hazard on the nano projector.
+Value groups from above: light Arm hull and wings, equipment deck in construction stripes (builder read), near-black
+vents, team on the tail fins, the deck spine, the wing roots and tips; yellow hazard on the nano projector.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
 
@@ -34,7 +34,7 @@ def wing(k, name, x_in, x_out, yc):
     xt = x_out - s * 4.6
     w.hull([W(x, dy, z) for x in (xt, x_out - s * 0.5) for dy in (0.26, 0.34) for z in (2.4, -7.6)], 'team', bevel=0.02)
     xr = x_in + s * 2.8
-    w.hull([W(x, dy, z) for x in (x_in + s * 0.4, xr) for dy in (0.36, 0.44) for z in (7.0, -8.6)], 'paint2', bevel=0.02)
+    w.hull([W(x, dy, z) for x in (x_in + s * 0.4, xr) for dy in (0.36, 0.44) for z in (7.0, -8.6)], 'team', bevel=0.02)
     w.cyl(W(x_out, 0, 2.6), W(x_out, 0, -8.6), 0.5, 8, 'dark', r2=0.4)
     w.cyl(W(x_out, 0, 3.0), W(x_out, 0, 2.58), 0.3, 8, 'lightw', r2=0.5)
 
@@ -57,11 +57,11 @@ def build(k):
            [(x * sx, y + 0.14, z + 0.12) for sx in (-1, 1) for x, y, z in
             [(4.4, 6.9, 20.6), (5.0, 8.4, 19.0)]], 'hazard', bevel=0.02)
     b.box((-2.2, 2.6, 21.0), (2.2, 3.4, 21.3), 'lightw', bevel=0.0)
-    # dorsal equipment deck: dark raised block with team centre panel and vents
+    # dorsal equipment deck in construction stripes (the builder read from above), team spine, vents
     b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
-            [(5.8, 10.4, 10.0), (5.8, 10.4, -14.0), (5.0, 12.6, 8.6), (5.0, 12.6, -13.0)]], 'paint2', bevel=0.14)
+            [(5.8, 10.4, 10.0), (5.8, 10.4, -14.0), (5.0, 12.6, 8.6), (5.0, 12.6, -13.0)]], 'hazard', bevel=0.14)
     b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
-            [(4.2, 12.58, 7.6), (4.2, 12.58, -4.4), (4.2, 12.74, 7.6), (4.2, 12.74, -4.4)]], 'team', bevel=0.03)
+            [(2.0, 12.66, 8.0), (2.0, 12.66, -4.6), (2.0, 12.82, 8.0), (2.0, 12.82, -4.6)]], 'team', bevel=0.03)
     for z in (-6.0, -8.0, -10.0):
         b.box((-4.0, 12.6, z - 0.5), (4.0, 12.75, z + 0.5), 'black', bevel=0.0)
     b.cyl((-3.6, 12.6, -12.0), (-3.6, 13.2, -12.0), 0.9, 10, 'dark', bevel=0.03)
