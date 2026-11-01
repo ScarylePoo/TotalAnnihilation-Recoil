@@ -8,7 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t1_lab_kbotlab",
 		buildoptions = Shared.buildListCoreKbotLab,
-		objectname = "CORE_T1_LAB_KbotLab",
+		objectname = "CORE_T1_LAB_KbotLab.s3o",
 		corpse = "CORE_T1_LAB_KbotLab_dead",
 		icontype = "factory",
 		category = "CORE PLANT LEVEL1 NOWEAPON NOTAIR NOTSUB",
