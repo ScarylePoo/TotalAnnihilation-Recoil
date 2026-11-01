@@ -3,7 +3,8 @@ sloped-wall hangar whose two roof halves (door1/door2) flip right over the eaves
 open it; inside lies a folded nano crane: a turret post, a long two-pronged fork (fork pitches up 77 deg) and the
 nano gun head (gun). A tall angular bridge tower at the stern and a raised ramp forecastle at the bow.
 Opposite layout to the Arm builder (Arm: hangar aft + bridge forward). From above: dark hull, light steel ramp and
-tower roof, wide team bands on both roof halves, ochre hazard on the fork.
+tower roof, a hangar roof in construction stripes with a team ridge (builder read), team side decks and aft
+deckhouse, ochre hazard on the fork.
 Pieces (TA layout): base, door1/door2 (turn z; door2 = mirrored clone), turret (turn y), fork (turn x), gun (turn x),
 beam (empty nano emit point), wake1/2 (empty). Floater, no waterline (water surface at model y = 0).
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
@@ -46,7 +47,7 @@ def build(k):
         b.hull(ring(k_, -2.2) + ring(w, 0.0), 'paint2', bevel=0.2)
         b.hull(ring(w, 0.0) + ring(d, DECK), 'paint', bevel=0.22)
     # side decks outboard of the hangar: darker strips (the flipped roof halves land here)
-    b.box((9.4, DECK - 0.1, -14.8), (14.6, DECK + 0.25, 10.4), 'paint2', bevel=0.06, mirror=True)
+    b.box((9.4, DECK - 0.1, -14.8), (14.6, DECK + 0.25, 10.4), 'team', bevel=0.06, mirror=True)
     # bulwark rails at the side-deck edges
     b.box((13.6, DECK + 0.2, -14.0), (14.0, DECK + 1.0, 9.6), 'dark', bevel=0.04, mirror=True)
     # ------------------------------------------------------------------ hangar: sloped side walls + gable ends (open top)
@@ -77,7 +78,7 @@ def build(k):
     # wide aft deckhouse the tower stands on
     b.hull([(x * s, y, z) for s in (-1, 1) for x, y, z in
             [(6.2, DECK, -21.2), (8.8, DECK, -24.4), (5.0, DECK, -32.5),
-             (6.2, 13.8, -21.2), (8.8, 13.8, -24.4), (5.0, 13.8, -32.5)]], 'paint2', bevel=0.16)
+             (6.2, 13.8, -21.2), (8.8, 13.8, -24.4), (5.0, 13.8, -32.5)]], 'team', bevel=0.16)
     b.cyl((-2.0, 16.3, -22.0), (-2.0, 21.4, -22.2), 0.35, 8, 'dark', r2=0.22)
     b.box((-4.4, 19.6, -22.5), (0.4, 20.1, -21.8), 'steel', bevel=0.04)
     b.cyl((-2.0, 21.4, -22.2), (-2.0, 21.7, -22.2), 0.26, 6, 'lightr')
@@ -86,9 +87,9 @@ def build(k):
     # ------------------------------------------------------------------ roof halves (door1 origin -6.52, 11.72, -2.47)
     d = k.piece('door1'); D = d.at
     d.hull([D(x, y, z) for z in (-13.45, 14.0) for x, y in ((-0.15, -0.55), (-0.15, 0.25), (6.55, 2.05), (6.55, 1.2))],
-           'paint', bevel=0.12)
-    d.hull([D(x, y + 0.06, z) for z in (-11.6, 12.2) for x, y in ((1.2, 0.55), (5.0, 1.57))] +
-           [D(x, y + 0.24, z) for z in (-11.6, 12.2) for x, y in ((1.2, 0.55), (5.0, 1.57))], 'team', bevel=0.03)
+           'hazard', bevel=0.12)                    # roof halves in construction stripes: the builder read
+    d.hull([D(x, y + 0.06, z) for z in (-11.6, 12.2) for x, y in ((4.0, 1.30), (6.0, 1.84))] +
+           [D(x, y + 0.24, z) for z in (-11.6, 12.2) for x, y in ((4.0, 1.30), (6.0, 1.84))], 'team', bevel=0.03)
     k.clone('door2', 'door1', mirror_x=True)
 
     # ------------------------------------------------------------------ crane post (turret origin 0, 5.5, 4.5)
