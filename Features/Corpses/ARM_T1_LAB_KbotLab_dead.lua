@@ -5,7 +5,7 @@ return {
 		world = "All Worlds",
 		description = "Wreckage",
 		category = "arm_corpses",
-		object = "ARM_T1_LAB_KbotLab_dead",
+		object = "ARM_T1_LAB_KbotLab_dead.s3o",
 		featuredead = "ARM_T1_LAB_KbotLab_heap",
 		footprintx = 5,
 		footprintz = 6,
