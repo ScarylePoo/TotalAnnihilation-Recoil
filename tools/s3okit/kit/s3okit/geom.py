@@ -191,6 +191,55 @@ class Unit:
             for part in ('thigh', 'leg', 'foot'):
                 self.clone(i + part, src + part, mirror_x=mx)
 
+    def hexa_legs(self, thigh='paint', shin='paint2', foot='dark', joint='dark', armour='paint', width=1.0, thick=1.0,
+                  knee_spike=True):
+        """Sideways spider legs on the hexa skeleton (skeleton.HEXA): hip -> knee goes up and out, knee -> ankle down
+        and further out, a claw from the ankle to the ground. Builds the right-front leg once and clones it to the
+        other five (mirrored for the left side), so all six share one UV set. Bones get a real cross-section:
+        `thick` scales the depth in the leg's own plane, `width` the size along Z (what the game camera sees);
+        `armour` adds a wider plate on the thigh's upper face (None = no plate). Units vary materials and sizes."""
+        from .skeleton import LEGS
+        ids = LEGS['hexa']
+        H = self.P['pelvis'].y
+        src = 'rf'
+        kn = Vector(self.T[src + 'leg']['off'])          # knee, relative to the hip (x < 0: right side)
+        an = Vector(self.T[src + 'foot']['off'])         # ankle, relative to the knee
+        g = -self.T[src + 'foot']['gpos'][1]             # ground, relative to the ankle
+        sx = -1.0 if kn.x < 0 else 1.0
+        w = 0.11 * H * width
+        def bone(b, p0, p1, r0, r1, w0, w1, mat, bevel, lift=0.0):
+            """hull around the XY segment p0->p1: half-depth r (in the leg plane), half-width w (along Z);
+            `lift` shifts the section along the up-facing normal (armour plates sit on the bone's upper face)"""
+            d = Vector((p1[0] - p0[0], p1[1] - p0[1]))
+            n = Vector((-d.y, d.x)).normalized()
+            if n.y < 0:
+                n = -n
+            pts = []
+            for p, r, ww in ((p0, r0, w0), (p1, r1, w1)):
+                for s in (-1, 1):
+                    for t in (-1, 1):
+                        pts.append(b.at(p[0] + n.x * (r * s + lift), p[1] + n.y * (r * s + lift), ww * t))
+            b.hull(pts, mat, bevel=bevel)
+        t = self.piece(src + 'thigh'); A = t.at
+        t.cyl(A(0, -0.12 * H, 0), A(0, 0.12 * H, 0), 0.12 * H * thick, 10, joint, bevel=0.02 * H)       # hip (yaw axis)
+        bone(t, (0, 0), (kn.x, kn.y), 0.085 * H * thick, 0.065 * H * thick, w, 0.8 * w, thigh, 0.02 * H)
+        if armour:
+            a0 = (kn.x * 0.12, kn.y * 0.12); a1 = (kn.x * 0.85, kn.y * 0.85)
+            bone(t, a0, a1, 0.025 * H, 0.02 * H, 1.35 * w, 1.1 * w, armour, 0.012 * H, lift=0.085 * H * thick)
+        l = self.piece(src + 'leg'); B = l.at
+        l.cyl(B(0, 0, -1.15 * w), B(0, 0, 1.15 * w), 0.085 * H * thick, 10, joint, bevel=0.015 * H)     # knee (roll axis)
+        if knee_spike:   # spider knee: a short point above the joint
+            l.hull([B(sx * 0.03 * H, 0.05 * H, z) for z in (-0.6 * w, 0.6 * w)] +
+                   [B(-sx * 0.05 * H, 0.0, z) for z in (-0.6 * w, 0.6 * w)] + [B(sx * 0.05 * H, 0.2 * H, 0)], thigh, bevel=0.01 * H)
+        bone(l, (0, 0), (an.x, an.y), 0.07 * H * thick, 0.045 * H * thick, 0.85 * w, 0.6 * w, shin, 0.015 * H)
+        f = self.piece(src + 'foot'); C = f.at
+        f.sphere(C(0, 0, 0), 0.06 * H * thick, joint, segs=8, rings=4)
+        f.hull([C(x, y, z) for x in (-0.05 * H, 0.05 * H) for y in (0.04 * H,) for z in (-0.5 * w, 0.5 * w)] +
+               [C(sx * 0.07 * H, g + 0.03 * H, z) for z in (-0.25 * w, 0.25 * w)] + [C(sx * 0.1 * H, g, 0)], foot, bevel=0.008 * H)
+        for i in ids[1:]:
+            for part in ('thigh', 'leg', 'foot'):
+                self.clone(i + part, src + part, mirror_x=i.startswith('l'))
+
     def clone(self, name, of, mirror_x=False):
         """piece `name` reuses piece `of`'s geometry AND UVs (local coords), optionally mirrored in local X."""
         self.clones[name] = (of, mirror_x)
