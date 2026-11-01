@@ -3,8 +3,8 @@ a roof bay closed by two sloped doors (door1/door2 turn z + drop). When building
 lift rises 11 elmo to deck level and the folding `arm` swings up 90 deg from the turret, then the `nano` lathe tilts
 forward; `beam` (empty) is the nano emit point. Every piece keeps the TA origin; the bay is open-topped under the
 doors so the folded arm + lathe fit inside.
-Value groups from above: light Arm side walls, darker paint2 doors with wide team stripes (the spine), dark track
-pods with light fenders + team plates; hazard plate edges and lathe tip read as construction gear when open.
+Value groups from above: light Arm side walls, roof bay doors in construction stripes framed by team rails, track
+pods with light fenders + team hatch plates; hazard plate edges and lathe tip read as construction gear when open.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
 
@@ -30,7 +30,7 @@ def build(k):
         b.hull([(15.0, 6.2, z0 - 0.4), (22.6, 6.2, z0 - 0.4), (15.0, 6.2, z1 + 0.4), (22.6, 6.2, z1 + 0.4),
                 (15.0, 9.6, z0 + 0.6), (22.4, 9.6, z0 + 0.6), (15.0, 9.6, z1 - 0.6), (22.4, 9.6, z1 - 0.6)],
                'paint', bevel=0.14, mirror=True)
-        b.box((16.6, 9.6, z0 + 2.4), (21.0, 9.9, z1 - 2.4), 'dark', bevel=0.06, mirror=True)   # pod hatch
+        b.box((16.6, 9.6, z0 + 2.4), (21.0, 9.9, z1 - 2.4), 'team', bevel=0.06, mirror=True)   # pod hatch: team plate
         # pivot boss joining the pod to the hull
         b.cyl((13.6, 5.0, zc), (15.2, 5.0, zc), 2.0, 12, 'dark', bevel=0.06, mirror=True)
 
@@ -50,7 +50,7 @@ def build(k):
     b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
             [(14.8, 11.0, -17.5), (14.0, 11.0, -22.6), (7.6, 24.8, -17.5), (7.0, 24.8, -19.0)]], 'paint', bevel=0.16)
     # top rails along the bay edge (paint2 strip separates doors from walls)
-    b.box((5.3, 24.8, -17.5), (7.4, 25.1, 15.0), 'paint2', bevel=0.06, mirror=True)
+    b.box((5.3, 24.8, -17.5), (7.4, 25.1, 15.0), 'team', bevel=0.06, mirror=True)   # team rails frame the striped doors
     # shoulder detail
     nx, ny = 0.876, 0.482                     # outward normal of the shoulder slope (7.6,24.8)-(15.2,11.0)
     sl = [(7.6 + 7.6 * t, 24.8 - 13.8 * t) for t in (0.14, 0.72)]
@@ -80,8 +80,8 @@ def build(k):
 
     def ys(x):       # door top surface: rises from the hinge to the centre ridge
         return 0.05 + 1.6 * (x - 0.1) / 5.15
-    dr.hull([D(x, ys(x) + dy, z) for x in (0.1, 5.25) for z in (-17.4, 14.9) for dy in (0.0, -0.55)], 'paint2', bevel=0.08)
-    dr.hull([D(x, ys(x) + dy, z) for x in (1.1, 4.6) for z in (-15.4, 12.8) for dy in (0.07, 0.2)], 'team', bevel=0.03)
+    # bay doors in construction stripes: the builder read from the game camera
+    dr.hull([D(x, ys(x) + dy, z) for x in (0.1, 5.25) for z in (-17.4, 14.9) for dy in (0.0, -0.55)], 'hazard', bevel=0.08)
     dr.cyl(D(0.0, -0.05, -17.0), D(0.0, -0.05, 14.5), 0.45, 8, 'dark')       # hinge pin
     k.clone('door2', 'door1', mirror_x=True)
 
