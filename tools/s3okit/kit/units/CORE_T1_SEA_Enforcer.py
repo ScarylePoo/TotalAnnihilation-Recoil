@@ -5,7 +5,8 @@ ship. Four missile-cell domes amidships, a small forward bridge with a team roof
 Pieces (TA layout): base, turret (turn y), sleeves (turn x: both gun housings), barrel1/2 (recoil 6 along z),
 flarea1/2 (empty muzzles), flareb (empty, secondary weapon point), wake1/2 (empty).
 Value groups from above: dark Core deck (paint), darker paint2 skirt ring and deckhouse sides, light steel cannons
-(the tell: two long bright bars), team on the gun-housing tops, turret roof and bridge roof, ochre hazard bands on
+(the tell: two long bright bars), team on the gun-housing tops, turret roof, a skirt band amidships, bridge roof, foredeck plates, aft deck strips, deckhouse
+roof and dome rings, ochre hazard bands on
 the cannon muzzles. Floater, waterline 1 (water surface at model y = 1).
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
@@ -32,6 +33,10 @@ def build(k):
     b.hull(ring(WATER, -2.4, 0.6, 0.85, -1.0) + ring(WATER, WL, 1.0, 1.0), 'paint2', bevel=0.2)
     b.hull(ring(WATER, WL, 1.0, 1.0) + ring(WATER, WL + 1.0, 0.985, 0.985) + ring(DECKO, DECK), 'paint2', bevel=0.22)
     b.hull(ring(DECKO, DECK - 0.4, 1.0, 1.0) + ring(DECKO, DECK + 0.3, 0.97, 0.97), 'paint', bevel=0.14)
+    # team band along the flared skirt amidships (skirt slope (17.04, 2.0) -> (11.6, 7.0) for z -14.2 .. 6.7)
+    nx, ny = 0.677, 0.736
+    b.hull([(17.04 - 5.44 * f + nx * d, 2.0 + 5.0 * f + ny * d, z) for f in (0.22, 0.75) for z in (-12.6, 5.4)
+            for d in (0.06, 0.2)], 'team', bevel=0.03, mirror=True)
     # rub strake: a lighter band at the skirt's mid-height reads as the hull outline
     b.hull([(x, y, z) for x, z in [(15.4, 19.0), (17.0, 6.0), (17.0, -14.0), (14.6, -30.0)] for y in (3.0, 3.6)] +
            [(x - 0.6, y, z) for x, z in [(15.4, 19.0), (17.0, 6.0), (17.0, -14.0), (14.6, -30.0)] for y in (3.0, 3.6)],
@@ -48,13 +53,19 @@ def build(k):
              (2.45, 11.32, 12.05), (2.45, 11.32, 16.85), (1.15, 11.32, 18.8)]], 'team', bevel=0.03)
     b.cyl((0, 11.2, 13.0), (0, 16.0, 13.0), 0.35, 8, 'dark', r2=0.22)
     b.cyl((0, 16.0, 13.0), (0, 16.3, 13.0), 0.26, 6, 'lightr')
+    # team plates on the foredeck either side of the bridge
+    b.hull([(x, DECK + h, z) for x, z in [(4.6, 8.0), (10.6, 8.0), (10.9, 11.0), (9.0, 18.4), (4.6, 18.4)] for h in (0.36, 0.5)],
+           'team', bevel=0.03, mirror=True)
+    # team strips on the aft deck outboard of the deckhouse
+    b.hull([(x, DECK + h, z) for x, z in [(8.8, -8.0), (11.2, -8.0), (11.2, -14.2), (9.6, -27.0), (8.8, -27.0)] for h in (0.36, 0.5)],
+           'team', bevel=0.03, mirror=True)
     # bow: dark anchor deck plate with a hazard chevron pointing forward
     for s in (-1, 1):
         q = [(0.0, 28.6), (1.4, 28.6), (6.6, 22.0), (4.6, 22.0)]
         b.hull([(x * s, DECK + h, z) for x, z in q for h in (0.28, 0.42)], 'hazard', bevel=0.03)
     # ------------------------------------------------------------------ four missile-cell domes amidships
     for x0, z0 in ((7.5, 4.6), (7.5, -3.8)):
-        b.cyl((x0, DECK + 0.2, z0), (x0, DECK + 1.1, z0), 2.6, 12, 'paint2', r2=2.2, bevel=0.06, mirror=True)
+        b.cyl((x0, DECK + 0.2, z0), (x0, DECK + 1.1, z0), 2.6, 12, 'team', r2=2.2, bevel=0.06, mirror=True)
         b.sphere((x0, DECK + 1.1, z0), 1.7, 'steel', segs=12, rings=5, scale=(1, 0.45, 1), mirror=True)
     # flareb launcher deck between the domes: dark grille
     b.box((-4.6, DECK + 0.2, -6.4), (4.6, DECK + 0.6, 7.6), 'dark', bevel=0.08)
@@ -65,7 +76,7 @@ def build(k):
             [(8.4, 7.0, -7.4), (8.4, 7.0, -32.2), (6.6, 7.0, -34.0),
              (7.6, 9.8, -11.4), (7.6, 9.8, -30.0), (5.8, 9.8, -31.4)]], 'paint2', bevel=0.18)
     b.hull([(x * s, y, z) for s in (-1, 1) for x, y, z in
-            [(7.1, 9.75, -12.0), (7.1, 9.75, -29.6), (7.0, 9.95, -12.1), (7.0, 9.95, -29.5)]], 'paint', bevel=0.06)
+            [(7.1, 9.75, -12.0), (7.1, 9.75, -29.6), (7.0, 9.95, -12.1), (7.0, 9.95, -29.5)]], 'team', bevel=0.06)
     b.hull([(x * s, y, z) for s in (-1, 1) for x, y, z in
             [(5.6, 9.8, -13.0), (5.6, 9.8, -28.8), (3.0, 12.8, -17.0), (3.0, 12.8, -25.6)]], 'paint', bevel=0.16)
     b.box((8.3, 8.0, -28.0), (8.55, 8.6, -14.0), 'lightc', bevel=0.0, mirror=True)
