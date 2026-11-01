@@ -406,6 +406,19 @@ Base branch `s3o-remodel`; each family on `s3o-<family>`, merged back after revi
   ~1.5 GB) and compose runs in row strips, so 2048-texture units keep bake_res 4096. Run at most two agents, each with
   one final bake at a time; headless engine test once per batch.
 
+## Decisions (2026-10-31, user)
+
+- **Hexapods: the Spider, Scarab and Roach share ONE standard six-leg skeleton and ONE shared walk.**
+  Hierarchy: `pelvis > legs > {rf,lf,rm,lm,rb,lb}thigh > ..leg > ..foot` (r = -X side; f front, m middle, b back).
+  The walk is generated like the others (`make_walk.py`, a `walk.Hexa()`): alternating tripod gait (lf+rm+lb vs
+  rf+lm+rb) derived from the biped keys like the quad. Their scripts become LUS on the new skeleton.
+- **Constructors get clearly visible construction stripes**: hazard (`hazard` material, faction accent with black
+  diagonal stripes) on large top-facing surfaces - nano arms/turrets, build plates, bay doors, cab roofs - so every
+  builder (vehicle, bot, aircraft, hover, ship, T1 and T2) is identifiable as a builder from the game camera at a
+  glance. Readability of the stripes from above matters more than the team-colour budget's upper end; both together
+  must stay readable (team colour 15-25 %, plus a distinct hazard block). Already-merged constructors are redone in
+  the team-colour pass.
+
 ## Team-colour pass (queued, 2026-10-26)
 
 `teamfrac.py` (top-view team fraction, preview pose) audit of the first 117 units: the approved Flash measures 15.5 %,
