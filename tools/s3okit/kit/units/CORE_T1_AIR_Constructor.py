@@ -3,11 +3,12 @@ pair of armoured bay doors (doora/doorb, hinged at the outer edges, meeting on t
 short stub wings to the hinges at x +-14.5 and Core's fold-out tip panels (winga/wingb) that stand up when landed and
 fold out 90 deg in flight. A heavy nano projector sits in a chin turret under the nose (the build beam starts at the
 base's first vertex, at the front-right as in TA); a single tall fin on a short tail boom.
-From above: a long dark box with two bright team doors down the middle - unlike the arrow fighters, the
-straight-winged Fink or the broad Shadow.
+From above: a long dark box with two striped roof doors down the middle and team plates on the stub wings - unlike
+the arrow fighters, the straight-winged Fink or the broad Shadow.
 Pieces (TA layout): base, doora/doorb (roof doors; doora = mirrored clone of doorb), winga/wingb (tip panels; winga =
 mirrored clone of wingb), thrusta1/thrusta2/thrustb (empty emit points: two belly lift jets + main nozzle).
-Value groups from above: dark warm armour, team doors (plus a thin trailing stripe on the tip panels), darker paint2 wing panels/tail, light steel nano projector and
+Value groups from above: dark warm armour, doors in construction stripes, team plates on the stub wings (plus a thin
+trailing stripe on the tip panels), darker paint2 wing panels/tail, light steel nano projector and
 door hinges, ochre hazard on the projector shroud and wing roots.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
@@ -55,6 +56,8 @@ def build(k):
     b.hull(pts, 'paint', bevel=0.08, mirror=True)
     b.hull([(x, WY + t + 0.05, z) for x, t in ((6.6, 0.9), (13.6, 0.62)) for z in (11.6, 4.6)] +
            [(x, WY + t + 0.16, z) for x, t in ((6.6, 0.9), (13.6, 0.62)) for z in (11.6, 4.6)], 'hazard', bevel=0.02, mirror=True)
+    b.hull([(x, WY + t + 0.05, z) for x, t in ((6.6, 0.9), (13.6, 0.62)) for z in (1.0, -14.0)] +
+           [(x, WY + t + 0.16, z) for x, t in ((6.6, 0.9), (13.6, 0.62)) for z in (1.0, -14.0)], 'team', bevel=0.02, mirror=True)
     b.box((13.6, 3.2, -16.6), (14.5, 4.8, 6.0), 'paint2', bevel=0.1, mirror=True)       # hinge block
 
     # ------------------------------------------------------------------ chin nano turret (beam origin = base vert 0, front right)
@@ -69,9 +72,7 @@ def build(k):
     # ------------------------------------------------------------------ roof doors (doorb at +x hinges on its edge; doora = mirror)
     d = k.piece('doorb'); D = d.at
     d.hull([D(x, y, z) for x in (-4.8, 0.2) for z in (-10.9, 10.7) for y in ((0.05, 0.75) if x > -1 else (0.95, 1.55))],
-           'paint2', bevel=0.08)
-    d.hull([D(x, y, z) for x in (-4.0, -0.6) for z in (-9.4, 9.2) for y in
-            ((0.75 + (0.2 - x) * 0.16 + 0.05, 0.75 + (0.2 - x) * 0.16 + 0.17))], 'team', bevel=0.02)
+           'hazard', bevel=0.08)                    # roof doors in construction stripes: the builder read
     d.cyl(D(0.3, 0.2, -10.6), D(0.3, 0.2, 10.4), 0.45, 8, 'steel')                 # hinge
     k.clone('doora', 'doorb', mirror_x=True)
 
