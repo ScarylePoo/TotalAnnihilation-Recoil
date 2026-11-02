@@ -433,6 +433,12 @@ Base branch `s3o-remodel`; each family on `s3o-<family>`, merged back after revi
   has `waterline` but no `floater` -> set ground=False/water by hand (run.py should treat waterline as floating).
   Open proposals: visibility_cull should skip flipped/always_visible pieces (it deletes their low faces); preview
   should frame tall units, draw translucent water in 3/4 views, and add a closed-state view for pop-up buildings.
+- 2026-11-02: T2 defences (24) merged = 211. Protector warning fixed (Lua port; the COB picked its weapon piece from a
+  counter Create had not set, and the engine queries pieces before Create). Scarab walk verified in engine; Spider
+  still pending (probe now uses UnitPreDamaged immunity + its own move order; SetUnitNoDamage does not exist).
+  11 big T2 defences baked at bake_res 2048 (no 2x supersample) for time. Kit gaps: `xta._original_3do` mistakes a
+  third-party S3O with a same-stem .3do for kit output (copy the S3O to ref/ by hand); wreck poses support rotations
+  only (no moves).
 - Learned in the defence batch: S3O piece names are written lowercase (the engine lowercases 3DO names but not S3O
   ones; a LUS `piece('base')` failed on a 3DO piece named `Base`). Wreck `drop` carries child pieces. Pop-up
   structures: preview_pose shows the OPEN state (CORE_T1_DEF_Viper.py is the model). Specs import mathutils inside
