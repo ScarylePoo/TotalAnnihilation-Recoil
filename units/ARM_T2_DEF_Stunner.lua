@@ -7,7 +7,7 @@ return {
 		description = "EMP Missile Launcher",
 		side = "ARM",
 		unitname = "arm_t2_def_stunner",
-		objectname = "ARM_T2_DEF_Stunner",
+		objectname = "ARM_T2_DEF_Stunner.s3o",
 		corpse = "ARM_T2_DEF_Stunner_dead",
 		icontype = "nuke",
 		category = "ARM SPECIAL LEVEL2 WEAPON NOTAIR NOTSUB",

@@ -91,7 +91,8 @@ def render(path, texdir, prefix, team='2255dd', pose=None, views=('front34', 're
     w.node_tree.nodes['Background'].inputs[0].default_value = (0.6, 0.65, 0.72, 1)
     w.node_tree.nodes['Background'].inputs[1].default_value = 0.6
     cam = bpy.data.objects.new('cam', bpy.data.cameras.new('cam')); sc.collection.objects.link(cam); sc.camera = cam
-    s = max(1.0, m['radius'] / 18.0)        # views are tuned for ~18 elmo radius; scale for bigger models
+    # views are tuned for ~18 elmo radius; scale for bigger models (tall towers by height: radius alone cropped them)
+    s = max(1.0, max(m['radius'], 0.75 * m['height']) / 18.0)
 
     def look(pos, tgt, lens):
         mid = Vector(m['mid']); d = Vector(pos) - Vector(tgt)
@@ -129,7 +130,10 @@ def render(path, texdir, prefix, team='2255dd', pose=None, views=('front34', 're
         az = math.radians(35); dist = 430; pitch = math.radians(65)
         pos = Vector((math.sin(az) * math.cos(pitch) * dist, math.sin(pitch) * dist, math.cos(az) * math.cos(pitch) * dist))
         cam.data.lens = 70
-        f = (-pos).normalized(); r = f.cross(Vector((0, 1, 0))).normalized(); u = r.cross(f)
+        # aim at the model's centre height (same distance and pixel scale): aimed at the ground, the sheet's centre
+        # crop cut the tops off tall towers and guns
+        tgt = Vector((0.0, m['mid'][1], 0.0)); pos = pos + tgt
+        f = (tgt - pos).normalized(); r = f.cross(Vector((0, 1, 0))).normalized(); u = r.cross(f)
         M = Matrix((r, u, -f)).transposed().to_4x4(); M.translation = pos; cam.matrix_world = M
         sc.render.filepath = f'{prefix}_thumb.png'; bpy.ops.render.render(write_still=True)
         outs.append(sc.render.filepath)

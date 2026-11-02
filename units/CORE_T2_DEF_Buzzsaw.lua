@@ -7,7 +7,7 @@ return {
 		description = "Rapid Fire Plasma Cannon",
 		side = "CORE",
 		unitname = "core_t2_def_buzzsaw",
-		objectname = "CORE_T2_DEF_Buzzsaw",
+		objectname = "CORE_T2_DEF_Buzzsaw.s3o",
 		corpse = "CORE_T2_DEF_Buzzsaw_dead",
 		icontype = "turret",
 		category = "CORE LEVEL2 WEAPON NOTAIR NOTSUB",

@@ -7,7 +7,7 @@ return {
 		description = "Small Nuclear Missile Launcher",
 		side = "CORE",
 		unitname = "core_t2_def_neutron",
-		objectname = "CORE_T2_DEF_Neutron",
+		objectname = "CORE_T2_DEF_Neutron.s3o",
 		corpse = "CORE_T2_DEF_Neutron_dead",
 		icontype = "nuke",
 		category = "CORE SPECIAL LEVEL2 WEAPON NOTAIR NOTSUB",

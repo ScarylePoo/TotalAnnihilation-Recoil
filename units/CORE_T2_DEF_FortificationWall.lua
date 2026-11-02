@@ -7,7 +7,7 @@ return {
 		description = "Perimeter Defense",
 		side = "CORE",
 		unitname = "core_t2_def_fortificationwall",
-		objectname = "CORE_T2_DEF_FortificationWall",
+		objectname = "CORE_T2_DEF_FortificationWall.s3o",
 		script = "CORE_T2_DEF_FortificationWall.lua",
 		corpse = "CORE_T2_DEF_FortificationWall_dead",
 		category = "CORE LEVEL2 NOWEAPON NOTAIR NOTSUB",

@@ -7,7 +7,7 @@ return {
 		description = "Automatic Radar Targeting",
 		side = "ARM",
 		unitname = "arm_t2_def_targetingfacility",
-		objectname = "ARM_T2_DEF_TargetingFacility",
+		objectname = "ARM_T2_DEF_TargetingFacility.s3o",
 		corpse = "ARM_T2_DEF_TargetingFacility_dead",
 		icontype = "building",
 		category = "ARM SPECIAL LEVEL2 NOWEAPON NOTAIR NOTSUB",

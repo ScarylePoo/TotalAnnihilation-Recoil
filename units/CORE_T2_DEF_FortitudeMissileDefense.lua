@@ -7,7 +7,7 @@ return {
 		description = "Anti Missile Defense System",
 		side = "CORE",
 		unitname = "core_t2_def_fortitudemissiledefense",
-		objectname = "CORE_T2_DEF_FortitudeMissileDefense",
+		objectname = "CORE_T2_DEF_FortitudeMissileDefense.s3o",
 		corpse = "CORE_T2_DEF_FortitudeMissileDefense_dead",
 		icontype = "nuke",
 		category = "CORE SPECIAL LEVEL2 WEAPON NOTAIR NOTSUB",

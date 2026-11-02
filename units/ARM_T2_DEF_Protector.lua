@@ -7,7 +7,8 @@ return {
 		description = "Anti Missile Defense System",
 		side = "ARM",
 		unitname = "arm_t2_def_protector",
-		objectname = "ARM_T2_DEF_Protector",
+		objectname = "ARM_T2_DEF_Protector.s3o",
+		script = "ARM_T2_DEF_Protector.lua",          -- Lua port: the COB queried its weapon pieces with an uninitialised counter
 		corpse = "ARM_T2_DEF_Protector_dead",
 		icontype = "nuke",
 		category = "ARM SPECIAL LEVEL2 WEAPON NOTAIR NOTSUB",

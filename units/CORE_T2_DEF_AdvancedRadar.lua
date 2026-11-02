@@ -7,7 +7,7 @@ return {
 		description = "Long Range Radar",
 		side = "CORE",
 		unitname = "core_t2_def_advancedradar",
-		objectname = "CORE_T2_DEF_AdvancedRadar",
+		objectname = "CORE_T2_DEF_AdvancedRadar.s3o",
 		corpse = "CORE_T2_DEF_AdvancedRadar_dead",
 		icontype = "building_radar_sonar",
 		category = "CORE SPECIAL LEVEL2 NOWEAPON NOTAIR NOTSUB",

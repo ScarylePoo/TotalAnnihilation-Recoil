@@ -7,7 +7,7 @@ return {
 		description = "Nuclear Missile Launcher",
 		side = "ARM",
 		unitname = "arm_t2_def_retaliator",
-		objectname = "ARM_T2_DEF_Retaliator",
+		objectname = "ARM_T2_DEF_Retaliator.s3o",
 		corpse = "ARM_T2_DEF_Retaliator_dead",
 		icontype = "nuke",
 		category = "ARM SPECIAL LEVEL2 WEAPON NOTAIR NOTSUB",
