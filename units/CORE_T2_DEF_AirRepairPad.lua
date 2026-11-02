@@ -7,7 +7,7 @@ return {
 		description = "Automatically repairs aircraft",
 		side = "CORE",
 		unitname = "core_t2_def_airrepairpad",
-		objectname = "CORE_T2_DEF_AirRepairPad",
+		objectname = "CORE_T2_DEF_AirRepairPad.s3o",
 		corpse = "CORE_T2_DEF_AirRepairPad_dead",
 		icontype = "building",
 		category = "CORE LEVEL2 NOWEAPON NOTAIR NOTSUB",
