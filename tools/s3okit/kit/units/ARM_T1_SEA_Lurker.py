@@ -2,7 +2,7 @@
 pods flaring out either side of the bow (the TA model's tell, wider than the hull is long at the front), a low dark
 sail amidships with a team-coloured top, swept dark diving planes aft and a cruciform tail with a shrouded
 propeller. Seen through 40 elmos of water, so only big value blocks: light hull + pods, dark sail/planes/tail,
-team on the sail and the pod tops; no fine detail.
+team on the sail, the pod tops and the diving planes; no fine detail.
 Pieces (TA layout): base, tail (empty: wake emit point), flare1/2 (empty: torpedo launch points in the pods).
 Submarine, waterline 40 (water surface 40 above the model origin).
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
@@ -59,6 +59,8 @@ def build(k):
     b.hull([(x, y, z) for x, y, z in
             [(5.0, 6.6, -5.4), (11.6, 7.4, -8.0), (11.6, 7.4, -16.6), (4.4, 6.6, -18.6),
              (5.0, 8.8, -5.4), (11.6, 9.0, -8.0), (11.6, 9.0, -16.6), (4.4, 8.6, -18.6)]], 'paint2', bevel=0.14, mirror=True)
+    b.hull([(x, y, z) for x, z in [(5.6, -7.0), (11.0, -9.0), (11.0, -15.8), (5.4, -17.0)] for y in (9.06, 9.2)],
+           'team', bevel=0.03, mirror=True)                                              # team plates on the planes
     b.box((11.4, 7.6, -15.6), (11.75, 8.6, -9.0), 'lightc', bevel=0.0, mirror=True)
     # ------------------------------------------------------------------ cruciform tail + shrouded prop (tail emit at z -23.75)
     b.hull([(x * s, y, z) for s in (-1, 1) for x, y, z in
