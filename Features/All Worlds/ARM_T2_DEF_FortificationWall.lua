@@ -5,7 +5,7 @@ return {
 		world = "allworld",
 		description = "Fortification Wall",
 		category = "dragonteeth",
-		object = "ARM_T2_DEF_FortificationWall",
+		object = "ARM_T2_DEF_FortificationWall.s3o",
 		footprintx = 2,
 		footprintz = 2,
 		height = 55,
