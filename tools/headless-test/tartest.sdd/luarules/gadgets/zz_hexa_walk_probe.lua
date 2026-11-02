@@ -6,7 +6,7 @@ end
 -- result (hexaWalkCalib rules param), the rest splay (front feet ahead of the middle feet, rear feet behind), and while
 -- they move and fight (sampled every frame for 600 frames, or until the unit dies): how high the feet lift above their rest height, how far below it they go
 -- (into the ground = a wrong lift sign), and how far each foot travels forward/back. Logs as [HARNESS] hexa ...
--- The probed unit is made immune (SetUnitNoDamage) and given its own move order at once, so the sample window covers
+-- The probed unit is made immune (UnitPreDamaged returns 0 damage) and given its own move order at once, so the sample window covers
 -- real walking: the first run sampled the Spider and Scarab before the harness's orders (they idled, then died).
 -- The report also gives the distance the body moved, so 'feet still while the unit moves' can be told from 'unit idle'.
 if not gadgetHandler:IsSyncedCode() then return end
@@ -25,12 +25,17 @@ end
 -- register the first unit of each hexapod def as soon as it exists (the harness spawns enemies side by side and they
 -- start shooting at once: a fixed sampling frame missed units that had already died)
 local pending = {}
+local protected = {}     -- probed units take no damage (Recoil has no SetUnitNoDamage; UnitPreDamaged zeroes it)
+function gadget:UnitPreDamaged(uid)
+  if protected[uid] then return 0, 0 end
+end
+
 function gadget:UnitCreated(uid, udid)
   if seenDef[udid] then return end
   local map = Spring.GetUnitPieceMap(uid)
   if map and map.rmfoot then
     seenDef[udid] = true
-    Spring.SetUnitNoDamage(uid, true)
+    protected[uid] = true
     pending[#pending + 1] = {uid = uid, udid = udid, map = map}
   end
 end
