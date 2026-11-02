@@ -1,6 +1,6 @@
 """Guardian (ARM_T1_DEF_Guardian) - Arm plasma battery. A broad hexagonal bunker plinth, a tall hooded artillery
 turret and two very long heavy plasma barrels running through it (they recoil 6 elmo).
-Identity from above: big light hexagon with a dark ring, a light hooded turret with a team roof and team cheek plates,
+Identity from above: big light hexagon with four broad team face plates and a dark ring, a light hooded turret with a team roof and team cheek plates,
 two long fat steel barrels well past the plinth edge.
 Pieces (Lua script): base, turret (turn y), sleeves (turn x), barrel1/2 (move z recoil), flare1/2 (emit, empty).
 Coordinates are ENGINE/global: X right, Y up, Z forward."""
@@ -37,9 +37,14 @@ def build(k):
                     pts.append((cx * (r + d) + px * t, y + d * 0.3, cz * (r + d) + pz * t))
         b.hull(pts, mat, bevel=0.0)
     for ang in (30, 150, 210, 330):
-        face_plate(ang, 0, 'team')
+        face_plate(ang, 0, 'team', y0=2.8, y1=14.4, w=8.0)
     for ang in (90, 270):
         face_plate(ang, 0, 'dark', y0=3.5, y1=9.5, w=3.6)
+    # team strips on the skirt ledge below the four diagonal faces
+    for ang in (30, 150, 210, 330):
+        a = math.radians(ang); cx, cz = math.cos(a), math.sin(a); px, pz = -cz, cx
+        b.hull([(cx * r + px * t, y, cz * r + pz * t) for r in (18.05, 19.0) for t in (-(r * 0.577 - 0.8), r * 0.577 - 0.8)
+                for y in (2.26, 2.4)], 'team', bevel=0.03)
 
     # ---------------------------------------------------------------- turret: hooded artillery housing (origin 0, 17.61, 0)
     t = k.piece('turret'); A = t.at
