@@ -2,7 +2,7 @@
 whole top is two cargo doors (door3/door4 swing up about their outer edges and drop into the hull), a telescoping
 crane on the stern (turret1 turns y, turret2 lifts the mast 12.5, boom1 pitches, boom2..9 telescope along z,
 magnet2222 hangs from the tip; link2222 empty = transport attach point) and two big ducted stern propellers.
-Value groups from above: black skirt ring, light Arm doors + hull with a wide team band across both doors, dark
+Value groups from above: black skirt ring, light Arm doors + hull with two wide team bands across both doors, dark
 crane spine (team stripe on top), yellow/black hazard magnet disc, dark propeller ducts at the stern.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
@@ -31,12 +31,13 @@ def door(k, name, sx):
     d.box((lo, y0, -25.9), (hi, y1, 21.2), 'paint', bevel=0.18)
     # longitudinal stiffening ribs (dark lines from above), split around the team band
     for xr in (7.0, 15.4):
-        for z0, z1 in ((-24.0, 4.2), (16.0, 19.6)):
+        for z0, z1 in ((-24.0, 2.6), (16.4, 19.6)):
             a, c = sorted((xr * sx - 0.7, xr * sx + 0.7))
             d.box((a, y1 - 0.05, z0), (c, y1 + 0.45, z1), 'paint2', bevel=0.08)
     # wide team band across the door (with the other door: one band across the whole hull)
     a, c = sorted((1.6 * sx, 21.0 * sx))
-    d.box((a, y1 - 0.02, 5.0), (c, y1 + 0.22, 15.0), 'team', bevel=0.05)
+    d.box((a, y1 - 0.02, 3.4), (c, y1 + 0.22, 15.6), 'team', bevel=0.05)
+    d.box((a, y1 - 0.02, -22.6), (c, y1 + 0.22, -10.4), 'team', bevel=0.05)          # second band aft (ribs run over it)
     # hazard strip on the inner (meeting) edge
     a, c = sorted((0.25 * sx, 1.35 * sx))
     d.box((a, y1 - 0.02, -25.4), (c, y1 + 0.12, 20.8), 'hazard', bevel=0.03)
