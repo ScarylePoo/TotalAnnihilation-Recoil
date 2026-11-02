@@ -67,7 +67,7 @@ def build(k):
             [(0.35, 5.8, 1.4), (0.35, 5.8, -4.4), (0.3, 8.0, -0.4), (0.3, 8.0, -2.8)]], 'dark', bevel=0.05)
     b.cyl((0, 7.9, -1.6), (0, 8.5, -1.6), 4.1, 20, 'paint2', r2=4.4, bevel=0.06)
     b.cyl((0, 8.5, -1.6), (0, 9.1, -1.6), 4.4, 20, 'paint2', r2=3.6, bevel=0.06)
-    b.box((-3.7, 9.08, -2.4), (3.7, 9.2, -0.8), 'team', bevel=0.02)
+    b.box((-3.15, 9.08, -3.3), (3.15, 9.2, 0.1), 'team', bevel=0.02)
     b.cyl((0, 9.1, -1.6), (0, 9.3, -1.6), 0.7, 10, 'lightc')
 
     # ------------------------------------------------------------------ outer wing panel (wing1; wing2 = mirror clone)
@@ -81,7 +81,7 @@ def build(k):
             pts += [(x, wy(x) + t, z), (x, wy(x) - t, z)]
     w.hull(pts, 'paint', bevel=0.05)
     # team wing tip: wide plate on the outer third
-    x0, x1 = 11.6, 15.8
+    x0, x1 = 10.4, 15.8
     w.hull([(x, wy(x) + dy, z) for x in (x0, x1) for z in (lead_z(x) - 0.5, ZT + 0.6) for dy in (0.3, 0.38)],
            'team', bevel=0.02)
     # tip pod with a nav light
