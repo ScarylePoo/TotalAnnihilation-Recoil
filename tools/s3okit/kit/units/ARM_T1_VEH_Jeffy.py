@@ -1,7 +1,7 @@
 """Jeffy (ARM_T1_VEH_Jeffy) - Arm fast scout buggy. Narrow wedge body, four big outrigger wheels on struts
 (part of `base`: the TA model never spun them), a small twin machine-gun mount on the roof (`gun`: turns x+y).
 Value groups from above: light Arm body wedge, dark wheels/struts/engine (they frame the body), team stripe
-down the spine + gun roof, hazard nose. The wheels are exaggerated slightly so the 4-wheel stance reads.
+down the spine, the engine deck + gun roof, hazard nose. The wheels are exaggerated slightly so the 4-wheel stance reads.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
 
@@ -31,7 +31,7 @@ def build(k):
         b.hull([(x0 - 0.3, WR + 3.3, z - 3.6), (x1 + 0.4, WR + 3.3, z - 3.6), (x0 - 0.3, WR + 3.3, z + 3.6), (x1 + 0.4, WR + 3.3, z + 3.6),
                 (x0 - 0.3, WR + 4.6, z - 2.4), (x1 + 0.4, WR + 4.6, z - 2.4), (x0 - 0.3, WR + 4.6, z + 2.4), (x1 + 0.4, WR + 4.6, z + 2.4)],
                'paint', bevel=0.12, mirror=True)
-        b.box((x0 + 0.2, WR + 4.6, z - 2.0), (x1 - 0.1, WR + 4.76, z + 2.0), 'team', bevel=0.04, mirror=True)
+        b.box((x0 - 0.1, WR + 4.6, z - 2.3), (x1 + 0.2, WR + 4.76, z + 2.3), 'team', bevel=0.04, mirror=True)
 
     # ------------------------------------------------------------------ body (crosses x = 0)
     # chassis pan, darker
@@ -47,6 +47,9 @@ def build(k):
     b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
             [(1.6, 7.08, 7.6), (1.0, 6.0, 13.6), (1.9, 9.75, -1.6),
              (1.6, 7.24, 7.62), (1.0, 6.16, 13.62), (1.9, 9.91, -1.58)]], 'team', bevel=0.03)
+    # team plate on the sloped engine deck behind the gun
+    ry = lambda z: 8.6 + 1.8 * (z + 14.2) / 6.4
+    b.hull([(x, ry(z) + d * 0.96, z - d * 0.27) for x in (-3.2, 3.2) for z in (-13.4, -8.4) for d in (0.08, 0.22)], 'team', bevel=0.03)
     # cabin glass, front of the gun mount
     b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
             [(3.4, 8.5, 3.6), (3.4, 10.45, -1.4), (3.0, 8.62, 3.7), (3.0, 10.57, -1.3)]], 'glass', bevel=0.03)
