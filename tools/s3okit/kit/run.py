@@ -58,7 +58,14 @@ def st_build(unitname, draft=False):
     cull = geom.visibility_cull(meshes, ground=U['ground'] and U['water'] is None, air=U['air'])
     # pieces hidden at rest but shown by the script (builder cranes in a closed hangar, ...): full texture priority
     geom.force_exposure([o for o in meshes if o.name in set(U.get('always_visible', ()))])
-    geom.unwrap(meshes, res=U['res'], ground=U['ground'] and U['water'] is None, air=U['air'], water=U['water'])
+    lifts = {}
+    for n in k.T:                     # water_lift: a raised piece lifts its children too
+        p, dy = n, 0.0
+        while p:
+            dy += U.get('water_lift', {}).get(p, 0.0); p = k.T[p]['parent']
+        lifts[n] = dy
+    geom.unwrap(meshes, res=U['res'], ground=U['ground'] and U['water'] is None, air=U['air'], water=U['water'],
+                flipped=set(U.get('flipped', ())), water_lift=lifts)
     geom.add_mirrors(meshes)
     geom.apply_clones(k)
     allobjs = list(k.objs.values())
@@ -107,7 +114,7 @@ def st_compose(unitname, draft=False):
     mod, U, info = load_spec(unitname)
     wd = workdir(unitname)
     compose.compose(os.path.join(wd, 'maps.npz'), os.path.join(wd, 'out', unitname), final=U['res'], side=U['side'],
-                    tread_step=U.get('tread_step', 0.25))
+                    tread_step=U.get('tread_step', 0.25), hazard=U.get('hazard_period'))
     from s3okit import dds
     dds.convert_pair(os.path.join(wd, 'out', unitname))
 

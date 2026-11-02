@@ -8,7 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t2_lab_advancedvehicleplant",
 		buildoptions = Shared.buildListArmAdvancedVehiclePlant,
-		objectname = "ARM_T2_LAB_AdvancedVehiclePlant",
+		objectname = "ARM_T2_LAB_AdvancedVehiclePlant.s3o",
 		corpse = "ARM_T2_LAB_AdvancedVehiclePlant_dead",
 		icontype = "factory",
 		category = "ARM PLANT LEVEL2 NOWEAPON NOTAIR NOTSUB",

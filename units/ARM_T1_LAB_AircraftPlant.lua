@@ -8,7 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t1_lab_aircraftplant",
 		buildoptions = Shared.buildListArmAircraftPlant,
-		objectname = "ARM_T1_LAB_AircraftPlant",
+		objectname = "ARM_T1_LAB_AircraftPlant.s3o",
 		corpse = "ARM_T1_LAB_AircraftPlant_dead",
 		icontype = "factory",
 		category = "ARM PLANT LEVEL1 NOWEAPON NOTAIR NOTSUB",

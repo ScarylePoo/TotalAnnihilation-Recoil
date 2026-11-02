@@ -8,7 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_lab_advancedaircraftplant",
 		buildoptions = Shared.buildListCoreAdvancedAircraftPlant,
-		objectname = "CORE_T2_LAB_AdvancedAircraftPlant",
+		objectname = "CORE_T2_LAB_AdvancedAircraftPlant.s3o",
 		corpse = "CORE_T2_LAB_AdvancedAircraftPlant_dead",
 		icontype = "factory",
 		category = "CORE PLANT LEVEL2 NOWEAPON NOTAIR NOTSUB",
