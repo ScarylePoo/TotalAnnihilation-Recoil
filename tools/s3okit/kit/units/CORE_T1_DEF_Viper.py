@@ -44,8 +44,8 @@ def build(k):
     # team corner blocks
     for sx in (-1, 1):
         for sz in (-1, 1):
-            lo = (min(10.0 * sx, 15.4 * sx), y - 0.4, min(10.4 * sz, 15.4 * sz))
-            hi = (max(10.0 * sx, 15.4 * sx), y + 1.2, max(10.4 * sz, 15.4 * sz))
+            lo = (min(9.2 * sx, 15.6 * sx), y - 0.4, min(9.4 * sz, 15.6 * sz))
+            hi = (max(9.2 * sx, 15.6 * sx), y + 1.2, max(9.4 * sz, 15.6 * sz))
             b.box(lo, hi, 'team', bevel=0.12)
     b.box((15.95, 0.4, -1.0), (16.1, 1.0, 1.0), 'lightr', bevel=0.0)
 
