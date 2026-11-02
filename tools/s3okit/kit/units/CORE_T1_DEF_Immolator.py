@@ -1,6 +1,6 @@
 """Immolator (CORE_T1_DEF_Immolator) - Core plasma tower. A flared three-footed trunk (TA tripod root) carrying a
 wide flat hexagonal turret drum with two short tapered plasma guns side by side (each recoils on z).
-Identity from above: a big flat dark hexagon with a team ring and a hot glowing core vent in the middle, twin light
+Identity from above: a big flat dark hexagon with a double team ring and a hot glowing core vent in the middle, twin light
 steel guns out front, over three dark feet - a mushroom where the other Core towers are boxes on poles.
 Pieces (COB): plasground (empty), plasbase, plasturret (turn y + x), plasgunL/R (move z), emitplasL/R (emit, empty).
 plasgunR is plasgunL mirrored (clone); the COB-era origins are 0.01 off symmetric, the guns are the same shape.
@@ -48,6 +48,11 @@ def build(k):
                 for d in (0.1, 0.28):
                     pts.append(A((r + d * 0.7) * math.cos(a), y + d * 0.7, (r + d * 0.7) * math.sin(a)))
         t.hull(pts, 'team', bevel=0.0)
+    # and a second ring on the flat top, outside the vent collar
+    for i in range(6):
+        a0, a1 = i * math.pi / 3, (i + 1) * math.pi / 3
+        t.hull([A(r * math.cos(a), y, r * math.sin(a)) for r in (8.0, 9.6) for a in (a0 + 0.04, a1 - 0.04) for y in (8.06, 8.2)],
+               'team', bevel=0.0)
     # central glowing vent with a dark collar
     t.cyl(A(0, 7.6, -1.0), A(0, 9.4, -1.0), 5.4, 12, 'dark', bevel=0.1)
     t.cyl(A(0, 9.3, -1.0), A(0, 9.55, -1.0), 3.6, 12, 'lightr')
