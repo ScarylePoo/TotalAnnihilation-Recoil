@@ -3,7 +3,8 @@ culling applies). Boat-like hull with a pointed prow between two long tracked fl
 flanks, twin propeller shrouds at the stern and a tall snorkel; a low lozenge turret at the rear with one long gun
 (barrel turns x and recoils 6 elmo back into the turret).
 Value groups from above: light pods and prow (the boat-hull arrowhead is the read), darker paint2 deck well, dark
-grilles/shrouds/snorkel, team colour on the turret roof and a stripe along each pod's inner edge, light steel gun.
+grilles/shrouds/snorkel, team colour on the turret roof and a stripe along each pod's inner edge that
+widens to a plate ahead of the vents, light steel gun.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
 
@@ -28,7 +29,8 @@ def build(k):
             (14.6, 7.6, 22.4), (24.4, 7.6, 21.4), (14.6, 9.6, 21.4), (24.4, 9.6, 20.4),
             (14.6, 6.6, -24.4), (25.2, 6.6, -24.0), (25.2, 6.6, 18.0), (14.6, 6.6, 19.0)], 'paint', bevel=0.2, mirror=True)
     # team stripe on each pod's inner top edge
-    b.box((15.6, 14.6, -17.6), (17.8, 14.82, 8.6), 'team', bevel=0.04, mirror=True)
+    b.box((15.6, 14.6, -17.6), (17.8, 14.82, -9.6), 'team', bevel=0.04, mirror=True)
+    b.box((15.6, 14.6, -9.6), (22.0, 14.82, 8.6), 'team', bevel=0.04, mirror=True)         # widens ahead of the vents
     # intake grilles on the pod flanks (TA's slatted vents), dark with black slats
     b.hull([(25.0, 8.0, -14.0), (25.0, 12.4, -14.0), (25.0, 8.0, 2.0), (25.0, 12.4, 2.0),
             (25.6, 8.4, -13.6), (25.6, 12.0, -13.6), (25.6, 8.4, 1.6), (25.6, 12.0, 1.6)], 'dark', bevel=0.06, mirror=True)
