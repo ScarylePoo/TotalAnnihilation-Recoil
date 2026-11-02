@@ -7,7 +7,7 @@ return {
 		description = "Anti-Air Flak Gun",
 		side = "CORE",
 		unitname = "core_t2_def_cobra",
-		objectname = "CORE_T2_DEF_Cobra",
+		objectname = "CORE_T2_DEF_Cobra.s3o",
 		corpse = "CORE_T2_DEF_Cobra_dead",
 		icontype = "turret",
 		category = "CORE LEVEL2 WEAPON NOTAIR NOTSUB",
