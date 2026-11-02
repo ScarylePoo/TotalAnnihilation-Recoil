@@ -414,6 +414,15 @@ Base branch `s3o-remodel`; each family on `s3o-<family>`, merged back after revi
   walk (change both together). walk.Hexa calibrates at creation (verified in engine on the Roach), cadence from
   current speed and leg reach. Probe gadget tools/headless-test/tartest.sdd/luarules/gadgets/zz_hexa_walk_probe.lua
   logs calibration and foot travel: check Spider/Scarab lines on the next headless run.
+- 2026-11-01 (branch `s3o-reskin`): team-colour + construction-stripe pass. Every listed unit re-specced to 15-25 %
+  team (one commit per unit, before -> after % in the subject); every merged builder (incl. Podger/Spoiler mine
+  layers, FARK, Necro, T2 air builders) got large hazard surfaces (bay doors, roofs, decks, nano arms). Decoy
+  commanders: team fixed, stripes deliberately not added (they must copy the real commanders). Kit fixes:
+  `xta.ref_model` falls back to the same-stem .3do (rebuilds used to read the kit's own installed S3O); hazard
+  period scales with the unit. Lessons: (1) a convex hull with a sheered bow lifts the deck top amidships above
+  DECK (up to 0.5 elmo on the Crusader), so overlay plates there must use the hull's real top height; (2) check where
+  a plate lands with a top-view mask before trusting a guess (turret/head pieces and wide paddles hide plates; the
+  scratch helper wrote teamfrac's grid as a PNG).
 - Learned in the defence batch: S3O piece names are written lowercase (the engine lowercases 3DO names but not S3O
   ones; a LUS `piece('base')` failed on a 3DO piece named `Base`). Wreck `drop` carries child pieces. Pop-up
   structures: preview_pose shows the OPEN state (CORE_T1_DEF_Viper.py is the model). Specs import mathutils inside
@@ -435,7 +444,12 @@ Base branch `s3o-remodel`; each family on `s3o-<family>`, merged back after revi
   must stay readable (team colour 15-25 %, plus a distinct hazard block). Already-merged constructors are redone in
   the team-colour pass.
 
-## Team-colour pass (queued, 2026-10-26)
+## Team-colour pass (queued 2026-10-26; DONE 2026-11-02 on branch `s3o-reskin`, see Progress)
+
+Final team % of every unit below is in its commit subject (all 15.6-22.2 %; finals within 0.1 of the drafts).
+Not re-done on purpose: Dragon's Teeth and mines (low by design); CORE_T2_BOT_AdvancedConstructor (15.7 %, already
+striped: only recomposed); Spider (21.9 %, no hazard); CORE_T2_BOT_DecoyCommander (17.2 %). The decoy commanders get no
+construction stripes until the real commanders are remodelled (a decoy must look like its commander).
 
 `teamfrac.py` (top-view team fraction, preview pose) audit of the first 117 units: the approved Flash measures 15.5 %,
 but 67 units (excluding Dragon's Teeth and mines, which stay low on purpose) are under 15 %, most at 5-12 %:
