@@ -7,7 +7,7 @@ return {
 		description = "Pop-up Heavy Cannon",
 		side = "ARM",
 		unitname = "arm_t2_def_ambusher",
-		objectname = "ARM_T2_DEF_Ambusher",
+		objectname = "ARM_T2_DEF_Ambusher.s3o",
 		corpse = "ARM_T2_DEF_Ambusher_dead",
 		icontype = "turret",
 		category = "ARM LEVEL2 WEAPON NOTAIR NOTSUB",
