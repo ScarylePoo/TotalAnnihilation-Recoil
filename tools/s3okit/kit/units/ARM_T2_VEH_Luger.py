@@ -3,7 +3,8 @@ two rear: TA's layout), a tall twin-post yoke at the rear and a long heavy howit
 turns x; barrel recoils 6 elmo back into the sleeve), muzzle well past the nose.
 Value groups from above: four light track pods at the corners (big light blocks with a dark gap cross between them),
 paint2 central spine, dark yoke, the long gun as a light steel line with a dark cradle and team band on the cradle top
-(the unit's read: a long thin cross-shaped mass), team plates on the rear pods.
+(the unit's read: a long thin cross-shaped mass), team plates on the rear pods and the rear
+halves of the front pods.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
 
@@ -28,15 +29,16 @@ def pod(b, z0, z1, top, team):
            'paint', bevel=0.18, mirror=True)
     if team:
         b.box((xi + 1.6, top, z0 + 2.4), (xo - 1.6, top + 0.2, z1 - 2.4), 'team', bevel=0.04, mirror=True)
-    else:
-        b.box((xi + 1.6, top, z0 + 2.4), (xo - 1.6, top + 0.5, z1 - 2.4), 'dark', bevel=0.06, mirror=True)
-        for z in range(int(z0 + 3.4), int(z1 - 2.4), 2):
+    else:          # front pods: team plate on the rear half, engine grille on the front half
+        b.box((xi + 1.6, top, z0 + 2.4), (xo - 1.6, top + 0.2, zc - 0.4), 'team', bevel=0.04, mirror=True)
+        b.box((xi + 1.6, top, zc + 0.4), (xo - 1.6, top + 0.5, z1 - 2.4), 'dark', bevel=0.06, mirror=True)
+        for z in range(int(zc + 1.4), int(z1 - 2.4), 2):
             b.box((xi + 2.0, top + 0.5, z), (xo - 2.0, top + 0.62, z + 0.8), 'black', bevel=0.0, mirror=True)
 
 
 def build(k):
     b = k.piece('base')
-    pod(b, 6.0, 24.6, 11.4, False)      # front pods: engine grilles
+    pod(b, 6.0, 24.6, 11.4, False)      # front pods: team plates + engine grilles
     pod(b, -25.0, -6.4, 12.6, True)     # rear pods: team plates
     # axle beams between pods and spine (dark, read as the gap cross)
     for z in (15.3, -15.7):
