@@ -45,9 +45,9 @@ def build(k):
         za, zb = (z0 + 10.0, z1 - 2.4) if z0 < 0 else (z0 + 2.4, z1 - 10.0)
         b.box((-57.6, H - 0.05, za), (-38.4, H + 0.35, zb), 'team', bevel=0.12, mirror=True)
     for zc in (-44.0, 44.0):                                                  # rounded hall ends
-        b.cyl((-48.0, 0.0, zc), (-48.0, H, zc), 11.6, 20, 'paint', rot=math.pi / 20, bevel=0.35, mirror=True)
-        b.cyl((-48.0, H - 0.05, zc), (-48.0, H + 0.3, zc), 9.2, 20, 'team', rot=math.pi / 20, mirror=True)
-        b.cyl((-48.0, H + 0.3, zc), (-48.0, H + 1.6, zc), 3.0, 12, 'dark', rot=math.pi / 12, mirror=True)
+        b.cyl((-48.0, 0.0, zc), (-48.0, H - 0.3, zc), 11.6, 20, 'paint', rot=math.pi / 20, bevel=0.35, mirror=True)
+        b.cyl((-48.0, H - 0.35, zc), (-48.0, H + 0.08, zc), 9.2, 20, 'team', rot=math.pi / 20, mirror=True)
+        b.cyl((-48.0, H - 0.05, zc), (-48.0, H + 1.3, zc), 3.0, 12, 'dark', rot=math.pi / 12, mirror=True)
     for zc in (-55.5, 55.5):                                                  # end lights
         b.box((-50.0, 6.0, zc - 0.2), (-46.0, 7.2, zc + 0.2), 'lightc', bevel=0.0, mirror=True)
     # bay walls round the lift well, dark skirt along the lane side
