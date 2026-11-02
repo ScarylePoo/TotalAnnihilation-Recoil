@@ -7,7 +7,7 @@ return {
 		description = "Locates Water Units",
 		side = "CORE",
 		unitname = "core_t2_seadef_advancedsonar",
-		objectname = "CORE_T2_SEADEF_AdvancedSonar",
+		objectname = "CORE_T2_SEADEF_AdvancedSonar.s3o",
 		corpse = "CORE_T2_SEADEF_AdvancedSonar_dead",
 		icontype = "building_radar_sonar",
 		category = "CORE SPECIAL LEVEL2 NOTAIR NOTSUB",
