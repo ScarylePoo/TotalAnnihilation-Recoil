@@ -4,7 +4,7 @@ on the right (rarm + rgun, primary: ruparm pitches, rarm yaws) and an EMG on the
 pitches). Standard biped skeleton (TA's centred `hips` block becomes the pelvis); script ported to
 scripts/ARM_T1_BOT_Warrior.lua.
 Coordinates are ENGINE/global: X right, Y up, Z forward.
-Top view (what makes it a Warrior): the widest Arm T1 kbot - a broad light chest, team dome head in the middle, dark
+Top view (what makes it a Warrior): the widest Arm T1 kbot - a broad light chest with team plates either side of a team dome head, dark
 (paint2) slab guards on both shoulders, and two long dark gun arms sticking far forward with team stripes on top.
 The two guns differ (fat round laser right, boxy twin-barrel EMG left)."""
 import math
@@ -31,6 +31,8 @@ def build(k):
     # paint2 belly plate (front lower chest): dark band between light chest and legs, seen from the front
     t.hull([A(x * sx, y, z) for sx in (-1, 1) for x, y, z in
             [(3.6, 0.8, 4.2), (4.6, 4.2, 5.75), (3.4, 1.0, 4.5), (4.4, 4.2, 6.0)]], 'paint2', bevel=0.08)
+    t.box(A(3.6, 10.26, -4.2), A(5.8, 10.4, 2.8), 'team', bevel=0.03)                      # team plates either side
+    t.box(A(-5.8, 10.26, -4.2), A(-3.6, 10.4, 2.8), 'team', bevel=0.03)                    # of the collar
     # collar ring the head sits in
     t.cyl(A(0, 10.1, 1.0), A(0, 10.7, 1.0), 3.4, 12, 'dark', bevel=0.06)
     # heavy back pack (paint2) with cooling fins and two exhaust stacks
