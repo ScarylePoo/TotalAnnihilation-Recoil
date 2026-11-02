@@ -7,7 +7,7 @@ return {
 		description = "Extended Sonar",
 		side = "ARM",
 		unitname = "arm_t2_seadef_advancedsonar",
-		objectname = "ARM_T2_SEADEF_AdvancedSonar",
+		objectname = "ARM_T2_SEADEF_AdvancedSonar.s3o",
 		script = "ARM_T2_SEADEF_AdvancedSonar.lua",
 		corpse = "ARM_T2_SEADEF_AdvancedSonar_dead",
 		icontype = "building_radar_sonar",
