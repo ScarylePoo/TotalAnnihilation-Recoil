@@ -7,7 +7,7 @@ return {
 		description = "Advanced Torpedo Launcher",
 		side = "ARM",
 		unitname = "arm_t2_seadef_advancedtorpedolauncher",
-		objectname = "ARM_T2_SEADEF_AdvancedTorpedoLauncher",
+		objectname = "ARM_T2_SEADEF_AdvancedTorpedoLauncher.s3o",
 		script = "ARM_T2_SEADEF_AdvancedTorpedoLauncher.lua",
 		corpse = "ARM_T2_SEADEF_AdvancedTorpedoLauncher_dead",
 		icontype = "turret",
