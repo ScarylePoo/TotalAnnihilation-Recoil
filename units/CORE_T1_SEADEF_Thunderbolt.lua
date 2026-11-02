@@ -7,7 +7,7 @@ return {
 		description = "Floating Heavy Laser Tower",
 		side = "CORE",
 		unitname = "core_t1_seadef_thunderbolt",
-		objectname = "CORE_T1_SEADEF_Thunderbolt",
+		objectname = "CORE_T1_SEADEF_Thunderbolt.s3o",
 		corpse = "CORE_T1_SEADEF_Thunderbolt_dead",
 		icontype = "turret",
 		category = "CORE SPECIAL LEVEL1 WEAPON NOTAIR NOTSUB",
