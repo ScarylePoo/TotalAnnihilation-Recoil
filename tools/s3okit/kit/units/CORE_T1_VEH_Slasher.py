@@ -5,7 +5,7 @@ pod (`gun`, elevates on turn x; firepoint1/2 at the tube mouths, exhaust1/2 at t
 Piece layout is the third-party remodel's (the COB drives it); tracks1..4 frame-cycled with tread..tread4, wheels1..8
 hub discs on the outer track faces (spin x).
 Value groups from above: dark warm cab/bed armour, darker paint2 cradle/uprights, black tracks, light steel missile
-tubes (Core: light weapons on dark armour) with team bands, team plates on the cab roof and bed rails, ochre hazard.
+tubes (Core: light weapons on dark armour) with team bands, team plates on the cab roof, front mudguards and bed rails, ochre hazard.
 Coordinates are ENGINE/global: X right, Y up, Z forward."""
 import math
 
@@ -58,6 +58,7 @@ def build(k):
     # front mudguards over the front tracks
     b.hull([(7.0, 4.4, 6.4), (13.2, 4.4, 6.4), (7.0, 4.4, 22.4), (13.2, 4.4, 22.4),
             (7.0, 6.4, 7.4), (13.2, 6.4, 7.4), (7.0, 6.4, 20.4), (13.2, 6.4, 20.4)], 'paint', bevel=0.12, mirror=True)
+    b.box((7.8, 6.46, 9.0), (12.6, 6.6, 19.0), 'team', bevel=0.03, mirror=True)           # team mudguard plates
     # cab: angular armoured block, sloped windscreen, spiked nose
     b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
             [(7.2, 6.8, 2.4), (7.2, 6.8, 23.4), (5.6, 6.4, 25.5),
