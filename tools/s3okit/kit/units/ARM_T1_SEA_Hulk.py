@@ -3,8 +3,9 @@ elmo of freeboard) with a ram bow; the middle is one huge cargo hold closed by t
 swing up 90 deg about the outer coaming edges). Aft stands a tall gantry: a light tower block with a forward cab,
 two dark pillars up to y 80 holding the crane axle; the crane (arm1) is a long boom with a big counterweight at the
 back, six telescoping sections (arm2..arm7) and a magnet that hangs over the hold (link = cargo attach point).
-From above: wide light hull, dark hatch doors with two team stripes and light ribs, light tower with a team roof,
-the dark boom running forward over the hold to a yellow/black hazard magnet, team-topped counterweight at the stern.
+From above: wide light hull, dark hatch doors with two broad team stripes and light ribs, light tower with a team roof,
+the dark boom running forward over the hold to a yellow/black hazard magnet, team-topped counterweight at the stern, team plates
+on the foredeck.
 Pieces (TA layout): base, door1/door2, turret (turn y), arm1 (turn x), arm2/arm4/arm3/arm5/arm6/arm7 (move z, nested
 in that order), magnet (turn x), link (empty, move y), wake1/2 (empty). The 3DO is centred on x = -1.25 (hinges at
 -25 and 22.5): built around that line without mirror; door2 = mirrored clone of door1.
@@ -68,6 +69,8 @@ def build(k):
     b.box((x0, DECK - 0.4, z0), (x1, DECK - 0.1, z1), 'black', bevel=0.0)
     # forecastle: bollards, a dark winch house and twin running lights
     b.box((C - 6.0, DECK, 38.0), (C + 6.0, DECK + 3.4, 45.0), 'paint2', bevel=0.2)
+    for s in (-1, 1):                                                                 # team plates on the foredeck
+        b.box((C + min(s * 7.4, s * 17.0), DECK + 0.06, 33.6), (C + max(s * 7.4, s * 17.0), DECK + 0.2, 44.2), 'team', bevel=0.04)
     b.box((C - 4.6, DECK + 3.35, 39.0), (C + 4.6, DECK + 3.6, 44.0), 'dark', bevel=0.04)
     for s in (-1, 1):
         b.cyl((C + s * 11.0, DECK, 47.0), (C + s * 11.0, DECK + 1.6, 47.0), 1.1, 10, 'dark')
@@ -83,7 +86,7 @@ def build(k):
     d = k.piece('door1'); D = d.at
     W = 23.75                                   # meets door2 (mirrored clone) on the centre line x = -1.25
     d.box(D(0.0, -0.7, -24.5), D(W, 0.2, 26.5), 'paint2', bevel=0.15)
-    d.box(D(4.0, 0.15, -22.6), D(10.0, 0.42, 24.6), 'team', bevel=0.04)
+    d.box(D(1.8, 0.15, -22.6), D(10.9, 0.42, 24.6), 'team', bevel=0.04)
     for z in (-16.0, 0.0, 16.0):
         d.box(D(11.2, 0.15, z - 1.0), D(W - 0.4, 0.5, z + 1.0), 'paint', bevel=0.06)
     d.box(D(0.6, 0.15, -23.6), D(2.4, 0.5, 25.6), 'dark', bevel=0.05)          # hinge beam
