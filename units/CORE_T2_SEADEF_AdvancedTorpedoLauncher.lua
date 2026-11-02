@@ -7,7 +7,7 @@ return {
 		description = "Advanced Torpedo Launcher",
 		side = "CORE",
 		unitname = "core_t2_seadef_advancedtorpedolauncher",
-		objectname = "CORE_T2_SEADEF_AdvancedTorpedoLauncher",
+		objectname = "CORE_T2_SEADEF_AdvancedTorpedoLauncher.s3o",
 		corpse = "CORE_T2_SEADEF_AdvancedTorpedoLauncher_dead",
 		icontype = "turret",
 		category = "CORE SPECIAL LEVEL2 WEAPON NOTAIR",
