@@ -6,7 +6,7 @@ barrel is housed in its pod and only the slim front tube is exposed when it slid
 Piece layout is the third-party S3O's (the COB drives it): tracks1..4 frame-cycled (tread..tread4), wheels1..7 hub
 discs (spin x), aim/flare1/flare2 empty emit points.
 Value groups from above: the high flak head with two light steel barrels and a team crown is the read (a wide
-"T" over the hull); dark warm track units with paint2 side armour, dark pylon, black treads, ochre pylon band.
+"T" over the hull); dark warm track units with paint2 side armour and team top plates, dark pylon, black treads, ochre pylon band.
 Coordinates are ENGINE/global: X right, Y up, Z forward."""
 import math
 
@@ -44,7 +44,7 @@ def build(k):
     # top cover over the high rear part of each track unit (light armour, team plate)
     b.hull([(x, y, z) for x in (11.2, 19.4) for y, z in
             [(18.6, -11.6), (18.6, -5.6), (19.4, -10.8), (19.4, -6.4)]], 'paint', bevel=0.12, mirror=True)
-    b.box((12.4, 19.4, -10.4), (18.2, 19.62, -6.8), 'team', bevel=0.04, mirror=True)
+    b.box((11.8, 19.4, -11.2), (18.8, 19.62, -6.0), 'team', bevel=0.04, mirror=True)
     # armour skirt over the upper part of each tread triangle (outer face), so the units are not all tread
     b.hull([(x, y, z) for x in (19.5, 20.2) for z, y in
             [(-14.8, 11.6), (-12.0, 19.0), (-5.6, 18.8), (15.4, 8.6), (13.2, 6.4)]], 'paint', bevel=0.12, mirror=True)
@@ -53,6 +53,8 @@ def build(k):
             [(8.6, 10.6), (8.6, 17.8), (10.0, 11.4), (9.2, 17.0), (6.4, 19.4)]], 'paint', bevel=0.12, mirror=True)
     b.hull([(x, y, z) for x in (12.4, 18.2) for y, z in
             [(9.16, 15.6), (7.46, 18.6), (9.3, 15.6), (7.6, 18.6)]], 'hazard', bevel=0.02, mirror=True)
+    fy = lambda z: 10.0 - 0.8 * (z - 11.4) / 5.6                                       # front fender top
+    b.hull([(x, fy(z) + d, z) for x in (12.0, 18.6) for z in (11.7, 15.2) for d in (0.08, 0.22)], 'team', bevel=0.03, mirror=True)
     # low hull between the track units (crosses x = 0)
     b.prism(-10.2, 10.2, [(-15.6, 1.6), (16.6, 1.6), (18.6, 4.6), (17.4, 8.6), (-15.0, 9.6), (-16.4, 5.0)], 'paint', bevel=0.18)
     b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
@@ -102,7 +104,7 @@ def build(k):
     px = 12.5
     g.hull([G(x, y, z) for x in (px - 3.2, px + 3.2) for y, z in
             [(-4.2, -11.4), (3.6, -11.4), (-4.6, 2.0), (4.0, 2.0), (-2.6, 9.6), (2.6, 9.6)]], 'steel', bevel=0.18, mirror=True)
-    g.box(G(px - 2.4, 3.9, -9.6), G(px + 2.4, 4.16, 1.4), 'team', bevel=0.04, mirror=True)
+    g.box(G(px - 3.2, 3.9, -10.6), G(px + 3.0, 4.16, 1.9), 'team', bevel=0.04, mirror=True)
     g.box(G(px + 3.1, -2.4, -9.0), G(px + 3.5, 2.0, 0.0), 'dark', bevel=0.05, mirror=True)       # ammo feed
     g.cyl(G(px, -0.3, 9.4), G(px, -0.3, 12.2), 2.3, 12, 'dark', bevel=0.06, mirror=True)        # barrel shroud mouth
 
