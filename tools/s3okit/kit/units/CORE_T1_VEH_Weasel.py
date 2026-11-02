@@ -3,7 +3,7 @@ rear wheels, a small pyramid turret at the back with one light gun.
 Piece layout is the third-party remodel's (the COB drives it): base (body), turret (turn y), barrel (query/aim point:
 its exported emit vertices keep the original fire position), rwheel / mwheel / fwheel = one piece per axle, both
 wheels in each (spin x). Wheels are exaggerated chunky discs so the 6-wheel stance reads from above.
-Value groups from above: dark warm wedge armour, darker paint2 side pods, black tyres, team plates on the rear
+Value groups from above: dark warm wedge armour, team side pods, black tyres, team plates on the rear
 mudguards and the turret faces, light steel gun, centre-line team stripe down the nose.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
@@ -48,10 +48,10 @@ def build(k):
     # rear mudguards over the big wheels: flat team tops (main team read)
     b.hull([(9.4, 10.6, -13.6), (14.6, 10.6, -13.6), (9.4, 10.6, -1.4), (14.6, 10.6, -1.4),
             (9.4, 11.6, -11.8), (14.4, 11.6, -11.8), (9.4, 11.6, -3.2), (14.4, 11.6, -3.2)], 'paint', bevel=0.12, mirror=True)
-    b.box((10.2, 11.6, -11.2), (13.6, 11.76, -3.8), 'team', bevel=0.04, mirror=True)
-    # side pods between mid/front wheels (fuel tanks), darker
+    b.box((9.6, 11.6, -11.6), (14.2, 11.76, -3.4), 'team', bevel=0.04, mirror=True)
+    # side pods between mid/front wheels (fuel tanks), team
     b.hull([(4.6, 7.8, 0.4), (6.8, 7.8, 0.4), (4.6, 7.8, 15.6), (6.8, 7.8, 15.0),
-            (4.6, 9.8, 1.0), (6.2, 9.8, 1.0), (4.6, 9.8, 14.6), (6.2, 9.8, 14.2)], 'paint2', bevel=0.1, mirror=True)
+            (4.6, 9.8, 1.0), (6.2, 9.8, 1.0), (4.6, 9.8, 14.6), (6.2, 9.8, 14.2)], 'team', bevel=0.1, mirror=True)
     # headlights
     b.box((3.4, 7.0, 18.0), (5.0, 8.0, 18.8), 'dark', bevel=0.05, mirror=True)
     b.box((3.55, 7.15, 18.78), (4.85, 7.85, 18.88), 'lightw', bevel=0.0, mirror=True)
