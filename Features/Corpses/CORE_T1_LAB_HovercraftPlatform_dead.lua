@@ -5,7 +5,7 @@ return {
 		world = "All Worlds",
 		description = "Wreckage",
 		category = "core_corpses",
-		object = "CORE_T1_LAB_HovercraftPlatform_dead",
+		object = "CORE_T1_LAB_HovercraftPlatform_dead.s3o",
 		featuredead = "CORE_T1_LAB_HovercraftPlatform_heap",
 		footprintx = 8,
 		footprintz = 7,
