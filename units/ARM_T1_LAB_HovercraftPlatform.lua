@@ -8,7 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t1_lab_hovercraftplatform",
 		buildoptions = Shared.buildListArmHovercraftPlatform,
-		objectname = "ARM_T1_LAB_HovercraftPlatform",
+		objectname = "ARM_T1_LAB_HovercraftPlatform.s3o",
 		corpse = "ARM_T1_LAB_HovercraftPlatform_dead",
 		icontype = "factory",
 		category = "ARM PLANT LEVEL1 NOWEAPON NOTAIR NOTSUB",
