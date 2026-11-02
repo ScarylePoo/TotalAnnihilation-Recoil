@@ -7,7 +7,7 @@ return {
 		description = "Long Range Plasma Cannon",
 		side = "CORE",
 		unitname = "core_t2_def_intimidator",
-		objectname = "CORE_T2_DEF_Intimidator",
+		objectname = "CORE_T2_DEF_Intimidator.s3o",
 		corpse = "CORE_T2_DEF_Intimidator_dead",
 		icontype = "turret",
 		category = "CORE LEVEL2 WEAPON NOTAIR NOTSUB",
