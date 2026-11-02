@@ -7,7 +7,7 @@ return {
 		description = "Anti-Air Flak Gun",
 		side = "ARM",
 		unitname = "arm_t2_def_flakker",
-		objectname = "ARM_T2_DEF_Flakker",
+		objectname = "ARM_T2_DEF_Flakker.s3o",
 		script = "ARM_T2_DEF_Flakker.lua",
 		corpse = "ARM_T2_DEF_Flakker_dead",
 		icontype = "turret",
