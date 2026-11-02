@@ -2,7 +2,7 @@
 TA's, scuttling on four thin splayed legs. TA's four single-piece legs -> standard QUAD skeleton (shared quad walk);
 script ported to scripts/ARM_T2_BOT_Invader.lua. Coordinates are ENGINE/global: X right, Y up, Z forward.
 The `base` piece (the shell) has its origin on the ground and hangs off the new pelvis.
-Top view (what makes it an Invader): a light lozenge with a broad hazard-striped belt (reads "bomb"), a team cap on
+Top view (what makes it an Invader): a light lozenge with a broad hazard-striped belt (reads "bomb"), a broad team cap on
 the dome, red arming lights, and four dark spider legs - smaller and flatter than any other Arm walker."""
 import math
 
@@ -33,7 +33,7 @@ def build(k):
     b.hull(ring(4.45, 5.15, 6.75, 1.25) + ring(5.6, 5.15, 6.75, 1.25), 'hazard', bevel=0.08)
     b.hull(ring(5.65, 4.9, 6.5, 1.25) + ring(7.0, 3.9, 5.2, 1.2) + ring(8.0, 2.2, 3.0, 1.1), 'paint', bevel=0.14)
     # team cap on the dome
-    b.hull(ring(7.9, 2.3, 3.1, 1.1) + ring(8.15, 1.9, 2.6, 1.1), 'team', bevel=0.04)
+    b.hull(ring(7.72, 2.72, 3.66, 1.12) + ring(8.06, 2.28, 3.08, 1.1) + ring(8.16, 1.9, 2.6, 1.1), 'team', bevel=0.04)
     # arming lights fore and aft, detonator stud on top
     for z in (-7.3, 7.3):
         b.box((-0.7, 4.7, z - 0.35), (0.7, 5.35, z + 0.35), 'lightr', bevel=0.0)
