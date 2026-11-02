@@ -7,7 +7,7 @@ return {
 		description = "Locates Water Units",
 		side = "ARM",
 		unitname = "arm_t1_seadef_sonarstation",
-		objectname = "ARM_T1_SEADEF_SonarStation",
+		objectname = "ARM_T1_SEADEF_SonarStation.s3o",
 		script = "ARM_T1_SEADEF_SonarStation.lua",
 		corpse = "ARM_T1_SEADEF_SonarStation_dead",
 		icontype = "building_radar_sonar",
