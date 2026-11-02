@@ -3,7 +3,8 @@ shoulder guards, a hooded head with one large cyan scope eye, and a long sniper 
 To fire it shoulders the rifle: the arm comes up, the rifle turns level, the barrel housing (sleave) flips round, the
 barrel telescopes out 9 elmo and the scope drops into place; idle it reverses. Standard biped skeleton; script ported
 to scripts/ARM_T2_BOT_Shooter.lua. Coordinates are ENGINE/global: X right, Y up, Z forward.
-Top view (what makes it a Shooter): a wide light V/arrowhead chest with two team plates on its shoulders, a dark
+Top view (what makes it a Shooter): a wide light V/arrowhead chest with two team plates on its shoulders and team
+tops on the slab shoulder guards, a dark
 hood in front, and the thin dark rifle - the tallest, narrowest-legged Arm kbot."""
 import math
 
@@ -56,6 +57,9 @@ def build(k):
     lu.hull([V(x, y, z) for x, y, z in                                                 # tall slab shoulder guard
              [(0.6, 6.4, -2.8), (0.6, 6.4, 2.8), (4.6, 4.8, -2.8), (4.6, 4.8, 2.8), (0.8, -2.4, -2.6), (0.8, -2.4, 2.6),
               (4.8, -4.0, -2.6), (4.8, -4.0, 2.6)]], 'paint', bevel=0.2)
+    gy = lambda x: 6.4 - (x - 0.6) * 0.4                                               # guard top slope, normal (0.371, 0.928)
+    lu.hull([V(x + 0.371 * d, gy(x) + 0.928 * d, z) for x in (1.0, 4.2) for z in (-2.4, 2.4) for d in (0.06, 0.2)],
+            'team', bevel=0.03)                                                        # team plate on the guard top
     lu.hull([V(x, y, z) for x, y, z in
              [(2.0, -3.0, -1.4), (2.0, -3.0, 1.4), (3.8, -3.0, -1.4), (3.8, -3.0, 1.4),
               (2.1, -8.6, -1.2), (2.1, -8.6, 1.2), (3.6, -8.6, -1.2), (3.6, -8.6, 1.2)]], 'dark', bevel=0.1)
