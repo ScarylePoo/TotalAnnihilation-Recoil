@@ -427,6 +427,12 @@ Base branch `s3o-remodel`; each family on `s3o-<family>`, merged back after revi
   scratch helper wrote teamfrac's grid as a PNG).
 - 2026-11-02: reskin pass merged (85 units). Hexa probe: Spider/Scarab calibrate fine but were sampled before
   orders (dead or idle) -> walk still unverified on those two; Roach animates. Rerun the probe with them protected.
+- 2026-11-02: factories (20 T1/T2 labs) merged = 187 (+85 reskinned). Per-faction family look, pads clear, hazard on
+  nano parts/lane edges. Kit: `UNIT['hazard_period']` (big buildings: 5), `UNIT['flipped']` (pieces a script turns
+  upside down keep texels on their undersides), `UNIT['water_lift']` (pieces lifted out of water). Sea labs: def
+  has `waterline` but no `floater` -> set ground=False/water by hand (run.py should treat waterline as floating).
+  Open proposals: visibility_cull should skip flipped/always_visible pieces (it deletes their low faces); preview
+  should frame tall units, draw translucent water in 3/4 views, and add a closed-state view for pop-up buildings.
 - Learned in the defence batch: S3O piece names are written lowercase (the engine lowercases 3DO names but not S3O
   ones; a LUS `piece('base')` failed on a 3DO piece named `Base`). Wreck `drop` carries child pieces. Pop-up
   structures: preview_pose shows the OPEN state (CORE_T1_DEF_Viper.py is the model). Specs import mathutils inside
