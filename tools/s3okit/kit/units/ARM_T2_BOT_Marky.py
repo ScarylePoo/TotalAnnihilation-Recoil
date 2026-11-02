@@ -2,7 +2,7 @@
 its flanks that spin about their span when the radar is on. Standard biped skeleton; script ported to
 scripts/ARM_T2_BOT_Marky.lua. Coordinates are ENGINE/global: X right, Y up, Z forward.
 Top view (what makes it a Marky): a light cabin with a team roof and a dark sensor nose between two long vanes that
-flicker light/dark as they turn - a wide cross shape no combat kbot has."""
+flicker light/dark-and-team as they turn - a wide cross shape no combat kbot has."""
 import math
 
 UNIT = dict(
@@ -40,6 +40,7 @@ def build(k):
         h.cyl(H(sx * 4.0, 3.6, -0.75), H(sx * 4.6, 3.6, -0.75), 2.2, 10, 'dark', bevel=0.06)
     # rear equipment box with an antenna mast
     h.box(H(-2.8, 0.6, -8.0), H(2.8, 6.4, -6.0), 'paint2', bevel=0.14)
+    h.box(H(-2.4, 6.4, -7.7), H(2.4, 6.55, -6.3), 'team', bevel=0.03)
     h.cyl(H(1.8, 8.4, -5.0), H(1.8, 13.0, -5.0), 0.12, 6, 'steel', r2=0.06)
     h.cyl(H(1.8, 13.0, -5.0), H(1.8, 13.25, -5.0), 0.18, 6, 'lightr')
 
@@ -51,5 +52,8 @@ def build(k):
     d.hull([D(x * 0.92 + 0.45, y * 0.86, z) for x, y in hexa for z in (1.15, 1.45)], 'dark', bevel=0.05)  # emitter face
     for y in (-4.0, -1.4, 1.2, 3.8):                                                    # emitter rows
         d.box(D(2.6, y, 1.42), D(8.6, y + 0.6, 1.6), 'lightc', bevel=0.0)
-    d.hull([D(x * 0.9 + 0.5, y * 0.8, z) for x, y in hexa for z in (-0.2, 0.05)], 'paint2', bevel=0.04)  # back plate
+    inner = [(1.0, -2.6), (1.0, 2.6), (3.2, 6.8), (5.6, 6.8), (5.6, -6.8), (3.2, -6.8)]
+    outer = [(5.6, 6.8), (8.0, 6.8), (10.2, 2.6), (10.2, -2.6), (8.0, -6.8), (5.6, -6.8)]
+    for pl, mat in ((inner, 'team'), (outer, 'paint2')):                                # back plate: inner half team
+        d.hull([D(x * 0.9 + 0.5, y * 0.8, z) for x, y in pl for z in (-0.2, 0.05)], mat, bevel=0.04)
     k.clone('Rdish', 'Ldish', mirror_x=True)
