@@ -4,7 +4,7 @@ shoulders (tube1/tube2 fire from them); small swept fins under the snout. The op
 wide at the BACK, pointed at the front, dark overall with light (steel) blisters.
 Pieces (TA layout): base, tube1/tube2 (empty torpedo points), wake (empty emit point at the stern).
 Value groups from above (seen through 30 elmos of water): dark Core hull, darker paint2 spine/aft deck, light steel
-shoulder blisters + snout plate, team on the spine top and blister tops. Submarine, waterline 30.
+shoulder blisters + snout plate, team on the spine top, blister tops and both pairs of fins. Submarine, waterline 30.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
 
@@ -51,15 +51,15 @@ def build(k):
             [(8.8, 5.0, 3.0), (13.8, 6.6, 3.0), (9.6, 10.2, 2.4), (13.2, 8.8, 2.4),
              (8.8, 5.0, 3.5), (13.8, 6.6, 3.6), (9.6, 10.2, 2.9), (13.2, 8.8, 2.9)]], 'glass', bevel=0.04, mirror=True)
     b.cyl((10.62, 7.94, 2.8), (10.62, 7.94, 3.9), 1.25, 10, 'black', mirror=True)
-    # ------------------------------------------------------------------ swept fins under the snout (dark)
+    # ------------------------------------------------------------------ swept fins under the snout (team)
     b.hull([(x, y, z) for x, y, z in
             [(5.0, 1.6, 5.0), (11.6, 0.4, 11.0), (12.8, 0.4, 16.6), (4.6, 1.8, 13.0),
-             (5.0, 2.4, 5.0), (11.6, 0.9, 11.0), (12.8, 0.9, 16.6), (4.6, 2.6, 13.0)]], 'paint2', bevel=0.1, mirror=True)
+             (5.0, 2.4, 5.0), (11.6, 0.9, 11.0), (12.8, 0.9, 16.6), (4.6, 2.6, 13.0)]], 'team', bevel=0.1, mirror=True)
     # ------------------------------------------------------------------ stern: twin dark jet nozzles around the wake point
     for x in (4.2,):
         b.cyl((x, 4.0, -23.0), (x, 4.0, -26.2), 2.0, 10, 'dark', r2=1.6, bevel=0.06, mirror=True)
         b.cyl((x, 4.0, -26.15), (x, 4.0, -26.3), 1.2, 10, 'lightr', mirror=True)
-    # aft fins
+    # aft fins (team)
     b.hull([(x, y, z) for x, y, z in
             [(8.0, 6.0, -18.0), (14.6, 6.4, -23.4), (14.6, 6.4, -26.2), (7.6, 6.0, -24.4),
-             (8.0, 7.4, -18.0), (14.6, 7.2, -23.4), (14.6, 7.2, -26.2), (7.6, 7.4, -24.4)]], 'paint2', bevel=0.1, mirror=True)
+             (8.0, 7.4, -18.0), (14.6, 7.2, -23.4), (14.6, 7.2, -26.2), (7.6, 7.4, -24.4)]], 'team', bevel=0.1, mirror=True)
