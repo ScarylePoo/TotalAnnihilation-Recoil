@@ -7,7 +7,7 @@ return {
 		description = "Floating Dragon's Teeth",
 		side = "ARM",
 		unitname = "arm_t1_seadef_floatingdragonsteeth",
-		objectname = "ARM_T1_SEADEF_FloatingDragonsTeeth",
+		objectname = "ARM_T1_SEADEF_FloatingDragonsTeeth.s3o",
 		script = "ARM_T1_SEADEF_FloatingDragonsTeeth.lua",
 		corpse = "ARM_T1_SEADEF_FloatingDragonsTeeth_dead",
 		category = "ARM LEVEL1 NOWEAPON NOTAIR NOTSUB",
