@@ -7,7 +7,7 @@ return {
 		description = "Rapid Fire Plasma Cannon",
 		side = "ARM",
 		unitname = "arm_t2_def_vulcan",
-		objectname = "ARM_T2_DEF_Vulcan",
+		objectname = "ARM_T2_DEF_Vulcan.s3o",
 		corpse = "ARM_T2_DEF_Vulcan_dead",
 		icontype = "turret",
 		category = "ARM LEVEL2 WEAPON NOTAIR NOTSUB",
