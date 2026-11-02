@@ -8,7 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t1_lab_shipyard",
 		buildoptions = Shared.buildListArmShipyard,
-		objectname = "ARM_T1_LAB_Shipyard",
+		objectname = "ARM_T1_LAB_Shipyard.s3o",
 		corpse = "ARM_T1_LAB_Shipyard_dead",
 		icontype = "factory",
 		category = "ARM PLANT LEVEL1 NOWEAPON NOTAIR NOTSUB",
