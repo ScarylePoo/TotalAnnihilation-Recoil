@@ -2,7 +2,8 @@
 armoured mine magazine at the rear riding on short tracks (part of Base: the TA model has no rear wheel pieces).
 The magazine is a hollow walled box closed by two roof doors (Door1/2 turn + slide); when activated the `Turret`
 pylon rises out of it carrying `Stand` and the mine `Gun` (turns y); `Beam` (empty) is the emit point.
-Value groups from above: dark warm cab, darker paint2 magazine walls framed by light steel rails around team-coloured roof doors, steel wheel arches, black
+Value groups from above: dark warm cab, darker paint2 magazine walls framed by light steel rails around magazine roof doors in construction stripes (it is a builder) with team
+bands, a team cab roof and bonnet plate, steel wheel arches, black
 tyres/tracks, light steel dispenser gun + pylon, ochre hazard bumper and mine-chute frame.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
@@ -49,12 +50,13 @@ def build(k):
              (8.6, 10.6, 23.2), (8.8, 11.4, 10.0), (8.0, 14.6, 5.8), (8.6, 14.6, -4.4)]], 'paint', bevel=0.16)
     b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
             [(6.8, 11.7, 9.4), (6.4, 14.2, 6.4), (6.8, 11.82, 9.52), (6.4, 14.32, 6.52)]], 'glass', bevel=0.03)
-    b.box((-6.6, 14.6, -3.6), (6.6, 14.78, 4.4), 'paint2', bevel=0.04)
+    b.box((-6.6, 14.6, -3.6), (6.6, 14.78, 4.4), 'team', bevel=0.04)                          # team cab roof
     b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
-            [(6.0, 10.65, 22.0), (6.0, 11.36, 13.0), (6.0, 10.8, 22.04), (6.0, 11.5, 13.04)]], 'paint2', bevel=0.03)
+            [(6.0, 10.65, 22.0), (6.0, 11.36, 13.0), (6.0, 10.8, 22.04), (6.0, 11.5, 13.04)]], 'team', bevel=0.03)
     # wheel arches (front wheels sit at x 5.5..13.9), team tops
     b.hull([(9.2, 10.4, 11.4), (14.6, 10.4, 11.4), (9.2, 10.4, 24.4), (14.6, 10.4, 24.4),
             (9.2, 11.6, 13.2), (14.6, 11.6, 13.2), (9.2, 11.6, 22.6), (14.6, 11.6, 22.6)], 'steel', bevel=0.12, mirror=True)
+    b.box((10.0, 11.65, 14.2), (13.8, 11.8, 21.6), 'team', bevel=0.03, mirror=True)
     # hazard bumper, headlights
     b.box((-9.0, 4.8, 23.8), (9.0, 6.8, 24.8), 'dark', bevel=0.05)
     b.box((5.8, 7.6, 23.6), (7.6, 8.8, 24.3), 'dark', bevel=0.05, mirror=True)
@@ -72,8 +74,8 @@ def build(k):
 
     # ---------------------------------------------------------------- doors (Door1 hinge x -11.48; Door2 mirror clone)
     d = k.piece('Door1'); D = d.at
-    d.box(D(0.05, -0.6, -5.9), D(11.45, 0.3, 5.9), 'paint2', bevel=0.1)
-    d.box(D(1.0, 0.3, -5.2), D(10.0, 0.46, 5.2), 'team', bevel=0.03)
+    d.box(D(0.05, -0.6, -5.9), D(11.45, 0.3, 5.9), 'hazard', bevel=0.1)       # magazine doors in construction stripes
+    d.box(D(1.0, 0.3, -5.2), D(4.6, 0.46, 5.2), 'team', bevel=0.03)
     d.box(D(10.2, 0.3, -5.4), D(11.3, 0.42, 5.4), 'hazard', bevel=0.02)
     d.cyl(D(0.0, -0.1, -5.6), D(0.0, -0.1, 5.6), 0.45, 8, 'dark')
     k.clone('Door2', 'Door1', mirror_x=True)

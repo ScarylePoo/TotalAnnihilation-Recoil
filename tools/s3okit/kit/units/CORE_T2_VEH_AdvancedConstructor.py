@@ -4,8 +4,8 @@ by two roof doors. Build sequence (COB activatescr): door1/door2 swing open ~207
 tower sides, the telescopic `stand` rises 10.25 out of the shaft and the nano `gun` a further 1.75; `turret` (the
 stand's base collar) traverses; `beam` (empty) is the nano emit point at the gun tip.
 Distinct from the Arm T2 builder (wing armour, crane arm on a lift plate): a Core tower-and-mast silhouette, the doors
-carry a broad team chevron, ochre hazard lips on the shaft mouth, a big nano projector with a red emitter.
-Value groups from above: two team doors over a dark warm tower (closed) / a dark shaft with a light steel projector
+are in construction stripes with a broad team chevron at the ridge, ochre hazard lips on the shaft mouth, a big nano projector with a red emitter.
+Value groups from above: two striped doors with team ridge bands over a dark warm tower (closed) / a dark shaft with a light steel projector
 (open), paint2 track pods, black treads, ochre hazard trims.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
@@ -32,6 +32,7 @@ def build(k):
     for z in (-18.0, -10.0, -2.0, 6.0, 14.0):
         b.hull([(17.3, 7.0, z - 2.6), (17.3, 7.0, z + 2.6), (17.3, 5.4, z - 1.6), (17.3, 5.4, z + 1.6), (18.2, 6.2, z)],
                'dark', bevel=0.05, mirror=True)
+    b.box((11.6, 7.45, -20.0), (16.4, 7.6, -8.0), 'team', bevel=0.03, mirror=True)        # team plates on the pods
     # chassis deck (crosses x = 0)
     b.prism(-11.0, 11.0, [(-23.4, 2.2), (21.4, 2.2), (24.0, 4.6), (23.0, 7.4), (-23.0, 7.4), (-24.2, 4.6)], 'paint', bevel=0.16)
     # tower walls around the shaft: side walls (mirrored), back + front walls (cross x = 0)
@@ -70,8 +71,9 @@ def build(k):
     # ---------------------------------------------------------------- doors (door1 hinge x -9.48; door2 mirrored)
     d = k.piece('door1'); D = d.at
     for z0, z1 in ((-13.9, -3.9), (-3.9, 6.1), (6.1, 16.1)):
-        d.hull([D(x, y, z) for x, y in ((0.0, 0.0), (9.45, 2.45), (9.45, 1.9), (0.0, -0.5)) for z in (z0, z1)], 'steel', bevel=0.08)
-    d.hull([D(x, y + dy, z) for x, y in ((6.2, 1.61), (9.0, 2.33)) for dy in (0.06, 0.2) for z in (-11.6, 13.8)], 'team', bevel=0.03)
+        # roof doors in construction stripes: the builder read from above
+        d.hull([D(x, y, z) for x, y in ((0.0, 0.0), (9.45, 2.45), (9.45, 1.9), (0.0, -0.5)) for z in (z0, z1)], 'hazard', bevel=0.08)
+    d.hull([D(x, y + dy, z) for x, y in ((5.0, 1.30), (9.0, 2.33)) for dy in (0.06, 0.2) for z in (-11.6, 13.8)], 'team', bevel=0.03)
     d.cyl(D(0.0, -0.1, -13.6), D(0.0, -0.1, 15.8), 0.5, 8, 'dark')
     k.clone('door2', 'door1', mirror_x=True)
 

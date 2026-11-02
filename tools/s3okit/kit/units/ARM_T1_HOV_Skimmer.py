@@ -3,7 +3,7 @@ an open water gap between them, a slim needle fuselage down the middle carrying 
 tail fins and one big vertical pusher propeller in a ring at the stern (the scout's signature from above).
 Pieces (TA 3DO, COB drives them): GP (empty ground plate), Base (rocks x/z), Turret (turn y + x), Flare (empty),
 Wake1..8 (empty emit points).
-Value groups from above: black skirts as two rails, light Arm pontoon decks, dark-blue paint2 fuselage with a team
+Value groups from above: black skirts as two rails, light Arm pontoon decks with team plates, dark-blue paint2 fuselage with a team
 spine stripe, team fin tops, dark prop ring with light blades.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
@@ -34,6 +34,9 @@ def build(k):
     b.hull(kite(1.0, 0.4) + kite(4.0, 2.2) + kite(7.2, 1.8) + kite(8.6, 0.8), 'tread', bevel=0.25, mirror=True)
     b.hull(kite(8.2, -0.6) + kite(11.0, -0.6) + kite(15.1, -2.0), 'paint', bevel=0.2, mirror=True)
     b.hull(kite(8.4, -0.3) + kite(9.8, -0.3), 'paint2', bevel=0.08, mirror=True)
+    # team plate on each pontoon deck, ahead of the lift fan (two blue kites from above)
+    b.hull([(x, y, z) for x, z in [(5.8, -2.4), (12.8, -2.4), (14.6, 0.0), (12.6, 8.4), (5.8, 8.4)] for y in (15.16, 15.3)],
+           'team', bevel=0.03, mirror=True)
     # lift fan in each pontoon, aft
     x, z = 9.4, -7.6
     b.cyl((x, 14.2, z), (x, 15.4, z), 3.6, 14, 'dark', bevel=0.1, mirror=True)

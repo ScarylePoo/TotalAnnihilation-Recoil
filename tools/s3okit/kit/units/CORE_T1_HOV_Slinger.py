@@ -5,7 +5,7 @@ the `pole` and `turret` rise out of the well, the arms swing up and the scripts 
 `launcher2` (same rack, parented to the turret, aims y/x). emit1..3 (empty) are the three tube mouths.
 launcher2 is a clone of launcher (identical shape and UVs).
 Value groups from above: four black skirt rings (the Slinger's pattern from above), dark warm pod decks, darker
-paint2 frame/well, light steel missile rack with a team lid, team plates on the bridge roof, ochre tube rims.
+paint2 frame/well, light steel missile rack with a team lid, team plates on the bridge roof and all four pods, ochre tube rims.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
 
@@ -43,6 +43,7 @@ def build(k):
                 px, pz = x + ca * d - sa * s, z + sa * d + ca * s
                 pts += [(px, 10.15, pz), (px, 10.45, pz)]
         b.hull(pts, 'steel', bevel=0.0, mirror=True)
+    b.box((8.2, 9.86, -4.6), (15.8, 10.0, 0.6), 'team', bevel=0.03, mirror=True)          # team plate on each rear pod
     # team plate on each front pod (forward-pointing)
     b.hull([(5.6, y, 9.6) for y in (9.62, 9.76)] + [(11.2, y, 9.6) for y in (9.62, 9.76)] +
            [(11.2, y, 15.0) for y in (9.62, 9.76)] + [(7.6, y, 18.2) for y in (9.62, 9.76)], 'team', bevel=0.03, mirror=True)

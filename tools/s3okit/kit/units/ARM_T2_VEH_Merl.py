@@ -3,7 +3,7 @@ pods at the corners, a driver's cab and spine on the left, and a long launch bay
 When it deploys (COB activate) the lids (door1/door2) flip 90 deg on their outer hinges and sink 6.4 into the bay
 walls, the plate (bay floor) rises 7.75 and the arm swings the one big rocket upright (arm turn x -90).
 The base is built AROUND the bay (x -2.4..9.8, y 6.2..14.5, z -23.3..12.2): the rocket lies inside when stowed.
-Value groups from above: light fender pods + cab spine, two long team-coloured lids (the read: a big team slab
+Value groups from above: light fender pods with team tops + cab spine, two long team-coloured lids (the read: a big team slab
 offset right, with a dark seam), dark bay liners/chassis, black tyres; the rocket is light with a hazard warhead
 and stands as a tall white column when deployed.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
@@ -27,7 +27,7 @@ def build(k):
                 (14.4, 10.4, z - 8.6), (23.6, 10.4, z - 8.6), (14.4, 10.4, z + 8.6), (23.6, 10.4, z + 8.6),
                 (14.4, 11.6, z - 8.2), (23.6, 11.6, z - 8.2), (14.4, 11.6, z + 8.2), (23.6, 11.6, z + 8.2)],
                'paint', bevel=0.18, mirror=True)
-        b.box((15.6, 13.6, z - 3.6), (22.4, 13.82, z + 3.6), 'team' if z > 0 else 'paint2', bevel=0.05, mirror=True)
+        b.box((15.6, 13.6, z - 3.6), (22.4, 13.82, z + 3.6), 'team', bevel=0.05, mirror=True)
     # dark axle/suspension block between the pods (reads as the gap)
     b.box((12.6, 3.2, -18.0), (15.2, 9.4, 18.0), 'dark', bevel=0.12, mirror=True)
     # chassis tub (crosses x = 0)
@@ -47,7 +47,8 @@ def build(k):
     b.box((-12.0, 15.2, -21.6), (-4.0, 16.4, -15.0), 'dark', bevel=0.1)
     for z in (-21.0, -19.6, -18.2, -16.8):
         b.box((-11.6, 16.4, z), (-4.4, 16.52, z + 0.6), 'black', bevel=0.0)
-    b.box((-12.0, 15.2, -11.6), (-4.0, 15.42, 2.4), 'paint2', bevel=0.05)
+    b.box((-12.0, 15.2, -4.6), (-4.0, 15.42, 2.4), 'paint2', bevel=0.05)
+    b.box((-12.0, 15.2, -11.6), (-4.0, 15.42, -4.6), 'team', bevel=0.05)
     # antenna on the spine
     b.cyl((-11.0, 16.4, -13.0), (-11.0, 17.0, -13.0), 0.38, 8, 'dark')
     b.cyl((-11.0, 17.0, -13.0), (-11.0, 23.6, -13.0), 0.1, 6, 'steel', r2=0.05)

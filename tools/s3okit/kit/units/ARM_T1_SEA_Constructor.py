@@ -2,8 +2,8 @@
 hangar amidships-aft: its two roof halves (door1/door2) swing up about the eaves and slide down the walls, then a
 lift platform (plate) rises 9.25 out of the hangar and the folded nano crane (turret > arm > nano) stands up.
 Forward: a stepped bridge with a tall mast block; aft of the hangar a light stern deckhouse.
-From above: light hull ring around a DARK hangar roof with a wide team stripe along the ridge (the builder's tell:
-no gun, one long dark box), hazard-striped crane arm when deployed, team roof on the bridge.
+From above: light hull ring around a hangar roof in construction stripes with a wide team band along the ridge (the
+builder's tell: no gun, one long striped box), hazard-striped crane arm when deployed, team roof on the bridge and stern.
 Pieces (TA layout): base, plate (move y/z), turret (turn y), arm (turn x, move y), nano (turn x), beam (empty nano
 emit point), door1/door2 (turn z, move y: door2 = mirrored clone of door1), wake1/2 (empty).
 Floater, waterline 4 (water surface at model y = 4).
@@ -81,15 +81,15 @@ def build(k):
     # ------------------------------------------------------------------ stern deckhouse
     b.hull([(x * s, y, z) for s in (-1, 1) for x, y, z in
             [(6.4, DECK, -29.2), (4.8, DECK, -36.4), (6.0, 13.2, -29.2), (4.4, 12.4, -35.6)]], 'paint', bevel=0.16)
-    b.box((-4.0, 13.1, -34.0), (4.0, 13.4, -30.4), 'dark', bevel=0.04)
+    b.box((-4.0, 13.1, -34.0), (4.0, 13.4, -30.4), 'team', bevel=0.04)
     b.box((-1.4, 5.6, -39.4), (1.4, 6.4, -39.1), 'lightr', bevel=0.0)
 
     # ------------------------------------------------------------------ roof halves (door1 origin -7.7, 16.88, -15)
     d = k.piece('door1'); D = d.at
     d.hull([D(x, y, z) for z in (-13.7, 14.2) for x, y in ((-0.7, -0.6), (-0.7, 0.25), (7.95, 2.95), (7.95, 2.3))],
-           'paint2', bevel=0.12)
-    d.hull([D(x, y + 0.05, z) for z in (-12.2, 12.8) for x, y in ((4.0, 1.5), (7.8, 2.72))] +
-           [D(x, y + 0.24, z) for z in (-12.2, 12.8) for x, y in ((4.0, 1.5), (7.8, 2.72))], 'team', bevel=0.03)
+           'hazard', bevel=0.12)                    # roof in construction stripes: the builder read from above
+    d.hull([D(x, y + 0.05, z) for z in (-12.2, 12.8) for x, y in ((3.6, 1.37), (7.8, 2.72))] +
+           [D(x, y + 0.24, z) for z in (-12.2, 12.8) for x, y in ((3.6, 1.37), (7.8, 2.72))], 'team', bevel=0.03)
     for z in (-6.0, 0.6, 7.2):
         d.hull([D(x, y + 0.06, z + dz) for dz in (0.0, 0.7) for x, y in ((0.4, 0.38), (3.4, 1.32))] +
                [D(x, y + 0.22, z + dz) for dz in (0.0, 0.7) for x, y in ((0.4, 0.38), (3.4, 1.32))], 'dark', bevel=0.0)

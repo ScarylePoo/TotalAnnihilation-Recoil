@@ -2,7 +2,7 @@
 a tall column and a wide Y-yoke carrying two big laser pods far out to the sides (the TA silhouette: a 'tuning fork'
 on a pole).
 Identity from above: two long light laser pods with team backs and cyan lenses, joined by a dark yoke, high over an
-octagonal light blockhouse with dark fins - wider and heavier than the LLT's single arrow pod.
+octagonal light blockhouse with dark fins and three team plates on its skirt between them - wider and heavier than the LLT's single arrow pod.
 Pieces (Lua script): base, turret (turn y), guns (turn x), flash1/flash2 (emit, empty).
 turret/guns origins sit at x = 0.25 (not 0), so nothing above the base can use mirror=True: built whole.
 Coordinates are ENGINE/global: X right, Y up, Z forward."""
@@ -36,6 +36,14 @@ def build(k):
                     pts.append(((r + d) * math.cos(a), y + d * 0.4, (r + d) * math.sin(a)))
         b.hull(pts, 'team', bevel=0.0)
     b.cyl((0, 27.6, 1.0), (0, 28.3, 1.0), 5.2, 12, 'dark', bevel=0.08)
+    # three team plates on the skirt ring, between the fins (front, rear-left, rear-right)
+    for ang in (90, 210, 330):
+        pts = []
+        for da in (-26, -9, 9, 26):
+            a = math.radians(ang + da)
+            for r in (12.2, 15.6):
+                pts += [(r * math.cos(a), y, r * math.sin(a)) for y in (2.08, 2.22)]
+        b.hull(pts, 'team', bevel=0.03)
     # three raked buttress fins (rear, front-left, front-right), dark
     for ang in (-90, 30, 150):
         a = math.radians(ang); cx, cz = math.cos(a), math.sin(a); px, pz = -cz, cx

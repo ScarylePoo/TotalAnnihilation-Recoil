@@ -45,8 +45,8 @@ def build(k):
            'paint', bevel=0.14, mirror=True)
     b.hull([(14.4, 6.6, -16.6), (15.1, 7.7, -16.0), (15.1, 7.7, 11.6), (14.4, 6.6, 12.4),
             (14.2, 5.1, -15.0), (14.8, 5.9, -14.6), (14.8, 5.9, 10.4), (14.2, 5.1, 11.0)], 'paint2', bevel=0.1, mirror=True)
-    # team cross band across the rear of the fenders (behind the turret: never covered by it)
-    b.box((6.4, 8.2, -16.6), (14.2, 8.36, -12.4), 'team', bevel=0.04, mirror=True)
+    # team plates over the rear half of the fenders
+    b.box((6.4, 8.2, -16.6), (14.2, 8.36, -1.0), 'team', bevel=0.04, mirror=True)
     # dozer-like dark wedge plates on the fender noses (riot tank: blunt, heavy front)
     b.hull([(6.6, 5.9, 17.4), (12.8, 5.9, 16.4), (6.6, 8.22, 13.6), (13.6, 8.22, 12.6),
             (6.6, 6.02, 17.35), (12.8, 6.02, 16.35), (6.6, 8.36, 13.55), (13.6, 8.36, 12.55)], 'paint2', bevel=0.03, mirror=True)

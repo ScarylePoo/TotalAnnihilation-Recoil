@@ -150,6 +150,12 @@ pattern from Z position) | `steel` barrels/pistons, brushed, reflective | `team`
 `black` bores, grilles | `hazard` faction accent with diagonal warning stripes | `glass` canopies |
 `rust`, `ash` (wrecks/heaps).
 
+**Hazard stripe width (2026-11-01, coordinator/user: stripes must read as stripes at game distance)**: the
+period across the stripes is `span / 8` clamped to 2.0-3.5 elmo (`compose.hazard_period`, span = max(2*max|x|,
+z extent) of the model; `compose(..., hazard=)` overrides). The old fixed 0.94 elmo period averaged into a flat ochre
+block at the game camera. Size striped plates so they show >= 2 stripes (>= ~7 elmo along the diagonal). Every
+merged unit using `hazard` was recomposed with it (bakes unchanged).
+
 Palettes live in `compose.PALETTES`: **ARM** = cool light blue-grey 3-tone camo, hazard yellow; **CORE** = warm dark
 gunmetal, ochre/orange accent, warmer lights; **SCRAP** = neutral for heaps. The factions must separate at a glance
 (Arm light/cool, Core dark/warm). Tweak there, not per unit; per-unit overrides would need a new parameter.
@@ -410,7 +416,17 @@ Base branch `s3o-remodel`; each family on `s3o-<family>`, merged back after revi
   logs calibration and foot travel: check Spider/Scarab lines on the next headless run.
 - 2026-11-01: economy (22, all 15-25 % team) merged = 167. Moving parts previewed in their activate end state.
   Gotcha: `Builder.plan(top_inset=d)` moves CORNERS d toward the centroid (a square's sides move d/sqrt2).
-  Reskin pass running on `s3o-reskin` (builders done; hazard stripe period widened to read at game distance).
+- 2026-11-01 (branch `s3o-reskin`): team-colour + construction-stripe pass. Every listed unit re-specced to 15-25 %
+  team (one commit per unit, before -> after % in the subject); every merged builder (incl. Podger/Spoiler mine
+  layers, FARK, Necro, T2 air builders) got large hazard surfaces (bay doors, roofs, decks, nano arms). Decoy
+  commanders: team fixed, stripes deliberately not added (they must copy the real commanders). Kit fixes:
+  `xta.ref_model` falls back to the same-stem .3do (rebuilds used to read the kit's own installed S3O); hazard
+  period scales with the unit. Lessons: (1) a convex hull with a sheered bow lifts the deck top amidships above
+  DECK (up to 0.5 elmo on the Crusader), so overlay plates there must use the hull's real top height; (2) check where
+  a plate lands with a top-view mask before trusting a guess (turret/head pieces and wide paddles hide plates; the
+  scratch helper wrote teamfrac's grid as a PNG).
+- 2026-11-02: reskin pass merged (85 units). Hexa probe: Spider/Scarab calibrate fine but were sampled before
+  orders (dead or idle) -> walk still unverified on those two; Roach animates. Rerun the probe with them protected.
 - Learned in the defence batch: S3O piece names are written lowercase (the engine lowercases 3DO names but not S3O
   ones; a LUS `piece('base')` failed on a 3DO piece named `Base`). Wreck `drop` carries child pieces. Pop-up
   structures: preview_pose shows the OPEN state (CORE_T1_DEF_Viper.py is the model). Specs import mathutils inside
@@ -432,7 +448,12 @@ Base branch `s3o-remodel`; each family on `s3o-<family>`, merged back after revi
   must stay readable (team colour 15-25 %, plus a distinct hazard block). Already-merged constructors are redone in
   the team-colour pass.
 
-## Team-colour pass (queued, 2026-10-26)
+## Team-colour pass (queued 2026-10-26; DONE 2026-11-02 on branch `s3o-reskin`, see Progress)
+
+Final team % of every unit below is in its commit subject (all 15.6-22.2 %; finals within 0.1 of the drafts).
+Not re-done on purpose: Dragon's Teeth and mines (low by design); CORE_T2_BOT_AdvancedConstructor (15.7 %, already
+striped: only recomposed); Spider (21.9 %, no hazard); CORE_T2_BOT_DecoyCommander (17.2 %). The decoy commanders get no
+construction stripes until the real commanders are remodelled (a decoy must look like its commander).
 
 `teamfrac.py` (top-view team fraction, preview pose) audit of the first 117 units: the approved Flash measures 15.5 %,
 but 67 units (excluding Dragon's Teeth and mines, which stay low on purpose) are under 15 %, most at 5-12 %:

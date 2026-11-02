@@ -5,7 +5,8 @@ funnels amidships, depth-charge rack on the foredeck (flare3 = depth charge emit
 Pieces (TA layout): base, turret (turn y AND x: the whole tower head pitches), barrel1/2 (recoil 6 along z),
 flare1/2 (empty muzzle points), flare3 (empty), wake1/2 (empty wake emitters).
 Value groups from above: light Arm hull + raised deck top, dark paint2 lower hull / deck-edge slopes / pylon / fins,
-near-black funnels and machinery, team on the bridge roof and the turret roof.
+near-black funnels and machinery, team on the bridge roof, the turret roof, long bands along
+the raised deck and strips on the main deck.
 Floater, waterline 4: the water surface is at model y = 4.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
@@ -46,6 +47,13 @@ def build(k):
     b.hull([(13.6, DECK - 0.05, -26.0), (14.8, DECK - 0.05, -12.0), (14.8, DECK - 0.05, 2.0), (13.4, DECK - 0.05, 9.5),
             (13.6, DECK + 0.2, -26.0), (14.8, DECK + 0.2, -12.0), (14.8, DECK + 0.2, 2.0), (13.4, DECK + 0.2, 9.5)],
            'dark', bevel=0.03, mirror=True)
+    # team strips on the main deck either side of the raised deck. The sheered bow lifts the convex hull's deck top above
+    # DECK amidships, so the corner heights are the hull's actual top (+0.08)
+    q = [(11.2, 7.82, -24.0), (13.0, 7.75, -24.0), (13.6, 7.81, -12.0), (13.6, 7.86, 2.0), (12.4, 8.01, 6.0),
+         (11.2, 8.16, 6.0), (11.2, 8.03, -12.0), (11.2, 8.15, 0.0)]
+    b.hull([(x, y + d, z) for x, y, z in q for d in (0.1, 0.24)], 'team', bevel=0.03, mirror=True)
+    # team bands along the raised deck's outer halves (funnels, hatches and vents sit on top of them)
+    b.box((4.2, 11.26, -21.0), (8.0, 11.4, 2.0), 'team', bevel=0.03, mirror=True)
     # ------------------------------------------------------------------ bridge (forward deckhouse)
     b.hull([(x * s, y, z) for s in (-1, 1) for x, y, z in
             [(6.6, 11.0, -1.0), (6.6, 11.0, 12.0), (4.0, 11.0, 15.0),

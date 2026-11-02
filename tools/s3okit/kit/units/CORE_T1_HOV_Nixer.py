@@ -3,7 +3,7 @@ black skirt; a sunken launcher well in the middle of the deck holds a twin-pod r
 on activation `arm1` (pivot at deck centre) and `arm2` (pivot at its rear end) unfold and the `launcher` rides up and
 forward; lmispoint/rmispoint (empty) are the rocket exits at the two pod mouths. Two big lift fans flank the bow.
 Value groups from above: black skirt, dark warm faceted hull, darker paint2 launcher well, the two rocket pods as
-light steel blocks with team lids (the Nixer's top read: two bright parallel slabs), ochre hazard pod mouths,
+light steel blocks with team lids (the Nixer's top read: two bright parallel slabs), ochre hazard pod mouths, team plates on the side decks and a team bar across the well front,
 dark fan discs with light blades at the bow corners.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
@@ -40,9 +40,13 @@ def build(k):
     # ochre hazard chevron on the outer edge of each side deck
     b.hull([(15.6, 13.24, -1.6), (15.6, 13.24, 2.8), (14.2, 13.24, -1.6), (14.2, 13.24, 3.4),
             (15.6, 13.38, -1.6), (15.6, 13.38, 2.8), (14.2, 13.38, -1.6), (14.2, 13.38, 3.4)], 'hazard', bevel=0.02, mirror=True)
+    # team plates on the side decks and a team bar across the well front, aft and forward of the hazard chevron
+    for pl in ([(12.3, -15.4), (14.9, -12.4), (15.7, -4.6), (15.7, -2.4), (12.3, -2.4)],
+               [(12.3, 4.4), (15.7, 4.4), (12.6, 8.8), (12.3, 9.2)]):
+        b.hull([(x, y, z) for x, z in pl for y in (13.26, 13.4)], 'team', bevel=0.03, mirror=True)
     # launcher well walls + floor (darker)
     b.box((-11.0, 9.4, -20.4), (11.0, 10.4, 12.0), 'paint2', bevel=0.12)
-    b.box((-11.6, 9.4, 11.0), (11.6, 12.2, 13.6), 'paint', bevel=0.16)             # well front wall
+    b.box((-11.6, 9.4, 11.0), (11.6, 12.2, 13.6), 'team', bevel=0.16)              # well front wall (team bar)
     # bow: armoured prow block with a sensor dome and lights
     b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
             [(8.2, 9.4, 13.4), (8.2, 9.4, 21.6), (3.2, 9.4, 23.6), (6.0, 15.0, 13.6), (2.6, 16.2, 13.6), (2.4, 13.0, 20.6)]],
@@ -88,7 +92,7 @@ def build(k):
     for sx in (-1, 1):   # (launcher origin x = 0, but pods built explicitly so each keeps its own team lid UV)
         x0, x1 = sorted((2.4 * sx, 9.2 * sx))
         l.box(L(x0, -2.6, -1.6), L(x1, 3.0, 19.0), 'steel', bevel=0.22)
-        l.box(L(x0 + 0.6, 2.95, -0.2), L(x1 - 0.6, 3.2, 16.8), 'team', bevel=0.05)
+        l.box(L(x0 + 0.3, 2.95, -1.0), L(x1 - 0.3, 3.2, 18.0), 'team', bevel=0.05)
         # side fin
         xf0, xf1 = sorted((9.1 * sx, 11.0 * sx))
         l.box(L(xf0, -1.4, 2.0), L(xf1, 1.6, 14.8), 'dark', bevel=0.1)

@@ -2,7 +2,7 @@
 chassis with a tall tapered pylon rising from its rear half, carrying a big turret ~37 elmos up with one very long
 heavy beam cannon reaching far past the nose, and a sensor pod on the turret's right cheek.
 The pylon height is the identity: from the game camera the turret floats over the chassis and casts its own block.
-Value groups from above: light turret (largest light block, team roof), darker paint2 chassis deck, dark pylon and
+Value groups from above: light turret (largest light block, team roof), team plates on the guard slopes and noses, darker paint2 chassis deck, dark pylon and
 treads, long steel barrel with dark coil rings. Barrel and Sensor have odd 3DO origins (deep below their geometry);
 they never move on their own (only explode), so geometry is placed in global coordinates where the 3DO had it.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
@@ -29,9 +29,12 @@ def build(k):
             (19.8, 6.8, 21.2), (11.2, 6.8, 21.2), (11.2, 6.6, -21.4), (19.8, 6.6, -21.4)], 'paint', bevel=0.18, mirror=True)
     b.hull([(19.9, 6.8, -19.8), (20.6, 6.8, -19.4), (20.6, 6.8, 18.4), (19.9, 6.8, 18.8),
             (19.6, 3.2, -18.0), (20.3, 3.2, -17.6), (20.3, 3.2, 16.8), (19.6, 3.2, 17.2)], 'paint2', bevel=0.1, mirror=True)
-    # team bands on the guard noses (front only: the turret roof is the main team read)
+    # team bands on the guard noses (the turret roof is the main team read)
     b.hull([(12.4, 9.52, 11.4), (18.6, 9.52, 11.4), (12.4, 7.62, 18.6), (18.6, 7.62, 18.6),
             (12.4, 9.66, 11.5), (18.6, 9.66, 11.5), (12.4, 7.76, 18.7), (18.6, 7.76, 18.7)], 'team', bevel=0.03, mirror=True)
+    gy = lambda z: 13.6 - (z + 4.0) * 4.2 / 16.0                                     # guard mid slope, normal (0, .967, .254)
+    b.hull([(x, gy(z) + 0.967 * d, z + 0.254 * d) for x in (12.4, 18.6) for z in (1.6, 10.6) for d in (0.06, 0.2)],
+           'team', bevel=0.03, mirror=True)                                         # team plates on the guard slopes
     b.box((13.0, 13.6, -15.0), (18.0, 14.2, -6.0), 'dark', bevel=0.08, mirror=True)
     for z in (-14.2, -12.6, -11.0, -9.4, -7.8):
         b.box((13.4, 14.2, z), (17.6, 14.32, z + 0.7), 'black', bevel=0.0, mirror=True)

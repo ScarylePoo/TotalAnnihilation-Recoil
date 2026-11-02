@@ -1,8 +1,8 @@
 """Bulldog (ARM_T2_VEH_Bulldog) - Arm heavy assault tank. Very wide, tall slab hull on broad tracks with flared,
 faceted sponsons; a low wide turret set far back carrying two heavy cannon in pods on a cross sleeve (TA layout).
 Value groups from above: light Arm hull/sponsons/turret, darker paint2 lower hull and gun pods, black/dark glacis
-grille and engine louvres, team colour on the turret roof + pod tops + a cross band on the front deck (no fender
-bands: that is the T1 tanks' read), dark heavy barrels with fat muzzle brakes reaching past the nose.
+grille and engine louvres, team colour on the turret roof + pod tops + a cross band over the front deck and sponsons and a second one over
+the rear sponsons (transverse, no fender bands: that is the T1 tanks' read), dark heavy barrels with fat muzzle brakes reaching past the nose.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
 
@@ -31,6 +31,9 @@ def build(k):
             (21.8, 3.0, -17.8), (22.8, 3.0, -17.4), (23.2, 3.0, 10.4), (22.2, 3.0, 11.0)], 'paint2', bevel=0.12, mirror=True)
     # paint2 inset panels on the sponson tops (break the long light slab into two plates)
     b.box((15.0, top, -17.6), (20.4, top + 0.22, 9.6), 'paint2', bevel=0.06, mirror=True)
+    # the hull's team cross bands continue over the sponsons (front band, and a second one aft)
+    for z0, z1 in ((1.0, 5.4), (-15.6, -11.2)):
+        b.box((13.2, top + 0.28, z0), (21.8, top + 0.42, z1), 'team', bevel=0.04, mirror=True)
     # stowage bins + exhausts on the rear sponsons
     b.box((14.0, top, -21.0), (20.6, top + 1.4, -18.6), 'dark', bevel=0.1, mirror=True)
     b.cyl((17.2, top + 1.0, -19.8), (17.2, top + 3.6, -20.6), 0.85, 10, 'dark', bevel=0.05, mirror=True)

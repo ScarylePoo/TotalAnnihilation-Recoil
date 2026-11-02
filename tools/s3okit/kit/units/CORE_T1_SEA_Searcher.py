@@ -6,7 +6,7 @@ an ochre hazard chevron on the bow.
 Pieces (TA layout): base, turret (turn y), missile (empty aim point), sleeve1/2 (turn x), barrel1/2 (move z),
 flare1/2 (empty), wake1/2 (empty). sleeve2/barrel2 are mirrored clones of sleeve1/barrel1.
 Value groups from above: dark Core hull (paint) with darker paint2 deck recesses, light steel launchers, team on the
-bridge roof and launcher tops, ochre bow chevron. Floater, no waterline (water surface at model y = 0).
+bridge roof, launcher tops, the deck edges and a plate in the deck well between the launchers, ochre bow chevron. Floater, no waterline (water surface at model y = 0).
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
 
@@ -30,6 +30,9 @@ def build(k):
     b.hull(ring(OUT, 0.6, 1.0, 1.0) + ring(OUT, 3.0, 0.86, 0.9, -1.0), 'paint', bevel=0.2)
     # sunken deck well amidships (darker), the launchers ride over it
     b.plan(2.6, 3.15, [(-6.6, 9.4), (6.6, 9.4), (8.0, -6.8), (8.0, -21.0), (-8.0, -21.0), (-8.0, -6.8)], 'paint2', bevel=0.1)
+    b.box((-4.4, 3.2, -2.0), (4.4, 3.34, 8.6), 'team', bevel=0.04)                    # team plate in the deck well
+    b.hull([(x, y, z) for x, z in [(8.3, -22.0), (9.8, -22.0), (9.9, -8.0), (9.0, 2.0), (8.3, 2.0)] for y in (3.06, 3.2)],
+           'team', bevel=0.03, mirror=True)                                          # team strips along the deck edges
     # raised foredeck wedge with an ochre hazard chevron (fast-attack bow)
     b.hull([(x * s, y, z) for s in (-1, 1) for x, y, z in
             [(6.4, 2.9, 9.0), (1.4, 2.9, 27.6), (5.2, 4.2, 9.6), (0.9, 3.6, 24.8)]], 'paint', bevel=0.14)
@@ -76,7 +79,7 @@ def build(k):
     sv.hull([S(x, y, z) for x, y, z in
              [(0.2, -1.9, -5.6), (-4.0, -1.9, -5.6), (0.2, -1.9, 10.6), (-4.0, -1.9, 10.6),
               (0.0, 2.3, -5.2), (-3.8, 2.3, -5.2), (0.0, 2.3, 10.2), (-3.8, 2.3, 10.2)]], 'steel', bevel=0.14)
-    sv.box(S(-3.2, 2.25, -3.6), S(-0.6, 2.45, 8.6), 'team', bevel=0.03)
+    sv.box(S(-3.5, 2.25, -4.4), S(-0.3, 2.45, 9.4), 'team', bevel=0.03)
     sv.box(S(-3.6, -1.4, -6.4), S(-0.2, 1.8, -5.5), 'dark', bevel=0.06)
     sv.cyl(S(0.1, 0.0, -1.0), S(1.4, 0.0, -1.0), 1.2, 10, 'dark')   # trunnion into the bridge
     k.clone('sleeve2', 'sleeve1', mirror_x=True)

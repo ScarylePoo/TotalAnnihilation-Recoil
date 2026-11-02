@@ -6,7 +6,7 @@ at a time: a 3-frame cycle, so UNIT tread_step = 1/3), wheels1..6 (hub discs, sp
 turret2/sleeve2/gun2 are not driven by the script (turret2 is a child of body standing on turret1's axis), so turret2
 is a rotationally symmetric sensor cupola on that axis (looks right at any turret1 angle); sleeve2/gun2 stay empty.
 Value groups from above: dark warm armour, darker paint2 sponson steps, black treads, the huge light-steel cannon and
-mantlet ring against the dark hull, team colour in a broad saddle across the turret roof and on the sponson steps,
+mantlet ring against the dark hull, team colour in a broad saddle across the turret roof and long plates on both sponson steps,
 ochre hazard only on the glacis bumper.
 Coordinates are ENGINE/global: X right, Y up, Z forward."""
 import math
@@ -52,7 +52,9 @@ def build(k):
             (14.0, 10.5, -26.0), (21.4, 10.5, -25.4), (21.4, 10.5, 20.0), (14.0, 10.5, 22.6)], 'paint', bevel=0.18, mirror=True)
     # team plates on the lower sponson steps
     b.box((21.0, 10.6, 4.6), (24.2, 10.82, 12.6), 'team', bevel=0.05, mirror=True)
-    b.box((21.0, 10.6, -20.6), (24.2, 10.82, 2.6), 'dark', bevel=0.05, mirror=True)
+    b.box((21.0, 10.6, -20.6), (24.2, 10.82, 2.6), 'team', bevel=0.05, mirror=True)
+    # team plates along the upper sponson steps
+    b.box((14.8, 14.05, -18.0), (19.8, 14.2, 10.0), 'team', bevel=0.04, mirror=True)
     # spiked armour skirts (Core teeth) on the outer sponson edge
     for z in (-20.0, -12.0, -4.0, 4.0, 12.0):
         b.hull([(24.9, 10.4, z - 2.8), (24.9, 10.4, z + 2.8), (24.9, 7.6, z - 2.2), (24.9, 7.6, z + 2.2),

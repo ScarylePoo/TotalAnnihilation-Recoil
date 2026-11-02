@@ -4,7 +4,7 @@ and a twin missile pod on a pylon at the stern. TA's 3DO has two legs on hip piv
 BIPED skeleton. In water it folds its legs out to the sides like outriggers and drops onto the surface; script ported
 to scripts/ARM_T2_BOT_Pelican.lua. The pontoons piece is never shown by the COB: kept empty, as are the wake emitters.
 Coordinates are ENGINE/global: X right, Y up, Z forward.
-Top view (what makes it a Pelican): a long light pointed boat hull with team side stripes, a dark turret dot and a
+Top view (what makes it a Pelican): a long light pointed boat hull with broad team deck bands and a team bow, a dark turret dot and a
 light missile block at the stern - the only Arm kbot that reads as a vessel."""
 import math
 
@@ -35,11 +35,11 @@ def build(k):
             [(5.8, 2.6, -13.4), (6.2, 2.6, 7.4), (2.0, 2.6, 15.4), (5.6, 6.4, -13.8), (5.4, 6.4, 6.8), (1.6, 5.4, 15.0),
              (0.4, 4.6, 16.4)]], 'paint', bevel=0.2)
     b.hull([B(x, y, z) for x, y, z in                                                    # team side stripes on the deck
-            [(3.4, 6.42, -12.6), (5.1, 6.42, -12.6), (3.4, 6.42, 5.8), (4.9, 6.42, 5.6),
-             (3.4, 6.58, -12.55), (5.05, 6.58, -12.55), (3.4, 6.58, 5.75), (4.85, 6.58, 5.55)]], 'team', bevel=0.03, mirror=True)
-    b.hull([B(x * sx, y, z) for sx in (-1, 1) for x, y, z in                            # dark bow plate
+            [(1.4, 6.42, -12.6), (5.1, 6.42, -12.6), (1.4, 6.42, 6.6), (4.9, 6.42, 5.6),
+             (1.4, 6.58, -12.55), (5.05, 6.58, -12.55), (1.4, 6.58, 6.55), (4.85, 6.58, 5.55)]], 'team', bevel=0.03, mirror=True)
+    b.hull([B(x * sx, y, z) for sx in (-1, 1) for x, y, z in                            # team bow plate
             [(1.4, 5.5, 13.6), (3.0, 6.36, 9.0), (1.4, 5.66, 13.55), (3.0, 6.52, 8.95), (0.3, 4.7, 16.2), (0.3, 4.85, 16.15)]],
-           'dark', bevel=0.04)
+           'team', bevel=0.04)
     for sx in (-1, 1):
         b.box(B(sx * 2.0 - 0.5, 5.0, 14.3), B(sx * 2.0 + 0.5, 5.5, 14.7), 'lightw', bevel=0.0)   # bow lights
     # stern: two water jets
@@ -65,7 +65,7 @@ def build(k):
     m = k.piece('misturret'); M = m.at
     m.hull([M(x * sx, y, z) for sx in (-1, 1) for x, y, z in
             [(5.4, -0.4, -6.8), (5.4, -0.4, 1.0), (5.2, 3.0, -6.6), (5.2, 3.0, 0.8), (4.4, 1.4, -7.4)]], 'paint', bevel=0.18)
-    m.box(M(-1.0, -0.42, -5.6), M(1.0, 3.1, 0.6), 'paint2', bevel=0.06)                 # centre spine
+    m.box(M(-1.0, -0.42, -5.6), M(1.0, 3.1, 0.6), 'team', bevel=0.06)                   # centre spine
     for sx in (-4.25, 4.25):                                                          # launch tubes
         m.cyl(M(sx, 2.03 - 0.6, 0.0), M(sx, 2.03 - 0.6, 1.2), 1.2, 10, 'dark', bevel=0.04)
         m.cyl(M(sx, 1.43, 1.15), M(sx, 1.43, 1.3), 0.8, 10, 'black')

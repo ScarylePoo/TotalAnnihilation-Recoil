@@ -1,6 +1,6 @@
 """Radar Tower (ARM_T1_DEF_RadarTower) - Arm radar. A tall slim lattice mast on a square pad; on top a spinning hub
 (drops 7 elmo into the mast collar when switched off) carrying two wide radar paddles that tumble on their X axles.
-Identity from above: a long light bar (the two paddles, dark frames, cyan tips) crossing a small team-capped hub, over
+Identity from above: a long light bar (the two paddles with team centre bands, dark frames, cyan tips) crossing a small team-capped hub, over
 a dark square pad with team corners - nothing else on the Arm side is a 'T' of paddles.
 Pieces (Lua script): base, dish (move y, spin y), ear1/ear2 (spin x; ear2 is ear1 mirrored).
 Coordinates are ENGINE/global: X right, Y up, Z forward."""
@@ -56,6 +56,6 @@ def build(k):
     e.cyl(E(-0.4, 0, 0), E(5.0, 0, 0), 1.6, 8, 'steel')
     e.box(E(3.4, -7.4, -1.6), E(19.8, 7.4, 1.6), 'dark', bevel=0.15)            # frame
     e.box(E(4.4, -6.6, -2.0), E(18.8, 6.6, 2.0), 'paint', bevel=0.15)           # array faces (both sides)
-    e.box(E(4.6, -0.3, -2.1), E(18.6, 0.3, 2.1), 'paint2', bevel=0.0)              # centre element rib
+    e.box(E(4.6, -1.9, -2.1), E(18.6, 1.9, 2.1), 'team', bevel=0.0)                # team centre band (both faces)
     e.box(E(19.6, -2.2, -0.8), E(20.6, 2.2, 0.8), 'lightc', bevel=0.0)
     k.clone('ear2', 'ear1', mirror_x=True)

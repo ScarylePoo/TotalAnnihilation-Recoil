@@ -5,7 +5,8 @@ offset to the right. Distinct from the Anaconda: four splayed pods instead of on
 the right, dark warm Core armour.
 Pieces: base (rocks x/z), turret (turn y), sleeve (turn x), barrel (move z), flare (empty), wake1..8 (empty).
 Value groups from above: four black skirt pods in an X, dark warm pods/body (paint), darker paint2 central deck,
-light steel cannon + mantlet (Core = light guns), team: turret roof + a band across the pod tops at the rear.
+light steel cannon + mantlet (Core = light guns), team: turret roof, plates on all four pod tops and
+the outrigger roots, a band at the rear.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
 
@@ -45,10 +46,14 @@ def build(k):
     # team plate on each rear pod top
     b.hull([(x, y, z) for y in (8.62, 8.78) for x, z in [(7.2, -10.4), (10.0, -10.4), (11.4, -17.6), (8.6, -17.6)]],
            'team', bevel=0.03, mirror=True)
+    b.hull([(x, y, z) for y in (8.62, 8.78) for x, z in [(6.6, 9.8), (9.4, 9.8), (10.8, 17.2), (8.0, 17.2)]],
+           'team', bevel=0.03, mirror=True)                                           # and on each front pod top
     # outrigger arms joining the pods to the body (+X, mirrored)
     b.hull([(4.0, 5.0, -10.0), (4.0, 5.0, 8.0), (13.2, 5.0, -8.6), (13.2, 5.0, 6.7), (21.2, 6.4, -5.0), (21.2, 6.4, 3.0),
             (4.0, 9.2, -9.0), (4.0, 9.2, 7.0), (11.6, 9.6, -8.0), (11.6, 9.6, 6.0), (21.6, 8.6, -5.6), (21.6, 8.6, 3.6)],
            'paint', bevel=0.2, mirror=True)
+    b.hull([(x, yy, z) for x, y in ((6.4, 9.33), (11.2, 9.58)) for z in (-6.6, 4.8) for yy in (y + 0.06, y + 0.2)],
+           'team', bevel=0.03, mirror=True)                                           # team plates on the outrigger roots
     # lift fans on the outriggers
     x, z = 16.6, -1.0
     b.cyl((x, 8.4, z), (x, 9.8, z), 4.2, 16, 'dark', bevel=0.12, mirror=True)

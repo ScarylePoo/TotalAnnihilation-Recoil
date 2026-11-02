@@ -5,7 +5,8 @@ half carries a raised armoured deckhouse; the bow is a flat ramp.
 Pieces (TA 3DO): GP (empty), Base (rocks x/z), Box (turn x), Flare (empty emit), Wake1..8 (empty).
 Value groups from above: black skirt ring, light Arm deck + deckhouse, the launcher box as a long dark-blue
 paint2 slab with a team stripe along its spine (team + dark = the artillery mark), hazard tube rims at its mouth,
-big dark fan on the right rear, team plate on the deckhouse roof.
+big dark fan on the right rear, team plate on the deckhouse roof and a
+team strip along the right outer deck.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
 
@@ -41,12 +42,14 @@ def build(k):
     # right half: raised deckhouse with team roof and slit windows
     b.hull([(1.8, 12.6, -3.6), (11.2, 12.6, -3.6), (1.8, 12.6, 9.0), (11.2, 12.6, 9.0),
             (2.4, 17.1, -3.0), (10.4, 17.1, -3.0), (2.4, 17.1, 7.8), (10.4, 17.1, 7.8)], 'paint', bevel=0.2)
-    b.box((3.4, 17.05, -2.0), (9.4, 17.25, 6.8), 'team', bevel=0.04)
+    b.box((2.9, 17.05, -2.5), (9.9, 17.25, 7.3), 'team', bevel=0.04)
     b.hull([(2.5, 15.0, 8.2), (10.3, 15.0, 8.2), (2.6, 16.4, 7.85), (10.2, 16.4, 7.85),
             (2.5, 15.0, 8.34), (10.3, 15.0, 8.34), (2.6, 16.4, 7.99), (10.2, 16.4, 7.99)], 'glass', bevel=0.0)
     b.cyl((8.6, 17.2, 0.0), (8.6, 18.8, 0.0), 0.5, 8, 'dark')
     b.cyl((8.6, 18.8, 0.0), (8.6, 25.0, 0.0), 0.1, 6, 'steel', r2=0.05)
     b.cyl((8.6, 25.0, 0.0), (8.6, 25.2, 0.0), 0.16, 6, 'lightc')
+    # team strip along the right outer deck, from the fan to the bow
+    b.box((12.2, 12.76, -5.0), (18.0, 12.9, 13.2), 'team', bevel=0.04)
     # right rear: one big lift fan
     x, z = 9.8, -13.2
     b.cyl((x, 12.2, z), (x, 13.8, z), 6.4, 18, 'dark', bevel=0.14)
@@ -62,7 +65,7 @@ def build(k):
         b.hull(pts, 'steel', bevel=0.0)
     b.cyl((x, 13.5, z), (x, 14.2, z), 1.4, 12, 'paint', bevel=0.06)
     # left front deck: team plate ahead of the trough
-    b.box((-15.6, 12.65, 6.6), (-3.0, 12.85, 13.6), 'team', bevel=0.04)
+    b.box((-18.4, 12.76, 5.4), (-1.6, 12.9, 13.4), 'team', bevel=0.04)
     # left outer deck between trough and edge: vents
     for zz in (-18.0, -13.0, -8.0, -3.0):
         b.box((-17.6, 12.65, zz), (-12.4, 12.95, zz + 2.6), 'dark', bevel=0.05)
@@ -75,7 +78,7 @@ def build(k):
     bx = k.piece('Box'); B = bx.at
     top = 9.8
     bx.box(B(-4.6, 1.0, 0.8), B(4.6, top, 26.4), 'paint2', bevel=0.22)
-    bx.box(B(-2.4, top - 0.05, 2.0), B(2.4, top + 0.22, 24.6), 'team', bevel=0.05)
+    bx.box(B(-3.6, top - 0.05, 2.0), B(3.6, top + 0.22, 24.6), 'team', bevel=0.05)
     for sx in (-1, 1):   # dark side rails (origin is off-centre: no mirror)
         a, c = sorted((4.5 * sx, 5.1 * sx))
         bx.box(B(a, 5.4, 2.0), B(c, top - 1.0, 25.0), 'dark', bevel=0.06)

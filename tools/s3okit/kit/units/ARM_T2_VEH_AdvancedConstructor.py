@@ -4,8 +4,9 @@ big angled side armour (TA's trapezoid wings), a taller tower with a raked cab, 
 Build sequence (COB activatescr): doors turn z +-65 deg and sink 7.7, `plate` rises 9.5 to deck level, `arm` swings
 up 86 deg, `nano` tilts -70 deg; `turret` (on the plate) traverses; `beam` (empty) is the nano emit point.
 The bay is x -7.13..6.47 (off-centre by 0.33 as in TA), z -20..15, so the bay walls are built per side, not mirrored.
-Value groups from above: light side wings, a darker paint2 tower with two team-coloured doors (a wide team spine,
-broader than the T1's door stripes), hazard trims on the wing noses (construction unit), black tracks.
+Value groups from above: light side wings with long team plates, a darker paint2 tower whose bay doors are in
+construction stripes with a team spine along the ridge (the T1 has the inverse: striped doors between team rails),
+hazard trims on the wing noses, black tracks.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
 
@@ -33,8 +34,8 @@ def build(k):
     nx, ny = 0.64, 0.77
     b.hull([(x + nx * d, y + ny * d, z) for x, y in ((11.4, 14.9), (16.8, 10.4)) for z in (14.6, 16.4) for d in (0.06, 0.2)],
            'hazard', bevel=0.02, mirror=True)
-    # team plates on the wing slopes (front half)
-    b.hull([(x + nx * d, y + ny * d, z) for x, y in ((11.6, 14.77), (16.6, 10.6)) for z in (1.6, 12.6) for d in (0.06, 0.2)],
+    # team plates on the wing slopes (front two thirds)
+    b.hull([(x + nx * d, y + ny * d, z) for x, y in ((11.6, 14.77), (16.6, 10.6)) for z in (-5.4, 12.6) for d in (0.06, 0.2)],
            'team', bevel=0.02, mirror=True)
     # vents on the wing slopes (rear)
     for z0, z1 in ((-17.4, -13.4), (-11.4, -7.4)):
@@ -86,7 +87,7 @@ def build(k):
     def ys(x):
         return 0.05 + 2.6 * (x - 0.1) / (half - 0.1)
     for z0, z1 in ((-17.4, -5.6), (-5.6, 6.2), (6.2, 17.4)):
-        dr.hull([D(x, ys(x) + dy, z) for x in (0.1, half) for z in (z0 + 0.05, z1 - 0.05) for dy in (0.0, -0.6)], 'paint2', bevel=0.08)
+        dr.hull([D(x, ys(x) + dy, z) for x in (0.1, half) for z in (z0 + 0.05, z1 - 0.05) for dy in (0.0, -0.6)], 'hazard', bevel=0.08)
     dr.hull([D(x, ys(x) + dy, z) for x in (0.8, 3.0) for z in (-15.6, 15.4) for dy in (0.07, 0.2)], 'team', bevel=0.03)
     dr.cyl(D(0.0, -0.05, -17.0), D(0.0, -0.05, 17.0), 0.5, 8, 'dark')
     k.clone('door2', 'door1', mirror_x=True)

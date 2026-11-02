@@ -5,8 +5,9 @@ wings live inside a glove slab under the hull and slide out 14 elmo on take-off 
 stowed and slides to the LEFT), so the flying plan is a fat cross with four fans. A hazard-striped nano turret sits
 on the right rear pod, aimed at the build-beam origin (base's first vertex, the rear-right corner, as in TA).
 Pieces (TA layout): base, wing1/wing2 (sliding wings; wing1 = mirrored clone of wing2).
-Value groups from above: light Arm hull and wings, dark paint2 fan pods + deck, black fan wells, team on the wing tips,
-the deck centre and the fin tops; yellow hazard on the nose band and the nano turret.
+Value groups from above: light Arm hull and wings, dark paint2 fan pods, black fan wells, the equipment deck in
+construction stripes (builder read) with a team panel at its front; team on the wing tips and the fin tops; hazard
+also on the nose band and the nano turret.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
 
@@ -55,11 +56,11 @@ def build(k):
            [(x * sx, y + 0.14, z + 0.12) for sx in (-1, 1) for x, y, z in
             [(4.4, 7.0, 23.2), (5.2, 8.8, 21.0)]], 'hazard', bevel=0.02)
     b.box((-2.4, 2.8, 23.6), (2.4, 3.6, 23.9), 'lightw', bevel=0.0)
-    # dorsal equipment deck: dark raised block, team centre panel, vents, a little crane boom
+    # dorsal equipment deck in construction stripes (builder read), team panel at its front, vents, a little crane boom
     b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
-            [(5.8, 10.6, 12.0), (5.8, 10.8, -16.0), (5.0, 13.0, 10.6), (5.0, 13.0, -15.0)]], 'paint2', bevel=0.14)
+            [(5.8, 10.6, 12.0), (5.8, 10.8, -16.0), (5.0, 13.0, 10.6), (5.0, 13.0, -15.0)]], 'hazard', bevel=0.14)
     b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
-            [(4.2, 12.98, 9.6), (4.2, 12.98, -4.4), (4.2, 13.14, 9.6), (4.2, 13.14, -4.4)]], 'team', bevel=0.03)
+            [(4.2, 13.04, 9.6), (4.2, 13.04, 3.4), (4.2, 13.2, 9.6), (4.2, 13.2, 3.4)]], 'team', bevel=0.03)
     for z in (-6.4, -8.6, -10.8):
         b.box((-4.0, 13.0, z - 0.5), (4.0, 13.15, z + 0.5), 'black', bevel=0.0)
     b.cyl((3.4, 13.0, -13.4), (3.4, 14.6, -13.4), 0.9, 10, 'dark', bevel=0.03)

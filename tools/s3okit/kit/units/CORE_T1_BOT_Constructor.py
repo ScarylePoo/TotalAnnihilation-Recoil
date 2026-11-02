@@ -4,8 +4,8 @@ long nano cannon (nanogun) laid ACROSS the back of the unit, with its end cap (g
 cap slides off, the cannon swings up and round to point forward and the nozzle telescopes out; torso turns to the
 build. Standard biped skeleton; script ported to scripts/CORE_T1_BOT_Constructor.lua.
 Coordinates are ENGINE/global: X right, Y up, Z forward.
-Top view (what makes it the Core builder): dark warm hump with a team plate on one side, a long LIGHT steel cannon
-bar across the rear with an ochre hazard end cap - an L / T outline unlike any Core combat kbot."""
+Top view (what makes it the Core builder): a hump in construction stripes with a team plate on its top, a long LIGHT
+steel cannon bar with a team strip across the rear and an ochre hazard end cap - an L / T outline unlike any Core combat kbot."""
 import math
 
 UNIT = dict(
@@ -34,11 +34,11 @@ def build(k):
     t.hull([A(x, y, z) for x, y, z in
             [(-4.6, 0.4, -2.6), (-4.6, 0.4, 6.0), (10.0, 0.4, -2.6), (10.0, 0.4, 7.4),
              (-3.8, 5.2, -1.8), (-3.8, 4.0, 5.6), (9.4, 12.8, -1.4), (9.4, 9.0, 4.6),
-             (2.0, 12.4, -1.4), (2.0, 9.4, 3.4), (10.6, 4.0, 9.4), (-3.0, 2.4, 8.6)]], 'paint', bevel=0.24)
-    # team plate on the hump's sloped top
+             (2.0, 12.4, -1.4), (2.0, 9.4, 3.4), (10.6, 4.0, 9.4), (-3.0, 2.4, 8.6)]], 'hazard', bevel=0.24)  # striped hump
+    # team plate covering the hump's sloped top
     t.hull([A(x, y, z) for x, y, z in
-            [(3.2, 12.22, -0.6), (8.4, 12.42, -0.6), (3.2, 9.6, 2.6), (8.4, 9.4, 3.6),
-             (3.2, 12.38, -0.65), (8.4, 12.58, -0.65), (3.2, 9.76, 2.55), (8.4, 9.56, 3.55)]], 'team', bevel=0.03)
+            [(2.5, 12.3, -1.0), (8.9, 12.62, -1.0), (2.5, 9.5, 3.2), (8.9, 9.24, 4.2),
+             (2.5, 12.46, -1.05), (8.9, 12.78, -1.05), (2.5, 9.66, 3.15), (8.9, 9.4, 4.15)]], 'team', bevel=0.03)
     # cannon saddle behind the hump (paint2): the nano cannon rests on it
     t.hull([A(x, y, z) for x, y, z in
             [(-4.0, 0.4, -6.2), (9.0, 0.4, -6.2), (-4.0, 0.4, -2.0), (9.0, 0.4, -2.0),
@@ -72,7 +72,7 @@ def build(k):
     n.cyl(N(-2.6, 0, 0), N(-1.8, 0, 0), 2.6, 10, 'dark', rot=math.pi / 10, bevel=0.06)
     for x in (1.0, 6.0, 11.0):
         n.cyl(N(x, 0, 0), N(x + 0.9, 0, 0), 2.55, 10, 'dark', rot=math.pi / 10, bevel=0.04)    # clamp rings
-    n.box(N(2.4, 2.1, -1.0), N(9.6, 2.7, 1.0), 'team', bevel=0.04)                              # team strip on top
+    n.box(N(-1.4, 2.1, -1.2), N(13.6, 2.7, 1.2), 'team', bevel=0.04)                              # team strip on top
     z = k.piece('nozzle'); Z = z.at                                                              # (-2.5, 24.5, -7.5)
     z.cyl(Z(0.0, 0, 0), Z(8.6, 0, 0), 1.3, 10, 'dark', bevel=0.04)
     z.cyl(Z(8.4, 0, 0), Z(9.0, 0, 0), 1.6, 10, 'dark', bevel=0.04)

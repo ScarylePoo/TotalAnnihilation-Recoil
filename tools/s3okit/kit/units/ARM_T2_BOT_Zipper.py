@@ -21,7 +21,7 @@ def hexpod(b, sx):
     cx = 3.9
     ring = lambda y, r: [P(cx + r * math.cos(a), y, r * math.sin(a)) for a in [i * math.pi / 3 + math.pi / 6 for i in range(6)]]
     b.hull(ring(-1.6, 3.6) + ring(1.6, 4.0) + ring(3.0, 3.4), 'paint', bevel=0.16)
-    b.hull(ring(3.0, 2.6) + ring(3.2, 2.5), 'team', bevel=0.04)
+    b.hull(ring(3.0, 3.3) + ring(3.2, 3.2), 'team', bevel=0.04)
     b.cyl(P(0.6, 0, 0), P(-0.6, 0, 0), 1.7, 10, 'dark', bevel=0.05)
 
 

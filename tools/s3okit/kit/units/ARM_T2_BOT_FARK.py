@@ -3,8 +3,8 @@ tool pods, a small visored head, a fan of four armour plates spread behind it li
 nano lathes. To build it leans forward, raises and spreads the arms and turns the torso to the job. Short standard
 biped legs (TA's FARK is the squattest walker); script ported to scripts/ARM_T2_BOT_FARK.lua.
 Coordinates are ENGINE/global: X right, Y up, Z forward.
-Top view (what makes it a FARK): a light half-disc fan with a team band across it, the yellow-striped pods either
-side and two cyan nano tips in front - a small round shell, unlike any other Arm kbot."""
+Top view (what makes it a FARK): a half-disc fan whose flat back plate is in construction stripes with a team band,
+a wide team band on the plate above it, the yellow-striped pods either side and two cyan nano tips in front - a small round shell, unlike any other Arm kbot."""
 import math
 
 UNIT = dict(
@@ -16,7 +16,7 @@ UNIT = dict(
 )
 
 
-def fan(b, a_deg, team=False):
+def fan(b, a_deg, team=0.0, mat='paint'):
     """one radial shell plate around the piece origin, pointing back (a=0), up (a=90) or down-back (a<0)."""
     from mathutils import Vector
     a = math.radians(a_deg)
@@ -24,9 +24,9 @@ def fan(b, a_deg, team=False):
     n = Vector((0, math.cos(a), math.sin(a)))
     o = Vector(b.at(0, 0, 0))
     pts = [o + d * r + n * t + Vector((x, 0, 0)) for r, w in ((1.8, 4.6), (9.8, 8.0)) for x in (-w, w) for t in (-0.45, 0.45)]
-    b.hull(pts, 'paint', bevel=0.12)
+    b.hull(pts, mat, bevel=0.12)
     if team:
-        b.hull([o + d * r + n * t + Vector((x, 0, 0)) for r in (3.4, 9.0) for x in (-2.8, 2.8) for t in (0.47, 0.6)],
+        b.hull([o + d * r + n * t + Vector((x, 0, 0)) for r in (3.4, 9.0) for x in (-team, team) for t in (0.5, 0.64)],
                'team', bevel=0.03)
 
 
@@ -62,8 +62,8 @@ def build(k):
 
     # ------------------------------------------------------------------ the fan shell (4 plates, origin 0, 15, 0)
     fan(k.piece('shield1'), 90)
-    fan(k.piece('shield2'), 42, team=True)
-    fan(k.piece('shield3'), 0, team=True)
+    fan(k.piece('shield2'), 42, team=4.6)
+    fan(k.piece('shield3'), 0, team=2.4, mat='hazard')      # the flat back plate: construction stripes (builder read)
     fan(k.piece('shield4'), -42)
 
     # ------------------------------------------------------------------ arms: left built, right = mirrored clones

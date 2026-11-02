@@ -5,7 +5,8 @@ them again. TA hid the pistols inside its legs; on the standard biped skeleton t
 are kept as static hip HOLSTERS hanging off the pelvis, with their doors (r/llegdoor) and holstered pistols
 (r/lgunhide) inside, outside the new legs' swing. Script ported to scripts/ARM_T2_BOT_Maverick.lua.
 Coordinates are ENGINE/global: X right, Y up, Z forward.
-Top view (what makes it a Maverick): narrow tall body, two square light pauldrons with team tops, two holster slabs
+Top view (what makes it a Maverick): narrow tall body, two square light pauldrons with team tops, team plates on
+the chest top beside the helmet, two holster slabs
 with team caps at the hips - a cowboy's double holster - and dark arms."""
 import math
 
@@ -41,6 +42,8 @@ def build(k):
              (5.8, 5.8, 3.6), (3.4, 0.6, 6.0)]], 'paint', bevel=0.22)
     t.hull([A(x * sx, y, z) for sx in (-1, 1) for x, y, z in                          # chest plate
             [(2.4, 0.6, 5.85), (3.6, 3.6, 5.1), (2.4, 0.6, 6.05), (3.6, 3.6, 5.3)]], 'paint2', bevel=0.05)
+    for sx in (-1, 1):                                                                 # team plates on the chest top
+        t.box(A(sx * 3.4 if sx > 0 else -5.6, 5.86, -4.0), A(5.6 if sx > 0 else -3.4, 6.0, 3.0), 'team', bevel=0.03)
     t.hull([A(x * sx, y, z) for sx in (-1, 1) for x, y, z in                          # back pack
             [(4.2, 0.0, -4.0), (4.2, 5.2, -4.4), (3.6, 0.6, -7.0), (3.6, 4.6, -7.0)]], 'paint2', bevel=0.16)
     for x in (-2.2, 0.0, 2.2):

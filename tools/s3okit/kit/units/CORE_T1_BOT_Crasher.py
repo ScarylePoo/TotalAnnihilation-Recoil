@@ -4,8 +4,8 @@ drives those pieces; the original is preserved in tools/s3okit/ref/ on install):
 with two short launch tubes (gun1 / gun2 recoil) poking out of its face. Standard biped skeleton (short legs: the
 pelvis sits at 7.4 like the original); script ported to scripts/CORE_T1_BOT_Crasher.lua.
 Coordinates are ENGINE/global: X right, Y up, Z forward.
-Top view (what makes it a Crasher): a dark warm U with team plates on its two arms, and a LIGHT steel ball sitting
-in the U - the only round silhouette among the Core kbots, with two dark tube mouths at the open end."""
+Top view (what makes it a Crasher): a dark warm U with team plates on its two arms, and a LIGHT steel ball with a
+team band over its crown sitting in the U - the only round silhouette among the Core kbots, with two dark tube mouths at the open end."""
 import math
 
 UNIT = dict(
@@ -41,8 +41,8 @@ def build(k):
              (6.6, 14.0, -7.4), (9.8, 14.0, -5.0), (6.6, 13.0, 2.6), (9.8, 13.0, 2.0),
              (8.8, 8.0, 4.2), (11.0, 8.0, -1.6)]], 'paint', bevel=0.22, mirror=True)
     t.hull([A(x, y, z) for x, y, z in                                                           # team plate on the arm top
-            [(7.2, 13.98, -5.8), (9.2, 13.98, -4.4), (7.2, 13.16, 1.8), (9.2, 13.16, 1.4),
-             (7.2, 14.14, -5.75), (9.2, 14.14, -4.35), (7.2, 13.32, 1.75), (9.2, 13.32, 1.35)]], 'team', bevel=0.03, mirror=True)
+            [(6.8, 14.04, -6.9), (9.6, 14.04, -4.9), (6.8, 13.08, 2.3), (9.6, 13.08, 1.7),
+             (6.8, 14.2, -6.85), (9.6, 14.2, -4.85), (6.8, 13.24, 2.25), (9.6, 13.24, 1.65)]], 'team', bevel=0.03, mirror=True)
     t.hull([A(x, y, z) for x, y, z in                                                           # ochre hazard arm tips
             [(8.9, 8.1, 4.12), (10.9, 8.1, -1.5), (6.7, 12.9, 2.62), (9.7, 12.9, 2.08),
              (9.05, 8.1, 4.3), (11.05, 8.1, -1.35), (6.8, 12.9, 2.8), (9.8, 12.9, 2.25)]], 'hazard', bevel=0.02, mirror=True)
@@ -58,6 +58,7 @@ def build(k):
     g.cyl(G(5.2, 0, 0), G(6.0, 0, 0), 2.6, 12, 'dark', bevel=0.04, mirror=True)               # side hubs
     g.cyl(G(0, 0, 4.6), G(0, 0, 6.6), 4.6, 12, 'dark', bevel=0.08)                            # face plate
     g.box(G(-0.5, 5.6, -3.0), G(0.5, 6.4, 3.0), 'dark', bevel=0.05)                           # top seam rib
+    g.cyl(G(-1.4, 0, 0), G(1.4, 0, 0), 6.12, 20, 'team')                                       # team band over the drum
 
     # ------------------------------------------------------------------ launch tubes (gun2 cloned mirrored)
     a = k.piece('gun1'); B = a.at                       # (3.86, 18.78, 7.39), firept1 at z +4

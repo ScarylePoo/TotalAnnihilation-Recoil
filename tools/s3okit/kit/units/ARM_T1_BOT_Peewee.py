@@ -30,7 +30,7 @@ def build(k):
             [(2.6, 1.4, 4.0), (3.0, 4.6, 4.9), (2.6, 1.4, 4.2), (3.0, 4.6, 5.1)]], 'paint2', bevel=0.06)
     # team plate on the chest top
     t.hull([A(x * sx, y, z) for sx in (-1, 1) for x, y, z in
-            [(3.5, 9.18, -3.0), (3.5, 9.18, 2.0), (3.45, 9.34, -2.95), (3.45, 9.34, 1.95)]], 'team', bevel=0.04)
+            [(3.9, 9.24, -3.4), (3.9, 9.24, 2.4), (3.85, 9.38, -3.35), (3.85, 9.38, 2.35)]], 'team', bevel=0.04)
     # head: small block on top of the chest, cyan visor slit
     t.hull([A(x * sx, y, z) for sx in (-1, 1) for x, y, z in
             [(1.9, 9.3, -1.2), (1.9, 9.3, 2.4), (1.6, 12.4, -1.0), (1.6, 12.4, 1.9), (1.4, 10.4, 3.0)]], 'paint', bevel=0.12)

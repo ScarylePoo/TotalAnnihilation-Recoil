@@ -4,7 +4,7 @@ at x -+2.81, turn x; barrel1/2 recoil 5). Piece layout is the third-party S3O's 
 (turn y), sleeves, barrels, firepoint1/2 + smoke1/2 (emit, empty), tracks1..4 (frame-cycled tread..tread4), wheels1..7
 (hub discs both sides, spin x: big and small alternate as in the S3O).
 Distinct from the Goliath: lower and longer, a pointed prow instead of a slab nose, twin long guns instead of one fat
-one, team colour on a long dorsal stripe + the turret's front arc (not a cross saddle).
+one, team colour on a long dorsal stripe, the turret's front arc and the skirt fronts (not a cross saddle).
 Value groups from above: dark warm armour, darker paint2 skirts/turret sides, black treads, two light steel barrels
 running past the prow, team stripe, ochre hazard prow chevron.
 Coordinates are ENGINE/global: X right, Y up, Z forward."""
@@ -58,9 +58,9 @@ def build(k):
     b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
             [(5.6, 13.1, 4.4), (4.6, 12.0, 13.0), (5.6, 13.24, 4.4), (4.6, 12.14, 13.0)]], 'team', bevel=0.03)
     b.box((-4.0, 14.2, -15.4), (4.0, 14.36, -13.4), 'team', bevel=0.03)
-    # team plates on the skirt-top fronts (forward of the teeth: not full-length T1 fender bands)
-    b.hull([(x, y, z) for x, y in ((11.0, 9.62), (16.8, 8.78)) for z in (8.0, 15.0)] +
-           [(x, y + 0.14, z) for x, y in ((11.0, 9.62), (16.8, 8.78)) for z in (8.0, 15.0)], 'team', bevel=0.03, mirror=True)
+    # team plates on the front two thirds of the skirt tops (not full-length T1 fender bands)
+    b.hull([(x, y, z) for x, y in ((11.0, 9.62), (16.8, 8.78)) for z in (-6.0, 15.0)] +
+           [(x, y + 0.14, z) for x, y in ((11.0, 9.62), (16.8, 8.78)) for z in (-6.0, 15.0)], 'team', bevel=0.03, mirror=True)
     # turret ring
     b.cyl((0, 13.8, -8.92), (0, 14.7, -8.92), 7.6, 20, 'dark', bevel=0.06)
     # rear deck: louvres + twin exhausts angled out

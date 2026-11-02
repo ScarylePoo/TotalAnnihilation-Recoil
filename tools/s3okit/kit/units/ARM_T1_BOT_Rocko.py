@@ -4,7 +4,7 @@ to fire; lbarrel is the launch tube that kicks back into the pod) and a tall sla
 static). Standard biped skeleton (backwards legs, hips widened from TA's 1.95 so the legs read as two);
 script ported to scripts/ARM_T1_BOT_Rocko.lua.
 Coordinates are ENGINE/global: X right, Y up, Z forward.
-Top view: light octagon body with a team band, light hex pod with a team cap on the left, a dark (paint2) shield
+Top view: light octagon body with a wide team roof band, light hex pod with a team cap on the left, a dark (paint2) shield
 slab with a hazard edge on the right - a lopsided outline no other Arm kbot has."""
 import math
 
@@ -32,9 +32,10 @@ def build(k):
     t.box(A(-1.8, 6.0, 5.55), A(1.8, 6.5, 5.75), 'lightc', bevel=0.0)
     # team band across the roof, front to back
     t.hull([A(x * sx, y, z) for sx in (-1, 1) for x, y, z in
-            [(1.4, 10.38, -4.2), (1.4, 10.38, 4.0), (1.35, 10.54, -4.15), (1.35, 10.54, 3.95)]], 'team', bevel=0.03)
+            [(2.25, 10.46, -4.4), (2.25, 10.46, 4.2), (2.2, 10.62, -4.35), (2.2, 10.62, 4.15)]], 'team', bevel=0.03)
     # dark back pack with vents
     t.box(A(-3.0, 2.6, -7.0), A(3.0, 8.4, -4.6), 'dark', bevel=0.14)
+    t.box(A(-2.6, 8.4, -6.7), A(2.6, 8.55, -4.9), 'team', bevel=0.03)                     # team lid on the back pack
     for y in (3.6, 4.8, 6.0, 7.2):
         t.box(A(-2.4, y, -7.15), A(2.4, y + 0.45, -6.95), 'black', bevel=0.0)
     # shoulder stubs: left one carries the pod hinge, right one the shield
@@ -45,7 +46,7 @@ def build(k):
     m = k.piece('lmisspod'); M = m.at
     hexr = 3.4
     m.cyl(M(3.3, 5.6, 0), M(3.3, -3.4, 0), hexr, 6, 'paint', rot=0.0, bevel=0.2)           # hex body, muzzle down
-    m.cyl(M(3.3, 5.6, 0), M(3.3, 6.1, 0), 2.6, 6, 'team', bevel=0.06)                       # team cap (top at rest)
+    m.cyl(M(3.3, 5.6, 0), M(3.3, 6.1, 0), hexr - 0.1, 6, 'team', bevel=0.06)                       # team cap (top at rest)
     m.cyl(M(3.3, -3.4, 0), M(3.3, -4.0, 0), 3.0, 6, 'dark', bevel=0.06)                     # muzzle collar
     m.cyl(M(0.0, 0.0, 0), M(0.6, 0.0, 0), 1.8, 10, 'dark', bevel=0.05)                      # hinge boss
     # dark armour bands around the hex (read as rings when the pod points forward)

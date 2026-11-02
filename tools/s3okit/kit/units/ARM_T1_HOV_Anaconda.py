@@ -4,7 +4,8 @@ left side (TA layout: the sleeve/barrel sit at x -4.8).
 Pieces (TA 3DO, COB drives them): base (rocks x/z), turret (turn y), sleeve (turn x, gun mantlet), barrel (recoil
 move z -6), flare (empty emit), wake1..8 (empty emit points on the skirt).
 Value groups from above: black skirt ring around everything (reads "hover"), light Arm hull + turret, four dark
-fan discs with light blades, dark-blue paint2 deck band and mantlet, team: turret roof + a front-glacis chevron.
+fan discs with light blades in team housing rings, dark-blue paint2 deck band and mantlet, team: turret roof, the deck spine, a front-glacis chevron and a rear
+chevron.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
 
@@ -22,8 +23,8 @@ def octo(rx, rz, c, y, zc=0.0):
 
 
 def fan(b, x, z, y0, y1, r):
-    """lift fan: dark housing ring, black well, light radial blades + hub (readable disc from above)"""
-    b.cyl((x, y0, z), (x, y1, z), r + 0.9, 16, 'dark', bevel=0.12, mirror=True)
+    """lift fan: team housing ring, black well, light radial blades + hub (readable disc from above)"""
+    b.cyl((x, y0, z), (x, y1, z), r + 1.1, 16, 'team', bevel=0.12, mirror=True)
     b.cyl((x, y1, z), (x, y1 + 0.05, z), r, 16, 'black', mirror=True)
     for i in range(5):
         a = i * 2 * math.pi / 5 + 0.3
@@ -50,8 +51,8 @@ def build(k):
     b.hull(octo(23.2, 23.2, 8.3, 7.0) + octo(22.6, 22.6, 8.1, 8.9), 'paint2', bevel=0.1)
     # deck plate on top, slightly raised, light
     b.hull(octo(18.8, 18.8, 6.6, 15.3) + octo(18.2, 18.2, 6.4, 16.4), 'paint', bevel=0.12)
-    # central spine (dark blue) the turret ring sits on, running to the nose
-    b.box((-5.0, 16.2, -15.5), (5.0, 17.0, 16.2), 'paint2', bevel=0.12)
+    # central spine (team) the turret ring sits on, running to the nose
+    b.box((-5.0, 16.2, -15.5), (5.0, 17.0, 16.2), 'team', bevel=0.12)
     # four big lift fans
     for z in (-9.6, 5.2):
         fan(b, 12.6, z, 15.8, 17.4, 4.4)
@@ -61,6 +62,11 @@ def build(k):
                 [(1.2, 16.42, 18.6), (12.4, 16.42, 12.4), (12.4, 16.42, 9.8), (1.2, 16.42, 15.8),
                  (1.2, 16.56, 18.6), (12.4, 16.56, 12.4), (12.4, 16.56, 9.8), (1.2, 16.56, 15.8)]],
                'team', bevel=0.03, mirror=True)
+    # rear team chevron (pointing back) behind the turret
+    b.hull([(x, y, z) for x, y, z in
+            [(1.2, 16.42, -19.2), (12.0, 16.42, -13.4), (12.0, 16.42, -9.6), (1.2, 16.42, -15.4),
+             (1.2, 16.56, -19.2), (12.0, 16.56, -13.4), (12.0, 16.56, -9.6), (1.2, 16.56, -15.4)]],
+           'team', bevel=0.03, mirror=True)
     # nose: headlights + sensor block
     b.box((-3.6, 12.4, 21.4), (3.6, 15.4, 22.0), 'dark', bevel=0.08)
     b.box((-3.0, 13.0, 21.95), (3.0, 14.8, 22.1), 'lightc', bevel=0.0)

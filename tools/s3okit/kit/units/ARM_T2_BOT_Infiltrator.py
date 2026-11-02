@@ -4,7 +4,7 @@ peaked roof of three stealth plates. Cloaking (Activate) slides the front plate 
 head, and the rear plate (buttguard) back over the tail. Standard biped skeleton; script ported to
 scripts/ARM_T2_BOT_Infiltrator.lua. Coordinates are ENGINE/global: X right, Y up, Z forward.
 Top view (what makes it an Infiltrator): a long dark arrowhead (head - roof - tail) on two splayed legs, the roof a
-light chevron with a team ridge - darker overall than any other Arm kbot (stealth), lit by a cyan eye."""
+light chevron with a team ridge on all three plates - darker overall than any other Arm kbot (stealth), lit by a cyan eye."""
 import math
 
 UNIT = dict(
@@ -70,5 +70,5 @@ def build(k):
 
     # ------------------------------------------------------------------ the three stealth roof plates
     roof(k.piece('backshield'), 0.4, 8.4, 7.6, -4.8, 5.3, 'paint', team=True)            # (0, 15, 0.5)
-    roof(k.piece('buttguard'), 0.6, 8.2, 7.4, -6.4, 1.8, 'paint')                        # (0, 14, -0.5)
-    roof(k.piece('hood'), 0.4, 8.2, 7.4, -2.0, 6.0, 'paint')                             # (0, 13.12, 1.25)
+    roof(k.piece('buttguard'), 0.6, 8.2, 7.4, -6.4, 1.8, 'paint', team=True)                        # (0, 14, -0.5)
+    roof(k.piece('hood'), 0.4, 8.2, 7.4, -2.0, 6.0, 'paint', team=True)                             # (0, 13.12, 1.25)

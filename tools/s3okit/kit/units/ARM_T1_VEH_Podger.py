@@ -2,8 +2,8 @@
 low cab in front, tall mine bay at the rear closed by two doors (turn z ~91 deg + drop). When activated the `plate`
 lift rises 7.4 elmo through the open bay carrying `post` and the mine `gun` (turn y); `beam` (empty) is the emit
 point at the dispenser muzzle.
-Value groups from above: light Arm cab/bonnet + bay walls, darker paint2 doors with team stripes, dark wheels
-(exaggerated 6.5 radius - they are the unit's silhouette), team plates on the bonnet and mudguard tops,
+Value groups from above: light Arm cab/bonnet + bay walls, mine-bay doors in construction stripes (it is a builder),
+dark wheels (exaggerated 6.5 radius - they are the unit's silhouette), team plates on the bonnet and mudguard tops,
 hazard/black mine-chute markings on the dispenser.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
@@ -28,6 +28,7 @@ def build(k):
         b.hull([(7.6, 13.6, z - 7.0), (15.2, 13.6, z - 7.0), (7.6, 13.6, z + 7.0), (15.2, 13.6, z + 7.0),
                 (7.6, 14.6, z - 4.6), (15.2, 14.6, z - 4.6), (7.6, 14.6, z + 4.6), (15.2, 14.6, z + 4.6)],
                'paint2', bevel=0.12, mirror=True)
+        b.box((8.8, 14.65, z - 3.8), (14.2, 14.8, z + 3.8), 'team', bevel=0.03, mirror=True)   # team mudguard top
         b.hull([(7.6, 9.0, z - 1.0), (8.8, 9.0, z - 1.0), (7.6, 13.6, z - 3.0), (8.8, 13.6, z - 3.0),
                 (7.6, 9.0, z + 1.0), (8.8, 9.0, z + 1.0), (7.6, 13.6, z + 3.0), (8.8, 13.6, z + 3.0)], 'dark', bevel=0.06, mirror=True)
     # ------------------------------------------------------------------ cab + bonnet (front)
@@ -79,8 +80,7 @@ def build(k):
 
     # ---------------------------------------------------------------- doors (door1 hinge at x -4.05; door2 = mirror)
     d = k.piece('door1'); D = d.at
-    d.box(D(0.05, -0.5, -7.9), D(4.1, 0.6, 8.0), 'paint2', bevel=0.1)
-    d.box(D(0.6, 0.6, -7.2), D(3.7, 0.76, 7.2), 'team', bevel=0.03)
+    d.box(D(0.05, -0.5, -7.9), D(4.1, 0.6, 8.0), 'hazard', bevel=0.1)    # bay doors in construction stripes (builder)
     d.cyl(D(0.0, 0.0, -7.6), D(0.0, 0.0, 7.6), 0.42, 8, 'dark')
     k.clone('door2', 'door1', mirror_x=True)
 

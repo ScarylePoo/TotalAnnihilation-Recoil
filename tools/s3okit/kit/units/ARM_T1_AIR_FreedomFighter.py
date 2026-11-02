@@ -7,7 +7,7 @@ Pieces (TA layout): base, wing1/wing2 (sliding wings; wing2 = mirrored clone), f
 (empty emit points at the wing-pod nozzles), rearthrust (empty, main nozzle), mgun1/mgun2 (empty gun emit points at the
 pod muzzles).
 Value groups from above: light Arm fuselage, gloves and wings; dark paint2 intake pods; near-black nozzles; team
-wedges on the glove tops + a spine band; cyan engine glows.
+wedges on the glove tops, the tailplanes + a spine band; cyan engine glows.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
 
@@ -64,6 +64,9 @@ def build(k):
     b.box((-0.3, 11.6, -19.2), (0.3, 11.95, -18.4), 'lightr', bevel=0.0)
     b.hull([(2.4, 4.4, -13.0), (2.4, 4.4, -19.0), (9.6, 4.4, -18.0), (9.6, 4.4, -20.0),
             (2.4, 4.85, -13.0), (2.4, 4.85, -19.0), (9.6, 4.65, -18.0), (9.6, 4.65, -20.0)], 'paint', bevel=0.06, mirror=True)
+    ty = lambda x: 4.85 - (x - 2.4) * 0.2 / 7.2                                          # tailplane top
+    b.hull([(x, ty(x) + d, z) for x, z in [(3.2, -13.9), (9.0, -18.2), (9.0, -19.6), (3.2, -18.7)] for d in (0.06, 0.18)],
+           'team', bevel=0.02, mirror=True)                                               # team tailplanes
     # main nozzle (rearthrust at 0, 3.12, -17)
     b.cyl((0, 3.9, -15.4), (0, 3.9, -18.6), 2.1, 14, 'dark', r2=1.8, bevel=0.05)
     b.cyl((0, 3.9, -18.55), (0, 3.9, -18.7), 1.35, 14, 'lightc')

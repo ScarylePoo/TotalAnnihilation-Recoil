@@ -251,6 +251,8 @@ def preserve_original(fname, repo=REPO):
     must read it, not our own output. Only the first, non-kit version is kept."""
     dst = os.path.join(repo, 'objects3d', fname)
     keep = os.path.join(repo, REF_DIR, fname)
+    if _original_3do(fname, repo):     # the S3O there is our own earlier output; the TA 3DO is the reference
+        return None
     if os.path.exists(dst) and not os.path.exists(keep):
         os.makedirs(os.path.dirname(keep), exist_ok=True)
         shutil.copy(dst, keep)
@@ -262,7 +264,20 @@ def ref_model(model_rel, repo=REPO):
     if not model_rel:
         return None
     keep = os.path.join(REF_DIR, os.path.basename(model_rel))
-    return keep if os.path.exists(os.path.join(repo, keep)) else model_rel
+    if os.path.exists(os.path.join(repo, keep)):
+        return keep
+    return _original_3do(os.path.basename(model_rel), repo) or model_rel
+
+
+def _original_3do(fname, repo=REPO):
+    """objects3d/<stem>.3do next to a .s3o of the same stem: the S3O was made by the kit from that 3DO (third-party
+    S3O originals have no 3DO and are kept in REF_DIR), so rebuilds must read the 3DO, never the kit's own output
+    (its pieces are renamed lowercase and walkers are already remapped)."""
+    stem, ext = os.path.splitext(fname)
+    if ext.lower() != '.s3o':
+        return None
+    f = _find_ci(os.path.join(repo, 'objects3d'), [stem + '.3do'])
+    return os.path.join('objects3d', f) if f else None
 
 
 def install_unit(unitname, workdir, repo=REPO):
