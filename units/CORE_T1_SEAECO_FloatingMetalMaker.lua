@@ -7,7 +7,7 @@ return {
 		description = "Converts Energy into Metal",
 		side = "CORE",
 		unitname = "core_t1_seaeco_floatingmetalmaker",
-		objectname = "CORE_T1_SEAECO_FloatingMetalMaker",
+		objectname = "CORE_T1_SEAECO_FloatingMetalMaker.s3o",
 		corpse = "CORE_T1_SEAECO_FloatingMetalMaker_dead",
 		icontype = "building",
 		category = "CORE LEVEL1 NOWEAPON NOTAIR NOTSUB",
