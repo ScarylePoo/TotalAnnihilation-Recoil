@@ -7,7 +7,7 @@ return {
 		description = "Missile Tower - Naval Series",
 		side = "CORE",
 		unitname = "core_t1_seadef_stinger",
-		objectname = "CORE_T1_SEADEF_Stinger",
+		objectname = "CORE_T1_SEADEF_Stinger.s3o",
 		script = "CORE_T1_SEADEF_Stinger.lua",
 		corpse = "CORE_T1_SEADEF_Stinger_dead",
 		icontype = "turret",
