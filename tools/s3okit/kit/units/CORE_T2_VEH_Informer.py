@@ -6,7 +6,7 @@ dish, a folding radar of a centre plate and two hinged wing panels per side (pan
 flatten when deployed). Piece layout is the third-party S3O's (the COB drives it).
 The radar is the identity, so its panels are enlarged well past the S3O's (span ~16 elmo, depth 10): stowed it lies
 over the front section as a wide light steel shell with a team centre; deployed it stands up as a big light panel.
-Value groups from above: light steel radar panels + team centre, dark warm carrier, paint2 rear deck, black
+Value groups from above: light steel radar panels + team centre, dark warm carrier, paint2 rear deck with a team plate, black
 roller/tracks, ochre hazard on the coupling.
 Coordinates are ENGINE/global: X right, Y up, Z forward."""
 import math
@@ -35,6 +35,7 @@ def build(k):
             [(9.0, 3.4, -15.0), (9.0, 3.4, -2.6), (8.4, 7.2, -14.2), (8.0, 7.2, -4.0), (4.2, 5.6, -1.0), (4.6, 3.4, -0.8)]],
            'paint', bevel=0.18)
     r.box((-6.4, 7.2, -13.4), (6.4, 7.5, -5.0), 'paint2', bevel=0.05)
+    r.box((-5.9, 7.5, -13.0), (5.9, 7.65, -5.4), 'team', bevel=0.03)                    # team plate on the rear deck
     r.box((-5.0, 7.5, -12.6), (5.0, 8.6, -9.4), 'dark', bevel=0.08)            # generator block
     for z in (-12.2, -11.4, -10.6, -9.8):
         r.box((-4.6, 8.6, z), (4.6, 8.72, z + 0.4), 'black', bevel=0.0)
