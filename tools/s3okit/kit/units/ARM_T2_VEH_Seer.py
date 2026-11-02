@@ -1,7 +1,7 @@
 """Seer (ARM_T2_VEH_Seer) - Arm mobile radar. Compact tracked carrier with a stepped central superstructure and a
 big orange-peel radar reflector on top (dish spins y when active): wider than the hull, it is the unit's identity
 from above - a wide light curved band with a team top rim, dark back lattice and a feed horn on a boom.
-Value groups from above: the dish (largest light block, team rim), darker paint2 carrier deck, light track guards,
+Value groups from above: the dish (largest light block, team rim), darker paint2 carrier deck, light track guards with team strips,
 black tracks.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
@@ -23,7 +23,8 @@ def build(k):
     # track guards (flat, light) with angled front cheeks
     b.hull([(8.0, 6.2, -14.4), (12.8, 6.2, -14.4), (8.0, 6.2, 11.4), (12.8, 6.2, 11.4),
             (8.0, 4.8, 15.8), (12.6, 4.8, 15.4), (8.0, 4.8, -16.0), (12.6, 4.8, -15.6)], 'paint', bevel=0.14, mirror=True)
-    b.box((9.0, 6.2, -12.8), (12.0, 6.4, 9.6), 'paint2', bevel=0.04, mirror=True)
+    b.box((9.0, 6.2, -12.8), (12.0, 6.4, -4.0), 'paint2', bevel=0.04, mirror=True)
+    b.box((9.0, 6.2, -4.0), (12.0, 6.4, 9.6), 'team', bevel=0.04, mirror=True)              # team front of the guard strip
     # hull (crosses x = 0)
     b.prism(-8.2, 8.2, [(-15.4, 2.2), (13.8, 2.2), (16.2, 4.6), (15.0, 7.0), (-15.6, 7.0), (-16.2, 4.6)], 'paint2', bevel=0.14)
     # stepped superstructure: lower deck box, upper pedestal
