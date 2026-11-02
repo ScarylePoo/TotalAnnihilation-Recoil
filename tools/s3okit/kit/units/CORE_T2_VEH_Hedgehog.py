@@ -5,7 +5,7 @@ the four triangular armour fins (Guard1..4) slide out and down 7.6/8.4 as stabil
 at the cell face; GP the empty ground piece.
 Value groups from above: the long Box is the read - a light steel launcher spine running the full length with a team
 stripe and an ochre cell face - over a dark warm carrier; four dark fins standing either side of it (the "hedgehog"
-spines), black hex wheels at the corners, paint2 wheel arches.
+spines), black hex wheels at the corners, paint2 wheel arches with team plates.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
 
@@ -33,6 +33,7 @@ def build(k):
         b.hull([(9.6, 7.6, z - 5.2), (16.6, 7.6, z - 5.2), (9.6, 7.6, z + 5.2), (16.6, 7.6, z + 5.2),
                 (9.6, 6.0, z - 6.0), (16.6, 6.0, z - 6.0), (9.6, 6.0, z + 6.0), (16.6, 6.0, z + 6.0)], 'paint2', bevel=0.14, mirror=True)
         b.box((8.8, 2.4, z - 1.4), (10.6, 4.2, z + 1.4), 'dark', bevel=0.08, mirror=True)
+        b.box((11.0, 7.65, z - 3.0), (15.2, 7.8, z + 3.0), 'team', bevel=0.03, mirror=True)   # team arch plates
     # raised deck strips beside the Box (where the fins stand), dark
     b.box((3.8, 7.2, -16.4), (9.6, 8.4, 10.6), 'dark', bevel=0.1, mirror=True)
     # Box cradle under its front and rear
