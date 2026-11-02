@@ -6,7 +6,7 @@ flying bomber a broad W outline.
 Pieces (TA layout): base (fuselage + fixed wing; bombs drop from base), jets (spar + 4 engines; origin x 0.28, so built
 whole), vertjet1/vertjet2 (empty), wing1/wing2 (swing panels; wing1 = mirrored clone of wing2), nose (empty).
 Value groups from above: light Arm wing and fuselage, dark paint2 engine nacelles + bomb-bay spine + panel rims,
-near-black nozzles, team on the swing panels (the bomber's big colour blocks), cyan engine glows.
+near-black nozzles, team on the swing panels and inner wings (the bomber's big colour blocks), cyan engine glows.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
 
@@ -64,6 +64,9 @@ def build(k):
     # team chevron bands along the outer leading edges (the bomber's main colour read from above)
     b.hull([(x, WY + t + d, z) for x, t, zs in ((24.0, 0.76, (17.2, 12.4)), (33.0, 0.52, (8.3, 3.5))) for z in zs
             for d in (0.04, 0.14)], 'team', bevel=0.03, mirror=True)
+    # team plate on each inner wing, ahead of the engine spar
+    tw = lambda x: 1.0 - 0.15 * (x - 4.0) / 16.8
+    b.hull([(x, WY + tw(x) + d, z) for x in (8.0, 19.4) for z in (8.6, 20.4) for d in (0.05, 0.18)], 'team', bevel=0.03, mirror=True)
     # dark flap strip along the inner trailing edge (separates the wing from the engines at distance)
     b.hull([(x, WY + d, z) for x in (7.2, 20.6) for z in (-6.6, -9.2) for d in (0.88, 0.98)], 'paint2', bevel=0.0, mirror=True)
     # wing-tip nav pods
