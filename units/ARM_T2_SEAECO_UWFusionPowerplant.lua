@@ -7,7 +7,7 @@ return {
 		description = "Produces Energy",
 		side = "ARM",
 		unitname = "arm_t2_seaeco_uwfusionpowerplant",
-		objectname = "ARM_T2_SEAECO_UWFusionPowerplant",
+		objectname = "ARM_T2_SEAECO_UWFusionPowerplant.s3o",
 		script = "ARM_T2_SEAECO_UWFusionPowerplant.lua",
 		corpse = "ARM_T2_SEAECO_UWFusionPowerplant_dead",
 		icontype = "building_energy_source_big",
