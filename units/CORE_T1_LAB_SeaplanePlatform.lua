@@ -8,7 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t1_lab_seaplaneplatform",
 		buildoptions = Shared.buildListCoreSeaplanePlatform,
-		objectname = "CORE_T1_LAB_SeaplanePlatform",
+		objectname = "CORE_T1_LAB_SeaplanePlatform.s3o",
 		corpse = "CORE_T1_LAB_SeaplanePlatform_dead",
 		icontype = "factory",
 		category = "CORE PLANT LEVEL1 NOWEAPON NOTAIR NOTSUB",
