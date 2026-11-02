@@ -3,7 +3,8 @@ front chest with a sensor snout = torso) carrying a gauss cannon turret on the h
 reaching past the snout. TA's 3DO walks on its "arms" as front legs, so it gets the standard QUAD skeleton (the old
 arm pieces become rf/lf legs, the old legs rb/lb); script ported to scripts/ARM_T2_BOT_Fido.lua.
 Coordinates are ENGINE/global: X right, Y up, Z forward.
-Top view (what makes it a Fido): the only Arm T2 quad - a long light lozenge on four heavy dark legs, a dark turret
+Top view (what makes it a Fido): the only Arm T2 quad - a long light lozenge on four heavy dark legs with team knee
+guards, a dark turret
 puck with twin team plates either side, and a long steel rail gun running the whole length of the body."""
 import math
 
@@ -27,7 +28,7 @@ def heavy_legs(k, width=1.6):
     kn = Vector(k.T[s + 'leg']['off']); an = Vector(k.T[s + 'foot']['off'])
     t = k.piece(s + 'thigh'); A = t.at
     t.hull([A(x, kn.y + dy, kn.z + dz) for x in (-1.2 * w, 1.2 * w) for dy, dz in
-            [(0.9, -0.2), (0.2, -1.6), (-1.0, -1.2), (-1.2, 0.4), (0.4, 0.9)]], 'paint2', bevel=0.12)
+            [(0.9, -0.2), (0.2, -1.6), (-1.0, -1.2), (-1.2, 0.4), (0.4, 0.9)]], 'team', bevel=0.12)
     l = k.piece(s + 'leg'); B = lambda x, y, z: Vector(l.at(x, y, z))
     d = an.normalized(); L = an.length
     l.cyl(B(-1.05 * w, 0, 0) + d * 0.18 * L, B(-1.05 * w, 0, 0) + d * 0.8 * L, 0.42, 8, 'steel')
@@ -58,8 +59,8 @@ def build(k):
            'paint2', bevel=0.2)
     # team plates on the deck either side of the turret
     p.hull([Q(x, y, z) for x, y, z in
-            [(3.7, 7.42, -10.8), (5.6, 6.8, -10.8), (3.7, 7.42, 1.6), (5.6, 6.6, 1.6),
-             (3.7, 7.58, -10.75), (5.55, 6.96, -10.75), (3.7, 7.58, 1.55), (5.55, 6.76, 1.55)]], 'team', bevel=0.03, mirror=True)
+            [(2.9, 7.5, -11.4), (5.7, 6.8, -11.4), (2.9, 7.5, 2.0), (5.7, 6.6, 2.0),
+             (2.9, 7.66, -11.35), (5.65, 6.96, -11.35), (2.9, 7.66, 1.95), (5.65, 6.76, 1.95)]], 'team', bevel=0.03, mirror=True)
     # rear engine block with vents and a red tail light
     p.box(Q(-3.4, 0.6, -14.6), Q(3.4, 5.0, -12.6), 'dark', bevel=0.12)
     for y in (1.4, 2.6, 3.8):
@@ -85,8 +86,8 @@ def build(k):
     # team chevron on the chest top (in front of the turret, not under the barrel's middle)
     for sx in (-1, 1):
         t.hull([A(x * sx, y, z) for x, y, z in
-                [(1.9, 4.62, 1.0), (5.0, 4.0, 1.0), (1.9, 3.95, 7.0), (4.0, 3.4, 8.0),
-                 (1.9, 4.78, 1.05), (4.95, 4.16, 1.05), (1.9, 4.11, 6.95), (3.95, 3.56, 7.95)]], 'team', bevel=0.03)
+                [(1.6, 4.66, 0.8), (5.4, 4.0, 0.8), (1.6, 3.95, 7.6), (4.2, 3.3, 8.6),
+                 (1.6, 4.82, 0.85), (5.35, 4.16, 0.85), (1.6, 4.11, 7.55), (4.15, 3.46, 8.55)]], 'team', bevel=0.03)
 
     # ------------------------------------------------------------------ turret (0, 23.04, -5.8)
     r = k.piece('turret'); R = r.at
@@ -98,7 +99,7 @@ def build(k):
     g.hull([G(x * sx, y, z) for sx in (-1, 1) for x, y, z in
             [(3.4, 0.0, -4.6), (3.4, 0.0, 5.4), (3.0, 4.6, -4.0), (3.0, 4.6, 4.6), (2.2, 2.8, 7.2), (2.4, 0.2, 7.0)]],
            'paint', bevel=0.2)
-    g.box(G(-2.2, 4.55, -3.2), G(2.2, 4.75, 3.4), 'team', bevel=0.04)               # turret roof plate
+    g.box(G(-2.8, 4.62, -3.7), G(2.8, 4.76, 4.3), 'team', bevel=0.04)               # turret roof plate
     g.box(G(-3.5, 1.0, -4.8), G(3.5, 3.4, -4.4), 'dark', bevel=0.06)                # breech cap
     Y = 1.86
     g.cyl(G(0, Y, 6.0), G(0, Y, 18.4), 0.7, 10, 'dark')                             # core barrel
