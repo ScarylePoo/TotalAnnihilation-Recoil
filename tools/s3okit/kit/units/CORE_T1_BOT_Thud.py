@@ -4,7 +4,7 @@ out of each box (rgun / lgun recoil). Standard biped skeleton; script ported to 
 Coordinates are ENGINE/global: X right, Y up, Z forward.
 Top view (what makes it a Thud): a dark warm H - two angular dark boxes far out left and right with team plates,
 joined by the cradle beam across the back, two long LIGHT steel barrels reaching far forward past the dark wedge
-torso, whose ochre hazard spine points the way. Exaggerated barrel length and thickness vs the TA model."""
+torso, whose ochre hazard spine (between two team plates) points the way. Exaggerated barrel length and thickness vs the TA model."""
 import math
 
 UNIT = dict(
@@ -29,6 +29,9 @@ def build(k):
     t.hull([A(x * sx, y, z) for sx in (-1, 1) for x, y, z in
             [(0.9, 6.68, -8.2), (0.9, 5.52, 1.8), (0.6, 2.4, 6.9),
              (0.85, 6.84, -8.1), (0.85, 5.68, 1.75), (0.55, 2.56, 6.85)]], 'hazard', bevel=0.02)
+    wy = lambda z: 6.8 - (z + 9.4) * 1.2 / 11.8                                          # wedge top
+    for sx in (-1, 1):                                                                     # team plates either side of the spine
+        t.hull([A(x * sx, wy(z) + d, z) for x in (1.3, 2.7) for z in (-8.4, 1.6) for d in (0.06, 0.2)], 'team', bevel=0.03)
     # dark sensor slits on the nose, warm eye
     for sx in (-1, 1):
         t.hull([A(x, y, z) for x, y, z in
