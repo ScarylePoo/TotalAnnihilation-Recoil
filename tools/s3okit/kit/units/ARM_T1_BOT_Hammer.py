@@ -4,8 +4,8 @@ armoured clamshells (upcase2 = upper shells, locase = lower shells) that the scr
 when the unit deploys to fire, and closes again when it stows. Standard biped skeleton (backwards legs, shared walk);
 script ported to scripts/ARM_T1_BOT_Hammer.lua.
 Coordinates are ENGINE/global: X right, Y up, Z forward.
-Top view (what makes it a Hammer): two long parallel gun shells far out to the sides with team stripes, light hex
-drums, a small light tower between them; dark cannons, axle and feet; paint2 lower shells and back pack."""
+Top view (what makes it a Hammer): two long parallel gun shells far out to the sides with wide team stripes, light hex
+drums with team plates on their outer tops, a small light tower between them; dark cannons, axle and feet; paint2 lower shells and back pack."""
 import math
 
 UNIT = dict(
@@ -58,6 +58,7 @@ def build(k):
     c.cyl(C(11.8, 0, 0), C(12.1, 0, 0), 1.2, 10, 'steel', mirror=True)
     # dark grip band round each drum (breaks the light drum from the light shell in the top view)
     c.cyl(C(7.4, 0, 0), C(8.4, 0, 0), 3.62, 6, 'dark', rot=rot, bevel=0.05, mirror=True)
+    c.box(C(8.7, 3.09, -1.4), C(10.7, 3.23, 1.4), 'team', bevel=0.03, mirror=True)        # team plate on the drum's top face
 
     # ------------------------------------------------------------------ cannons (built once, cloned to the right)
     g = k.piece('lcannon'); G = g.at                                                       # (7.83, 22.16, -8.27)
@@ -80,8 +81,8 @@ def build(k):
            'paint', bevel=0.18, mirror=True)
     # wide team stripe along each shell top (the big team read from above)
     u.hull([U(x, y, z) for x, y, z in
-            [(gx - 1.3, 0.4, 1.0), (gx + 1.3, 0.4, 1.0), (gx - 1.3, -0.26, 5.0), (gx + 1.3, -0.26, 5.0),
-             (gx - 1.25, 0.56, 1.05), (gx + 1.25, 0.56, 1.05), (gx - 1.25, -0.1, 4.95), (gx + 1.25, -0.1, 4.95)]],
+            [(gx - 2.2, 0.4, 0.8), (gx + 2.2, 0.4, 0.8), (gx - 2.2, -0.26, 5.0), (gx + 2.2, -0.26, 5.0),
+             (gx - 2.15, 0.56, 0.85), (gx + 2.15, 0.56, 0.85), (gx - 2.15, -0.1, 4.95), (gx + 2.15, -0.1, 4.95)]],
            'team', bevel=0.03, mirror=True)
     # locase (0, 19.08, -0.24): hinge at the bottom-back; lower halves, darker
     l = k.piece('locase'); L = l.at
