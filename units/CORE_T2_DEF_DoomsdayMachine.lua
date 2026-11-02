@@ -7,7 +7,7 @@ return {
 		description = "Multi Turret Energy Weapon",
 		side = "CORE",
 		unitname = "core_t2_def_doomsdaymachine",
-		objectname = "CORE_T2_DEF_DoomsdayMachine",
+		objectname = "CORE_T2_DEF_DoomsdayMachine.s3o",
 		corpse = "CORE_T2_DEF_DoomsdayMachine_dead",
 		icontype = "turret",
 		category = "CORE SPECIAL LEVEL2 WEAPON NOTAIR NOTSUB",
