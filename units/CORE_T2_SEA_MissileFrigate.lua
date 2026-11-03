@@ -7,7 +7,7 @@ return {
 		description = "Missile Ship",
 		side = "CORE",
 		unitname = "core_t2_sea_missilefrigate",
-		objectname = "CORE_T2_SEA_MissileFrigate",
+		objectname = "CORE_T2_SEA_MissileFrigate.s3o",
 		corpse = "CORE_T2_SEA_MissileFrigate_dead",
 		icontype = "ship",
 		category = "CORE SHIP LEVEL2 WEAPON NOTAIR NOTSUB",
