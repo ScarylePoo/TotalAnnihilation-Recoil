@@ -199,10 +199,13 @@ def _compose_block(M, iy, ix, side, mode, seed, seams, tread_step=0.25, hazp=3.5
     if mode in ('wreck', 'heap'):
         # burnt: desaturate, darken, soot blotches, scorched edges, rust in crevices; no team colour or lights
         g = col.mean(-1, keepdims=True)
-        col = (col * 0.35 + g * 0.65) * 0.62
+        # a heap is judged by its bits against its dark mound at game distance: burn it less than a wreck
+        heap = mode == 'heap'
+        col = (col * 0.35 + g * 0.65) * (0.95 if heap else 0.62)
         soot = sm(0.42, 0.62, fbm(pos * np.float32(0.35), 4, seed=sd + 5))
         scorch = np.clip(soot * 0.85 + (1 - aof) * 0.4 + sm(0.3, 0.9, edge) * 0.3, 0, 1)
-        col = col * (1 - scorch[..., None] * 0.8) + hexc('#151312') * scorch[..., None] * 0.8
+        burn = 0.45 if heap else 0.8
+        col = col * (1 - scorch[..., None] * burn) + hexc('#151312') * scorch[..., None] * burn
         rustm = np.clip(sm(0.55, 0.7, fbm(pos * np.float32(0.9), 4, seed=sd + 9)) + (1 - aon) * 0.5, 0, 1) * (1 - scorch * 0.6)
         col = col * (1 - rustm[..., None] * 0.7) + rust * rustm[..., None] * 0.7
         bare = sm(0.5, 0.8, wear + sm(0.7, 0.8, fbm(pos * np.float32(3.0), 2, seed=sd + 3)) * 0.6)

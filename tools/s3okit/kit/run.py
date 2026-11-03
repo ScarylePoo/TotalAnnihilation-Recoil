@@ -200,13 +200,14 @@ def st_heap(name, size, seed=1, draft=False):
     import bpy
     from s3okit import heap, geom, bake, compose, s3o, preview
     wd = workdir('heap_' + name)
-    ob = heap.make(size, seed)
+    ob, placements = heap.make(size, seed)
     bpy.context.view_layer.update()
     geom.visibility_cull([ob], ground=True, rays=24)
     res = 512 if size <= 1 else 1024 if size <= 4 else 2048
+    geom.IMPORTANCE = dict(geom.IMPORTANCE, ash=heap.ASH_IMPORTANCE)    # this process only makes this heap
     geom.unwrap([ob], res=res)
     geom.finalize_shading([ob])
-    rep = geom.uv_report([ob])
+    rep = geom.uv_report([ob], save=os.path.join(wd, 'prev', 'uv_layout.png'))
     bpy.ops.wm.save_as_mainfile(filepath=os.path.join(wd, 'heap.blend'))
     bake.bake_maps(os.path.join(wd, 'maps.npz'), res=res if draft else min(2 * res, 2048), quality='draft' if draft else 'final',
                    ao_far=2.0, ao_near=0.4)
@@ -215,6 +216,7 @@ def st_heap(name, size, seed=1, draft=False):
     from s3okit import dds
     dds.convert_pair(os.path.join(wd, 'out', name))
     bpy.ops.wm.open_mainfile(filepath=os.path.join(wd, 'heap.blend'))
+    heap.add_copies(bpy.data.objects['base'], placements)
     dg = bpy.context.evaluated_depsgraph_get()
     v, i = s3o.mesh_data(bpy.data.objects['base'], dg)
     r = s3o.write(os.path.join(wd, 'out', name + '.s3o'), [dict(name='base', parent=None, off=(0, 0, 0), gpos=(0, 0, 0), verts=v, idx=i)],
