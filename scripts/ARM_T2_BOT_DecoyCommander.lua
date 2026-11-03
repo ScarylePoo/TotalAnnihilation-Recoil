@@ -5,13 +5,13 @@
 -- laser does not aim. Building aims the lathe arm the same way and sets INBUILDSTANCE; nano spray from nanospray.
 -- RestorePosition (torso 90 deg/s, arms 45 deg/s) ran on the COB-only TargetCleared callin; here it runs after a
 -- restore delay (reload * 2) and on StopBuilding. The COB has no Killed: the wreck is always left (corpse 1).
--- The old walk is replaced by the shared one (scripts/headers/walk.lua).
+-- The old walk is replaced by the shared one (scripts/headers/walk.lua). No damage smoke: neither the COB nor the real
+-- commander has any, and it would give the decoy away.
 
 pelvis, legs, rthigh, rleg, rfoot, lthigh, lleg, lfoot = piece('pelvis', 'legs', 'rthigh', 'rleg', 'rfoot', 'lthigh', 'lleg', 'lfoot')
 ground, torso, head, ruparm, biggun, rbigflash = piece('ground', 'torso', 'head', 'ruparm', 'biggun', 'rbigflash')
 luparm, nanolath, lfirept, nanospray = piece('luparm', 'nanolath', 'lfirept', 'nanospray')
 
-include "smokeunit.lua"
 local walk = include("headers/walk.lua")
 walk.Biped()
 
@@ -25,7 +25,6 @@ function script.Create()
 	if wd and WeaponDefs[wd.weaponDef] then
 		restoreDelay = math.max(1000, WeaponDefs[wd.weaponDef].reload * 2000)
 	end
-	StartThread(SmokeUnit, {torso})
 end
 
 local function RestorePosition()
