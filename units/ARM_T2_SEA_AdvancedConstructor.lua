@@ -8,7 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t2_sea_advancedconstructor",
 		buildoptions = Shared.buildListArmT2SeaConstructor,
-		objectname = "ARM_T2_SEA_AdvancedConstructor",
+		objectname = "ARM_T2_SEA_AdvancedConstructor.s3o",
 		corpse = "ARM_T2_SEA_AdvancedConstructor_dead",
 		icontype = "ship",
 		category = "ARM UNDERWATER LEVEL2 NOWEAPON NOTAIR",
