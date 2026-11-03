@@ -61,7 +61,7 @@ def build(k):
     # ------------------------------------------------------------------ barrels (lgun built, rgun cloned mirrored)
     b = k.piece('lgun'); B = b.at                       # (7.88, 19.4, -0.24); firept at z +16.98
     b.cyl(B(0, 0, 4.0), B(0, 0, 17.0), 1.15, 10, 'steel', r2=0.95)                           # long LIGHT barrel
-    b.cyl(B(0, 0, 3.6), B(0, 0, 8.2), 1.55, 10, 'steel', rot=math.pi / 10, bevel=0.06)       # thick root sleeve
+    b.cyl(B(0, 0, -1.0), B(0, 0, 8.2), 1.55, 10, 'steel', rot=math.pi / 10, bevel=0.06)      # thick root sleeve, runs back into the box (its nose ends at z +0.85 here)
     b.cyl(B(0, 0, 8.1), B(0, 0, 8.7), 1.65, 10, 'dark', bevel=0.04)
     b.cyl(B(0, 0, 13.0), B(0, 0, 13.5), 1.3, 10, 'dark', bevel=0.03)
     b.cyl(B(0, 0, 16.4), B(0, 0, 17.6), 1.5, 8, 'dark', rot=math.pi / 8, bevel=0.05)         # muzzle
