@@ -5,13 +5,13 @@
 -- with the COB's BigFire recoil keyframes. Building aims the left arm and sets INBUILDSTANCE; nano spray from
 -- nanospray. AmphSpeed: max speed rises with water depth (x1 at the surface to x2 at 25 elmo deep) as in the COB.
 -- The COB has no Killed: the wreck is always left (corpse 1). The old walk is replaced by the shared one.
+-- No damage smoke: neither the COB nor the real commander has any, and it would give the decoy away.
 -- COB move-x / turn-z values are sign-flipped (Recoil CobInstance.h "COBWTF").
 
 pelvis, legs, rthigh, rleg, rfoot, lthigh, lleg, lfoot = piece('pelvis', 'legs', 'rthigh', 'rleg', 'rfoot', 'lthigh', 'lleg', 'lfoot')
 ground, chest, head, l_sho, l_nano, mlasflsh, nanospray, r_sho, r_dgun, bigflsh =
 	piece('ground', 'chest', 'head', 'l_sho', 'l_nano', 'mlasflsh', 'nanospray', 'r_sho', 'r_dgun', 'bigflsh')
 
-include "smokeunit.lua"
 local walk = include("headers/walk.lua")
 walk.Biped()
 
@@ -68,7 +68,6 @@ end
 function script.Create()
 	Hide(ground)
 	StartThread(AmphSpeed)
-	StartThread(SmokeUnit, {chest})
 end
 
 local function RestoreLaser()
