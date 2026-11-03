@@ -130,10 +130,13 @@ def remap(T, kind='biped', height=None, hipx=None, hipz=None, drop=(), keep=()):
     return new, report
 
 
-def edit(T, drop=(), add=None):
+def edit(T, drop=(), add=None, move=None, emit=None):
     """Piece edits for a unit WITHOUT the walker skeleton (skeleton=None, skeleton_opts=dict(drop=[...], add={...})).
     drop: pieces removed (their children are re-parented to the dropped piece's parent, keeping global positions).
     add: {name: (parent, (x, y, z) global origin)} new empty pieces (e.g. track animation frames).
+    move: {name: (x, y, z) new global origin} for a deliberate departure from the 3DO layout; descendants move with the
+    piece (their offsets stay), applied in the given order, so list a parent before a child moved relative to it.
+    emit: {name: [(x, y, z), ...]} replaces the piece's emit vertices (piece-local; see s3o.emit_verts_from_3do).
     Returns (newT, report)."""
     T = {n: dict(t, children=list(t['children'])) for n, t in T.items()}
     def reoff(n):
@@ -160,6 +163,17 @@ def edit(T, drop=(), add=None):
         reoff(n)
         T[par]['children'].append(n)
         report['added'].append(n)
+    for n, g in (move or {}).items():
+        d = tuple(float(g[i]) - T[n]['gpos'][i] for i in range(3))
+        stack = [n]
+        while stack:
+            m = stack.pop()
+            T[m]['gpos'] = tuple(T[m]['gpos'][i] + d[i] for i in range(3))
+            stack += T[m]['children']
+        reoff(n)
+        report.setdefault('moved', []).append(n)
+    for n, v in (emit or {}).items():
+        T[n]['verts'] = [tuple(float(c) for c in p) for p in v]
     return T, report
 
 
