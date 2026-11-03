@@ -5,7 +5,7 @@ return {
 		world = "All Worlds",
 		description = "Wreckage",
 		category = "core_corpses",
-		object = "CORE_T3_LAB_KrogothGantry_dead",
+		object = "CORE_T3_LAB_KrogothGantry_dead.s3o",
 		featuredead = "CORE_T3_LAB_KrogothGantry_heap",
 		footprintx = 9,
 		footprintz = 9,

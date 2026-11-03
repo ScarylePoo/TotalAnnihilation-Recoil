@@ -8,7 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t3_lab_krogothgantry",
 		buildoptions = Shared.buildListCoreKrogothGantry,
-		objectname = "CORE_T3_LAB_KrogothGantry",
+		objectname = "CORE_T3_LAB_KrogothGantry.s3o",
 		corpse = "CORE_T3_LAB_KrogothGantry_dead",
 		icontype = "factory",
 		category = "CORE PLANT LEVEL2 NOWEAPON NOTAIR NOTSUB",
