@@ -32,6 +32,8 @@ local function SetMaxReloadTime(reload)
 end
 
 function script.Create()
+	Move(sleeve1, x_axis, 0.5); Move(sleeve1, z_axis, -0.5)  -- kit sleeves seated into the turret
+	Move(sleeve2, x_axis, -0.5); Move(sleeve2, z_axis, -0.5)
 	gun_index = 0
 	restore_delay = 3000
 	StartThread(SmokeUnit, {base})
