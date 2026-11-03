@@ -1,6 +1,6 @@
 """Shooter (ARM_T2_BOT_Shooter) - Arm T2 sniper kbot. A tall lanky walker with TA's big V-shaped chest, slab
-shoulder guards, a hooded head with one large cyan scope eye, and a long sniper rifle carried low in the right hand.
-To fire it brings the rifle up with the arm, level all the way (upper arm and forearm turn opposite), and the barrel telescopes out 9 elmo; idle it reverses. Standard biped skeleton; script ported
+shoulder guards, a hooded head with one large cyan scope eye, and a long scoped sniper rifle carried at the waist in the right hand.
+To fire it shoulders the rifle, level all the way (the gun piece counter-turns the arm), and the barrel telescopes out 9 elmo; idle it reverses. Standard biped skeleton; script ported
 to scripts/ARM_T2_BOT_Shooter.lua. Coordinates are ENGINE/global: X right, Y up, Z forward.
 Top view (what makes it a Shooter): a wide light V/arrowhead chest with two team plates on its shoulders and team
 tops on the slab shoulder guards, a dark
@@ -9,10 +9,13 @@ import math
 
 UNIT = dict(
     skeleton='biped',
-    skeleton_opts=dict(hipx=3.6),
+    # the rifle layout is the kit's, not the 3DO's: gun at the hand, barrel on the receiver's axis, muzzle at the longer barrel's tip
+    skeleton_opts=dict(hipx=3.6,
+                       move={'gun': (-9.8, 14.6, -3.95), 'sleave': (-9.8, 16.74, 0.55), 'flash': (-9.8, 16.1, 13.19)},
+                       emit={'flash': [(0, 0, 0), (0, 0, 1)]}),
     res=1024,
     wreck=dict(seed=14, drop=['gun'], remove=[]),
-    preview_pose={},
+    preview_pose={'ruparm': (-15, 0, 0), 'rarm': (-60, 0, 0), 'gun': (75, 0, 0)},      # idle carry, the pose it spends most time in
 )
 
 
@@ -73,22 +76,27 @@ def build(k):
     hd = k.piece('lhand'); HD = hd.at                  # (10.05, 14.59, -3.85)
     hd.hull([HD(x, y, z) for x in (-1.3, 1.4) for y in (0.6, -3.0) for z in (-1.3, 1.6)], 'dark', bevel=0.12)
 
-    # ------------------------------------------------------------------ the rifle (in the right hand)
-    g = k.piece('gun'); G = g.at                       # (-10.37, 11.91, -3.95): receiver + stock along z
-    g.hull([G(x, y, z) for x in (-1.5, 1.5) for y, z in
-            [(-1.6, -5.2), (1.4, -5.2), (2.0, -1.0), (2.0, 4.0), (-1.4, 4.4), (-2.2, 0.4)]], 'dark', bevel=0.14)
-    g.hull([G(x, y, z) for x in (-1.2, 1.2) for y, z in [(-1.0, -5.0), (0.8, -5.0), (0.4, -7.0), (-1.4, -7.0)]], 'paint2', bevel=0.1)
-    g.box(G(-1.0, 2.0, -0.4), G(1.0, 2.2, 3.4), 'team', bevel=0.02)
-    g.hull([G(x, y, z) for x in (-1.2, 1.2) for y in (1.8, 4.3) for z in (-1.3, 1.3)], 'dark', bevel=0.1)     # grip into the forearm (the right hand)
-    g.hull([G(x, y, z) for x in (-0.9, 0.9) for y in (-1.8, -5.2) for z in (-3.6, -1.4)], 'paint2', bevel=0.08)  # bracket down to the barrel housing
-    sc = k.piece('scope'); SC = sc.at                  # (-10.37, 12.34, -3.95)
-    sc.cyl(SC(0, -2.6, -3.8), SC(0, -2.6, 3.8), 0.9, 10, 'dark', bevel=0.04)
-    sc.cyl(SC(0, -2.6, 3.75), SC(0, -2.6, 3.95), 0.6, 10, 'lightc')
-    sc.box(SC(-0.5, -1.8, -1.0), SC(0.5, -0.1, 1.0), 'dark', bevel=0.04)
-    sl = k.piece('sleave'); SL = sl.at                 # (-10.37, 6.46, -9.51): barrel housing along +z
-    sl.cyl(SL(0, -0.64, -0.3), SL(0, -0.64, 11.6), 1.35, 10, 'paint2', bevel=0.06)
-    sl.cyl(SL(0, -0.64, 2.0), SL(0, -0.64, 3.2), 1.6, 10, 'dark')
-    sl.cyl(SL(0, -0.64, 11.4), SL(0, -0.64, 11.8), 0.95, 10, 'dark')
-    b = k.piece('barrel'); B = b.at                    # (-10.37, 5.82, -8.87): telescopes out 9 along z
-    b.cyl(B(0, 0, 0.2), B(0, 0, 8.6), 0.7, 8, 'steel')
-    b.cyl(B(0, 0, 7.8), B(0, 0, 8.8), 0.95, 8, 'dark', bevel=0.03)
+    # ------------------------------------------------------------------ the rifle (ball grip in the right hand, barrel in line with the receiver)
+    g = k.piece('gun'); G = g.at                       # at the hand: pivots freely, the script keeps it level as the arm moves
+    g.sphere(G(0, 0, 0), 2.0, 'dark')                  # the grip, so forearm and rifle join at any angle
+    g.hull([G(x, y, z) for x in (-1.5, 1.5) for y, z in                                  # receiver
+            [(0.2, -3.2), (3.0, -3.2), (3.0, 4.8), (0.2, 4.8)]], 'dark', bevel=0.12)
+    g.hull([G(x, y, z) for x in (-1.0, 1.0) for y, z in                                  # stock, reaches back to the shoulder
+            [(0.6, -3.0), (2.6, -3.0), (2.2, -8.6), (-0.8, -9.4), (0.8, -9.4)]], 'paint2', bevel=0.1)
+    g.box(G(-1.2, -1.8, -9.5), G(1.2, 2.4, -8.9), 'dark', bevel=0.05)                    # butt plate
+    g.box(G(-0.8, -2.8, 1.2), G(0.8, 0.4, 3.0), 'dark', bevel=0.06)                      # magazine
+    g.box(G(-1.2, 3.02, -2.8), G(1.2, 3.2, 1.0), 'team', bevel=0.02)
+    sc = k.piece('scope'); SC = sc.at                  # gun + (0, 0.4, 0): long scope on top, what makes it read as a sniper rifle
+    sc.cyl(SC(0, 3.9, -3.0), SC(0, 3.9, 5.2), 0.85, 10, 'dark', bevel=0.04)
+    sc.cyl(SC(0, 3.9, 5.15), SC(0, 3.9, 5.35), 0.5, 10, 'lightc')
+    sc.box(SC(-0.5, 2.5, -1.4), SC(0.5, 3.6, 2.6), 'dark', bevel=0.04)
+    sl = k.piece('sleave'); SL = sl.at                 # barrel housing along +z, on the receiver's axis
+    sl.cyl(SL(0, -0.64, -0.3), SL(0, -0.64, 14.6), 1.25, 10, 'paint2', bevel=0.06)
+    for z in (1.6, 8.2):
+        sl.cyl(SL(0, -0.64, z), SL(0, -0.64, z + 1.2), 1.55, 10, 'dark')
+    sl.cyl(SL(0, -0.64, 14.4), SL(0, -0.64, 14.9), 0.95, 10, 'dark')
+    sl.box(SL(-1.0, 0.56, 3.0), SL(1.0, 0.76, 8.0), 'team', bevel=0.02)                  # team along the housing's top: the rifle reads from above
+    sl.box(SL(-1.0, 0.56, 9.6), SL(1.0, 0.76, 14.0), 'team', bevel=0.02)
+    b = k.piece('barrel'); B = b.at                    # telescopes out 9 along z when the rifle comes up
+    b.cyl(B(0, 0, 0.2), B(0, 0, 12.0), 0.7, 8, 'steel')
+    b.cyl(B(0, 0, 11.0), B(0, 0, 12.2), 1.05, 8, 'dark', bevel=0.03)

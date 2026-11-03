@@ -134,7 +134,12 @@ class Unit:
         self.skeleton, self.skel_report = skeleton, None
         if skeleton:     # standard walker hierarchy replaces the original leg pieces (see skeleton.py)
             from . import skeleton as SK
-            self.T, self.skel_report = SK.remap(self.T, skeleton, **(skel_opts or {}))
+            o = dict(skel_opts or {})
+            layout = {k: o.pop(k) for k in ('move', 'emit') if k in o}       # deliberate piece moves apply after the remap
+            self.T, self.skel_report = SK.remap(self.T, skeleton, **o)
+            if layout:
+                self.T, r = SK.edit(self.T, **layout)
+                self.skel_report['moved'] = r.get('moved', [])
         elif skel_opts:  # no skeleton: plain piece edits (e.g. The Can / Sumo: legs dropped for a tracked hull)
             from . import skeleton as SK
             self.T, self.skel_report = SK.edit(self.T, **skel_opts)

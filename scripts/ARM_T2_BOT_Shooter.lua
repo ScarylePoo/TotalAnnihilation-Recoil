@@ -1,8 +1,7 @@
 -- Shooter (ARM_T2_BOT_Shooter): Lua unit script for the remodelled sniper walker (standard biped skeleton).
--- Started from TA's ARM_T2_BOT_Shooter.COB; the first aim brings the rifle up (RequestState(0)), then the torso turns to the heading at 210 deg/s; after the
--- restore delay (reload * 3) the torso turns back at 200 deg/s and RequestState(1) puts the rifle down. The COB's shoulder keyframes are gone: written for
--- the 1998 model, they threw the kit rifle clear of the arm (12.9 elmo, piece_gaps.py). Now upper arm and forearm turn opposite, so the rifle rises level
--- and stays in the hand, and the barrel telescopes out of its housing. Aim/query pieces and the death table are the COB's; the old walk is replaced by the shared one.
+-- Started from TA's ARM_T2_BOT_Shooter.COB, but the rifle handling is new. Idle it carries the rifle forward at the waist; the first aim (RequestState(0)) shoulders it
+-- in 0.8 s, level throughout (ruparm + rarm + gun sum to 0), the left hand comes to the receiver and the barrel telescopes out. The torso then turns to the heading and
+-- pitch. After the restore delay (reload * 3) it returns. Aim/query pieces and the death table are the COB's; the old walk is replaced by the shared one.
 
 pelvis, legs, rthigh, rleg, rfoot, lthigh, lleg, lfoot = piece('pelvis', 'legs', 'rthigh', 'rleg', 'rfoot', 'lthigh', 'lleg', 'lfoot')
 groundx2, torso, head, ruparm, rarm, gun, scope, sleave, barrel, flash =
@@ -18,24 +17,34 @@ local SIG_AIM = 2
 local restoreDelay = 2000
 local active = false          -- COB static 0: rifle shouldered
 
-local BODY = rad(75)
+-- right arm poses: {ruparm, rarm, gun} x turns in degrees. gun = -(ruparm + rarm), so the rifle stays level
+local IDLE = {-15, -60, 75}
+local AIM = {-22.9, -96.2, 119.1}
+local UP_TIME = 0.8           -- s
+
+local function Pose(p, time)
+	Turn(ruparm, x_axis, rad(p[1]), time and math.abs(rad(AIM[1] - IDLE[1])) / time or nil)
+	Turn(rarm, x_axis, rad(p[2]), time and math.abs(rad(AIM[2] - IDLE[2])) / time or nil)
+	Turn(gun, x_axis, rad(p[3]), time and math.abs(rad(AIM[3] - IDLE[3])) / time or nil)
+end
+
 local function activatescr()
-	Turn(ruparm, x_axis, rad(-60), BODY)
-	Turn(rarm, x_axis, rad(60), BODY)
-	Turn(luparm, x_axis, rad(-45), BODY)
-	Turn(larm, x_axis, rad(-35), BODY)
+	Pose(AIM, UP_TIME)
+	Turn(leftshoulder, y_axis, rad(-62), rad(62 / UP_TIME))
+	Turn(luparm, x_axis, rad(-78), rad(78 / UP_TIME))
+	Turn(larm, x_axis, rad(-14), rad(14 / UP_TIME))
 	Sleep(800)
 	Move(barrel, z_axis, 9, 18)
-	Sleep(800)
+	Sleep(500)
 end
 
 local function deactivatescr()
 	Move(barrel, z_axis, 0, 18)
 	Sleep(500)
-	Turn(ruparm, x_axis, 0, BODY)
-	Turn(rarm, x_axis, 0, BODY)
-	Turn(luparm, x_axis, 0, BODY)
-	Turn(larm, x_axis, 0, BODY)
+	Pose(IDLE, UP_TIME)
+	Turn(leftshoulder, y_axis, 0, rad(62 / UP_TIME))
+	Turn(luparm, x_axis, 0, rad(78 / UP_TIME))
+	Turn(larm, x_axis, 0, rad(14 / UP_TIME))
 	Sleep(800)
 end
 -- COB RequestState: one worker runs Go/Stop until the requested state stops changing (0 = shouldered, 1 = down)
@@ -60,6 +69,7 @@ function script.Create()
 	if wd and WeaponDefs[wd.weaponDef] then
 		restoreDelay = WeaponDefs[wd.weaponDef].reload * 3000
 	end
+	Pose(IDLE)
 	StartThread(SmokeUnit, {torso})
 end
 
@@ -86,9 +96,9 @@ function script.AimWeapon(num, heading, pitch)
 end
 
 local function Kick()
-	Turn(rarm, x_axis, rad(52), rad(200))       -- muzzle kicks up
-	Sleep(150)
-	Turn(rarm, x_axis, rad(60), rad(50))
+	Move(gun, z_axis, -1.6)                     -- recoil into the shoulder
+	Sleep(120)
+	Move(gun, z_axis, 0, 6)
 end
 
 function script.FireWeapon(num)
@@ -96,7 +106,7 @@ function script.FireWeapon(num)
 end
 
 function script.AimFromWeapon(num)
-	return gun                    -- the engine's pitch is measured from here; the rifle is carried far below the torso (the COB's piece 1)
+	return gun                    -- the engine's pitch is measured from here; the rifle sits off to the side of the torso (the COB's piece 1)
 end
 
 function script.QueryWeapon(num)
