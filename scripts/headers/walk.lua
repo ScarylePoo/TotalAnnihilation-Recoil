@@ -17,7 +17,7 @@
 
 local REF_HEIGHT = 23.0        -- pelvis height of SF's fedbear, on which the keys were made
 local ANIM_FRAMES = 4
-local SIG_WALK = 2^30          -- high bit: unit scripts use the low bits for their aim signals
+local SIG_WALK = 2^23          -- highest usable bit: math.bit_and keeps 24 bits (2^30 ANDs to 0, Signal would kill nothing)
 
 local function sizeScale()
 	local _, py = Spring.GetUnitPiecePosition(unitID, pelvis)
