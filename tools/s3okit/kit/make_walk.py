@@ -83,6 +83,7 @@ HDR = '''-- Shared walk animations for TA:Recoil walkers (Lua unit scripts). GEN
 --   local walk = include("headers/walk.lua")
 --   walk.Biped()          -- or walk.Quad() / walk.Hexa(); defines script.StartMoving and script.StopMoving
 --   walk.Biped({onStep = function() ... end})   -- optional, called once per footfall
+--   walk.Biped({cadence = 1.35})                -- optional, step faster than speed / leg length (feet skate less)
 
 local REF_HEIGHT = 23.0        -- pelvis height of SF's fedbear, on which the keys were made
 local ANIM_FRAMES = 4
@@ -93,8 +94,8 @@ local function sizeScale()
 	return ((py and py > 2) and py or REF_HEIGHT) / REF_HEIGHT
 end
 
-local function speedParams(scale)
-	local speed = UnitDefs[Spring.GetUnitDefID(unitID)].speed * 0.01 / scale
+local function speedParams(scale, cadence)
+	local speed = UnitDefs[Spring.GetUnitDefID(unitID)].speed * 0.01 * (cadence or 1) / scale
 	if speed <= 0 then
 		return 0, 300
 	end
@@ -139,11 +140,11 @@ function walk.{name}(opts)
 	local onStep = opts and opts.onStep
 	install(function()
 		local bob = sizeScale()
-		local function GetSpeedParams() return speedParams(bob) end
+		local function GetSpeedParams() return speedParams(bob, opts and opts.cadence) end
 {reindent(body)}
 	end, function()
 		local bob = sizeScale()
-		local speedMult = 0.5 * speedParams(bob) -- slower restore speed for the last step
+		local speedMult = 0.5 * speedParams(bob, opts and opts.cadence) -- slower restore speed for the last step
 {reindent([l for l in stop if 'local speedMult' not in l])}
 	end)
 end
