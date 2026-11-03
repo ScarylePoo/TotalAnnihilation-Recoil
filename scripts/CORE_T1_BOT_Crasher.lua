@@ -19,6 +19,7 @@ local restoreDelay = 3000
 local tube = 0                   -- COB static 0
 
 function script.Create()
+	Move(turret, y_axis, -1.3)      -- the kit model's turret sat 1.2 above the pelvis at rest
 	local wd = UnitDefs[unitDefID].weapons[3] or UnitDefs[unitDefID].weapons[1]
 	if wd and WeaponDefs[wd.weaponDef] then
 		restoreDelay = WeaponDefs[wd.weaponDef].reload * 5000
