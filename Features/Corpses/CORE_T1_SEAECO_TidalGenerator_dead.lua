@@ -5,7 +5,7 @@ return {
 		world = "All Worlds",
 		description = "Wreckage",
 		category = "core_corpses",
-		object = "CORE_T1_SEAECO_TidalGenerator_dead",
+		object = "CORE_T1_SEAECO_TidalGenerator_dead.s3o",
 		footprintx = 4,
 		footprintz = 4,
 		height = 4,

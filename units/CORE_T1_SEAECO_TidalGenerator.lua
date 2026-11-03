@@ -7,7 +7,7 @@ return {
 		description = "Produces Energy",
 		side = "CORE",
 		unitname = "core_t1_seaeco_tidalgenerator",
-		objectname = "CORE_T1_SEAECO_TidalGenerator",
+		objectname = "CORE_T1_SEAECO_TidalGenerator.s3o",
 		corpse = "CORE_T1_SEAECO_TidalGenerator_dead",
 		icontype = "building",
 		category = "CORE LEVEL1 NOWEAPON NOTAIR NOTSUB",
