@@ -7,7 +7,7 @@ return {
 		description = "Torpedo Seaplane",
 		side = "CORE",
 		unitname = "core_t1_seapl_typhoon",
-		objectname = "CORE_T1_SEAPL_Typhoon",
+		objectname = "CORE_T1_SEAPL_Typhoon.s3o",
 		corpse = "CORE_T1_SEAPL_Typhoon_dead",
 		icontype = "aircraft",
 		category = "CORE VTOL LEVEL1 WEAPON NOTSUB",
