@@ -7,7 +7,7 @@ return {
 		description = "Sonar Jamming Sub",
 		side = "ARM",
 		unitname = "arm_t2_sea_fibber",
-		objectname = "ARM_T2_SEA_Fibber",
+		objectname = "ARM_T2_SEA_Fibber.s3o",
 		corpse = "ARM_T2_SEA_Fibber_dead",
 		icontype = "ship",
 		category = "ARM UNDERWATER LEVEL2 NOWEAPON NOTAIR",
