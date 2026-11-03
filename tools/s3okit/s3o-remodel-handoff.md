@@ -447,6 +447,22 @@ Base branch `s3o-remodel`; each family on `s3o-<family>`, merged back after revi
   ~1.5 GB) and compose runs in row strips, so 2048-texture units keep bake_res 4096. Run at most two agents, each with
   one final bake at a time; headless engine test once per batch.
 
+- 2026-11-02, WSL batch: seaplanes + Core Tidal (7), T2 ships (Arm 4, Core 6), T2 subs (6), commanders + decoys (4), Krogoth + Gantry,
+  30 heaps merged = all 266 defs. Tidal's spec had never been committed (the old note above it was wrong), so it was rewritten.
+  **Walk bug fixed for all walkers (210e53a2)**: SIG_WALK was 2^30, but Recoil's math.bit_and keeps 24 bits, so Signal killed nothing and each
+  stop/restart stacked Walk threads. Signal bits must stay <= 2^23. `cadence` (opt-in) tunes stride; the Krogoth uses 1.35.
+  Gotchas: a long hull side or bevelled strip packs as a diagonal UV sliver (segment it; Hive 52 -> 69 %); overlapping hulls with coplanar
+  tops lose both tops; `wreck.make` `drop` sinks high pieces far underwater and inflates wreck radius (use `remove` on ships; bug still
+  there); wrecks leave small light caps floating when the thin part under them is removed; heap: more unique bits = lower coverage;
+  preview rot y = COB value, rot z negated; preview thumbnail crops tall/long units unless `preview_zoom`/`preview_thumb_half`; harness
+  team 0 dies ~320 frames after spawn, so probe team 1; GetUnitPiecePosition x is mirrored against the model.
+  Open for the user: commander/decoy hazard (added, small, nano side only; veto?); `CORE_Commander` has `decoyfor = "ARM_Commander"` and the Arm
+  decoy has none (looks like a conversion error, untouched); decoys lost their damage smoke (a giveaway) but other script differences remain;
+  7x7 heaps ~18k tris and heaps add 146 MB; heap UV coverage 49-67 %. Unverified: commander capture, carrier landing (Colossus, Hive), Ranger and
+  Frigate bay animation, all looks in a real GL session. Krogoth rfoot in the combined run: one dip to ankle y -0.04 (lfoot min 2.14), unexplained.
+  Morty measures stride/ground 0.76 in that run, Peewee 0.85: `cadence` could be tuned per walker if feet slide in game.
+  `objects3d/corsenan.s3o` is an unreferenced BOTA leftover whose textures are missing (harmless).
+
 ## Decisions (2026-10-31, user)
 
 - **Hexapods: the Spider, Scarab and Roach share ONE standard six-leg skeleton and ONE shared walk.**
@@ -481,25 +497,20 @@ ARM_T2_BOT_Fido (11.0), ARM_T2_BOT_Maverick (11.2), ARM_T2_BOT_Marky (11.6), ARM
 ARM_T2_BOT_Invader (12.2), ARM_T2_BOT_Infiltrator (12.8), ARM_T2_BOT_Zipper (13.6), CORE_T2_BOT_TheCan (14.3),
 ARM_T2_BOT_AdvancedConstructor (14.5, plus stripes). CORE_T2_BOT_AdvancedConstructor already has its stripes.
 
-## Resume state (2026-11-02, stopped by the user)
+## Resume state (2026-11-02, WSL session): every unit def has a kit model
 
-Work stopped cleanly; nothing running, everything pushed. Next session (planned: Claude Code inside WSL2 on the user's
-Windows PC, 16 cores / 32 GB, so more agents and parallel bakes are possible - re-measure `nproc`/`free` first):
-1. `s3o-seastruct` (25/26, not engine-tested, not merged): finish CORE_T1_SEAECO_TidalGenerator (spec fixed; delete
-   work/CORE_T1_SEAECO_TidalGenerator/{final,install}.done and its untracked objects3d/unittextures outputs from the
-   broken final, then `run.py all`, check sheet, install, commit). Gotchas from that batch: a convex hull of a ring
-   fills its hole (build rings as segments); coplanar faces of overlapping hulls are both culled (offset ~0.4);
-   `UNIT['preview_water']` previews UW buildings under water. Core Floating Dragon's Teeth now breaks the surface
-   (check ship blocking in game).
-2. `s3o-t2-sea` (Archer, Escort done; not engine-tested, not merged): Ranger spec drafted in the old container only
-   (lost; redo). Before the Arm seaplanes: their corpse defs Features/Corpses/ARM_T1_SEAPL_*_dead.lua point at
-   ARM_T1_AIR_FreedomFighter_dead - set `object` to `<stem>_dead` first or install overwrites the FreedomFighter wreck.
-   Submarines: Arm AdvancedConstructor, Fibber, Piranha, Core AdvancedConstructor, Leviathan (3x3, cannot read big).
-3. One headless run over both branches (also confirms the Spider walk via the hexa probe), merge into s3o-remodel.
-4. Not started: ARM_Commander / CORE_Commander (then match the decoy commanders, decide stripes for both), Krogoth +
-   KrogothGantry, the 30 generic heaps (1x1a..7x7d) and ARM_T2_DEF_Ambusher_dead2 if not covered.
-On WSL: keep the clone in the Linux filesystem (~/), not /mnt/c or /mnt/i; paths here assume /home/claude - adjust
-the engine path for run.sh.
+All 266 unit defs have a spec and an installed S3O; all 30 referenced heaps are done; every `object` under Features is an
+existing .s3o. Combined headless run on `s3o-remodel`: 532 units spawned, 0 failures, only the known harmless lines. Nothing is
+merged to `main`: that waits for the user's in-game test (nothing here has been rendered by the engine with a GPU).
+Open for the user: see the end of Progress (2026-11-02, WSL batch).
+
+### Setup on this WSL machine (replaces the bpy/pip lines in "Setup in a fresh session")
+Ubuntu 26.04 ships Python 3.14; bpy needs 3.13. Venv: `source ~/.venvs/s3o/bin/activate` (made with uv; libSM/libICE were unpacked
+from `apt download` debs into the venv's bpy/lib since there is no sudo). Engine: `~/engine/2026.09.01`. Clone:
+`~/TotalAnnihilation-Recoil`; repo-local git config holds the commit identity and the `gh` push credential. Agents work in
+`~/wt/<family>` worktrees (work/ is per-worktree). Limits measured: 32 threads, 15 GB + 4 GB swap (no .wslconfig, WSL's default half;
+`memory=28GB` under `[wsl2]` in the Windows .wslconfig then `wsl --shutdown` raises it). Small final `all` 1:25, 1.4 GB peak;
+2048 finals ~14 min with 7 agents running. 7 agents ran fine, one bake each.
 
 ## Suggested order of work
 
