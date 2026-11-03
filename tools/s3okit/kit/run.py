@@ -187,12 +187,12 @@ def st_preview(unitname, draft=False):
     paths = preview.render(os.path.join(out, unitname + '.s3o'), out, os.path.join(wd, 'prev', unitname),
                            pose=pose, samples=16 if draft else 32,
                            water=U.get('preview_water', U['water']),   # preview_water: seabed buildings seen through water
-                           seabed=0.0 if 'preview_water' in U else None)
+                           seabed=0.0 if 'preview_water' in U else None, zoom=U.get('preview_zoom', 1.0))
     for f in sorted(os.listdir(out)):
         if f.endswith('.s3o') and f != unitname + '.s3o':
             paths += preview.render(os.path.join(out, f), out, os.path.join(wd, 'prev', f[:-4]),
-                                    views=('front34',), samples=16 if draft else 24, thumb=False)
-    preview.sheet(paths, os.path.join(wd, 'prev', 'sheet.png'))
+                                    views=('front34',), samples=16 if draft else 24, thumb=False, zoom=U.get('preview_zoom', 1.0))
+    preview.sheet(paths, os.path.join(wd, 'prev', 'sheet.png'), thumb_half=U.get('preview_thumb_half', 50))
     print('PREVIEW', os.path.join(wd, 'prev', 'sheet.png'))
 
 
