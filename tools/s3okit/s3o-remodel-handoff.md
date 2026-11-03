@@ -463,6 +463,13 @@ Base branch `s3o-remodel`; each family on `s3o-<family>`, merged back after revi
   Morty measures stride/ground 0.76 in that run, Peewee 0.85: `cadence` could be tuned per walker if feet slide in game.
   `objects3d/corsenan.s3o` is an unreferenced BOTA leftover whose textures are missing (harmless).
 
+- 2026-11-02, user report (commander arms do not point at targets): fixed. A COB's aim angles assume the pose its old walk left the forearms in
+  (Arm: forearms bent -42/-63 deg by the walk, aim only turns the upper arm), so porting the aim while dropping the walk leaves the barrel wrong: Arm's
+  hanging arm stayed ~63 deg off, Core's forward gauntlet aimed 30 deg high. Check the model's rest axis when porting: upper + forearm must sum to the
+  rest-to-level angle. `zz_commander_aim_probe.lua` measures it (world-space piece origins; GetUnitPiecePosDir returns the emit vertex, off the barrel on
+  flares). Left: yaw offset from the shoulder (~4 deg far, ~12 near; a heading is relative to the aim piece). Other walkers are NOT audited for this.
+  Core decoy turns its whole body to aim (heading -34 in the probe) where the real commander keeps it at 0: not investigated.
+
 ## Decisions (2026-10-31, user)
 
 - **Hexapods: the Spider, Scarab and Roach share ONE standard six-leg skeleton and ONE shared walk.**

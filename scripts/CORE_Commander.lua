@@ -2,11 +2,12 @@
 -- Ported from TA's scripts/core_commander.cob. The unit def names this file with script = "CORE_Commander.lua"; the stock
 -- unit_script gadget lowercases that name and the VFS is case-insensitive.
 -- COB logic kept: the laser (AimPrimary, weapon 1) turns the chest at 300 deg/s and raises the left arm (l_sho) to
--- -pitch - 30 deg at 90 deg/s, aims from chest, fires from mlasflsh, and refuses to aim while the D-gun holds the unit (COB
+-- -pitch at 90 deg/s (the COB's extra -30 deg suited a hanging arm; this gauntlet already points forward, so it aimed 30 deg high), aims from chest, fires from mlasflsh, and refuses to aim while the D-gun holds the unit (COB
 -- static 3). The D-gun (AimTertiary, weapon 3) aims r_dgun to -pitch at 150 deg/s, aims from r_dgun, fires from bigflsh, and
 -- after 100 ms plays BigFire (the recoil keyframes). Building, repairing, reclaiming and capturing all reach StartBuilding: it
 -- cancels aims (shared signal), aims the left arm like the laser, sets INBUILDSTANCE. The nano spray comes from mlasflsh:
 -- the COB's QueryNanoPiece returns piece 1, not nanospray (the COB only ever moves nanospray, in frames that are gone).
+-- An aim during a build returns to the build stance afterwards rather than lowering the arm.
 -- Replaced: TargetCleared is COB-only, so RestorePosition also runs after a delay (laser reload * 2) following an aim. It now
 -- lowers both arms too: the COB's RestorePosition only turned the chest and left that to the old walk's arm swing.
 -- Dropped: the old walk, stand and MotionControl (scripts/headers/walk.lua walks now; the COB's wait for its walk frame to
@@ -27,6 +28,7 @@ local SIG_AIM = 2
 local CHEST_AIM, LASER_ARM, DGUN_ARM = rad(299.93), rad(89.98), rad(149.96)
 local restoreDelay = 3000
 local dgunAimed = false       -- COB static 3
+local buildHeading, buildPitch  -- set while building
 
 local function BigFire()
 	Sleep(100)                -- COB FireTertiary: the flare frame before the recoil
@@ -72,9 +74,22 @@ local function RestorePosition()
 	WaitForTurn(r_dgun, x_axis)
 end
 
+local function BuildPose(heading, pitch)
+	Turn(chest, y_axis, heading, CHEST_AIM)
+	Turn(l_sho, x_axis, -pitch, LASER_ARM)
+	WaitForTurn(chest, y_axis)
+	WaitForTurn(l_sho, x_axis)
+end
+
 local function RestoreAfterDelay()
 	Sleep(restoreDelay)
-	RestorePosition()
+	if buildHeading then
+		dgunAimed = false
+		Turn(r_dgun, x_axis, 0, rad(44.99))
+		BuildPose(buildHeading, buildPitch)
+	else
+		RestorePosition()
+	end
 end
 
 function script.AimWeapon(num, heading, pitch)
@@ -88,7 +103,7 @@ function script.AimWeapon(num, heading, pitch)
 		WaitForTurn(chest, y_axis)
 		WaitForTurn(r_dgun, x_axis)
 	else
-		Turn(l_sho, x_axis, -pitch - rad(29.99), LASER_ARM)
+		Turn(l_sho, x_axis, -pitch, LASER_ARM)
 		WaitForTurn(chest, y_axis)
 		WaitForTurn(l_sho, x_axis)
 	end
@@ -111,14 +126,12 @@ end
 local function BuildAim(heading, pitch)
 	Signal(SIG_AIM)
 	SetSignalMask(SIG_AIM)
-	Turn(chest, y_axis, heading, CHEST_AIM)
-	Turn(l_sho, x_axis, -pitch - rad(29.99), LASER_ARM)
-	WaitForTurn(chest, y_axis)
-	WaitForTurn(l_sho, x_axis)
+	BuildPose(heading, pitch)
 	SetUnitValue(COB.INBUILDSTANCE, 1)
 end
 
 function script.StartBuilding(heading, pitch)
+	buildHeading, buildPitch = heading, pitch
 	StartThread(BuildAim, heading, pitch)
 end
 
@@ -129,6 +142,7 @@ local function StopBuild()
 end
 
 function script.StopBuilding()
+	buildHeading, buildPitch = nil, nil
 	SetUnitValue(COB.INBUILDSTANCE, 0)
 	StartThread(StopBuild)
 end

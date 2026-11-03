@@ -3,6 +3,7 @@
 -- left (lathe/laser) arm to -pitch - 30 deg at 90 deg/s, fires from lfirept; a third weapon slot (the D-gun in the
 -- real commander's script) raises the right arm to -pitch - 24 deg and fires from rbigflash, and while it is aimed the
 -- laser does not aim. Building aims the lathe arm the same way and sets INBUILDSTANCE; nano spray from nanospray.
+-- Not in the COB: the elbows, as in ARM_Commander.lua (the arms hang straight down, so the forearm completes the 90 deg).
 -- RestorePosition (torso 90 deg/s, arms 45 deg/s) ran on the COB-only TargetCleared callin; here it runs after a
 -- restore delay (reload * 2) and on StopBuilding. The COB has no Killed: the wreck is always left (corpse 1).
 -- The old walk is replaced by the shared one (scripts/headers/walk.lua). No damage smoke: neither the COB nor the real
@@ -17,6 +18,7 @@ walk.Biped()
 
 local rad = math.rad
 local SIG_AIM = 2
+local ELBOW_AIM, ELBOW_REST = rad(179.96), rad(89.98)
 local restoreDelay = 3000
 local bigGunAimed = false     -- COB static 3
 
@@ -32,6 +34,8 @@ local function RestorePosition()
 	Turn(torso, y_axis, 0, rad(89.98))
 	Turn(ruparm, x_axis, 0, rad(44.99))
 	Turn(luparm, x_axis, 0, rad(44.99))
+	Turn(biggun, x_axis, 0, ELBOW_REST)
+	Turn(nanolath, x_axis, 0, ELBOW_REST)
 	WaitForTurn(torso, y_axis)
 	WaitForTurn(ruparm, x_axis)
 	WaitForTurn(luparm, x_axis)
@@ -50,10 +54,14 @@ function script.AimWeapon(num, heading, pitch)
 	if num == 3 then
 		bigGunAimed = true
 		Turn(ruparm, x_axis, -pitch - rad(24), rad(89.98))
+		Turn(biggun, x_axis, rad(-66), ELBOW_AIM)
 		WaitForTurn(ruparm, x_axis)
+		WaitForTurn(biggun, x_axis)
 	else
 		Turn(luparm, x_axis, -pitch - rad(30), rad(89.98))
+		Turn(nanolath, x_axis, rad(-60), ELBOW_AIM)
 		WaitForTurn(luparm, x_axis)
+		WaitForTurn(nanolath, x_axis)
 	end
 	WaitForTurn(torso, y_axis)
 	StartThread(RestoreAfterDelay)
@@ -76,8 +84,10 @@ local function BuildAim(heading, pitch)
 	SetSignalMask(SIG_AIM)
 	Turn(torso, y_axis, heading, rad(299.93))
 	Turn(luparm, x_axis, -pitch - rad(30), rad(89.98))
+	Turn(nanolath, x_axis, rad(-60), ELBOW_AIM)
 	WaitForTurn(torso, y_axis)
 	WaitForTurn(luparm, x_axis)
+	WaitForTurn(nanolath, x_axis)
 	SetUnitValue(COB.INBUILDSTANCE, 1)
 end
 

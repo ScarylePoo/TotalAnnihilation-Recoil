@@ -1,6 +1,6 @@
 -- Decoy Commander (CORE_T2_BOT_DecoyCommander): Lua unit script for the remodelled walker (standard biped skeleton).
 -- Ported from TA's CORE_T2_BOT_DecoyCommander.COB (same layout as the Core Commander's): the laser (weapon 4) turns
--- the chest at 300 deg/s unless the D-gun holds it and raises the left arm (l_sho x -pitch - 30 deg at 180 deg/s),
+-- the chest at 300 deg/s unless the D-gun holds it and raises the left arm (l_sho x -pitch at 180 deg/s; the COB's extra -30 deg aimed this forward-pointing gauntlet 30 deg high),
 -- fires from mlasflsh and relaxes after 2 s; weapon 3 (the D-gun slot) aims r_dgun the same way, fires from bigflsh
 -- with the COB's BigFire recoil keyframes. Building aims the left arm and sets INBUILDSTANCE; nano spray from
 -- nanospray. AmphSpeed: max speed rises with water depth (x1 at the surface to x2 at 25 elmo deep) as in the COB.
@@ -91,7 +91,7 @@ function script.AimWeapon(num, heading, pitch)
 		SetSignalMask(SIG_DGUN)
 		dgunAimed = true
 		Turn(chest, y_axis, heading, rad(299.93))
-		Turn(r_dgun, x_axis, -pitch - rad(30), rad(179.96))
+		Turn(r_dgun, x_axis, -pitch, rad(179.96))
 		WaitForTurn(chest, y_axis)
 		WaitForTurn(r_dgun, x_axis)
 		StartThread(RestoreDgun)
@@ -102,7 +102,7 @@ function script.AimWeapon(num, heading, pitch)
 	laserAimed = true
 	if not dgunAimed then
 		Turn(chest, y_axis, heading, rad(299.93))
-		Turn(l_sho, x_axis, -pitch - rad(30), rad(179.96))
+		Turn(l_sho, x_axis, -pitch, rad(179.96))
 		WaitForTurn(l_sho, x_axis)
 	end
 	StartThread(RestoreLaser)
@@ -123,7 +123,7 @@ end
 
 function script.StartBuilding(heading, pitch)
 	if not laserAimed then
-		Turn(l_sho, x_axis, -pitch - rad(30), rad(179.96))
+		Turn(l_sho, x_axis, -pitch, rad(179.96))
 		if not dgunAimed then Turn(chest, y_axis, heading, rad(299.93)) end
 	end
 	SetUnitValue(COB.INBUILDSTANCE, 1)
