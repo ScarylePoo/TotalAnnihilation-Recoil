@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_sea_shredder",
 		objectname = "CORE_T2_SEA_Shredder.s3o",
+		script = "CORE_T2_SEA_Shredder.lua",
 		corpse = "CORE_T2_SEA_Shredder_dead",
 		icontype = "ship",
 		category = "CORE SHIP LEVEL2 WEAPON NOTAIR NOTSUB",

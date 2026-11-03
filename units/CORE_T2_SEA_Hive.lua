@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_sea_hive",
 		objectname = "CORE_T2_SEA_Hive.s3o",
+		script = "CORE_T2_SEA_Hive.lua",
 		corpse = "CORE_T2_SEA_Hive_dead",
 		icontype = "ship",
 		category = "CORE SHIP LEVEL2 NOWEAPON NOTAIR NOTSUB",
