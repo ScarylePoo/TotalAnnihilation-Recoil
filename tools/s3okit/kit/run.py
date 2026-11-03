@@ -185,7 +185,9 @@ def st_preview(unitname, draft=False):
     wd = workdir(unitname); out = os.path.join(wd, 'out')
     pose = U['preview_pose'] or {}
     paths = preview.render(os.path.join(out, unitname + '.s3o'), out, os.path.join(wd, 'prev', unitname),
-                           pose=pose, samples=16 if draft else 32, water=U['water'])
+                           pose=pose, samples=16 if draft else 32,
+                           water=U.get('preview_water', U['water']),   # preview_water: seabed buildings seen through water
+                           seabed=0.0 if 'preview_water' in U else None)
     for f in sorted(os.listdir(out)):
         if f.endswith('.s3o') and f != unitname + '.s3o':
             paths += preview.render(os.path.join(out, f), out, os.path.join(wd, 'prev', f[:-4]),

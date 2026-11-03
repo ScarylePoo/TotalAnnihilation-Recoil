@@ -7,7 +7,7 @@ return {
 		description = "Increases Metal Storage by 1500",
 		side = "CORE",
 		unitname = "core_t1_seaeco_uwmetalstorage",
-		objectname = "CORE_T1_SEAECO_UWMetalStorage",
+		objectname = "CORE_T1_SEAECO_UWMetalStorage.s3o",
 		corpse = "CORE_T1_SEAECO_UWMetalStorage_dead",
 		icontype = "building",
 		category = "CORE LEVEL1 NOWEAPON NOTAIR NOTSUB",

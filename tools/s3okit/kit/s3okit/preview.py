@@ -22,7 +22,7 @@ def _png(texdir, name):
 
 
 def render(path, texdir, prefix, team='2255dd', pose=None, views=('front34', 'rear34', 'side', 'rts'),
-           samples=32, size=(900, 650), thumb=True, water=None):
+           samples=32, size=(900, 650), thumb=True, water=None, seabed=None):
     bpy.ops.wm.read_factory_settings(use_empty=True)
     sc = bpy.context.scene
     m = S3O.read(path)
@@ -125,7 +125,7 @@ def render(path, texdir, prefix, team='2255dd', pose=None, views=('front34', 're
             bpy.context.object.data.materials.append(wm)
             for o in bpy.data.objects:
                 if o.type == 'MESH' and o.data.materials and o.data.materials[0] == gm:
-                    o.location.y = min(-10.0, water - 60.0)
+                    o.location.y = min(-10.0, water - 60.0) if seabed is None else seabed   # seabed: UW buildings
             gm.node_tree.nodes['Principled BSDF'].inputs['Base Color'].default_value = (0.06, 0.11, 0.11, 1)
         az = math.radians(35); dist = 430; pitch = math.radians(65)
         pos = Vector((math.sin(az) * math.cos(pitch) * dist, math.sin(pitch) * dist, math.cos(az) * math.cos(pitch) * dist))

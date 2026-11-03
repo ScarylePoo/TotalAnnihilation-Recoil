@@ -7,7 +7,7 @@ return {
 		description = "Increases Energy Storage by 4000",
 		side = "ARM",
 		unitname = "arm_t1_seaeco_uwenergystorage",
-		objectname = "ARM_T1_SEAECO_UWEnergyStorage",
+		objectname = "ARM_T1_SEAECO_UWEnergyStorage.s3o",
 		script = "ARM_T1_SEAECO_UWEnergyStorage.lua",
 		corpse = "ARM_T1_SEAECO_UWEnergyStorage_dead",
 		icontype = "building",

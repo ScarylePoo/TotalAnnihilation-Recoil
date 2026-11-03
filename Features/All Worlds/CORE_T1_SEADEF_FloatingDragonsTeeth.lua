@@ -5,7 +5,7 @@ return {
 		world = "allworld",
 		description = "Floating Dragon's Teeth",
 		category = "dragonteeth",
-		object = "CORE_T1_SEADEF_FloatingDragonsTeeth",
+		object = "CORE_T1_SEADEF_FloatingDragonsTeeth.s3o",
 		footprintx = 2,
 		footprintz = 2,
 		height = 100,

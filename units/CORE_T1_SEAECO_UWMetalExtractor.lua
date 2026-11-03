@@ -7,7 +7,7 @@ return {
 		description = "Extracts Metal",
 		side = "CORE",
 		unitname = "core_t1_seaeco_uwmetalextractor",
-		objectname = "CORE_T1_SEAECO_UWMetalExtractor",
+		objectname = "CORE_T1_SEAECO_UWMetalExtractor.s3o",
 		corpse = "CORE_T1_SEAECO_UWMetalExtractor_dead",
 		icontype = "building",
 		category = "CORE LEVEL1 NOWEAPON NOTAIR NOTSUB",

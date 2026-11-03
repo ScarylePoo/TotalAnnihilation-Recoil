@@ -7,7 +7,7 @@ return {
 		description = "Floating Heavy Laser Tower",
 		side = "ARM",
 		unitname = "arm_t1_seadef_stingray",
-		objectname = "ARM_T1_SEADEF_Stingray",
+		objectname = "ARM_T1_SEADEF_Stingray.s3o",
 		script = "ARM_T1_SEADEF_Stingray.lua",
 		corpse = "ARM_T1_SEADEF_Stingray_dead",
 		icontype = "turret",

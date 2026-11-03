@@ -7,7 +7,7 @@ return {
 		description = "Converts Energy into Metal",
 		side = "ARM",
 		unitname = "arm_t1_seaeco_floatingmetalmaker",
-		objectname = "ARM_T1_SEAECO_FloatingMetalMaker",
+		objectname = "ARM_T1_SEAECO_FloatingMetalMaker.s3o",
 		script = "ARM_T1_SEAECO_FloatingMetalMaker.lua",
 		corpse = "ARM_T1_SEAECO_FloatingMetalMaker_dead",
 		icontype = "building",
