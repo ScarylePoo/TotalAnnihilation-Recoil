@@ -9,6 +9,7 @@ return {
 		unitname = "core_t2_lab_advancedkbotlab",
 		buildoptions = Shared.buildListCoreAdvancedKbotLab,
 		objectname = "CORE_T2_LAB_AdvancedKbotLab.s3o",
+		script = "CORE_T2_LAB_AdvancedKbotLab.lua",
 		corpse = "CORE_T2_LAB_AdvancedKbotLab_dead",
 		icontype = "factory",
 		category = "CORE PLANT LEVEL2 NOWEAPON NOTAIR NOTSUB",

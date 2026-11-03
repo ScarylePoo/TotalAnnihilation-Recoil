@@ -9,6 +9,7 @@ return {
 		unitname = "arm_t1_lab_kbotlab",
 		buildoptions = Shared.buildListArmKbotLab,
 		objectname = "ARM_T1_LAB_KbotLab.s3o",
+		script = "ARM_T1_LAB_KbotLab.lua",
 		corpse = "ARM_T1_LAB_KbotLab_dead",
 		icontype = "factory",
 		category = "ARM PLANT LEVEL1 NOWEAPON NOTAIR NOTSUB",
