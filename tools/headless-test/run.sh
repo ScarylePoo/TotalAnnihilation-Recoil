@@ -2,7 +2,9 @@
 # Headless smoke test for TA:Recoil on a given Recoil engine build.
 #
 #   tools/headless-test/run.sh /path/to/recoil-engine-dir [timeout_s]
-#   AIM=1 tools/headless-test/run.sh ...   instead runs only zz_walker_aim_probe (fire, hits and gun pitch of every armed walker)
+#   AIM=1 tools/headless-test/run.sh ...      instead runs only zz_walker_aim_probe (fire, hits and gun pitch of every armed unit)
+#   SCRIPTP=1 tools/headless-test/run.sh ...  instead runs only zz_script_probe (poses, on/off, build, corpses, transports, pads, stockpile)
+#   KEEPLOG=path saves the cleaned infolog there (for tools/s3okit/kit/compare_probe.py)
 #
 # Loads the game on a generated blank map (the engine's InitBlank map
 # generator, no map download), spawns every unitdef for two enemy teams, lets
@@ -24,12 +26,16 @@ mkdir -p "$WD/games"
 ln -s "$GAME" "$WD/games/tar.sdd"
 ln -s "$HERE/tartest.sdd" "$WD/games/tartest.sdd"
 cp "$HERE/script.txt" "$WD/script.txt"
+# several runs at once (other worktrees too) need their own UDP port
+sed -i "s/IsHost=1;/IsHost=1;\n\tHostPort=$((20000 + RANDOM % 30000));/" "$WD/script.txt"
 [ -n "$AIM" ] && sed -i 's/debugmode=1;/debugmode=1;\n\t\taimonly=1;/' "$WD/script.txt"
+[ -n "$SCRIPTP" ] && sed -i 's/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tscriptonly=1;/' "$WD/script.txt"
 set +e
 timeout "${2:-1800}" "$ENGINE/spring-headless" --isolation --isolation-dir "$ENGINE" --write-dir "$WD" "$WD/script.txt" > "$WD/stdout.log" 2>&1
 echo "engine exit: $?   (infolog: $WD/infolog.txt)"
 sed 's/^\[t=[^]]*\]\(\[f=[^]]*\]\)\? //' "$WD/infolog.txt" > "$WD/clean.log"
-grep "\[HARNESS\]" "$WD/clean.log" | grep -v ", spawn, "
+[ -n "$KEEPLOG" ] && cp "$WD/clean.log" "$KEEPLOG"
+grep "\[HARNESS\]\|^\[SP\]" "$WD/clean.log" | grep -v ", spawn, "
 echo "--- spawn failures: $(grep -c 'SPAWN FAIL' "$WD/clean.log")"
 grep "\[PROBE\]" "$WD/clean.log" | cut -c1-300
 echo "--- problems (grouped):"
