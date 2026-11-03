@@ -18,3 +18,11 @@ for name, ud in pairs(UnitDefs) do
 		ud.customparams.iscommander = 1
 	end
 end
+
+-- Air repair pads: the engine ignores isairbase, luarules/gadgets/unit_air_pads.lua reads this.
+for name, ud in pairs(UnitDefs) do
+	if ud.isairbase then
+		ud.customparams = ud.customparams or {}
+		ud.customparams.isairbase = 1
+	end
+end
