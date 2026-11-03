@@ -7,7 +7,7 @@ return {
 		description = "Anti-Air Ship",
 		side = "CORE",
 		unitname = "core_t2_sea_shredder",
-		objectname = "CORE_T2_SEA_Shredder",
+		objectname = "CORE_T2_SEA_Shredder.s3o",
 		corpse = "CORE_T2_SEA_Shredder_dead",
 		icontype = "ship",
 		category = "CORE SHIP LEVEL2 WEAPON NOTAIR NOTSUB",
