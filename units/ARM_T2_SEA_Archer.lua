@@ -7,7 +7,7 @@ return {
 		description = "Anti-Air Ship",
 		side = "ARM",
 		unitname = "arm_t2_sea_archer",
-		objectname = "ARM_T2_SEA_Archer",
+		objectname = "ARM_T2_SEA_Archer.s3o",
 		corpse = "ARM_T2_SEA_Archer_dead",
 		icontype = "ship",
 		category = "ARM SHIP LEVEL2 WEAPON NOTAIR NOTSUB",
