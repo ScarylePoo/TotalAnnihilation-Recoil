@@ -9,6 +9,7 @@ return {
 		unitname = "core_t1_air_constructor",
 		buildoptions = Shared.buildListCoreT1AircraftConstructor,
 		objectname = "CORE_T1_AIR_Constructor.s3o",
+		script = "CORE_T1_AIR_Constructor.lua",
 		corpse = "CORE_T1_AIR_Constructor_dead",
 		icontype = "aircraft",
 		category = "CORE VTOL LEVEL1 NOWEAPON NOTSUB",

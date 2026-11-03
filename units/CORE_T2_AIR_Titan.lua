@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_air_titan",
 		objectname = "CORE_T2_AIR_Titan.s3o",
+		script = "CORE_T2_AIR_Titan.lua",
 		corpse = "CORE_T2_AIR_Titan_dead",
 		icontype = "aircraft",
 		category = "CORE VTOL LEVEL2 WEAPON NOTSUB",
