@@ -7,7 +7,7 @@ return {
 		description = "Seaplane Fighter",
 		side = "CORE",
 		unitname = "core_t1_seapl_voodoo",
-		objectname = "CORE_T1_SEAPL_Voodoo",
+		objectname = "CORE_T1_SEAPL_Voodoo.s3o",
 		corpse = "CORE_T1_SEAPL_Voodoo_dead",
 		icontype = "aircraft",
 		category = "CORE VTOL LEVEL1 WEAPON NOTSUB",
