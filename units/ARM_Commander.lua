@@ -8,7 +8,8 @@ return {
 		side = "ARM",
 		unitname = "arm_commander",
 		buildoptions = Shared.buildListArmCommander,
-		objectname = "ARM_Commander",
+		objectname = "ARM_Commander.s3o",
+		script = "ARM_Commander.lua",          -- walker: Lua script on the standard skeleton (was the COB)
 		icontype = "commander",
 		category = "ARM COMMANDER LEVEL10 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
