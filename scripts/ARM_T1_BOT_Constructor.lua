@@ -1,6 +1,6 @@
 -- Construction Kbot (ARM_T1_BOT_Constructor): Lua unit script for the remodelled walker (standard biped skeleton).
 -- Ported from TA's ARM_T1_BOT_Constructor.COB: Go folds the roof panels out (97 deg at 350 deg/s), swings the front
--- hatch up 126 deg, raises the nano gun (arms +90 / nanobody2 -90), telescopes the nozzle 11 elmo and turns the turret
+-- hatch up 126 deg, raises the nano gun (arms +90 / nanobody2 -90), telescopes the nozzle 5 elmo (the COB's 11 pulled it out of the kit model's shorter gun, 5.2 elmo clear) and turns the turret
 -- to the build heading at 300 deg/s before setting INBUILDSTANCE; Stop clears it and runs the COB's close sequence.
 -- Same RequestState queue (StartBuilding/Activate -> open, StopBuilding/Deactivate -> close), QueryNanoPiece =
 -- nanospray, SweetSpot = turret, same death table and corpse types. COB negates turn-z destinations (Recoil
@@ -28,7 +28,7 @@ local function Go()
 	Turn(arms, x_axis, rad(89.99), SPD)
 	Turn(nanobody2, x_axis, rad(-89.99), SPD)
 	Sleep(100)
-	Move(nozzle, z_axis, 11, 45)
+	Move(nozzle, z_axis, 5, 45)
 	Sleep(150)
 	Turn(turret, y_axis, buildHeading, rad(299.93))
 	WaitForTurn(turret, y_axis)
@@ -39,7 +39,7 @@ local function Stop()
 	SetUnitValue(COB.INBUILDSTANCE, 0)
 	Turn(turret, y_axis, 0, SPD)
 	WaitForTurn(turret, y_axis)
-	Move(nozzle, z_axis, 11)
+	Move(nozzle, z_axis, 5)
 	Move(nozzle, z_axis, -0.5, 45)
 	Turn(guncover, x_axis, rad(126.89))
 	Turn(lflap, z_axis, rad(-97.9))
@@ -73,6 +73,9 @@ local function RequestState(state)
 end
 
 function script.Create()
+	-- the kit roof panels hinge 2.3 above the body and would float over it: lower them onto it
+	Move(lflap, y_axis, -2.6)
+	Move(rflap, y_axis, -2.6)
 	StartThread(SmokeUnit, {pelvis, turret})
 end
 

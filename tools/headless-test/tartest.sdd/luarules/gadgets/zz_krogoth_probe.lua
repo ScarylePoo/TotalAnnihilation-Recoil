@@ -1,7 +1,8 @@
 function gadget:GetInfo()
   return { name = "Krogoth Probe", layer = 1002, enabled = true }
 end
-if (Spring.GetModOptions() or {}).aimonly then return end   -- run.sh --aim runs only the walker aim probe
+local _opt = Spring.GetModOptions() or {}
+if _opt.aimonly or _opt.gaponly then return end   -- run.sh AIM=1 / GAP=1 run only their own probe
 
 -- Krogoth and its Gantry, the two biggest models. Logs as [HARNESS] krog ...
 -- Walk: the shared biped keys were made for a pelvis height of 23; does cadence/bob scaling hold at H 28 and speed 30?

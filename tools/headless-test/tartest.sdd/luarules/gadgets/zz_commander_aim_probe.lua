@@ -1,7 +1,8 @@
 function gadget:GetInfo()
   return { name = "Commander Aim Probe", layer = 1002, enabled = true }
 end
-if (Spring.GetModOptions() or {}).aimonly then return end   -- run.sh --aim runs only the walker aim probe
+local _opt = Spring.GetModOptions() or {}
+if _opt.aimonly or _opt.gaponly then return end   -- run.sh AIM=1 / GAP=1 run only their own probe
 
 -- Do the commanders' arms point at what they shoot at and build? An immune commander and decoy of each side get, in turn, a laser
 -- ground attack far and near, a D-gun, a build order, then a stop. At the end of each phase logs the angle between the arm (pivot ->

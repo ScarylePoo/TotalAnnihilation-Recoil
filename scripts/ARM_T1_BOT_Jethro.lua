@@ -37,6 +37,9 @@ local function Close()
 end
 
 function script.Create()
+	-- the pods swing round a pivot outside the kit torso: seated inward so they stay on it through the swing
+	Move(ruparm, x_axis, 1.2)
+	Move(luparm, x_axis, -1.2)
 	local wd = UnitDefs[unitDefID].weapons[1]
 	if wd and WeaponDefs[wd.weaponDef] then
 		restoreDelay = WeaponDefs[wd.weaponDef].reload * 2000

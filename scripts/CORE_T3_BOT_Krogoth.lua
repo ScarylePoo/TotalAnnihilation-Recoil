@@ -48,9 +48,9 @@ local function RestoreAfterDelay()
 end
 
 local function AimCannons(heading, pitch)
-	-- silos rise with the cannons, as in the COB
-	Move(rmissle2, y_axis, 15, 25)
-	Move(lmissle2, y_axis, 15, 25)
+	-- silos rise with the cannons, 12 elmo instead of the COB's 15, which pulled them off the kit model's pack
+	Move(rmissle2, y_axis, 12, 25)
+	Move(lmissle2, y_axis, 12, 25)
 	Turn(luparm, x_axis, 0, rad(120))
 	Turn(ruparm, x_axis, 0, rad(120))
 	WaitForTurn(luparm, x_axis)

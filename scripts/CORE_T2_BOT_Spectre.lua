@@ -15,7 +15,7 @@ local rad = math.rad
 local SIG_ACT = 2
 
 local function open()
-	Move(torso, y_axis, 0)
+	Move(torso, y_axis, -1.25)
 	Turn(ltong, x_axis, rad(0))
 	Turn(ltong, x_axis, rad(180), rad(316.9))
 	Turn(rtong, x_axis, rad(0))
@@ -25,7 +25,7 @@ local function open()
 end
 
 local function close()
-	Move(torso, y_axis, 0)
+	Move(torso, y_axis, -1.25)
 	Turn(ltong, x_axis, rad(179.65))
 	Turn(ltong, x_axis, rad(0), rad(180.01))
 	Turn(rtong, x_axis, rad(180))
@@ -49,6 +49,7 @@ local function DeactivateThread()
 end
 
 function script.Create()
+	Move(torso, y_axis, -1.25)      -- the kit model's torso sat 1.15 above the pelvis at rest
 	StartThread(SmokeUnit, {torso})
 end
 
