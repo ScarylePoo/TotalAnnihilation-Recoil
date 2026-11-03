@@ -183,8 +183,8 @@ function script.Killed(recentDamage, maxHealth)
 	end
 	if severity <= 99 then
 		Explode(arms, SFX.SHATTER + SFX.SMOKE + SFX.FIRE + SFX.RECURSIVE)
-		return 3
+		return 2
 	end
 	Explode(arms, SFX.SHATTER + SFX.SMOKE + SFX.FIRE + SFX.RECURSIVE)
-	return 3
+	return 2
 end

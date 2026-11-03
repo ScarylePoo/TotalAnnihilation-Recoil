@@ -82,5 +82,5 @@ function script.Killed(recentDamage, maxHealth)
 	for _, p in ipairs(LIMBS) do Explode(p, burn) end
 	Explode(flash, burn); Explode(ground, burn); Explode(lbleg, burn); Explode(rbleg, burn)
 	Explode(gauss, SFX.SHATTER + ((severity > 99) and SFX.EXPLODE_ON_HIT or 0))
-	return 3
+	return 2
 end

@@ -58,10 +58,10 @@ function script.Killed(recentDamage, maxHealth)
 		Explode(base, SFX.NONE + SFX.NO_HEATCLOUD)
 		Explode(fork, SFX.SHATTER + SFX.EXPLODE_ON_HIT)
 		Explode(bubbles, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
-		return 3
+		return 2
 	end
 	Explode(base, SFX.NONE + SFX.NO_HEATCLOUD)
 	Explode(fork, SFX.SHATTER + SFX.EXPLODE_ON_HIT)
 	Explode(bubbles, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
-	return 3
+	return 2
 end

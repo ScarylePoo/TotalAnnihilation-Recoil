@@ -207,12 +207,12 @@ function script.Killed(recentDamage, maxHealth)
 		Explode(nano1, SFX.NONE + SFX.NO_HEATCLOUD)
 		Blow({nano2, pad, plate1, plate2}, SFX.NONE)
 		Explode(platform, SFX.NONE + SFX.NO_HEATCLOUD)
-		return 3
+		return 2
 	end
 	Explode(base, SFX.NONE + SFX.NO_HEATCLOUD)
 	Blow({beam1, beam2, door1, door2}, SFX.NONE)
 	Explode(nano1, SFX.NONE + SFX.NO_HEATCLOUD)
 	Blow({nano2, pad, plate1, plate2}, SFX.NONE)
 	Explode(platform, SFX.NONE + SFX.NO_HEATCLOUD)
-	return 3
+	return 2
 end

@@ -44,10 +44,10 @@ function script.Killed(recentDamage, maxHealth)
 		Explode(base, SFX.NONE + SFX.NO_HEATCLOUD)
 		Explode(lwing, SFX.SHATTER)
 		Explode(rwing, SFX.SHATTER + SFX.NO_HEATCLOUD)
-		return 3
+		return 2
 	end
 	Explode(base, SFX.NONE + SFX.NO_HEATCLOUD)
 	Explode(lwing, SFX.SHATTER + SFX.EXPLODE_ON_HIT)
 	Explode(rwing, SFX.SHATTER + SFX.EXPLODE_ON_HIT + SFX.NO_HEATCLOUD)
-	return 3
+	return 2
 end

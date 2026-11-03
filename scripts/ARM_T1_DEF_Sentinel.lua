@@ -63,6 +63,6 @@ function script.Killed(recentDamage, maxHealth)
 		Explode(base, SFX.SHATTER)
 		Explode(guns, SFX.FIRE + SFX.SMOKE + SFX.EXPLODE)
 		Explode(turret, SFX.SHATTER)
-		return 3                -- leave nothing
+		return 2                -- leave nothing
 	end
 end

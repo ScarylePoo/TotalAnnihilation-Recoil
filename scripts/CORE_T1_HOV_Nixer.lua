@@ -237,11 +237,11 @@ function script.Killed(recentDamage, maxHealth)
 		Explode(base, SFX.NONE)
 		Blow({lmispoint, rmispoint}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 		Explode(launcher, SFX.SHATTER)
-		return 3
+		return 2
 	end
 	Blow({arm1, arm2}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE + SFX.NO_HEATCLOUD)
 	Explode(base, SFX.NONE)
 	Blow({lmispoint, rmispoint}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 	Explode(launcher, SFX.SHATTER + SFX.EXPLODE_ON_HIT)
-	return 3
+	return 2
 end

@@ -124,9 +124,9 @@ function script.Killed(recentDamage, maxHealth)
 	if severity <= 99 then
 		Blow({base, gantry}, SFX.NONE)
 		Explode(missle, SFX.SHATTER)
-		return 3
+		return 2
 	end
 	Blow({base, gantry}, SFX.NONE)
 	Explode(missle, SFX.SHATTER + SFX.EXPLODE_ON_HIT)
-	return 3
+	return 2
 end

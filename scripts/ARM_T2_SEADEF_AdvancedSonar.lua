@@ -75,6 +75,6 @@ function script.Killed(recentDamage, maxHealth)
 		Explode(dish3, SFX.SHATTER + SFX.NO_HEATCLOUD)
 		Explode(dish4, SFX.SHATTER + SFX.NO_HEATCLOUD)
 		Explode(light, SFX.FIRE + SFX.SMOKE)
-		return 3                -- leave nothing
+		return 2                -- leave nothing
 	end
 end

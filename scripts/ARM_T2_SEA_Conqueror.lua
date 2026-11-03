@@ -137,5 +137,5 @@ function script.Killed(recentDamage, maxHealth)
 	Blow({flare1, flare2}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 	Explode(turret, SFX.SHATTER + SFX.EXPLODE_ON_HIT + SFX.NO_HEATCLOUD)
 	Blow({wake1, wake2}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
-	return 3
+	return 2
 end

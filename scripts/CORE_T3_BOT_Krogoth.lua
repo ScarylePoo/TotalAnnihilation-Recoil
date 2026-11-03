@@ -143,5 +143,5 @@ function script.Killed(recentDamage, maxHealth)
 	local f = SFX.FALL + SFX.SMOKE + SFX.FIRE + SFX.EXPLODE_ON_HIT
 	for _, p in ipairs(DEATH) do Explode(p, f) end
 	Explode(torso, SFX.NONE)
-	return 3
+	return 2
 end

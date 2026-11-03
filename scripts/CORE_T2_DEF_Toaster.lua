@@ -190,7 +190,7 @@ function script.Killed(recentDamage, maxHealth)
 			corpsetype = 2
 		end
 		if s0 == 0 then
-			corpsetype = 3
+			corpsetype = 2
 		end
 		Explode(barrel1, SFX.NONE + SFX.NO_HEATCLOUD)
 		Blow({barrel2, barrel3, door1, door2}, SFX.FALL)
@@ -203,10 +203,10 @@ function script.Killed(recentDamage, maxHealth)
 	end
 	if severity <= 99 then
 		if s0 ~= 0 then
-			corpsetype = 3
+			corpsetype = 2
 		end
 		if s0 == 0 then
-			corpsetype = 4
+			corpsetype = 2
 		end
 		Explode(barrel1, SFX.NONE + SFX.NO_HEATCLOUD)
 		Blow({barrel2, barrel3, door1, door2}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
@@ -224,5 +224,5 @@ function script.Killed(recentDamage, maxHealth)
 	Explode(pillartops, SFX.SHATTER + SFX.EXPLODE_ON_HIT)
 	Explode(turret, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE + SFX.NO_HEATCLOUD)
 	Blow({turretback, turretssides}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
-	return 4
+	return 2
 end

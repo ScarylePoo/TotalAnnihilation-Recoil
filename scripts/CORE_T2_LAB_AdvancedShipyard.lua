@@ -166,7 +166,7 @@ function script.Killed(recentDamage, maxHealth)
 		Explode(gun2, SFX.SHATTER + SFX.NO_HEATCLOUD)
 		Explode(explodpt1, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE + SFX.NO_HEATCLOUD)
 		Blow({explodpt2, explodpt3, explodpt4}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
-		return 3
+		return 2
 	end
 	Explode(base, SFX.SHATTER + SFX.EXPLODE_ON_HIT + SFX.NO_HEATCLOUD)
 	Blow({beam1, beam2}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
@@ -175,5 +175,5 @@ function script.Killed(recentDamage, maxHealth)
 	Explode(gun2, SFX.SHATTER + SFX.EXPLODE_ON_HIT + SFX.NO_HEATCLOUD)
 	Explode(explodpt1, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE + SFX.NO_HEATCLOUD)
 	Blow({explodpt2, explodpt3, explodpt4}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
-	return 3
+	return 2
 end

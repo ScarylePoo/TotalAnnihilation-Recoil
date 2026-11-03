@@ -81,10 +81,10 @@ function script.Killed(recentDamage, maxHealth)
 	if severity <= 99 then
 		Explode(base, SFX.NONE + SFX.NO_HEATCLOUD)
 		Blow({dish, turret}, SFX.NONE)
-		return 3
+		return 2
 	end
 	Explode(base, SFX.NONE + SFX.NO_HEATCLOUD)
 	Explode(dish, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 	Explode(turret, SFX.NONE)
-	return 3
+	return 2
 end

@@ -150,7 +150,7 @@ function script.Killed(recentDamage, maxHealth)
 		Explode(sonar2, SFX.NONE)
 		Explode(sonarholder1, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE + SFX.NO_HEATCLOUD)
 		Explode(sonarholder2, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
-		return 3
+		return 2
 	end
 	Explode(base, SFX.NONE + SFX.NO_HEATCLOUD)
 	Blow({lwing, rwing}, SFX.NONE)
@@ -158,5 +158,5 @@ function script.Killed(recentDamage, maxHealth)
 	Explode(sonar2, SFX.NONE)
 	Explode(sonarholder1, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE + SFX.NO_HEATCLOUD)
 	Explode(sonarholder2, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
-	return 3
+	return 2
 end

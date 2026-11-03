@@ -83,10 +83,10 @@ function script.Killed(recentDamage, maxHealth)
 		Blow({barrel}, SFX.NONE)
 		Blow({lfoot, rfoot, lleg, rleg, support, lthigh, rthigh}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 		Blow({torso}, SFX.SHATTER)
-		return 3
+		return 2
 	end
 	Blow({barrel}, SFX.NONE)
 	Blow({lfoot, rfoot, lleg, rleg, support, lthigh, rthigh}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 	Blow({torso}, SFX.SHATTER)
-	return 3
+	return 2
 end

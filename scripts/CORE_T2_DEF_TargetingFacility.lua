@@ -134,11 +134,11 @@ function script.Killed(recentDamage, maxHealth)
 		Blow({arm2, arm3, arm4, base}, SFX.NONE)
 		Explode(centerlight, SFX.SHATTER + SFX.NO_HEATCLOUD)
 		Blow({light1, light2, light3, light4}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
-		return 3
+		return 2
 	end
 	Explode(arm1, SFX.NONE + SFX.NO_HEATCLOUD)
 	Blow({arm2, arm3, arm4, base}, SFX.NONE)
 	Explode(centerlight, SFX.SHATTER + SFX.EXPLODE_ON_HIT + SFX.NO_HEATCLOUD)
 	Blow({light1, light2, light3, light4}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
-	return 3
+	return 2
 end

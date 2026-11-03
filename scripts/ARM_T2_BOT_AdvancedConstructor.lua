@@ -117,10 +117,10 @@ function script.Killed(recentDamage, maxHealth)
 		Blow({ground, guncase, lnanogun, pelvis, rnanogun, torso}, SFX.NONE)
 		Blow({lfoot, lleg, lnanospray, lthigh, rfoot, rleg, rnanospray, rthigh}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 		Blow({nanoarm, nanojoint}, SFX.SHATTER)
-		return 3
+		return 2
 	end
 	Blow({ground, guncase, lnanogun, pelvis, rnanogun, torso}, SFX.NONE)
 	Blow({lfoot, lleg, lnanospray, lthigh, rfoot, rleg, rnanospray, rthigh}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 	Blow({nanoarm, nanojoint}, SFX.SHATTER + SFX.EXPLODE_ON_HIT)
-	return 3
+	return 2
 end

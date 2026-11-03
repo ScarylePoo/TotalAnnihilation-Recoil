@@ -172,5 +172,5 @@ function script.Killed(recentDamage, maxHealth)
 	Explode(canbase, SFX.NONE); Explode(torso, SFX.NONE)
 	local g = SFX.SHATTER + ((severity > 99) and SFX.EXPLODE_ON_HIT or 0)
 	Explode(lcannon, g); Explode(rcannon, g)
-	return 3
+	return 2
 end

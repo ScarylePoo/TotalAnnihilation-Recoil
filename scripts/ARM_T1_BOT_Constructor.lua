@@ -119,5 +119,5 @@ function script.Killed(recentDamage, maxHealth)
 	for _, p in ipairs({arms, guncover, nanospray, nozzle}) do Explode(p, f) end
 	local s = SFX.SHATTER + ((severity > 99) and SFX.EXPLODE_ON_HIT or 0)
 	Explode(lfoot, s); Explode(rfoot, s)
-	return 3
+	return 2
 end

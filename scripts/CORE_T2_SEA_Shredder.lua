@@ -184,7 +184,7 @@ function script.Killed(recentDamage, maxHealth)
 		Explode(turret2, SFX.NONE)
 		Blow({turreta, turretb}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 		Explode(turretgun, SFX.NONE)
-		return 3
+		return 2
 	end
 	Explode(base, SFX.NONE + SFX.NO_HEATCLOUD)
 	Explode(boxa, SFX.SHATTER + SFX.EXPLODE_ON_HIT)
@@ -197,5 +197,5 @@ function script.Killed(recentDamage, maxHealth)
 	Explode(turret2, SFX.NONE)
 	Blow({turreta, turretb}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 	Explode(turretgun, SFX.NONE)
-	return 3
+	return 2
 end

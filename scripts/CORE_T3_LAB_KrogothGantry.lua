@@ -466,7 +466,7 @@ function script.Killed(recentDamage, maxHealth)
 		Blow({crane, cranetop, gangplank, glowybits}, SFX.NONE)
 		Explode(lathe1, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE + SFX.NO_HEATCLOUD)
 		Blow({lathe2, lathe3, lathe4}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
-		return 3
+		return 2
 	end
 	Explode(arm1a, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE + SFX.NO_HEATCLOUD)
 	Blow({arm1b, arm2a, arm2b, arm3a}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
@@ -484,5 +484,5 @@ function script.Killed(recentDamage, maxHealth)
 	Blow({crane, cranetop, gangplank, glowybits}, SFX.NONE)
 	Explode(lathe1, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE + SFX.NO_HEATCLOUD)
 	Blow({lathe2, lathe3, lathe4}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
-	return 3
+	return 2
 end

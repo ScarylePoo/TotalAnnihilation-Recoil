@@ -63,9 +63,9 @@ function script.Killed(recentDamage, maxHealth)
 	if severity <= 99 then
 		Explode(base, SFX.NONE + SFX.NO_HEATCLOUD)
 		Blow({torp1, torp2, wake}, SFX.NONE)
-		return 3
+		return 2
 	end
 	Explode(base, SFX.NONE + SFX.NO_HEATCLOUD)
 	Blow({torp1, torp2, wake}, SFX.NONE)
-	return 3
+	return 2
 end

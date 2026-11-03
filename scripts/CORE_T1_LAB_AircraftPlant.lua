@@ -210,6 +210,6 @@ function script.Killed(recentDamage, maxHealth)
 		Explode(nano1, SFX.EXPLODE_ON_HIT)
 		Explode(nano2, SFX.EXPLODE_ON_HIT)
 
-		return 3 -- corpsetype
+		return 2 -- corpsetype
 	end
 end

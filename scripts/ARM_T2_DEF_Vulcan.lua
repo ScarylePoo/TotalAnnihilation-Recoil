@@ -106,12 +106,12 @@ function script.Killed(recentDamage, maxHealth)
 		Blow({housing01, housing02, housing03, housing04, neck}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 		Explode(spindle, SFX.SHATTER)
 		Explode(turret, SFX.NONE)
-		return 3
+		return 2
 	end
 	Blow({barrel01, barrel02, barrel03, barrel04}, SFX.NONE + SFX.NO_HEATCLOUD)
 	Explode(base, SFX.NONE)
 	Blow({housing01, housing02, housing03, housing04, neck}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 	Explode(spindle, SFX.SHATTER + SFX.EXPLODE_ON_HIT)
 	Explode(turret, SFX.NONE)
-	return 3
+	return 2
 end

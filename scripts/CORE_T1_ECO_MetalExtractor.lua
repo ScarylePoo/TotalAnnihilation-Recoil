@@ -101,9 +101,9 @@ function script.Killed(recentDamage, maxHealth)
 	if severity <= 99 then
 		Explode(arms, SFX.SHATTER + SFX.NO_HEATCLOUD)
 		Explode(base, SFX.NONE)
-		return 3
+		return 2
 	end
 	Explode(arms, SFX.SHATTER + SFX.EXPLODE_ON_HIT + SFX.NO_HEATCLOUD)
 	Explode(base, SFX.NONE)
-	return 3
+	return 2
 end

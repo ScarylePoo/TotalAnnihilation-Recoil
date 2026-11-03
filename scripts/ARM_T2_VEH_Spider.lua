@@ -87,5 +87,5 @@ function script.Killed(recentDamage, maxHealth)
 	for _, p in ipairs(PARTS) do Explode(p, f) end
 	for _, p in ipairs(LEGS) do Explode(p, f) end
 	Explode(turret, SFX.SHATTER + ((severity > 99) and SFX.EXPLODE_ON_HIT or 0))
-	return 3
+	return 2
 end

@@ -121,9 +121,9 @@ function script.Killed(recentDamage, maxHealth)
 	elseif severity <= 99 then
 		Blow({barrel, gun, head, pelvis, larm, lhand, lleg, luparm, lthigh, rarm, rleg, ruparm, rthigh, scope, sleave}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 		Blow({torso}, SFX.SHATTER)
-		return 3
+		return 2
 	end
 	Blow({barrel, gun, head, pelvis, larm, lhand, lleg, luparm, lthigh, rarm, rleg, ruparm, rthigh, scope, sleave}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 	Blow({torso}, SFX.SHATTER + SFX.EXPLODE_ON_HIT)
-	return 3
+	return 2
 end

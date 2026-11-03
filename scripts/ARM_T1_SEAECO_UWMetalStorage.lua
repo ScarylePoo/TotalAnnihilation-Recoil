@@ -22,6 +22,6 @@ function script.Killed(recentDamage, maxHealth)
 		Explode(base, SFX.SHATTER)
 		Explode(canisters, SFX.SHATTER)
 		Explode(topdoodads, SFX.SHATTER)
-		return 3                -- leave nothing
+		return 2                -- leave nothing
 	end
 end

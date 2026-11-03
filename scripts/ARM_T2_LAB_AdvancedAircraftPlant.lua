@@ -196,7 +196,7 @@ function script.Killed(recentDamage, maxHealth)
 		Explode(nano1, SFX.SHATTER + SFX.EXPLODE_ON_HIT)
 		Blow({nano2, nanobox1, nanobox2, pad}, SFX.NONE)
 		Blow({radar, beam1, beam2}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
-		return 3
+		return 2
 	end
 	Explode(base, SFX.NONE + SFX.NO_HEATCLOUD)
 	Blow({building1, building2}, SFX.NONE)
@@ -204,5 +204,5 @@ function script.Killed(recentDamage, maxHealth)
 	Explode(nano1, SFX.SHATTER + SFX.EXPLODE_ON_HIT)
 	Blow({nano2, nanobox1, nanobox2, pad}, SFX.NONE)
 	Blow({radar, beam1, beam2}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
-	return 3
+	return 2
 end

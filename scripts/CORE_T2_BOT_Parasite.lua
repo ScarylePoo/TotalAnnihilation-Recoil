@@ -29,8 +29,8 @@ function script.Killed(recentDamage, maxHealth)
 		return 2
 	elseif severity <= 99 then
 		Explode(head, SFX.SHATTER)
-		return 3
+		return 2
 	end
 	Explode(head, SFX.SHATTER + SFX.EXPLODE_ON_HIT)
-	return 3
+	return 2
 end

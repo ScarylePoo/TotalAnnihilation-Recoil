@@ -76,11 +76,11 @@ function script.Killed(recentDamage, maxHealth)
 		Explode(dish, SFX.SHATTER)
 		Blow({p_pad1, p_pad2, wake1}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 		Explode(wake2, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE + SFX.NO_HEATCLOUD)
-		return 3
+		return 2
 	end
 	Explode(base, SFX.NONE + SFX.NO_HEATCLOUD)
 	Explode(dish, SFX.SHATTER + SFX.EXPLODE_ON_HIT)
 	Blow({p_pad1, p_pad2, wake1}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 	Explode(wake2, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE + SFX.NO_HEATCLOUD)
-	return 3
+	return 2
 end

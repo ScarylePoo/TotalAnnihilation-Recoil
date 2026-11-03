@@ -32,8 +32,8 @@ function script.Killed(recentDamage, maxHealth)
 	end
 	if severity <= 99 then
 		Explode(newcorfus, SFX.NONE)
-		return 3
+		return 2
 	end
 	Explode(newcorfus, SFX.NONE)
-	return 3
+	return 2
 end

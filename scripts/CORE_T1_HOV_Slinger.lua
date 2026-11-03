@@ -250,7 +250,7 @@ function script.Killed(recentDamage, maxHealth)
 		Explode(launcher, SFX.NONE)
 		Explode(pole, SFX.FALL + SFX.NO_HEATCLOUD)
 		Explode(turret, SFX.FALL)
-		return 3
+		return 2
 	end
 	if severity <= 99 then
 		Explode(arms, SFX.SHATTER + SFX.NO_HEATCLOUD)
@@ -259,7 +259,7 @@ function script.Killed(recentDamage, maxHealth)
 		Explode(launcher, SFX.NONE)
 		Explode(pole, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE + SFX.NO_HEATCLOUD)
 		Explode(turret, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
-		return 4
+		return 2
 	end
 	Explode(arms, SFX.SHATTER + SFX.EXPLODE_ON_HIT + SFX.NO_HEATCLOUD)
 	Explode(base, SFX.NONE)
@@ -267,5 +267,5 @@ function script.Killed(recentDamage, maxHealth)
 	Explode(launcher, SFX.NONE)
 	Explode(pole, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE + SFX.NO_HEATCLOUD)
 	Explode(turret, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
-	return 4
+	return 2
 end

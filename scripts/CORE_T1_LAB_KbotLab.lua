@@ -251,7 +251,7 @@ function script.Killed(recentDamage, maxHealth)
 		Blow({ubox1, ubox2, udoor1, udoor2}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 		Explode(upper1, SFX.SHATTER)
 		Explode(upper2, SFX.NONE)
-		return 3
+		return 2
 	end
 	Explode(base, SFX.NONE + SFX.NO_HEATCLOUD)
 	Blow({beam1, beam2, blink, gun1}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
@@ -262,5 +262,5 @@ function script.Killed(recentDamage, maxHealth)
 	Blow({ubox1, ubox2, udoor1, udoor2}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 	Explode(upper1, SFX.SHATTER + SFX.EXPLODE_ON_HIT)
 	Explode(upper2, SFX.NONE)
-	return 3
+	return 2
 end

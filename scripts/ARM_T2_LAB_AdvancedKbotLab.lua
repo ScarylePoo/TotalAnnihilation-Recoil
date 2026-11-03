@@ -200,7 +200,7 @@ function script.Killed(recentDamage, maxHealth)
 		Blow({pad, quarter1, quarter2}, SFX.NONE)
 		Explode(quarter3, SFX.NONE + SFX.NO_HEATCLOUD)
 		Explode(quarter4, SFX.NONE)
-		return 3
+		return 2
 	end
 	Explode(base, SFX.NONE + SFX.NO_HEATCLOUD)
 	Blow({beam1, beam2}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
@@ -210,5 +210,5 @@ function script.Killed(recentDamage, maxHealth)
 	Blow({pad, quarter1, quarter2}, SFX.NONE)
 	Explode(quarter3, SFX.NONE + SFX.NO_HEATCLOUD)
 	Explode(quarter4, SFX.NONE)
-	return 3
+	return 2
 end

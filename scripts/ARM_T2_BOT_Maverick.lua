@@ -420,8 +420,8 @@ function script.Killed(recentDamage, maxHealth)
 		return 2
 	elseif severity <= 99 then
 		Blow({torso}, SFX.SHATTER + SFX.EXPLODE_ON_HIT)
-		return 3
+		return 2
 	end
 	Blow({torso}, SFX.SHATTER + SFX.EXPLODE_ON_HIT)
-	return 3
+	return 2
 end

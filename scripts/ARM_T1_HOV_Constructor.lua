@@ -188,7 +188,7 @@ function script.Killed(recentDamage, maxHealth)
 		Blow({door1, door2}, SFX.NONE)
 		Explode(nanogun, SFX.SHATTER + SFX.NO_HEATCLOUD)
 		Explode(plate, SFX.NONE)
-		return 3
+		return 2
 	end
 	Explode(post, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE + SFX.NO_HEATCLOUD)
 	Explode(base, SFX.NONE)
@@ -196,5 +196,5 @@ function script.Killed(recentDamage, maxHealth)
 	Blow({door1, door2}, SFX.NONE)
 	Explode(nanogun, SFX.SHATTER + SFX.EXPLODE_ON_HIT + SFX.NO_HEATCLOUD)
 	Explode(plate, SFX.NONE)
-	return 3
+	return 2
 end

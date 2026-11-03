@@ -175,5 +175,5 @@ function script.Killed(recentDamage, maxHealth)
 	Blow({beam1, beam2, explode1, explode2, nano1, nano2}, SFX.NONE)
 	Explode(piling1, SFX.NONE + SFX.NO_HEATCLOUD)
 	Blow({piling2, slip}, SFX.NONE)
-	return 3
+	return 2
 end

@@ -155,10 +155,10 @@ function script.Killed(recentDamage, maxHealth)
 		Blow({body, pontoons}, SFX.NONE)
 		Blow({lasbarrel, lasturret, lfoot, lleg, lmispoint, lthigh, rfoot, rleg, rmispoint, rthigh, wake1, wake2, wake3, wake4}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 		Blow({misturret}, SFX.SHATTER)
-		return 3
+		return 2
 	end
 	Blow({body, pontoons}, SFX.NONE)
 	Blow({lasbarrel, lasturret, lfoot, lleg, lmispoint, lthigh, rfoot, rleg, rmispoint, rthigh, wake1, wake2, wake3, wake4}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 	Blow({misturret}, SFX.SHATTER + SFX.EXPLODE_ON_HIT)
-	return 3
+	return 2
 end

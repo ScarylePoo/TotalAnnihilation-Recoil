@@ -38,5 +38,5 @@ function script.Killed(recentDamage, maxHealth)
 	end
 	for _, p in ipairs(LEGS) do Explode(p, SFX.FALL + SFX.SMOKE + SFX.FIRE + SFX.EXPLODE_ON_HIT) end
 	for _, p in ipairs(SHATTER) do Explode(p, SFX.SHATTER + ((severity > 99) and SFX.EXPLODE_ON_HIT or 0)) end
-	return 3
+	return 2
 end

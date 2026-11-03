@@ -298,7 +298,7 @@ function script.Killed(recentDamage, maxHealth)
 		Blow({rud1, rud2}, SFX.NONE)
 		Blow({barrel1, barrel2}, SFX.FALL)
 	else
-		corpsetype = 3
+		corpsetype = 2
 		Blow({main, nose, turret, door1}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 		Explode(door2, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE + SFX.NO_HEATCLOUD)
 		Blow({rud1, rud2, barrel1, barrel2}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)

@@ -210,5 +210,5 @@ function script.Killed(recentDamage, maxHealth)
 	Explode(turret2, SFX.SHATTER + SFX.EXPLODE_ON_HIT)
 	Explode(wake1, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE + SFX.NO_HEATCLOUD)
 	Explode(wake2, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
-	return 3
+	return 2
 end

@@ -77,11 +77,11 @@ function script.Killed(recentDamage, maxHealth)
 		Blow({ground, launcher}, SFX.NONE)
 		Blow({head, missile1, missile2}, SFX.FALL + SFX.SMOKE + SFX.FIRE)
 		Blow({torso}, SFX.SHATTER)
-		return 3
+		return 2
 	end
 	Blow({rfoot, lfoot, rleg, lleg, rthigh, lthigh}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 	Blow({ground, launcher}, SFX.NONE)
 	Blow({head, missile1, missile2}, SFX.FALL + SFX.SMOKE + SFX.FIRE)
 	Blow({torso}, SFX.SHATTER + SFX.EXPLODE_ON_HIT)
-	return 3
+	return 2
 end

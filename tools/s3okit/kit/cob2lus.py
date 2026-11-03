@@ -1666,6 +1666,8 @@ class Generator:
             return [f'{ind}return corpsetype']
         lines = self.fn_body(f, ret=ret, skip=[0, 1])
         lines = inline_corpse(lines)
+        # user decision: the worst a death leaves is the heap (engine: 1 = wreck, 2 = heap, 3 = nothing)
+        lines = [re.sub(r'\b(return|corpsetype =) ([3-9])\b', r'\1 2', ln) for ln in lines]
         head = ['function script.Killed(recentDamage, maxHealth)', '\tlocal severity = recentDamage / maxHealth * 100']
         if any('corpsetype' in ln and 'return corpsetype' not in ln for ln in lines) or any('return corpsetype' in ln for ln in lines):
             head.append('\tlocal corpsetype = 0')

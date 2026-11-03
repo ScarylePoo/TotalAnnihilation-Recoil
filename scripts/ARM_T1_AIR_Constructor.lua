@@ -97,8 +97,8 @@ function script.Killed(recentDamage, maxHealth)
 	end
 	if severity <= 99 then
 		Blow({base, wing1, wing2}, SFX.NONE)
-		return 3
+		return 2
 	end
 	Blow({base, wing1, wing2}, SFX.NONE)
-	return 3
+	return 2
 end

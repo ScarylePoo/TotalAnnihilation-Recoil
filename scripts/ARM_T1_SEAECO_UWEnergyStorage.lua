@@ -19,6 +19,6 @@ function script.Killed(recentDamage, maxHealth)
 	else
 		Explode(base, SFX.SHATTER)
 		Explode(box, SFX.SHATTER)
-		return 3                -- leave nothing
+		return 2                -- leave nothing
 	end
 end

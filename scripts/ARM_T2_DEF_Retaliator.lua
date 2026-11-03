@@ -169,12 +169,12 @@ function script.Killed(recentDamage, maxHealth)
 		Blow({door1, door2}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 		Explode(missile, SFX.NONE + SFX.NO_HEATCLOUD)
 		Explode(plate, SFX.NONE)
-		return 3
+		return 2
 	end
 	Explode(arm, SFX.SHATTER + SFX.EXPLODE_ON_HIT + SFX.NO_HEATCLOUD)
 	Blow({base, domes}, SFX.NONE)
 	Blow({door1, door2}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 	Explode(missile, SFX.NONE + SFX.NO_HEATCLOUD)
 	Explode(plate, SFX.NONE)
-	return 3
+	return 2
 end

@@ -112,7 +112,7 @@ function script.Killed(recentDamage, maxHealth)
 		Blow({thrusta2, thrustb}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 		Explode(winga, SFX.SHATTER)
 		Explode(wingb, SFX.NONE + SFX.NO_HEATCLOUD)
-		return 3
+		return 2
 	end
 	Explode(base, SFX.NONE + SFX.NO_HEATCLOUD)
 	Blow({doora, doorb}, SFX.NONE)
@@ -120,5 +120,5 @@ function script.Killed(recentDamage, maxHealth)
 	Blow({thrusta2, thrustb}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 	Explode(winga, SFX.SHATTER + SFX.EXPLODE_ON_HIT)
 	Explode(wingb, SFX.NONE + SFX.NO_HEATCLOUD)
-	return 3
+	return 2
 end

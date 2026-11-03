@@ -74,12 +74,12 @@ function script.Killed(recentDamage, maxHealth)
 		Explode(plasbase, SFX.NONE)
 		Explode(plasturret, SFX.SHATTER)
 		Blow({plasgunl, plasgunr}, SFX.NONE)
-		return 3
+		return 2
 	end
 	Explode(emitplasl, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE + SFX.NO_HEATCLOUD)
 	Explode(emitplasr, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 	Explode(plasbase, SFX.NONE)
 	Explode(plasturret, SFX.SHATTER + SFX.EXPLODE_ON_HIT)
 	Blow({plasgunl, plasgunr}, SFX.NONE)
-	return 3
+	return 2
 end

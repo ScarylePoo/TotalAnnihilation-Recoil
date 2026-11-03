@@ -150,11 +150,11 @@ function script.Killed(recentDamage, maxHealth)
 		Blow({dingle1, dingle2, rotary}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 		Explode(shell, SFX.NONE)
 		Explode(stands, SFX.SHATTER)
-		return 3
+		return 2
 	end
 	Explode(base, SFX.NONE + SFX.NO_HEATCLOUD)
 	Blow({dingle1, dingle2, rotary}, SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE)
 	Explode(shell, SFX.NONE)
 	Explode(stands, SFX.SHATTER + SFX.EXPLODE_ON_HIT)
-	return 3
+	return 2
 end

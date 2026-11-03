@@ -177,14 +177,14 @@ function script.Killed(recentDamage, maxHealth)
 		Explode(body, SFX.SHATTER + SFX.NONE + SFX.RECURSIVE)
 		Explode(turret, SFX.SHATTER + SFX.RECURSIVE)
 	elseif severity >= 50 and severity < 100 then
-		corpsetype = 3
+		corpsetype = 2
 		Blow({nano, rear}, SFX.SHATTER + SFX.RECURSIVE)
 		Explode(cradle, SFX.SHATTER + SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE + SFX.RECURSIVE)
 		Blow({panel_t, panel_b, panel_l, panel_r}, SFX.SHATTER + SFX.FALL + SFX.RECURSIVE)
 		Explode(body, SFX.SHATTER + SFX.NONE + SFX.RECURSIVE)
 		Explode(turret, SFX.SHATTER + SFX.RECURSIVE)
 	elseif severity >= 100 then
-		corpsetype = 3
+		corpsetype = 2
 		Blow({nano, rear, cradle}, SFX.SHATTER + SFX.EXPLODE_ON_HIT + SFX.FALL + SFX.SMOKE + SFX.FIRE + SFX.RECURSIVE)
 		Blow({panel_t, panel_b, panel_l, panel_r}, SFX.SHATTER + SFX.FALL + SFX.RECURSIVE)
 		Explode(body, SFX.SHATTER + SFX.RECURSIVE)

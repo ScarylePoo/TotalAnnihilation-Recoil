@@ -76,5 +76,5 @@ function script.Killed(recentDamage, maxHealth)
 	Explode(rshoulder, burn + SFX.EXPLODE_ON_HIT)
 	for _, p in ipairs({lthigh, lshoulder, pelvis, rgun, rthigh}) do Explode(p, burn) end
 	Explode(torso, SFX.SHATTER)
-	return 3
+	return 2
 end
