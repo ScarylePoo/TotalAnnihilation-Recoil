@@ -4,6 +4,7 @@
 #   tools/headless-test/run.sh /path/to/recoil-engine-dir [timeout_s]
 #   AIM=1 tools/headless-test/run.sh ...      instead runs only zz_walker_aim_probe (fire, hits and gun pitch of every armed unit)
 #   SCRIPTP=1 tools/headless-test/run.sh ...  instead runs only zz_script_probe (poses, on/off, build, corpses, transports, pads, stockpile)
+#   PADS=1 tools/headless-test/run.sh ...     instead runs only zz_pad_probe (air repair pads: luarules/gadgets/unit_air_pads.lua)
 #   KEEPLOG=path saves the cleaned infolog there (for tools/s3okit/kit/compare_probe.py)
 #   GAP=1 tools/headless-test/run.sh ...      instead runs only zz_piece_gap_probe (piece matrices of every unit def in action); it prints the path of
 #                                             gapdata.txt, which tools/s3okit/kit/piece_gaps.py turns into a report of pieces floating off the unit
@@ -33,6 +34,7 @@ sed -i "s/IsHost=1;/IsHost=1;\n\tHostPort=$((20000 + RANDOM % 30000));/" "$WD/sc
 [ -n "$AIM" ] && sed -i 's/debugmode=1;/debugmode=1;\n\t\taimonly=1;/' "$WD/script.txt"
 [ -n "$SCRIPTP" ] && sed -i 's/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tscriptonly=1;/' "$WD/script.txt"
 [ -n "$GAP" ] && sed -i 's/debugmode=1;/debugmode=1;\n\t\tgaponly=1;/' "$WD/script.txt"
+[ -n "$PADS" ] && sed -i 's/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tpadonly=1;/' "$WD/script.txt" && sed -i 's/\[ALLYTEAM0\]/[TEAM2] { TeamLeader=0; AllyTeam=1; Side=ARM; StartPosX=300; StartPosZ=11800; }\n\t[TEAM3] { TeamLeader=0; AllyTeam=2; Side=ARM; StartPosX=1000; StartPosZ=11800; }\n\t[TEAM4] { TeamLeader=0; AllyTeam=3; Side=ARM; StartPosX=2000; StartPosZ=11800; }\n\t[TEAM5] { TeamLeader=0; AllyTeam=4; Side=ARM; StartPosX=3000; StartPosZ=11800; }\n\t[ALLYTEAM2] { NumAllies=0; }\n\t[ALLYTEAM3] { NumAllies=0; }\n\t[ALLYTEAM4] { NumAllies=0; }\n\t&/' "$WD/script.txt"
 set +e
 timeout "${2:-1800}" "$ENGINE/spring-headless" --isolation --isolation-dir "$ENGINE" --write-dir "$WD" "$WD/script.txt" > "$WD/stdout.log" 2>&1
 echo "engine exit: $?   (infolog: $WD/infolog.txt)"
