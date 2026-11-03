@@ -90,7 +90,6 @@ return {
 			},
 			{
 				name = "CORE_HURRICANE_LASER",
-				onlytargetcategory = "VTOL",
 				-- belly gun: full circle and straight down, up to 20 deg above the horizon (not through its own hull)
 				maindir = "0 -1 0",
 				maxangledif = 220,
