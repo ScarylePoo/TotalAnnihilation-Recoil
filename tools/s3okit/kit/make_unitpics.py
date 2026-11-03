@@ -137,7 +137,8 @@ def render_one(stem, out, samples):
     w.node_tree.nodes['Background'].inputs[1].default_value = 0.75
     # ground/water plane: shadow catcher for what sits on something; holdout at the waterline hides a ship's hull below water
     plane_y = None
-    if kind in ('land', 'uwbuild') or (kind == 'sea' and water is None):
+    # (not at y = 0 under a dock or sea building: it would hide everything below the surface)
+    if kind in ('land', 'uwbuild') or (kind == 'sea' and water is None and lo.y > -2):
         plane_y = 0.0 if kind != 'uwbuild' else min(0.0, lo.y)
     if plane_y is not None:
         bpy.ops.mesh.primitive_plane_add(size=rad * 40 + 400, location=(0, plane_y - 0.02, 0), rotation=(-math.pi / 2, 0, 0))
