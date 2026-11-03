@@ -116,6 +116,15 @@ function script.SweetSpot()
 	return base
 end
 
+-- torpedoes: the COB had no query for these two, and COB falls back to piece 0 where the Lua engine warns
+function script.QueryWeapon1()
+	return bombdrop
+end
+
+function script.QueryWeapon2()
+	return bombdrop
+end
+
 function script.QueryWeapon3()
 	return COB_PIECE[gun_index]
 end
