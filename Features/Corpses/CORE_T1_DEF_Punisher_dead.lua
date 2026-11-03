@@ -22,7 +22,7 @@ return {
 		world = "All Worlds",
 		description = "Wreckage",
 		category = "heaps",
-		object = "3x3b",
+		object = "3x3b.s3o",
 		footprintx = 4,
 		footprintz = 3,
 		height = 4,

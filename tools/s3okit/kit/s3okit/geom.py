@@ -470,7 +470,7 @@ def unwrap(objs, margin_px=3, res=1024, angle=55, ground=True, air=False, water=
                 lift = (water_lift or {}).get(o.name, 0.0)
                 sub = sum(f.calc_area() for f in isl if (M @ f.calc_center_median()).y + lift < water - 0.5) / area
                 k *= (1 - 0.5 * sub) * (1 - 0.5 * down)
-            _scale_island(isl, uv, math.sqrt(max(k, 0.06)))
+            _scale_island(isl, uv, math.sqrt(max(k, min(0.06, IMPORTANCE.get(mat, 1.0)))))
             isls.append(isl)
         bms[o] = (bm, uv, isls)
     # minimum island size: an island smaller than a few texels gets no baked texels of its own and
