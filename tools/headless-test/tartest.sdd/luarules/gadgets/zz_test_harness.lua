@@ -1,7 +1,8 @@
 function gadget:GetInfo()
   return { name = "Test Harness", layer = 1000, enabled = true }
 end
-if (Spring.GetModOptions() or {}).aimonly then return end   -- run.sh --aim runs only the walker aim probe
+local _opt = Spring.GetModOptions() or {}
+if _opt.aimonly or _opt.gaponly then return end   -- run.sh AIM=1 / GAP=1 run only their own probe
 
 -- Phases (frames relative to the end of spawning, S = 10 + #UnitDefs):
 --   10 .. S-1  spawn one unitdef per frame for both teams (interleaved, so enemies are adjacent)
