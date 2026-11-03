@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_veh_diplomat",
 		objectname = "CORE_T2_VEH_Diplomat.s3o",
+		buildpic = "CORE_T2_VEH_Diplomat.png",
 		script = "CORE_T2_VEH_Diplomat.lua",
 		corpse = "CORE_T2_VEH_Diplomat_dead",
 		icontype = "tank",

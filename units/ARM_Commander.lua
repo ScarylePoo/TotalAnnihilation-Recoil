@@ -9,6 +9,7 @@ return {
 		unitname = "arm_commander",
 		buildoptions = Shared.buildListArmCommander,
 		objectname = "ARM_Commander.s3o",
+		buildpic = "ARM_Commander.png",
 		script = "ARM_Commander.lua",          -- walker: Lua script on the standard skeleton (was the COB)
 		icontype = "commander",
 		category = "ARM COMMANDER LEVEL10 WEAPON NOTAIR NOTSUB",

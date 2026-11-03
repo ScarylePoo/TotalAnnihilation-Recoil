@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t1_hov_turtle",
 		objectname = "CORE_T1_HOV_Turtle.s3o",
+		buildpic = "CORE_T1_HOV_Turtle.png",
 		script = "CORE_T1_HOV_Turtle.lua",
 		corpse = "CORE_T1_HOV_Turtle_dead",
 		icontype = "hover",

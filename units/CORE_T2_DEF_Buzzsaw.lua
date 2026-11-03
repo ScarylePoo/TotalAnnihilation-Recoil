@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_def_buzzsaw",
 		objectname = "CORE_T2_DEF_Buzzsaw.s3o",
+		buildpic = "CORE_T2_DEF_Buzzsaw.png",
 		script = "CORE_T2_DEF_Buzzsaw.lua",
 		corpse = "CORE_T2_DEF_Buzzsaw_dead",
 		icontype = "turret",

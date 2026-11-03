@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_sea_hive",
 		objectname = "CORE_T2_SEA_Hive.s3o",
+		buildpic = "CORE_T2_SEA_Hive.png",
 		script = "CORE_T2_SEA_Hive.lua",
 		corpse = "CORE_T2_SEA_Hive_dead",
 		icontype = "ship",

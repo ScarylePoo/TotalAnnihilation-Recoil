@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t1_bot_rocko",
 		objectname = "ARM_T1_BOT_Rocko.s3o",
+		buildpic = "ARM_T1_BOT_Rocko.png",
 		script = "ARM_T1_BOT_Rocko.lua",          -- walker: Lua script on the standard skeleton (was the COB)
 		corpse = "ARM_T1_BOT_Rocko_dead",
 		icontype = "kbot",

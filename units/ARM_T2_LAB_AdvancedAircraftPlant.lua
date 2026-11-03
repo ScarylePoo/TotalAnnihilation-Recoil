@@ -9,6 +9,7 @@ return {
 		unitname = "arm_t2_lab_advancedaircraftplant",
 		buildoptions = Shared.buildListArmAdvancedAircraftPlant,
 		objectname = "ARM_T2_LAB_AdvancedAircraftPlant.s3o",
+		buildpic = "ARM_T2_LAB_AdvancedAircraftPlant.png",
 		script = "ARM_T2_LAB_AdvancedAircraftPlant.lua",
 		corpse = "ARM_T2_LAB_AdvancedAircraftPlant_dead",
 		icontype = "factory",

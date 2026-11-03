@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_def_airrepairpad",
 		objectname = "CORE_T2_DEF_AirRepairPad.s3o",
+		buildpic = "CORE_T2_DEF_AirRepairPad.png",
 		script = "CORE_T2_DEF_AirRepairPad.lua",
 		corpse = "CORE_T2_DEF_AirRepairPad_dead",
 		icontype = "building",

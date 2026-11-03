@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t1_eco_metalstorage",
 		objectname = "ARM_T1_ECO_MetalStorage.s3o",
+		buildpic = "ARM_T1_ECO_MetalStorage.png",
 		script = "ARM_T1_ECO_MetalStorage.lua",
 		corpse = "ARM_T1_ECO_MetalStorage_dead",
 		icontype = "building",

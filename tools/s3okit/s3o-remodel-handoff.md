@@ -478,6 +478,8 @@ Base branch `s3o-remodel`; each family on `s3o-<family>`, merged back after revi
   Probe limits: near targets (30-60 elmo) read off because of arm offset parallax; rockets, Krogoth's eye and Jethro's splayed pods read off axis by geometry. Energy weapons need the
   probe's free team resources. Weapons with only legacy explosiongaf tags have no impact effect (the Shooter's weapon too): not audited game-wide.
 
+- 2026-11-03, unit pictures: all 266 are new 256x256 PNGs (`buildpic = "<stem>.png"`, old PCX removed). `kit/make_unitpics.py [stems]` renders the installed S3O + DDS at TA's angle in the preview_pose, Arm team blue, Core team red, over unitpic_bg/; rerun for a unit after remodelling it. Background = what its old TA picture used (unitpic_bg/old_match.json, pixel match) unless wrong for the unit, else by class. unitpic_bg/ came from the user's folder via `kit/make_unitpic_bgs.py` (Real-ESRGAN x4plus on the GPU, separate venv ~/.venvs/esr).
+
 ## Decisions (2026-10-31, user)
 
 - **Hexapods: the Spider, Scarab and Roach share ONE standard six-leg skeleton and ONE shared walk.**

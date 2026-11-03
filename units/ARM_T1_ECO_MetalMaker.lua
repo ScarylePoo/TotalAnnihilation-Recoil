@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t1_eco_metalmaker",
 		objectname = "ARM_T1_ECO_MetalMaker.s3o",
+		buildpic = "ARM_T1_ECO_MetalMaker.png",
 		script = "ARM_T1_ECO_MetalMaker.lua",
 		corpse = "ARM_T1_ECO_MetalMaker_dead",
 		icontype = "building",

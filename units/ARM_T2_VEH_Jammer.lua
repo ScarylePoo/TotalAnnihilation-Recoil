@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t2_veh_jammer",
 		objectname = "ARM_T2_VEH_Jammer.s3o",
+		buildpic = "ARM_T2_VEH_Jammer.png",
 		script = "ARM_T2_VEH_Jammer.lua",
 		corpse = "ARM_T2_VEH_Jammer_dead",
 		icontype = "tank",

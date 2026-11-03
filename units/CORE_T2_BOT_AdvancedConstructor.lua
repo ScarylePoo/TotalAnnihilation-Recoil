@@ -9,6 +9,7 @@ return {
 		unitname = "core_t2_bot_advancedconstructor",
 		buildoptions = Shared.buildListCoreT2KbotConstructor,
 		objectname = "CORE_T2_BOT_AdvancedConstructor.s3o",
+		buildpic = "CORE_T2_BOT_AdvancedConstructor.png",
 		script = "CORE_T2_BOT_AdvancedConstructor.lua",
 		corpse = "CORE_T2_BOT_AdvancedConstructor_dead",
 		icontype = "kbot",

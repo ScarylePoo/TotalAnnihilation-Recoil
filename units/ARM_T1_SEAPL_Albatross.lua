@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t1_seapl_albatross",
 		objectname = "ARM_T1_SEAPL_Albatross.s3o",
+		buildpic = "ARM_T1_SEAPL_Albatross.png",
 		script = "ARM_T1_SEAPL_Albatross.lua",
 		corpse = "ARM_T1_SEAPL_Albatross_dead",
 		icontype = "aircraft",

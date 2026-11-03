@@ -9,6 +9,7 @@ return {
 		unitname = "core_t1_veh_constructor",
 		buildoptions = Shared.buildListCoreT1VehicleConstructor,
 		objectname = "CORE_T1_VEH_Constructor.s3o",
+		buildpic = "CORE_T1_VEH_Constructor.png",
 		script = "CORE_T1_VEH_Constructor.lua",
 		corpse = "CORE_T1_VEH_Constructor_dead",
 		icontype = "tank",

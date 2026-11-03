@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t1_seadef_stinger",
 		objectname = "CORE_T1_SEADEF_Stinger.s3o",
+		buildpic = "CORE_T1_SEADEF_Stinger.png",
 		script = "CORE_T1_SEADEF_Stinger.lua",
 		corpse = "CORE_T1_SEADEF_Stinger_dead",
 		icontype = "turret",

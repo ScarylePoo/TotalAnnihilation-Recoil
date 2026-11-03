@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_bot_freaker",
 		objectname = "CORE_T2_BOT_Freaker.s3o",
+		buildpic = "CORE_T2_BOT_Freaker.png",
 		script = "CORE_T2_BOT_Freaker.lua",
 		corpse = "CORE_T2_BOT_Freaker_dead",
 		icontype = "kbot",

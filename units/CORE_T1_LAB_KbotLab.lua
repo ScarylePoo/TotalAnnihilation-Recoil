@@ -9,6 +9,7 @@ return {
 		unitname = "core_t1_lab_kbotlab",
 		buildoptions = Shared.buildListCoreKbotLab,
 		objectname = "CORE_T1_LAB_KbotLab.s3o",
+		buildpic = "CORE_T1_LAB_KbotLab.png",
 		script = "CORE_T1_LAB_KbotLab.lua",
 		corpse = "CORE_T1_LAB_KbotLab_dead",
 		icontype = "factory",

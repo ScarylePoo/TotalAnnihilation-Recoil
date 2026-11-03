@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_def_intimidator",
 		objectname = "CORE_T2_DEF_Intimidator.s3o",
+		buildpic = "CORE_T2_DEF_Intimidator.png",
 		script = "CORE_T2_DEF_Intimidator.lua",
 		corpse = "CORE_T2_DEF_Intimidator_dead",
 		icontype = "turret",

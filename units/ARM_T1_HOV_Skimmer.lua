@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t1_hov_skimmer",
 		objectname = "ARM_T1_HOV_Skimmer.s3o",
+		buildpic = "ARM_T1_HOV_Skimmer.png",
 		script = "ARM_T1_HOV_Skimmer.lua",
 		corpse = "ARM_T1_HOV_Skimmer_dead",
 		icontype = "hover",

@@ -9,6 +9,7 @@ return {
 		unitname = "core_t1_veh_spoiler",
 		buildoptions = Shared.buildListCoreMineLayer,
 		objectname = "CORE_T1_VEH_Spoiler.s3o",
+		buildpic = "CORE_T1_VEH_Spoiler.png",
 		script = "CORE_T1_VEH_Spoiler.lua",
 		corpse = "CORE_T1_VEH_Spoiler_dead",
 		icontype = "tank",

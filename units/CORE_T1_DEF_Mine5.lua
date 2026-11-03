@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t1_def_mine5",
 		objectname = "CORE_T1_DEF_Mine5.s3o",
+		buildpic = "CORE_T1_DEF_Mine5.png",
 		script = "CORE_T1_DEF_Mine5.lua",
 		category = "CORE MINE LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage

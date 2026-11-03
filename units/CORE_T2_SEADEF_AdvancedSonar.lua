@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_seadef_advancedsonar",
 		objectname = "CORE_T2_SEADEF_AdvancedSonar.s3o",
+		buildpic = "CORE_T2_SEADEF_AdvancedSonar.png",
 		script = "CORE_T2_SEADEF_AdvancedSonar.lua",
 		corpse = "CORE_T2_SEADEF_AdvancedSonar_dead",
 		icontype = "building_radar_sonar",

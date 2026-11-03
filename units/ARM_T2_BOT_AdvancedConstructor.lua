@@ -9,6 +9,7 @@ return {
 		unitname = "arm_t2_bot_advancedconstructor",
 		buildoptions = Shared.buildListArmT2KbotConstructor,
 		objectname = "ARM_T2_BOT_AdvancedConstructor.s3o",
+		buildpic = "ARM_T2_BOT_AdvancedConstructor.png",
 		script = "ARM_T2_BOT_AdvancedConstructor.lua",
 		corpse = "ARM_T2_BOT_AdvancedConstructor_dead",
 		icontype = "kbot",

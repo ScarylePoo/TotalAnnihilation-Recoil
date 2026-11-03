@@ -9,6 +9,7 @@ return {
 		unitname = "arm_t1_bot_constructor",
 		buildoptions = Shared.buildListArmT1KbotConstructor,
 		objectname = "ARM_T1_BOT_Constructor.s3o",
+		buildpic = "ARM_T1_BOT_Constructor.png",
 		script = "ARM_T1_BOT_Constructor.lua",          -- walker: Lua script on the standard skeleton (was the COB)
 		corpse = "ARM_T1_BOT_Constructor_dead",
 		icontype = "kbot",

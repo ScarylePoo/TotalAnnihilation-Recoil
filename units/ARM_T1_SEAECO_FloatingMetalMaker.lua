@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t1_seaeco_floatingmetalmaker",
 		objectname = "ARM_T1_SEAECO_FloatingMetalMaker.s3o",
+		buildpic = "ARM_T1_SEAECO_FloatingMetalMaker.png",
 		script = "ARM_T1_SEAECO_FloatingMetalMaker.lua",
 		corpse = "ARM_T1_SEAECO_FloatingMetalMaker_dead",
 		icontype = "building",

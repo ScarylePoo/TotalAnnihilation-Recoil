@@ -9,6 +9,7 @@ return {
 		unitname = "arm_t1_veh_podger",
 		buildoptions = Shared.buildListArmMineLayer,
 		objectname = "ARM_T1_VEH_Podger.s3o",
+		buildpic = "ARM_T1_VEH_Podger.png",
 		script = "ARM_T1_VEH_Podger.lua",
 		corpse = "ARM_T1_VEH_Podger_dead",
 		icontype = "tank",

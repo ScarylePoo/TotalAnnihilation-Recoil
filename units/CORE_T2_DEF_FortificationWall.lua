@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_def_fortificationwall",
 		objectname = "CORE_T2_DEF_FortificationWall.s3o",
+		buildpic = "CORE_T2_DEF_FortificationWall.png",
 		script = "CORE_T2_DEF_FortificationWall.lua",
 		corpse = "CORE_T2_DEF_FortificationWall_dead",
 		category = "CORE LEVEL2 NOWEAPON NOTAIR NOTSUB",

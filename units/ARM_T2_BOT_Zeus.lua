@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t2_bot_zeus",
 		objectname = "ARM_T2_BOT_Zeus.s3o",
+		buildpic = "ARM_T2_BOT_Zeus.png",
 		script = "ARM_T2_BOT_Zeus.lua",
 		corpse = "ARM_T2_BOT_Zeus_dead",
 		icontype = "kbot",

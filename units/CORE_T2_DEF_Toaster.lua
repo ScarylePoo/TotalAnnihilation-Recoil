@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_def_toaster",
 		objectname = "CORE_T2_DEF_Toaster.s3o",
+		buildpic = "CORE_T2_DEF_Toaster.png",
 		script = "CORE_T2_DEF_Toaster.lua",
 		corpse = "CORE_T2_DEF_Toaster_dead",
 		icontype = "turret",

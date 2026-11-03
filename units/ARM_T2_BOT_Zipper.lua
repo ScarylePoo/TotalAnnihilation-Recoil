@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t2_bot_zipper",
 		objectname = "ARM_T2_BOT_Zipper.s3o",
+		buildpic = "ARM_T2_BOT_Zipper.png",
 		script = "ARM_T2_BOT_Zipper.lua",
 		corpse = "ARM_T2_BOT_Zipper_dead",
 		icontype = "kbot",

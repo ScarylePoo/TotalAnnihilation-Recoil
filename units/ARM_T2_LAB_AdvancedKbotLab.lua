@@ -9,6 +9,7 @@ return {
 		unitname = "arm_t2_lab_advancedkbotlab",
 		buildoptions = Shared.buildListArmAdvancedKbotLab,
 		objectname = "ARM_T2_LAB_AdvancedKbotLab.s3o",
+		buildpic = "ARM_T2_LAB_AdvancedKbotLab.png",
 		script = "ARM_T2_LAB_AdvancedKbotLab.lua",
 		corpse = "ARM_T2_LAB_AdvancedKbotLab_dead",
 		icontype = "factory",

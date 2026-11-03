@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_bot_dominator",
 		objectname = "CORE_T2_BOT_Dominator.s3o",
+		buildpic = "CORE_T2_BOT_Dominator.png",
 		script = "CORE_T2_BOT_Dominator.lua",
 		corpse = "CORE_T2_BOT_Dominator_dead",
 		icontype = "kbot",

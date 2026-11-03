@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t2_sea_millenium",
 		objectname = "ARM_T2_SEA_Millenium.s3o",
+		buildpic = "ARM_T2_SEA_Millenium.png",
 		script = "ARM_T2_SEA_Millenium.lua",
 		corpse = "ARM_T2_SEA_Millenium_dead",
 		icontype = "ship",

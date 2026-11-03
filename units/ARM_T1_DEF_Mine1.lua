@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t1_def_mine1",
 		objectname = "ARM_T1_DEF_Mine1.s3o",
+		buildpic = "ARM_T1_DEF_Mine1.png",
 		script = "ARM_T1_DEF_Mine1.lua",
 		category = "ARM MINE LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage

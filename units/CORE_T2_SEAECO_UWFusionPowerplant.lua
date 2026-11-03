@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_seaeco_uwfusionpowerplant",
 		objectname = "CORE_T2_SEAECO_UWFusionPowerplant.s3o",
+		buildpic = "CORE_T2_SEAECO_UWFusionPowerplant.png",
 		script = "CORE_T2_SEAECO_UWFusionPowerplant.lua",
 		corpse = "CORE_T2_SEAECO_UWFusionPowerplant_dead",
 		icontype = "building_energy_source_big",

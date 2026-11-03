@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_bot_spectre",
 		objectname = "CORE_T2_BOT_Spectre.s3o",
+		buildpic = "CORE_T2_BOT_Spectre.png",
 		script = "CORE_T2_BOT_Spectre.lua",
 		corpse = "CORE_T2_BOT_Spectre_dead",
 		icontype = "kbot",

@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_veh_copperhead",
 		objectname = "CORE_T2_VEH_Copperhead.s3o",
+		buildpic = "CORE_T2_VEH_Copperhead.png",
 		script = "CORE_T2_VEH_Copperhead.lua",
 		corpse = "CORE_T2_VEH_Copperhead_dead",
 		icontype = "tank",

@@ -9,6 +9,7 @@ return {
 		unitname = "core_t1_hov_constructor",
 		buildoptions = Shared.buildListCoreT1HovercraftConstructor,
 		objectname = "CORE_T1_HOV_Constructor.s3o",
+		buildpic = "CORE_T1_HOV_Constructor.png",
 		script = "CORE_T1_HOV_Constructor.lua",
 		corpse = "CORE_T1_HOV_Constructor_dead",
 		icontype = "hover",

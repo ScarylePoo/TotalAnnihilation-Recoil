@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_def_silencer",
 		objectname = "CORE_T2_DEF_Silencer.s3o",
+		buildpic = "CORE_T2_DEF_Silencer.png",
 		script = "CORE_T2_DEF_Silencer.lua",
 		corpse = "CORE_T2_DEF_Silencer_dead",
 		icontype = "nuke",

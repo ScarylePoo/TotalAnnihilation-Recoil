@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t3_bot_krogoth",
 		objectname = "CORE_T3_BOT_Krogoth.s3o",
+		buildpic = "CORE_T3_BOT_Krogoth.png",
 		script = "CORE_T3_BOT_Krogoth.lua",
 		corpse = "CORE_T3_BOT_Krogoth_dead",
 		icontype = "krogoth",

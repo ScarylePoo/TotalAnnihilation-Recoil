@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_bot_sumo",
 		objectname = "CORE_T2_BOT_Sumo.s3o",
+		buildpic = "CORE_T2_BOT_Sumo.png",
 		script = "CORE_T2_BOT_Sumo.lua",
 		corpse = "CORE_T2_BOT_Sumo_dead",
 		icontype = "kbot",

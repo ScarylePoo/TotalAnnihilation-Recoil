@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t1_veh_slasher",
 		objectname = "CORE_T1_VEH_Slasher.s3o",
+		buildpic = "CORE_T1_VEH_Slasher.png",
 		script = "CORE_T1_VEH_Slasher.lua",
 		corpse = "CORE_T1_VEH_Slasher_dead",
 		icontype = "tank",

@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t2_bot_decoycommander",
 		objectname = "ARM_T2_BOT_DecoyCommander.s3o",
+		buildpic = "ARM_T2_BOT_DecoyCommander.png",
 		script = "ARM_T2_BOT_DecoyCommander.lua",
 		icontype = "kbot",
 		decoyfor = "ARM_Commander",

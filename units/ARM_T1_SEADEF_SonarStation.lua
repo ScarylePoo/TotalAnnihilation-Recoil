@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t1_seadef_sonarstation",
 		objectname = "ARM_T1_SEADEF_SonarStation.s3o",
+		buildpic = "ARM_T1_SEADEF_SonarStation.png",
 		script = "ARM_T1_SEADEF_SonarStation.lua",
 		corpse = "ARM_T1_SEADEF_SonarStation_dead",
 		icontype = "building_radar_sonar",

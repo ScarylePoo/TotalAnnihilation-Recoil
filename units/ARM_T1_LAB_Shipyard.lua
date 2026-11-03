@@ -9,6 +9,7 @@ return {
 		unitname = "arm_t1_lab_shipyard",
 		buildoptions = Shared.buildListArmShipyard,
 		objectname = "ARM_T1_LAB_Shipyard.s3o",
+		buildpic = "ARM_T1_LAB_Shipyard.png",
 		script = "ARM_T1_LAB_Shipyard.lua",
 		corpse = "ARM_T1_LAB_Shipyard_dead",
 		icontype = "factory",

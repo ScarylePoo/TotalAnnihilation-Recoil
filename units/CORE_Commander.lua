@@ -9,6 +9,7 @@ return {
 		unitname = "core_commander",
 		buildoptions = Shared.buildListCoreCommander,
 		objectname = "CORE_Commander.s3o",
+		buildpic = "CORE_Commander.png",
 		script = "CORE_Commander.lua",          -- walker: Lua script on the standard skeleton (was the COB)
 		icontype = "commander",
 		category = "CORE COMMANDER LEVEL10 WEAPON NOTAIR NOTSUB",

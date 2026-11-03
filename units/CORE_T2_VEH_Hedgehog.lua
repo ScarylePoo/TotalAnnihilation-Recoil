@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_veh_hedgehog",
 		objectname = "CORE_T2_VEH_Hedgehog.s3o",
+		buildpic = "CORE_T2_VEH_Hedgehog.png",
 		script = "CORE_T2_VEH_Hedgehog.lua",
 		corpse = "CORE_T2_VEH_Hedgehog_dead",
 		icontype = "nuke",

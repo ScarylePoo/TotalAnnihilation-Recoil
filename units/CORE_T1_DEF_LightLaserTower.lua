@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t1_def_lightlasertower",
 		objectname = "CORE_T1_DEF_LightLaserTower.s3o",
+		buildpic = "CORE_T1_DEF_LightLaserTower.png",
 		script = "CORE_T1_DEF_LightLaserTower.lua",
 		corpse = "CORE_T1_DEF_LightLaserTower_dead",
 		icontype = "turret",

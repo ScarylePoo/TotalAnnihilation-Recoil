@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t1_def_dragonsteeth",
 		objectname = "CORE_T1_DEF_DragonsTeeth.s3o",
+		buildpic = "CORE_T1_DEF_DragonsTeeth.png",
 		script = "CORE_T1_DEF_DragonsTeeth.lua",
 		corpse = "CORE_T1_DEF_DragonsTeeth_dead",
 		category = "CORE LEVEL1 NOWEAPON NOTAIR NOTSUB",

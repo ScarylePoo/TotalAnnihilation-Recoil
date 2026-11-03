@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_def_fortitudemissiledefense",
 		objectname = "CORE_T2_DEF_FortitudeMissileDefense.s3o",
+		buildpic = "CORE_T2_DEF_FortitudeMissileDefense.png",
 		script = "CORE_T2_DEF_FortitudeMissileDefense.lua",
 		corpse = "CORE_T2_DEF_FortitudeMissileDefense_dead",
 		icontype = "nuke",

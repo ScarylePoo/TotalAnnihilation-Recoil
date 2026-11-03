@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t1_seadef_thunderbolt",
 		objectname = "CORE_T1_SEADEF_Thunderbolt.s3o",
+		buildpic = "CORE_T1_SEADEF_Thunderbolt.png",
 		script = "CORE_T1_SEADEF_Thunderbolt.lua",
 		corpse = "CORE_T1_SEADEF_Thunderbolt_dead",
 		icontype = "turret",

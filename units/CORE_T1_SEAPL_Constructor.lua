@@ -9,6 +9,7 @@ return {
 		unitname = "core_t1_seapl_constructor",
 		buildoptions = Shared.buildListCoreT1SeaplaneConstructor,
 		objectname = "CORE_T1_SEAPL_Constructor.s3o",
+		buildpic = "CORE_T1_SEAPL_Constructor.png",
 		script = "CORE_T1_SEAPL_Constructor.lua",
 		corpse = "CORE_T1_SEAPL_Constructor_dead",
 		icontype = "aircraft",

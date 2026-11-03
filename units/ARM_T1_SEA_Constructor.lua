@@ -9,6 +9,7 @@ return {
 		unitname = "arm_t1_sea_constructor",
 		buildoptions = Shared.buildListArmT1SeaConstructor,
 		objectname = "ARM_T1_SEA_Constructor.s3o",
+		buildpic = "ARM_T1_SEA_Constructor.png",
 		script = "ARM_T1_SEA_Constructor.lua",
 		corpse = "ARM_T1_SEA_Constructor_dead",
 		icontype = "ship",

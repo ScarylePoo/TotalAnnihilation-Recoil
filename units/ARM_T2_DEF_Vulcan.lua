@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t2_def_vulcan",
 		objectname = "ARM_T2_DEF_Vulcan.s3o",
+		buildpic = "ARM_T2_DEF_Vulcan.png",
 		script = "ARM_T2_DEF_Vulcan.lua",
 		corpse = "ARM_T2_DEF_Vulcan_dead",
 		icontype = "turret",

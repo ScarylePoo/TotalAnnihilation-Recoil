@@ -9,6 +9,7 @@ return {
 		unitname = "core_t2_sea_advancedconstructor",
 		buildoptions = Shared.buildListCoreT2SeaConstructor,
 		objectname = "CORE_T2_SEA_AdvancedConstructor.s3o",
+		buildpic = "CORE_T2_SEA_AdvancedConstructor.png",
 		script = "CORE_T2_SEA_AdvancedConstructor.lua",
 		corpse = "CORE_T2_SEA_AdvancedConstructor_dead",
 		icontype = "ship",

@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t1_hov_nixer",
 		objectname = "CORE_T1_HOV_Nixer.s3o",
+		buildpic = "CORE_T1_HOV_Nixer.png",
 		script = "CORE_T1_HOV_Nixer.lua",
 		corpse = "CORE_T1_HOV_Nixer_dead",
 		icontype = "hover",

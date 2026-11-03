@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t1_def_dragonsteeth",
 		objectname = "ARM_T1_DEF_DragonsTeeth.s3o",
+		buildpic = "ARM_T1_DEF_DragonsTeeth.png",
 		script = "ARM_T1_DEF_DragonsTeeth.lua",
 		corpse = "ARM_T1_DEF_DragonsTeeth_dead",
 		category = "ARM LEVEL1 NOWEAPON NOTAIR NOTSUB",

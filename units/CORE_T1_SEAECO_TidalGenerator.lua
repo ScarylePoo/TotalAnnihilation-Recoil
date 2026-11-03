@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t1_seaeco_tidalgenerator",
 		objectname = "CORE_T1_SEAECO_TidalGenerator.s3o",
+		buildpic = "CORE_T1_SEAECO_TidalGenerator.png",
 		script = "CORE_T1_SEAECO_TidalGenerator.lua",
 		corpse = "CORE_T1_SEAECO_TidalGenerator_dead",
 		icontype = "building",

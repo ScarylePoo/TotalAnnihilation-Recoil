@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_seadef_advancedtorpedolauncher",
 		objectname = "CORE_T2_SEADEF_AdvancedTorpedoLauncher.s3o",
+		buildpic = "CORE_T2_SEADEF_AdvancedTorpedoLauncher.png",
 		script = "CORE_T2_SEADEF_AdvancedTorpedoLauncher.lua",
 		corpse = "CORE_T2_SEADEF_AdvancedTorpedoLauncher_dead",
 		icontype = "turret",

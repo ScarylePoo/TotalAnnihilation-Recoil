@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t2_veh_penetrator",
 		objectname = "ARM_T2_VEH_Penetrator.s3o",
+		buildpic = "ARM_T2_VEH_Penetrator.png",
 		script = "ARM_T2_VEH_Penetrator.lua",
 		corpse = "ARM_T2_VEH_Penetrator_dead",
 		icontype = "tank",

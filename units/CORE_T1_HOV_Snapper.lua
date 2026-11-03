@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t1_hov_snapper",
 		objectname = "CORE_T1_HOV_Snapper.s3o",
+		buildpic = "CORE_T1_HOV_Snapper.png",
 		script = "CORE_T1_HOV_Snapper.lua",
 		corpse = "CORE_T1_HOV_Snapper_dead",
 		icontype = "hover",

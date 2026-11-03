@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t1_eco_windgenerator",
 		objectname = "ARM_T1_ECO_WindGenerator.s3o",
+		buildpic = "ARM_T1_ECO_WindGenerator.png",
 		script = "ARM_T1_ECO_WindGenerator.lua",
 		corpse = "ARM_T1_ECO_WindGenerator_dead",
 		icontype = "building",

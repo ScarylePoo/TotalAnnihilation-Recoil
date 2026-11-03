@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_air_rapier",
 		objectname = "CORE_T2_AIR_Rapier.s3o",
+		buildpic = "CORE_T2_AIR_Rapier.png",
 		script = "CORE_T2_AIR_Rapier.lua",
 		corpse = "CORE_T2_AIR_Rapier_dead",
 		icontype = "aircraft",

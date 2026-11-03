@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t1_hov_anaconda",
 		objectname = "ARM_T1_HOV_Anaconda.s3o",
+		buildpic = "ARM_T1_HOV_Anaconda.png",
 		script = "ARM_T1_HOV_Anaconda.lua",
 		corpse = "ARM_T1_HOV_Anaconda_dead",
 		icontype = "hover",

@@ -9,6 +9,7 @@ return {
 		unitname = "arm_t1_hov_constructor",
 		buildoptions = Shared.buildListArmT1AmphibiousConstructor,
 		objectname = "ARM_T1_HOV_Constructor.s3o",
+		buildpic = "ARM_T1_HOV_Constructor.png",
 		script = "ARM_T1_HOV_Constructor.lua",
 		corpse = "ARM_T1_HOV_Constructor_dead",
 		icontype = "hover",

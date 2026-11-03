@@ -9,6 +9,7 @@ return {
 		unitname = "core_t1_lab_seaplaneplatform",
 		buildoptions = Shared.buildListCoreSeaplanePlatform,
 		objectname = "CORE_T1_LAB_SeaplanePlatform.s3o",
+		buildpic = "CORE_T1_LAB_SeaplanePlatform.png",
 		script = "CORE_T1_LAB_SeaplanePlatform.lua",
 		corpse = "CORE_T1_LAB_SeaplanePlatform_dead",
 		icontype = "factory",

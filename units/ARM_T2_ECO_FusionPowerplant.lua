@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t2_eco_fusionpowerplant",
 		objectname = "ARM_T2_ECO_FusionPowerplant.s3o",
+		buildpic = "ARM_T2_ECO_FusionPowerplant.png",
 		script = "ARM_T2_ECO_FusionPowerplant.lua",
 		corpse = "ARM_T2_ECO_FusionPowerplant_dead",
 		icontype = "building_energy_source_big",

@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t1_eco_metalextractor",
 		objectname = "CORE_T1_ECO_MetalExtractor.s3o",
+		buildpic = "CORE_T1_ECO_MetalExtractor.png",
 		script = "CORE_T1_ECO_MetalExtractor.lua",
 		corpse = "CORE_T1_ECO_MetalExtractor_dead",
 		icontype = "building",

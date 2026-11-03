@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t1_air_fink",
 		objectname = "CORE_T1_AIR_Fink.s3o",
+		buildpic = "CORE_T1_AIR_Fink.png",
 		script = "CORE_T1_AIR_Fink.lua",
 		corpse = "CORE_T1_AIR_Fink_dead",
 		icontype = "aircraft",

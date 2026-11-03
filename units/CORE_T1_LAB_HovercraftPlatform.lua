@@ -9,6 +9,7 @@ return {
 		unitname = "core_t1_lab_hovercraftplatform",
 		buildoptions = Shared.buildListCoreHovercraftPlatform,
 		objectname = "CORE_T1_LAB_HovercraftPlatform.s3o",
+		buildpic = "CORE_T1_LAB_HovercraftPlatform.png",
 		script = "CORE_T1_LAB_HovercraftPlatform.lua",
 		corpse = "CORE_T1_LAB_HovercraftPlatform_dead",
 		icontype = "factory",
