@@ -7,7 +7,7 @@ return {
 		description = "Torpedo Seaplane",
 		side = "ARM",
 		unitname = "arm_t1_seapl_albatross",
-		objectname = "ARM_T1_SEAPL_Albatross",
+		objectname = "ARM_T1_SEAPL_Albatross.s3o",
 		corpse = "ARM_T1_SEAPL_Albatross_dead",
 		icontype = "aircraft",
 		category = "ARM VTOL LEVEL1 WEAPON NOTSUB",
