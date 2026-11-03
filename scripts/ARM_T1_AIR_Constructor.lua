@@ -20,7 +20,7 @@ local function activatescr()
 	Move(wing1, x_axis, 0)
 	Move(wing1, x_axis, 11.25, 12.39)
 	Move(wing2, x_axis, 0)
-	Move(wing2, x_axis, -14.625, 16.107)
+	Move(wing2, x_axis, -13.6, 15)  -- the COB's 14.6 took the kit wing 1.1 elmo off the hull
 	Sleep(908)
 	Sleep(40)
 end
@@ -28,8 +28,8 @@ end
 local function deactivatescr()
 	Move(wing1, x_axis, 11.25)
 	Move(wing1, x_axis, 0, 12.39)
-	Move(wing2, x_axis, -14.625)
-	Move(wing2, x_axis, 0, 16.107)
+	Move(wing2, x_axis, -13.6)
+	Move(wing2, x_axis, 0, 15)
 	Sleep(908)
 	Sleep(40)
 end

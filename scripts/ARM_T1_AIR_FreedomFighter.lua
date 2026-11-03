@@ -80,6 +80,8 @@ local function RequestState(requested)
 end
 
 function script.Create()
+	Move(wing1, y_axis, 0.4)  -- kit wings seated on the hull: the tilt lifted them 0.8 clear
+	Move(wing2, y_axis, 0.4)
 	s0 = 0
 	gun_index = 0
 	gun_index2 = 1
