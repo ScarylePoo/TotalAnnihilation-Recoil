@@ -512,12 +512,13 @@ ARM_T2_BOT_Fido (11.0), ARM_T2_BOT_Maverick (11.2), ARM_T2_BOT_Marky (11.6), ARM
 ARM_T2_BOT_Invader (12.2), ARM_T2_BOT_Infiltrator (12.8), ARM_T2_BOT_Zipper (13.6), CORE_T2_BOT_TheCan (14.3),
 ARM_T2_BOT_AdvancedConstructor (14.5, plus stripes). CORE_T2_BOT_AdvancedConstructor already has its stripes.
 
-## Resume state (2026-11-02, WSL session): every unit def has a kit model
+## Resume state (2026-11-02, WSL session): all 266 units have kit models and Lua scripts
 
-All 266 unit defs have a spec and an installed S3O; all 30 referenced heaps are done; every `object` under Features is an
-existing .s3o. Combined headless run on `s3o-remodel`: 532 units spawned, 0 failures, only the known harmless lines. Nothing is
-merged to `main`: that waits for the user's in-game test (nothing here has been rendered by the engine with a GPU).
-Open for the user: see the end of Progress (2026-11-02, WSL batch).
+Nothing here is merged to `main`: that waits for the user's in-game test, and nothing has been rendered by the engine with a GPU. Test modes in tools/headless-test/run.sh: plain
+regression, AIM=1 (fire/hits/pitch), SCRIPTP=1 (poses, build, corpses, transports), GAP=1 (floating pieces, kit/piece_gaps.py), PADS=1 (repair pads), WATER=1 (sea transports, torpedoes).
+Open for the user: nano beams on pad repair and one plane per standalone pad; impact effects on the 81 weapon defs without one; hover cargo on hover/ship transports; torpedoes
+missing in 40-deep water (they dive to ~75); a Hulk stalled when its unload spot was 201 elmos away (limit 198). Decided: heavy kills leave a heap (Killed: 1 wreck, 2 heap, 3 nothing);
+Hurricane keeps its original layout with canattackground = false on the laser (branch s3o-hurricane is abandoned). kit/cob2lus.py generated the 170 converted scripts and skips hand-edited ones.
 
 ### Setup on this WSL machine (replaces the bpy/pip lines in "Setup in a fresh session")
 Ubuntu 26.04 ships Python 3.14; bpy needs 3.13. Venv: `source ~/.venvs/s3o/bin/activate` (made with uv; libSM/libICE were unpacked

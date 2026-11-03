@@ -132,8 +132,8 @@ local function setup(frame)
   transportTest("core_t1_air_valkyrie", "arm_t1_bot_peewee", 900, tz)
   transportTest("arm_t1_hov_bear", "arm_t1_bot_peewee", 1500, tz)
   transportTest("core_t1_hov_turtle", "arm_t1_bot_peewee", 2100, tz)
-  transportTest("arm_t1_sea_hulk", "arm_t1_hov_skimmer", LAKE_X0 + 300, tz, true)
-  transportTest("core_t1_sea_envoy", "arm_t1_hov_skimmer", LAKE_X0 + 900, tz, true)
+  transportTest("arm_t1_sea_hulk", "arm_t1_bot_peewee", LAKE_X0 + 300, tz, true)
+  transportTest("core_t1_sea_envoy", "arm_t1_bot_peewee", LAKE_X0 + 900, tz, true)
   -- repair pads
   local rz = Game.mapSizeZ - 500
   for i, pad in ipairs({"arm_t2_def_airrepairpad", "core_t2_def_airrepairpad"}) do

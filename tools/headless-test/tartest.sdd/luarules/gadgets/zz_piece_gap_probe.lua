@@ -251,7 +251,7 @@ end
 function enter.load(s)
   if not s.ud.isTransport and not (s.ud.transportCapacity and s.ud.transportCapacity > 0) then return end
   local x, z = s.x + 70, s.z + 70
-  local cargo = s.water and "arm_t1_hov_skimmer" or "arm_t1_bot_peewee"
+  local cargo = "arm_t1_bot_peewee"    -- not a hover: the engine's default transportability rules refuse hover and ship cargo
   s.cargo = Spring.CreateUnit(cargo, x, Spring.GetGroundHeight(x, z), z, 0, 1)
   if s.cargo then
     protected[s.cargo] = true
@@ -266,7 +266,7 @@ function enter.unload(s)
     local t = Spring.GetUnitIsTransporting(s.uid) or {}
     log("transport", s.name, "carrying", #t)
     if #t == 0 then
-      -- the LOAD_UNITS order did not take (hover and ship transports here, reason not known): the animation is the subject, so call it directly
+      -- the LOAD_UNITS order did not take: the animation is the subject, so call it directly
       callScript(s, "TransportPickup", {}, s.cargo)
       s.direct = true
       return
