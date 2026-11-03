@@ -7,7 +7,7 @@ return {
 		description = "Battleship",
 		side = "CORE",
 		unitname = "core_t2_sea_warlord",
-		objectname = "CORE_T2_SEA_Warlord",
+		objectname = "CORE_T2_SEA_Warlord.s3o",
 		corpse = "CORE_T2_SEA_Warlord_dead",
 		icontype = "ship",
 		category = "CORE SHIP LEVEL2 WEAPON NOTAIR NOTSUB",
