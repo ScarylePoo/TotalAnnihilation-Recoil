@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_air_hurricane",
 		objectname = "CORE_T2_AIR_Hurricane.s3o",
+		script = "CORE_T2_AIR_Hurricane.lua",
 		corpse = "CORE_T2_AIR_Hurricane_dead",
 		icontype = "aircraft",
 		category = "CORE VTOL LEVEL2 WEAPON NOTSUB",
@@ -90,6 +91,9 @@ return {
 			{
 				name = "CORE_HURRICANE_LASER",
 				onlytargetcategory = "VTOL",
+				-- belly gun: full circle and straight down, up to 20 deg above the horizon (not through its own hull)
+				maindir = "0 -1 0",
+				maxangledif = 220,
 			},
 		},
 	},

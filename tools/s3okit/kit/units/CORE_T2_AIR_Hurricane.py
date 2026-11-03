@@ -1,21 +1,35 @@
 """Hurricane (CORE_T2_AIR_Hurricane) - Core T2 heavy bomber. A flying slab: a 31-elmo wide, flat armoured centre
-wing with three engine housings across its trailing edge, a blocky raised fuselage with a long beak, and a dorsal
-twin-gun turret (turret turns y, barrels turn x). The huge Core tip panels (wing1/wing2, 16 x 31 elmo) stand up when
-landed and fold out 90 deg in flight (COB turn z), making a broad 62 x 55 elmo rectangle from above - squarer and
-heavier than the T1 Shadow's trapezoid. Two ventral tail plates (tail1/tail2) drop 30 deg in flight.
-Pieces (TA layout): base (bombs empty), wing1/wing2 (tip panels; wing1 = mirrored clone of wing2), tail1/tail2
-(ventral plates; tail1 = mirrored clone), turret > barrels > flare1/flare2 (empty gun points),
-thrusta1/thrusta2 (empty lift-jet emits).
-Value groups from above: dark warm armour, darker paint2 engine housings and fuselage spine, light steel turret,
-barrels and slab leading-edge intakes (light bars on dark), team on the outer half of the tip panels' inner face (=
-top in flight) + the turret roof.
+wing with three engine housings across its trailing edge, a blocky raised fuselage with a long beak, a retractable
+ventral twin-gun turret (turret turns y and moves y, barrels turn x) and a dorsal V-tail. The huge Core tip panels
+(wing1/wing2, 16 x 31 elmo) stand up when landed and fold out 90 deg in flight, making a broad 62 x 55 elmo rectangle
+from above - squarer and heavier than the T1 Shadow's trapezoid. Two tail plates (tail1/tail2) rise 30 deg in flight.
+Deliberate departure from the 3DO (user report: gun on top and tail below looked upside down; the 3DO had turret y +5.59,
+tail y +0.11, tails dropping): skeleton_opts moves the origins. The turret's rest position is RETRACTED, wholly inside
+the fuselage, because aircraft sit with y = 0 on the ground; the script lowers it GUN_DROP elmos once airborne.
+Pieces: base (bombs empty), wing1/wing2 (tip panels; wing1 = mirrored clone of wing2), tail1/tail2 (dorsal plates; tail1
+= mirrored clone), turret > barrels > flare1/flare2 (empty gun points, emit dir +z along the barrels), thrusta1/thrusta2
+(empty lift-jet emits).
+Value groups from above: dark warm armour, darker paint2 engine housings and fuselage spine, light steel tail plates and
+slab leading-edge intakes (light bars on dark), team on the outer half of the tip panels' inner face (= top in flight)
++ the dorsal spine fairing + the tail plates.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
 import math
 
+GUN_DROP = 6.0      # scripts/CORE_T2_AIR_Hurricane.lua lowers the turret by this much in flight
+TAIL_RISE = 30.23
+
 UNIT = dict(
     res=1024,
-    wreck=dict(seed=37, drop=['wing1'], pose={'wing2': (0, 0, -50), 'turret': (0, 40, 0)}),
-    preview_pose={'wing1': (0, 0, 90.0), 'wing2': (0, 0, -90.0), 'tail1': (0, 0, 30.23), 'tail2': (0, 0, -30.23)},
+    skeleton_opts=dict(
+        move={'turret': (0.0, 5.4, -19.0), 'barrels': (0.0, 2.0, -18.4),
+              'tail1': (-3.2, 7.9, -19.85), 'tail2': (3.2, 7.9, -19.85)},
+        emit={'flare1': [(0, 0, 0), (0, 0, 1)], 'flare2': [(0, 0, 0), (0, 0, 1)]}),
+    # crash: one tip panel and the belly turret torn off (`drop` lays them on the ground by the hull), the other panel bent, tail crumpled
+    wreck=dict(seed=37, drop=['wing1', 'turret'], pose={'wing2': (0, 0, -50), 'tail2': (0, 0, 18), 'tail1': (0, 0, -55)}),
+    # flight state, lifted off the preview ground so the belly gun shows
+    preview_pose={'base': {'move': (0, 16.0, 0)}, 'wing1': (0, 0, 90.0), 'wing2': (0, 0, -90.0),
+                  'tail1': (0, 0, -TAIL_RISE), 'tail2': (0, 0, TAIL_RISE),
+                  'turret': {'move': (0, -GUN_DROP, 0), 'rot': (0, -25, 0)}, 'barrels': (25, 0, 0)},
 )
 
 
@@ -62,20 +76,30 @@ def build(k):
     b.box((-1.0, 8.15, 1.8), (1.0, 8.5, 3.2), 'lightr', bevel=0.0)
     b.box((15.0, 4.0, 5.4), (15.6, 4.9, 6.0), 'lightw', bevel=0.0, mirror=True)
 
-    # ------------------------------------------------------------------ dorsal turret (origin 0, 5.59, -16.77)
+    # ------------------------------------------------------------------ dorsal spine fairing carrying the V-tail hinges
+    b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
+            [(2.2, 6.4, -8.0), (3.6, 6.2, -12.0), (2.6, 8.2, -12.0), (3.6, 6.2, -27.0), (2.8, 8.4, -26.0), (1.8, 7.0, -28.2)]],
+           'paint', bevel=0.14)
+    b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
+            [(1.9, 8.3, -13.0), (1.9, 8.5, -25.4), (1.9, 8.42, -13.0), (1.9, 8.62, -25.4)]], 'team', bevel=0.02)
+    b.box((-0.5, 8.35, -11.8), (0.5, 8.8, -10.8), 'lightr', bevel=0.0)
+    # gun bay under the fuselage: the turret and barrels retract through this into the fuselage
+    b.cyl((0, 0.3, -19.0), (0, 0.1, -19.0), 4.3, 16, 'black')
+
+    # ------------------------------------------------------------------ ventral turret, retracted at rest
+    # origin (0, 5.4, -19): everything fits in the fuselage (|x| < 4.4, y > 0.2); -GUN_DROP in flight
     t = k.piece('turret'); T = t.at
-    t.cyl(T(0, 0.2, 0), T(0, 1.4, 0), 5.6, 16, 'paint2', r2=5.4, bevel=0.12)
-    t.hull([T(x * sx, y, z) for sx in (-1, 1) for x, y, z in
-            [(4.6, 1.3, 2.6), (4.8, 1.3, -3.6), (3.4, 4.0, 1.4), (3.0, 4.0, -2.8), (1.6, 1.3, 5.0), (1.2, 3.6, 3.4)]],
-           'steel', bevel=0.16)
-    t.hull([T(x * sx, y, z) for sx in (-1, 1) for x, y, z in
-            [(2.0, 4.05, 0.8), (2.0, 4.05, -2.2), (2.0, 4.2, 0.8), (2.0, 4.2, -2.2)]], 'team', bevel=0.02)
-    t.box(T(-0.5, 3.5, -3.2), T(0.5, 4.1, -2.4), 'lightr', bevel=0.0)
-    # barrels (origin 0, 7.74, -14.92 = turret + (0, 2.15, 1.85)); flare1/2 at x +-1.74, z 9.24
+    t.cyl(T(0, 1.3, 0), T(0, -0.3, 0), 2.6, 12, 'dark', bevel=0.05)                # neck through the belly
+    t.cyl(T(0, -0.2, 0), T(0, -1.5, 0), 4.0, 16, 'paint2', r2=3.8, bevel=0.1)      # bearing ring
+    for sx in (-1, 1):                                                              # cheeks either side of the barrels
+        t.hull([T(x * sx, y, z) for x in (2.75, 3.75) for y, z in
+                [(-1.4, 3.0), (-1.4, -3.2), (-4.6, 1.8), (-4.6, -1.8), (-5.1, 0.6), (-5.1, -0.8)]], 'steel', bevel=0.12)
+    t.box(T(-3.0, -1.5, -3.2), T(3.0, -2.2, -1.9), 'dark', bevel=0.05)              # rear bridge, clear of the swinging breech
+    # barrels (origin = turret + (0, -3.4, 0.6)); flare1/2 at x +-1.74, z 9.24; swing freely down between the cheeks
     g = k.piece('barrels'); G = g.at
-    g.box(G(-2.8, -0.9, -1.0), G(2.8, 0.9, 1.8), 'dark', bevel=0.1)
+    g.cyl(G(-2.7, 0, 0.1), G(2.7, 0, 0.1), 1.45, 12, 'dark', bevel=0.08)            # trunnion drum
     for dx in (-1.74, 1.74):
-        g.cyl(G(dx, 0, 1.4), G(dx, 0, 9.2), 0.52, 8, 'steel', rot=math.pi / 8)
+        g.cyl(G(dx, 0, 1.2), G(dx, 0, 9.2), 0.52, 8, 'steel', rot=math.pi / 8)
         g.cyl(G(dx, 0, 8.2), G(dx, 0, 9.4), 0.7, 8, 'dark', rot=math.pi / 8)
 
     # ------------------------------------------------------------------ tip panel (wing2 at +x; wing1 = mirror)
@@ -95,9 +119,12 @@ def build(k):
     w.cyl(W(0.8, -0.3, -15.6), W(0.8, -0.3, 15.0), 0.8, 8, 'dark')              # hinge barrel
     k.clone('wing1', 'wing2', mirror_x=True)
 
-    # ------------------------------------------------------------------ ventral tail plates (tail2 at +x)
+    # ------------------------------------------------------------------ dorsal V-tail plates (tail2 at +x)
+    # flat at rest, clear above the engine housings (top y 7.5); rise TAIL_RISE deg from the hinge in flight
     v = k.piece('tail2'); V = v.at
-    v.hull([V(x, y, z) for x, z in ((0.0, 9.1), (7.5, -3.8), (7.5, -10.2), (0.0, -7.0)) for y in (-0.35, 0.35)],
-           'paint2', bevel=0.06)
+    out = ((0.0, 9.1), (7.5, -3.8), (7.5, -10.2), (0.0, -7.0))
+    v.hull([V(x, y, z) for x, z in out for y in (-0.35, 0.35)], 'steel', bevel=0.06)
+    v.hull([V(x, y, z) for x, z in ((1.0, 5.0), (6.9, -4.6), (6.9, -9.2), (1.0, -5.6)) for y in (0.3, 0.45)], 'team', bevel=0.02)
     v.box(V(6.9, -0.4, -10.0), V(7.6, 0.4, -9.0), 'lightr', bevel=0.0)
+    v.cyl(V(0.0, 0, 8.0), V(0.0, 0, -6.0), 0.6, 8, 'dark')                          # hinge barrel
     k.clone('tail1', 'tail2', mirror_x=True)
