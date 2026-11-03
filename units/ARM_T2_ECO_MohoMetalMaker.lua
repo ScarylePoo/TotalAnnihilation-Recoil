@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t2_eco_mohometalmaker",
 		objectname = "ARM_T2_ECO_MohoMetalMaker.s3o",
+		script = "ARM_T2_ECO_MohoMetalMaker.lua",
 		corpse = "ARM_T2_ECO_MohoMetalMaker_dead",
 		icontype = "building_metal_source_big",
 		category = "ARM LEVEL2 NOWEAPON NOTAIR NOTSUB",

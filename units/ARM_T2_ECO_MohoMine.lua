@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t2_eco_mohomine",
 		objectname = "ARM_T2_ECO_MohoMine.s3o",
+		script = "ARM_T2_ECO_MohoMine.lua",
 		corpse = "ARM_T2_ECO_MohoMine_dead",
 		icontype = "building_metal_source_big",
 		category = "ARM LEVEL2 NOWEAPON NOTAIR NOTSUB",

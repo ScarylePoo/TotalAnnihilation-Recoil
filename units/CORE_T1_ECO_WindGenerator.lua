@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t1_eco_windgenerator",
 		objectname = "CORE_T1_ECO_WindGenerator.s3o",
+		script = "CORE_T1_ECO_WindGenerator.lua",
 		corpse = "CORE_T1_ECO_WindGenerator_dead",
 		icontype = "building",
 		category = "CORE LEVEL1 NOWEAPON NOTAIR NOTSUB",

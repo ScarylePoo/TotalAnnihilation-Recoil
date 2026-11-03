@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t1_eco_energystorage",
 		objectname = "CORE_T1_ECO_EnergyStorage.s3o",
+		script = "CORE_T1_ECO_EnergyStorage.lua",
 		corpse = "CORE_T1_ECO_EnergyStorage_dead",
 		icontype = "building",
 		category = "CORE LEVEL1 NOWEAPON NOTAIR NOTSUB",
