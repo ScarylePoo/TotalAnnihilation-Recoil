@@ -22,7 +22,7 @@ def _png(texdir, name):
 
 
 def render(path, texdir, prefix, team='2255dd', pose=None, views=('front34', 'rear34', 'side', 'rts'),
-           samples=32, size=(900, 650), thumb=True, water=None, seabed=None):
+           samples=32, size=(900, 650), thumb=True, water=None, seabed=None, zoom=1.0):
     bpy.ops.wm.read_factory_settings(use_empty=True)
     sc = bpy.context.scene
     m = S3O.read(path)
@@ -92,7 +92,7 @@ def render(path, texdir, prefix, team='2255dd', pose=None, views=('front34', 're
     w.node_tree.nodes['Background'].inputs[1].default_value = 0.6
     cam = bpy.data.objects.new('cam', bpy.data.cameras.new('cam')); sc.collection.objects.link(cam); sc.camera = cam
     # views are tuned for ~18 elmo radius; scale for bigger models (tall towers by height: radius alone cropped them)
-    s = max(1.0, max(m['radius'], 0.75 * m['height']) / 18.0)
+    s = max(1.0, max(m['radius'], 0.75 * m['height']) / 18.0) * zoom   # zoom > 1 (UNIT['preview_zoom']): pull back for giants
 
     def look(pos, tgt, lens):
         mid = Vector(m['mid']); d = Vector(pos) - Vector(tgt)
@@ -140,7 +140,7 @@ def render(path, texdir, prefix, team='2255dd', pose=None, views=('front34', 're
     return outs
 
 
-def sheet(paths, out, cols=2):
+def sheet(paths, out, cols=2, thumb_half=50):
     from PIL import Image, ImageOps
     ims = [Image.open(p).convert('RGB') for p in paths if not p.endswith('_thumb.png')]
     if not ims:
@@ -154,7 +154,8 @@ def sheet(paths, out, cols=2):
     if th:
         # game-distance view, centre crop enlarged 3x with nearest-neighbour so the real pixel size stays visible
         t = Image.open(th[0]).convert('RGB'); cx, cy = t.width // 2, t.height // 2
-        t = t.crop((cx - 50, cy - 38, cx + 50, cy + 38)).resize((300, 228), Image.NEAREST)   # 3x, real pixels
+        hh = thumb_half * 38 // 50                                 # thumb_half (UNIT['preview_thumb_half']): wider crop for giants
+        t = t.crop((cx - thumb_half, cy - hh, cx + thumb_half, cy + hh)).resize((300, 228), Image.NEAREST)   # real pixels
         g = ImageOps.grayscale(t).convert('RGB')
         S.paste(t, (w * cols - 2 * t.width - 10, 10)); S.paste(g, (w * cols - t.width - 5, 10))
     S.save(out)
