@@ -24,13 +24,13 @@ end
 
 local function activatescr()
 	Move(stands, y_axis, 0)
-	Move(stands, y_axis, 25.875, 33.517)
+	Move(stands, y_axis, 13, 16.8)  -- the COB's 25.875 lifted the kit shell 12.9 elmo clear of the base
 	Sleep(772)
 	Sleep(198)
 	Turn(shell, x_axis, rad(-180), rad(261.62))
 	Sleep(688)
 	Sleep(201)
-	Move(stands, y_axis, 0, 28.403)
+	Move(stands, y_axis, 0, 14.3)
 	Sleep(911)
 	Sleep(34)
 end
@@ -47,14 +47,14 @@ end
 
 local function deactivatescr()
 	Move(stands, y_axis, 0)
-	Move(stands, y_axis, 25.875, 33.691)
+	Move(stands, y_axis, 13, 16.9)
 	Turn(shell, x_axis, rad(-180))
 	Sleep(768)
 	Sleep(199)
 	Turn(shell, x_axis, 0, rad(261.24))
 	Sleep(689)
 	Sleep(201)
-	Move(stands, y_axis, 0, 28.403)
+	Move(stands, y_axis, 0, 14.3)
 	Sleep(911)
 	Sleep(33)
 end

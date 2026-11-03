@@ -9,6 +9,7 @@ a small piece buried inside a bigger hull counts as touching it (a joint inside 
 tolerance are one component; the component with the most surface area is the unit, every other one floats. A set floating at rest too is reported as REST
 (the model, not the script; ANIM only if the animation makes it worse), a set floating only in action as ANIM, with its gap (nearest surface of the unit, elmos),
 when, and the Move/Turn/Spin lines that drive it.
+The gap is to the nearest other visible piece, so a chain of floaters shows each link. On a land building, a component touching the ground or below it does not float.
 Hidden pieces are left out, both as floaters and as bridges: LUS units report Hide/Show exactly (the probe wraps them), COB ones are read statically
 from the bytecode (a COB floater that the script hides somewhere is marked `maybe-hidden`).
 Limits: only what the probe exercises gets seen (no transports, no landing pads, no damage reactions); poses are every 4 frames; a gap under the tolerance is not seen.
@@ -40,7 +41,7 @@ def parse(path):
                 cur = (int(f[2]), {})
                 units[f[1]]['samples'].append(cur)
             elif t == 'U':
-                units[f[1]] = dict(name=f[2], model=f[3], pieces={}, parents={}, samples=[], died=None)
+                units[f[1]] = dict(name=f[2], model=f[3], landbuilding=len(f) > 4 and f[4] == 'landbuilding', pieces={}, parents={}, samples=[], died=None)
             elif t == 'P':
                 units[f[1]]['pieces'][int(f[2])] = f[3]
                 units[f[1]]['parents'][int(f[2])] = f[4]
@@ -293,9 +294,16 @@ def analyse(args):
         comps = components(world, visible)
         if len(comps) < 2:
             continue
-        for c in comps[1:]:
+        for ci, c in enumerate(comps):
+            if ci == 0 and len(comps) < 2:
+                continue
+            if ci == 0 and not u['landbuilding']:
+                continue
+            # a land building's ground holds up what stands on it and hides what is below it: a pop-up gun stored underground is not floating
+            if u['landbuilding'] and min((p.pts @ world[p.name][0].T + world[p.name][1])[:, 1].min() for p in c) <= 0.3:
+                continue
             k = frozenset(p.name for p in c)
-            g, wa, wb = gap_of(c, comps[0], world)
+            g, wa, wb = gap_of(c, [p for o in comps if o is not c for p in o], world)
             e = seen.get(k)
             if e is None:
                 e = seen[k] = dict(k=k, first=frame, last=frame, count=0, gap=-1, frame=frame, near=None, phases=set(), world=None)

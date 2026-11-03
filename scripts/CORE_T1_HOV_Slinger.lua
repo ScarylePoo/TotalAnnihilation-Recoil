@@ -30,7 +30,7 @@ local function activatescr()
 	Move(pole, y_axis, 0)
 	Move(pole, y_axis, 2.5, 15)
 	Move(turret, y_axis, 0)
-	Move(turret, y_axis, 2.5, 17.5)
+	Move(turret, y_axis, 0, 17.5)  -- the pole alone rises: the COB's extra 2.5 took the kit turret off it
 	Move(arms, y_axis, 0)
 	Move(launcher, y_axis, 0)
 	Sleep(177)
@@ -58,7 +58,7 @@ end
 
 local function deactivatescr()
 	Move(pole, y_axis, 2.5)
-	Move(turret, y_axis, 2.5)
+	Move(turret, y_axis, 0)
 	Move(arms, y_axis, 0)
 	Move(launcher, y_axis, 0)
 	Turn(base, x_axis, 0)
@@ -141,6 +141,7 @@ local function Create()
 end
 
 function script.Create()
+	Move(launcher2, y_axis, -1.5)  -- kit launcher seated on the arms
 	StartThread(Create)
 	SetMaxReloadTime(Spring.UnitScript.GetLongestReloadTime(unitID))
 end

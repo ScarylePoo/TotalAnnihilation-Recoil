@@ -39,7 +39,7 @@ end
 local function StartDoorOpen()
 	Signal(SIG_STARTDOOROPEN)
 	SetSignalMask(SIG_STARTDOOROPEN)
-	Move(turret2, y_axis, 12.5, 87.5)
+	Move(turret2, y_axis, 2.5, 87.5)  -- the COB's 12.5 lifted the kit boom 9.9 elmo off the column
 	WaitForMove(turret2, y_axis)
 	Turn(door3, z_axis, rad(89.98), rad(99.98))
 	Turn(door4, z_axis, rad(-89.98), rad(99.98))

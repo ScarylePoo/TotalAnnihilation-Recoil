@@ -4,12 +4,12 @@ end
 
 -- Do pieces stay attached to the unit while it animates? Runs alone (GAP=1 run.sh). Spawns one immune copy of EVERY unit def on team 1, each in its own cell
 -- (water units in the harness's lake) and walks it through idle, off, on, ground attacks far and near, attack on an enemy (land, ship or aircraft to suit
--- the weapon), manual fire, a direct call of the aim and fire scripts (interceptors and stockpile weapons never aim on their own, nothing here launches a nuke), move out and back, build (builders and factories; products are removed), stop, load and unload (transports). Every SAMPLE frames each unit's piece
+-- the weapon), manual fire, a direct call of the aim and fire scripts (interceptors and stockpile weapons never aim on their own, nothing here launches a nuke), move out and back, build (builders and factories; products are removed), stop, load and unload (transports, by direct script call where the order does not take). Every SAMPLE frames each unit's piece
 -- matrices (Spring.GetUnitPieceMatrix, model space) go to the infolog as GAPD lines (synced Lua has no io), skipping pieces that did not change; run.sh
 -- extracts them to gapdata.txt and tools/s3okit/kit/piece_gaps.py poses the real S3O geometry from them.
 -- The engine has no visibility query (Spring.UnitScript has no getter), so Hide/Show are wrapped here: unit_script_header.lua reads them from Spring.UnitScript
 -- when each unit's script chunk runs, so LUS units report the truth. COB units cannot be wrapped; piece_gaps.py reads their hide/show from the bytecode.
--- Format, ';' separated records: "U id name model" / "P id idx name parent" / "F frame phase" (phase starts) / "S id frame" then "M idx vis 12 numbers"
+-- Format, ';' separated records: "U id name model landbuilding|-" / "P id idx name parent" / "F frame phase" (phase starts) / "S id frame" then "M idx vis 12 numbers"
 -- (3x3 by columns, then translation) / "D id frame" (died).
 local opt = Spring.GetModOptions() or {}
 if not opt.gaponly then return end
@@ -20,7 +20,7 @@ local SAMPLE = 4
 local PHASES = {  -- name, duration in frames
   {"idle", 90}, {"off", 150}, {"on", 150}, {"attackfar", 330}, {"attacknear", 330}, {"attackunit", 300}, {"manual", 180},
   {"aimdirect", 300},
-  {"move", 330}, {"halt", 150}, {"build", 480}, {"stop", 240}, {"load", 300}, {"unload", 300},
+  {"move", 330}, {"halt", 150}, {"build", 480}, {"stop", 240}, {"load", 300}, {"unload", 300}, {"drop", 240},
 }
 local SIZE = Game.mapSizeX
 local LAKE_X0, LAKE_X1 = SIZE * 0.55, SIZE * 0.95
@@ -141,7 +141,7 @@ local function spawnAll()
       protected[uid] = true
       local s = {uid = uid, ud = ud, x = x, z = z, water = water, last = {}, name = ud.name}
       s.pieces = Spring.GetUnitPieceList(uid) or {}
-      emit("U " .. uid .. " " .. ud.name .. " " .. tostring(ud.modelname or (ud.model and ud.model.path) or (ud.model and ud.model.name) or "?"))
+      emit("U " .. uid .. " " .. ud.name .. " " .. tostring(ud.modelname or (ud.model and ud.model.path) or (ud.model and ud.model.name) or "?") .. " " .. ((ud.isBuilding and not water) and "landbuilding" or "-"))
       for i, name in ipairs(s.pieces) do
         local info = Spring.GetUnitPieceInfo(uid, i)
         emit("P " .. uid .. " " .. i .. " " .. name .. " " .. tostring(info and info.parent or "-"))
@@ -263,12 +263,27 @@ function enter.load(s)
 end
 function enter.unload(s)
   if s.cargo then
+    local t = Spring.GetUnitIsTransporting(s.uid) or {}
+    log("transport", s.name, "carrying", #t)
+    if #t == 0 then
+      -- the LOAD_UNITS order did not take (hover and ship transports here, reason not known): the animation is the subject, so call it directly
+      callScript(s, "TransportPickup", {}, s.cargo)
+      s.direct = true
+      return
+    end
     local x, z = s.x - 90, s.z + 60
     give(s.uid, CMD.UNLOAD_UNITS, {x, Spring.GetGroundHeight(x, z), z, 50})
   end
 end
 
 -- factory products would clutter the cells (and they are not the subject)
+function enter.drop(s)
+  if s.direct then
+    local x, z = s.x - 90, s.z + 60
+    callScript(s, "TransportDrop", {}, s.cargo, x, Spring.GetGroundHeight(x, z), z)
+  end
+end
+
 function gadget:UnitFromFactory(uid) Spring.DestroyUnit(uid, false, true) end
 
 local function sampleUnit(s, frame)
