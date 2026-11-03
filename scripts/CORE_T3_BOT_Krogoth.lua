@@ -12,7 +12,7 @@ lmissle2, lmispoint, rmissle2, rmispoint = piece('lmissle2', 'lmispoint', 'rmiss
 
 include "smokeunit.lua"
 local walk = include("headers/walk.lua")
-walk.Biped()
+walk.Biped({cadence = 1.35})   -- measured in the engine: at 1.0 planted feet only cover 72 % of the ground speed (probe)
 
 local rad = math.rad
 local SIG_AIM = {2, 4, 8}         -- COB: AimPrimary / AimSecondary / AimTertiary
