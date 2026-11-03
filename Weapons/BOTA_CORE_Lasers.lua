@@ -41,6 +41,7 @@ return {
 		-- type
 		weapontype = "LaserCannon",
 		turret = 1,
+		canattackground = false,   -- its dorsal gun is air defence, not a ground attack
 		-- visuals
 		loddistance = 4000,
 		duration = 0.04,
