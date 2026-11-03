@@ -126,13 +126,28 @@ function script.SweetSpot()
 	return base
 end
 
+-- how far the boom's tip misses a point along the boom (kit model lengths, the arm travel limit): the empty link makes up the rest
+local function ReachOffset(xz)
+	local root = GetUnitValue(COB.PIECE_XZ, turret - 1)
+	Move(link, z_axis, 0)
+	return (GetUnitValue(COB.XZ_HYPOT, root - xz) - GetUnitValue(COB.XZ_HYPOT, root - GetUnitValue(COB.PIECE_XZ, link - 1))) / 65536
+end
+
+-- the cargo stays where it stands when it is grabbed, instead of jumping to the boom's tip and into the ground
+local function ReachCargo(unitid)
+	Move(link, z_axis, ReachOffset(GetUnitValue(COB.UNIT_XZ, unitid)))
+	Move(link, y_axis, 0)
+	Move(link, y_axis, (GetUnitValue(COB.UNIT_Y, unitid) - GetUnitValue(COB.PIECE_Y, link - 1)) / 65536)
+end
+
 function script.TransportPickup(unitid)
 	BoomCalc(GetUnitValue(COB.UNIT_XZ, unitid), GetUnitValue(COB.UNIT_Y, unitid) + GetUnitValue(COB.UNIT_HEIGHT, unitid))
 	if s3 ~= 0 then
 		SetUnitValue(COB.BUSY, 1)
 		BoomExtend()
-		Move(link, y_axis, (0 - GetUnitValue(COB.UNIT_HEIGHT, unitid)) / 65536)
+		ReachCargo(unitid)
 		AttachUnit(link, unitid)
+		Move(link, z_axis, 0, 150)
 		BoomToPad()
 		AttachUnit(0, unitid)
 		BoomReset()
@@ -149,7 +164,13 @@ function script.TransportDrop(unitid, x, y, z)
 		Move(link, y_axis, (0 - GetUnitValue(COB.UNIT_HEIGHT, unitid)) / 65536)
 		AttachUnit(link, unitid)
 		BoomExtend()
+		-- the cargo comes down on the chosen spot, not short of it and under the ground
+		Move(link, z_axis, ReachOffset(pos), 150)
+		Move(link, y_axis, (GetUnitValue(COB.GROUND_HEIGHT, pos) - GetUnitValue(COB.PIECE_Y, link - 1) - GetUnitValue(COB.UNIT_HEIGHT, unitid)) / 65536, 150)
+		WaitForMove(link, z_axis)
+		WaitForMove(link, y_axis)
 		DropUnit(unitid)
+		Move(link, z_axis, 0)
 		BoomReset()
 		SetUnitValue(COB.BUSY, 0)
 	end
