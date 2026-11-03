@@ -96,7 +96,7 @@ function script.FireWeapon(num)
 end
 
 function script.AimFromWeapon(num)
-	return torso                  -- COB: piece 1
+	return gun                    -- the engine's pitch is measured from here; the rifle is carried far below the torso (the COB's piece 1)
 end
 
 function script.QueryWeapon(num)
