@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t2_def_targetingfacility",
 		objectname = "ARM_T2_DEF_TargetingFacility.s3o",
+		script = "ARM_T2_DEF_TargetingFacility.lua",
 		corpse = "ARM_T2_DEF_TargetingFacility_dead",
 		icontype = "building",
 		category = "ARM SPECIAL LEVEL2 NOWEAPON NOTAIR NOTSUB",

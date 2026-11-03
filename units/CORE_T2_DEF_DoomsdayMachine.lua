@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_def_doomsdaymachine",
 		objectname = "CORE_T2_DEF_DoomsdayMachine.s3o",
+		script = "CORE_T2_DEF_DoomsdayMachine.lua",
 		corpse = "CORE_T2_DEF_DoomsdayMachine_dead",
 		icontype = "turret",
 		category = "CORE SPECIAL LEVEL2 WEAPON NOTAIR NOTSUB",
