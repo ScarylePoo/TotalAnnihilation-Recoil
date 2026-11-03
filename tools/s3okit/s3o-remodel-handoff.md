@@ -481,6 +481,26 @@ ARM_T2_BOT_Fido (11.0), ARM_T2_BOT_Maverick (11.2), ARM_T2_BOT_Marky (11.6), ARM
 ARM_T2_BOT_Invader (12.2), ARM_T2_BOT_Infiltrator (12.8), ARM_T2_BOT_Zipper (13.6), CORE_T2_BOT_TheCan (14.3),
 ARM_T2_BOT_AdvancedConstructor (14.5, plus stripes). CORE_T2_BOT_AdvancedConstructor already has its stripes.
 
+## Resume state (2026-11-02, stopped by the user)
+
+Work stopped cleanly; nothing running, everything pushed. Next session (planned: Claude Code inside WSL2 on the user's
+Windows PC, 16 cores / 32 GB, so more agents and parallel bakes are possible - re-measure `nproc`/`free` first):
+1. `s3o-seastruct` (25/26, not engine-tested, not merged): finish CORE_T1_SEAECO_TidalGenerator (spec fixed; delete
+   work/CORE_T1_SEAECO_TidalGenerator/{final,install}.done and its untracked objects3d/unittextures outputs from the
+   broken final, then `run.py all`, check sheet, install, commit). Gotchas from that batch: a convex hull of a ring
+   fills its hole (build rings as segments); coplanar faces of overlapping hulls are both culled (offset ~0.4);
+   `UNIT['preview_water']` previews UW buildings under water. Core Floating Dragon's Teeth now breaks the surface
+   (check ship blocking in game).
+2. `s3o-t2-sea` (Archer, Escort done; not engine-tested, not merged): Ranger spec drafted in the old container only
+   (lost; redo). Before the Arm seaplanes: their corpse defs Features/Corpses/ARM_T1_SEAPL_*_dead.lua point at
+   ARM_T1_AIR_FreedomFighter_dead - set `object` to `<stem>_dead` first or install overwrites the FreedomFighter wreck.
+   Submarines: Arm AdvancedConstructor, Fibber, Piranha, Core AdvancedConstructor, Leviathan (3x3, cannot read big).
+3. One headless run over both branches (also confirms the Spider walk via the hexa probe), merge into s3o-remodel.
+4. Not started: ARM_Commander / CORE_Commander (then match the decoy commanders, decide stripes for both), Krogoth +
+   KrogothGantry, the 30 generic heaps (1x1a..7x7d) and ARM_T2_DEF_Ambusher_dead2 if not covered.
+On WSL: keep the clone in the Linux filesystem (~/), not /mnt/c or /mnt/i; paths here assume /home/claude - adjust
+the engine path for run.sh.
+
 ## Suggested order of work
 
 1. Get the user's in-game verdict on the Flash; adjust the kit globally.
