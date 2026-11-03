@@ -25,13 +25,13 @@ end
 
 local function activatescr()
 	Move(wing1, x_axis, 0)
-	Move(wing1, x_axis, 6, 4.115)
+	Move(wing1, x_axis, 3, 2.06)
 	Move(wing1, z_axis, 0)
 	Move(wing1, z_axis, -1.25, 0.857)
 	Move(wing2, x_axis, 0)
-	Move(wing2, x_axis, -6.125, 4.201)
+	Move(wing2, x_axis, -3, 2.06)
 	Move(wing2, z_axis, 0)
-	Move(wing2, z_axis, -1.375, 0.943)
+	Move(wing2, z_axis, -1.25, 0.857)
 	Turn(wing1, z_axis, 0)
 	Turn(wing1, z_axis, rad(-0.89), rad(0.62))
 	Turn(wing2, z_axis, 0)
@@ -41,14 +41,14 @@ local function activatescr()
 end
 
 local function deactivatescr()
-	Move(wing1, x_axis, 6)
-	Move(wing1, x_axis, 0, 4.115)
+	Move(wing1, x_axis, 3)
+	Move(wing1, x_axis, 0, 2.06)
 	Move(wing1, z_axis, -1.25)
 	Move(wing1, z_axis, 0, 0.857)
-	Move(wing2, x_axis, -6.125)
-	Move(wing2, x_axis, 0, 4.201)
-	Move(wing2, z_axis, -1.375)
-	Move(wing2, z_axis, 0, 0.943)
+	Move(wing2, x_axis, -3)
+	Move(wing2, x_axis, 0, 2.06)
+	Move(wing2, z_axis, -1.25)
+	Move(wing2, z_axis, 0, 0.857)
 	Turn(wing1, z_axis, rad(-0.89))
 	Turn(wing1, z_axis, 0, rad(0.62))
 	Turn(wing2, z_axis, rad(2.69))
@@ -80,8 +80,8 @@ local function RequestState(requested)
 end
 
 function script.Create()
-	Move(wing1, y_axis, 0.4)  -- kit wings seated on the hull: the tilt lifted them 0.8 clear
-	Move(wing2, y_axis, 0.4)
+	Move(wing1, y_axis, 0.9)  -- kit wings seated on the hull: the tilt lifted them 0.8 clear
+	Move(wing2, y_axis, 0.9)
 	s0 = 0
 	gun_index = 0
 	gun_index2 = 1

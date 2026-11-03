@@ -1,8 +1,7 @@
 """Freedom Fighter (ARM_T1_AIR_FreedomFighter) - Arm T1 fighter. Slim needle fuselage between two dark intake pods
 carrying the twin guns, a single tall fin, and narrow, sharply swept (42 deg) wings with engine pods on the tips.
-The wings are separate pieces that the COB slides OUT of the body on take-off (move x 6, z -1.25) and back in on
-landing: at rest they tuck under the light wing gloves, in flight the span grows from 36 to 48 elmo - the swept,
-narrow, wide-span arrow is the fighter's read from above.
+The wings are separate pieces that slide out of the gloves on take-off (x 3, staying well inside them, z -1.25) and back in on
+landing: the swept, narrow arrow is the fighter's read from above. The script seats them against the gloves' underside (y +0.9).
 Pieces (TA layout): base, wing1/wing2 (sliding wings; wing2 = mirrored clone), flare1/flare2 + wing1thrust/wing2thrust
 (empty emit points at the wing-pod nozzles), rearthrust (empty, main nozzle), mgun1/mgun2 (empty gun emit points at the
 pod muzzles).
@@ -14,8 +13,11 @@ import math
 UNIT = dict(
     res=1024,
     wreck=dict(seed=7, remove=['wing2'], drop=[]),
-    # flight pose: the COB moves the wings out on take-off (engine x = -COB x)
-    preview_pose={'wing1': {'move': (6.0, 0, -1.25)}, 'wing2': {'move': (-6.1, 0, -1.37)}},
+    # the wing tubes sit on the wing tip now, and their nozzle emit points moved with them
+    skeleton_opts=dict(move={'flare1': (16.34, 2.57, -14.2), 'wing1thrust': (16.34, 2.57, -14.2),
+                             'flare2': (-16.34, 2.57, -14.2), 'wing2thrust': (-16.34, 2.57, -14.2)}),
+    # flight pose, as the script's Create + activatescr leave it
+    preview_pose={'wing1': {'move': (3.0, 0.9, -1.25)}, 'wing2': {'move': (-3.0, 0.9, -1.25)}},
 )
 
 
@@ -81,9 +83,8 @@ def build(k):
     # dark trailing-edge flap strip (separates the wing from the glove/fuselage at distance)
     w.hull([W(1.0, 0.36, -3.2), W(1.0, 0.32, -4.4), W(9.6, 0.18, -6.6), W(9.6, 0.15, -7.6),
             W(1.0, 0.46, -3.2), W(1.0, 0.42, -4.4), W(9.6, 0.28, -6.6), W(9.6, 0.25, -7.6)], 'paint2', bevel=0.0)
-    # tip engine pod (wing1thrust / flare1 emit at 9.34, -0.93, -1.45)
-    w.cyl(W(9.34, -0.93, 4.4), W(9.34, -0.93, -1.25), 0.95, 10, 'dark', r2=0.85, rot=math.pi / 10, bevel=0.04)
-    w.cyl(W(9.34, -0.93, 4.6), W(9.34, -0.93, 4.38), 0.55, 10, 'black')
-    w.cyl(W(9.34, -0.93, -1.22), W(9.34, -0.93, -1.42), 0.62, 10, 'lightc')
-    w.box(W(8.9, -0.15, -0.2), W(9.8, 0.05, 3.4), 'dark', bevel=0.0)     # pylon
+    # tip tube, sunk into the wing along its chord there (z -2.6 .. -7.5 at x 9.34); nozzle emits at z -6.2
+    w.cyl(W(9.34, -0.55, 0.2), W(9.34, -0.55, -6.0), 0.95, 10, 'dark', r2=0.85, rot=math.pi / 10, bevel=0.04)
+    w.cyl(W(9.34, -0.55, 0.4), W(9.34, -0.55, 0.18), 0.55, 10, 'black')
+    w.cyl(W(9.34, -0.55, -5.97), W(9.34, -0.55, -6.17), 0.62, 10, 'lightc')
     k.clone('wing2', 'wing1', mirror_x=True)
