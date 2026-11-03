@@ -19,6 +19,7 @@ local aiming = {}
 local restoreDelay = 3000
 
 function script.Create()
+	Move(lemg, z_axis, -0.6)  -- kit gun seated into the forearm
 	local wd = UnitDefs[unitDefID].weapons[1]
 	if wd and WeaponDefs[wd.weaponDef] then
 		restoreDelay = WeaponDefs[wd.weaponDef].reload * 2000
