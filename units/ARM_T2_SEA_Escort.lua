@@ -7,7 +7,7 @@ return {
 		description = "Radar Jammer Ship",
 		side = "ARM",
 		unitname = "arm_t2_sea_escort",
-		objectname = "ARM_T2_SEA_Escort",
+		objectname = "ARM_T2_SEA_Escort.s3o",
 		corpse = "ARM_T2_SEA_Escort_dead",
 		icontype = "ship",
 		category = "ARM SHIP LEVEL2 NOWEAPON NOTAIR NOTSUB",
