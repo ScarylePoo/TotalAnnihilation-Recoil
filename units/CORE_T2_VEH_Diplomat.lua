@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_veh_diplomat",
 		objectname = "CORE_T2_VEH_Diplomat.s3o",
+		script = "CORE_T2_VEH_Diplomat.lua",
 		corpse = "CORE_T2_VEH_Diplomat_dead",
 		icontype = "tank",
 		category = "CORE TANK LEVEL2 WEAPON NOTAIR NOTSUB",

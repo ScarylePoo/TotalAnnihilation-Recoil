@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t1_veh_stumpy",
 		objectname = "ARM_T1_VEH_Stumpy.s3o",
+		script = "ARM_T1_VEH_Stumpy.lua",
 		corpse = "ARM_T1_VEH_Stumpy_dead",
 		icontype = "tank",
 		category = "ARM TANK LEVEL1 WEAPON NOTAIR NOTSUB",
