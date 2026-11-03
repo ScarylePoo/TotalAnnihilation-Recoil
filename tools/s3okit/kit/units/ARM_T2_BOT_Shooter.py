@@ -1,7 +1,6 @@
 """Shooter (ARM_T2_BOT_Shooter) - Arm T2 sniper kbot. A tall lanky walker with TA's big V-shaped chest, slab
 shoulder guards, a hooded head with one large cyan scope eye, and a long sniper rifle carried low in the right hand.
-To fire it shoulders the rifle: the arm comes up, the rifle turns level, the barrel housing (sleave) flips round, the
-barrel telescopes out 9 elmo and the scope drops into place; idle it reverses. Standard biped skeleton; script ported
+To fire it brings the rifle up with the arm, level all the way (upper arm and forearm turn opposite), and the barrel telescopes out 9 elmo; idle it reverses. Standard biped skeleton; script ported
 to scripts/ARM_T2_BOT_Shooter.lua. Coordinates are ENGINE/global: X right, Y up, Z forward.
 Top view (what makes it a Shooter): a wide light V/arrowhead chest with two team plates on its shoulders and team
 tops on the slab shoulder guards, a dark
@@ -80,6 +79,8 @@ def build(k):
             [(-1.6, -5.2), (1.4, -5.2), (2.0, -1.0), (2.0, 4.0), (-1.4, 4.4), (-2.2, 0.4)]], 'dark', bevel=0.14)
     g.hull([G(x, y, z) for x in (-1.2, 1.2) for y, z in [(-1.0, -5.0), (0.8, -5.0), (0.4, -7.0), (-1.4, -7.0)]], 'paint2', bevel=0.1)
     g.box(G(-1.0, 2.0, -0.4), G(1.0, 2.2, 3.4), 'team', bevel=0.02)
+    g.hull([G(x, y, z) for x in (-1.2, 1.2) for y in (1.8, 4.3) for z in (-1.3, 1.3)], 'dark', bevel=0.1)     # grip into the forearm (the right hand)
+    g.hull([G(x, y, z) for x in (-0.9, 0.9) for y in (-1.8, -5.2) for z in (-3.6, -1.4)], 'paint2', bevel=0.08)  # bracket down to the barrel housing
     sc = k.piece('scope'); SC = sc.at                  # (-10.37, 12.34, -3.95)
     sc.cyl(SC(0, -2.6, -3.8), SC(0, -2.6, 3.8), 0.9, 10, 'dark', bevel=0.04)
     sc.cyl(SC(0, -2.6, 3.75), SC(0, -2.6, 3.95), 0.6, 10, 'lightc')
