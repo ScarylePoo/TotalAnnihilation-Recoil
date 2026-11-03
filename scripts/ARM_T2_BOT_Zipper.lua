@@ -51,8 +51,10 @@ function script.AimWeapon(num, heading, pitch)
 	return true
 end
 
+-- The COB snapped this gun arm up 50 deg per shot and only an aim brought it back, so it pointed well above the target for much of the fight
 function script.FireWeapon(num)
-	Turn(rloarm, x_axis, rad(-50))
+	Turn(rloarm, x_axis, rad(-10))
+	Turn(rloarm, x_axis, 0, rad(60))
 end
 
 function script.AimFromWeapon(num)

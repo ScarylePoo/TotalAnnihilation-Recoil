@@ -47,7 +47,7 @@ local function RestoreAfterDelay()
 	Move(lmissle2, y_axis, 0, 25)
 end
 
-local function AimCannons(heading)
+local function AimCannons(heading, pitch)
 	-- silos rise with the cannons, as in the COB
 	Move(rmissle2, y_axis, 15, 25)
 	Move(lmissle2, y_axis, 15, 25)
@@ -60,8 +60,8 @@ local function AimCannons(heading)
 	Turn(torso, y_axis, heading, rad(100))
 	Turn(luparm, z_axis, rad(45), rad(80))
 	Turn(ruparm, z_axis, rad(-45), rad(80))
-	Turn(rarm, x_axis, rad(-90), rad(120))
-	Turn(larm, x_axis, rad(-90), rad(120))
+	Turn(rarm, x_axis, rad(-90) - pitch, rad(120))   -- the COB's cannons held level; these follow the target
+	Turn(larm, x_axis, rad(-90) - pitch, rad(120))
 	WaitForTurn(torso, y_axis)
 	WaitForTurn(luparm, z_axis)
 	WaitForTurn(ruparm, z_axis)
@@ -73,10 +73,12 @@ function script.AimWeapon(num, heading, pitch)
 	Signal(SIG_AIM[num])
 	SetSignalMask(SIG_AIM[num])
 	if num == 1 then
-		AimCannons(heading)
+		AimCannons(heading, pitch)
 	elseif num == 2 then
 		Turn(head, y_axis, heading, rad(300))
+		Turn(head, x_axis, -pitch, rad(150))
 		WaitForTurn(head, y_axis)
+		WaitForTurn(head, x_axis)
 	end
 	StartThread(RestoreAfterDelay)
 	return true

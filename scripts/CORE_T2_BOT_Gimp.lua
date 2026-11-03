@@ -14,7 +14,8 @@ walk.Biped()
 local WalkStart, WalkStop = script.StartMoving, script.StopMoving
 
 local rad = math.rad
-local SIG_SFX, SIG_AIM = 2, 4
+local SIG_SFX = 2
+local SIG_AIM = {4, 8}        -- one per weapon: the COB's shared signal let each weapon's aim cancel the other's
 local restoreDelay = 3000
 local terrain = 4             -- COB static 5 (setSFXoccupy)
 
@@ -61,14 +62,19 @@ end
 local function RestoreAfterDelay()
 	Sleep(restoreDelay)
 	Turn(head, y_axis, 0, rad(90))
+	Turn(gun, x_axis, 0, rad(90))
+	Turn(laser, x_axis, 0, rad(90))
 	WaitForTurn(head, y_axis)
 end
 
 function script.AimWeapon(num, heading, pitch)
-	Signal(SIG_AIM)
-	SetSignalMask(SIG_AIM)
+	Signal(SIG_AIM[num])
+	SetSignalMask(SIG_AIM[num])
+	local barrel = (num == 1) and gun or laser
 	Turn(head, y_axis, heading, rad(100))
+	Turn(barrel, x_axis, -pitch, rad(150))      -- not in the COB, whose guns ignored pitch
 	WaitForTurn(head, y_axis)
+	WaitForTurn(barrel, x_axis)
 	StartThread(RestoreAfterDelay)
 	return true
 end

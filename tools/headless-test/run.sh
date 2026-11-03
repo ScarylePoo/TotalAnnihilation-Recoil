@@ -2,6 +2,7 @@
 # Headless smoke test for TA:Recoil on a given Recoil engine build.
 #
 #   tools/headless-test/run.sh /path/to/recoil-engine-dir [timeout_s]
+#   AIM=1 tools/headless-test/run.sh ...   instead runs only zz_walker_aim_probe (fire, hits and gun pitch of every armed walker)
 #
 # Loads the game on a generated blank map (the engine's InitBlank map
 # generator, no map download), spawns every unitdef for two enemy teams, lets
@@ -23,6 +24,7 @@ mkdir -p "$WD/games"
 ln -s "$GAME" "$WD/games/tar.sdd"
 ln -s "$HERE/tartest.sdd" "$WD/games/tartest.sdd"
 cp "$HERE/script.txt" "$WD/script.txt"
+[ -n "$AIM" ] && sed -i 's/debugmode=1;/debugmode=1;\n\t\taimonly=1;/' "$WD/script.txt"
 set +e
 timeout "${2:-1800}" "$ENGINE/spring-headless" --isolation --isolation-dir "$ENGINE" --write-dir "$WD" "$WD/script.txt" > "$WD/stdout.log" 2>&1
 echo "engine exit: $?   (infolog: $WD/infolog.txt)"

@@ -3,6 +3,7 @@
 -- swings forward) and turns the torso at 250 deg/s; after the restore delay (reload * 2) RequestState(1) ->
 -- deactivatescr and the torso returns at 150 deg/s. Each shot snaps the right forearm to -50 deg like the COB. Fires
 -- from Flare, aims from the torso, same death table and corpse types (old Hip/LULeg/LLLeg map to the skeleton).
+-- Not in the COB: the torso also pitches to the target (the COB's gun arm ignored pitch).
 -- Keyframes are the COB's (move-x / turn-z sign-flipped, zero-speed no-ops dropped, the old legs' resets dropped).
 
 pelvis, legs, rthigh, rleg, rfoot, lthigh, lleg, lfoot = piece('pelvis', 'legs', 'rthigh', 'rleg', 'rfoot', 'lthigh', 'lleg', 'lfoot')
@@ -93,6 +94,7 @@ local function RestoreAfterDelay()
 	Sleep(restoreDelay)
 	StartThread(RequestState, 1)
 	Turn(torso, y_axis, 0, rad(150))
+	Turn(torso, x_axis, 0, rad(100))
 	WaitForTurn(torso, y_axis)
 end
 
@@ -101,7 +103,9 @@ function script.AimWeapon(num, heading, pitch)
 	Signal(SIG_AIM)
 	SetSignalMask(SIG_AIM)
 	Turn(torso, y_axis, heading, rad(250))
+	Turn(torso, x_axis, -pitch, rad(150))
 	WaitForTurn(torso, y_axis)
+	WaitForTurn(torso, x_axis)
 	StartThread(RestoreAfterDelay)
 	return true
 end

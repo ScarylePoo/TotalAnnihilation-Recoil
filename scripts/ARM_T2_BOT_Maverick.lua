@@ -7,7 +7,7 @@
 -- Stop = holster + holster2 puts them away. Shots alternate flare1/flare2 with the COB's barrel kick (2.5 elmo, back
 -- at 37.5 elmo/s). All keyframes, speeds and sleeps are the COB's; turn-z values are sign-flipped (Recoil
 -- CobInstance.h "COBWTF"), the hip bob of the old `hips` piece is dropped (the shared walk owns the pelvis), and
--- zero-speed COB turns/moves (no-ops) are left out. Death table and corpse types are the COB's.
+-- zero-speed COB turns/moves (no-ops) are left out. Not in the COB: the torso also pitches to the target. Death table and corpse types are the COB's.
 
 pelvis, legs, rthigh, rleg, rfoot, lthigh, lleg, lfoot = piece('pelvis', 'legs', 'rthigh', 'rleg', 'rfoot', 'lthigh', 'lleg', 'lfoot')
 groundx2, torso, head = piece('groundx2', 'torso', 'head')
@@ -363,6 +363,7 @@ local function RestoreAfterDelay()
 	SetSignalMask(0)
 	StartThread(RequestState, 1)
 	Turn(torso, y_axis, 0, rad(200))
+	Turn(torso, x_axis, 0, rad(100))
 end
 
 function script.AimWeapon(num, heading, pitch)
@@ -373,7 +374,9 @@ function script.AimWeapon(num, heading, pitch)
 		Sleep(250)
 	end
 	Turn(torso, y_axis, heading, rad(150))
+	Turn(torso, x_axis, -pitch, rad(150))
 	WaitForTurn(torso, y_axis)
+	WaitForTurn(torso, x_axis)
 	StartThread(RestoreAfterDelay)
 	return true
 end

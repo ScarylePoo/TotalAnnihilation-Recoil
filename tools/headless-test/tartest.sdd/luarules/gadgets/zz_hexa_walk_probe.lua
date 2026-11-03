@@ -1,6 +1,7 @@
 function gadget:GetInfo()
   return { name = "Hexa Walk Probe", layer = 1001, enabled = true }
 end
+if (Spring.GetModOptions() or {}).aimonly then return end   -- run.sh --aim runs only the walker aim probe
 
 -- Checks walk.Hexa (scripts/headers/walk.lua) on every hexapod def (units with an `rmfoot` piece): the leg calibration
 -- result (hexaWalkCalib rules param), the rest splay (front feet ahead of the middle feet, rear feet behind), and while

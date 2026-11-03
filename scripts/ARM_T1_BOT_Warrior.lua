@@ -14,7 +14,8 @@ local walk = include("headers/walk.lua")
 walk.Biped()
 
 local rad = math.rad
-local SIG_AIM = 4
+local SIG_AIM = {4, 8}        -- one per weapon: on the COB's shared signal the EMG's aims kept cancelling the cannon's, so it barely fired
+local aiming = {}
 local restoreDelay = 3000
 
 function script.Create()
@@ -25,27 +26,28 @@ function script.Create()
 	StartThread(SmokeUnit, {torso, pelvis})
 end
 
-local function RestoreAfterDelay()
+local function RestoreAfterDelay(num)
 	Sleep(restoreDelay)
-	Turn(torso, y_axis, 0, rad(90))
-	Turn(ruparm, x_axis, 0, rad(45))
-	Turn(rarm, y_axis, 0, rad(45))
-	Turn(luparm, x_axis, 0, rad(45))
-	WaitForTurn(torso, y_axis)
-	WaitForTurn(ruparm, x_axis)
-	WaitForTurn(rarm, y_axis)
-	WaitForTurn(luparm, x_axis)
+	aiming[num] = false
+	if num == 1 then
+		Turn(ruparm, x_axis, 0, rad(45))
+		Turn(rarm, y_axis, 0, rad(45))
+	else
+		Turn(luparm, x_axis, 0, rad(45))
+	end
+	if not aiming[3 - num] then Turn(torso, y_axis, 0, rad(90)) end
 end
 
 function script.AimWeapon(num, heading, pitch)
-	Signal(SIG_AIM)
-	SetSignalMask(SIG_AIM)
+	Signal(SIG_AIM[num])
+	SetSignalMask(SIG_AIM[num])
+	aiming[num] = true
 	local arm = (num == 1) and ruparm or luparm
 	Turn(torso, y_axis, heading, rad(150))
 	Turn(arm, x_axis, -pitch, rad(200))
 	WaitForTurn(torso, y_axis)
 	WaitForTurn(arm, x_axis)
-	StartThread(RestoreAfterDelay)
+	StartThread(RestoreAfterDelay, num)
 	return true
 end
 

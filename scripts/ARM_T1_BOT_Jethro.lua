@@ -47,6 +47,7 @@ end
 local function RestoreAfterDelay()
 	Sleep(restoreDelay)
 	Turn(torso, y_axis, 0, rad(90))
+	Turn(torso, x_axis, 0, rad(90))
 	SetSignalMask(0)
 	busy = true
 	Close()
@@ -70,6 +71,7 @@ function script.AimWeapon(num, heading, pitch)
 		SetSignalMask(SIG_AIM)
 	end
 	Turn(torso, y_axis, heading, rad(275))
+	Turn(torso, x_axis, -pitch, rad(150))       -- not in the COB, whose pods ignored pitch
 	if closed then
 		SetSignalMask(0)
 		busy = true
@@ -79,6 +81,7 @@ function script.AimWeapon(num, heading, pitch)
 		SetSignalMask(SIG_AIM)
 	end
 	WaitForTurn(torso, y_axis)
+	WaitForTurn(torso, x_axis)
 	StartThread(RestoreAfterDelay)
 	return true
 end

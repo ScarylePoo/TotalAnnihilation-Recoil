@@ -470,6 +470,13 @@ Base branch `s3o-remodel`; each family on `s3o-<family>`, merged back after revi
   flares). Left: yaw offset from the shoulder (~4 deg far, ~12 near; a heading is relative to the aim piece). Other walkers are NOT audited for this.
   Core decoy turns its whole body to aim (heading -34 in the probe) where the real commander keeps it at 0: not investigated.
 
+- 2026-11-02, walker aim audit (`AIM=1 tools/headless-test/run.sh`, zz_walker_aim_probe; rerun `make_aim_axes.py` after a model changes): all 29 armed walkers fire and
+  hit, also while walking. Fixed: no pitch at all in Freaker, Maverick, Jethro, Shooter (torso x), Flea (barrel), Gimp (guns), Krogoth (forearms, head); Warrior and Gimp
+  weapons shared one aim signal, so each cancelled the other (the Warrior's cannon barely fired); Zipper's 50 deg per-shot arm snap. Lesson: a COB's shared signal or ignored pitch is
+  not worth keeping faithfully. Maverick weapon got an explosion generator (it had only legacy gaf tags), but "cannot fire" was NOT reproduced: it fired and hit before that change too.
+  Probe limits: near targets (30-60 elmo) read off because of arm offset parallax; rockets, Krogoth's eye and Jethro's splayed pods read off axis by geometry. Energy weapons need the
+  probe's free team resources. Weapons with only legacy explosiongaf tags have no impact effect (the Shooter's weapon too): not audited game-wide.
+
 ## Decisions (2026-10-31, user)
 
 - **Hexapods: the Spider, Scarab and Roach share ONE standard six-leg skeleton and ONE shared walk.**

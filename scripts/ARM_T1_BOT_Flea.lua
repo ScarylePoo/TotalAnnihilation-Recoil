@@ -28,6 +28,7 @@ end
 local function RestoreAfterDelay()
 	Sleep(restoreDelay)
 	Turn(turret, y_axis, 0, rad(150))
+	Turn(barrel, x_axis, 0, rad(100))
 	WaitForTurn(turret, y_axis)
 end
 
@@ -35,7 +36,9 @@ function script.AimWeapon(num, heading, pitch)
 	Signal(SIG_AIM)
 	SetSignalMask(SIG_AIM)
 	Turn(turret, y_axis, heading, rad(250))
+	Turn(barrel, x_axis, -pitch, rad(200))      -- not in the COB, whose gun ignored pitch
 	WaitForTurn(turret, y_axis)
+	WaitForTurn(barrel, x_axis)
 	StartThread(RestoreAfterDelay)
 	return true
 end

@@ -38,6 +38,7 @@ return {
 		soundstart = "Mavgun2",
 		soundhit = "xplomed2",
 		tolerance = 300,
+		explosiongenerator = "custom:GAUSS_Expl",     -- had none (only TA's legacy gaf tags): shots landed with no visible impact
 		explosiongaf = "fx",
 		explosionart = "explode5",
 		waterexplosiongaf = "fx",

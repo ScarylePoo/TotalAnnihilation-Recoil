@@ -182,6 +182,7 @@ local function RestoreAfterDelay()
 	Sleep(restoreDelay)
 	StartThread(RequestState, 1)
 	Turn(torso, y_axis, 0, rad(199.95))
+	Turn(torso, x_axis, 0, rad(100))
 end
 
 function script.AimWeapon(num, heading, pitch)
@@ -192,7 +193,9 @@ function script.AimWeapon(num, heading, pitch)
 		Sleep(350)
 	end
 	Turn(torso, y_axis, heading, rad(209.95))
+	Turn(torso, x_axis, -pitch, rad(150))       -- not in the COB, whose rifle ignored pitch
 	WaitForTurn(torso, y_axis)
+	WaitForTurn(torso, x_axis)
 	StartThread(RestoreAfterDelay)
 	return true
 end
