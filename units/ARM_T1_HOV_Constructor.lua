@@ -9,6 +9,7 @@ return {
 		unitname = "arm_t1_hov_constructor",
 		buildoptions = Shared.buildListArmT1AmphibiousConstructor,
 		objectname = "ARM_T1_HOV_Constructor.s3o",
+		script = "ARM_T1_HOV_Constructor.lua",
 		corpse = "ARM_T1_HOV_Constructor_dead",
 		icontype = "hover",
 		category = "ARM HOVER LEVEL1 NOWEAPON NOTAIR NOTSUB",

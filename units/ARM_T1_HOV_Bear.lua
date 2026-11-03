@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t1_hov_bear",
 		objectname = "ARM_T1_HOV_Bear.s3o",
+		script = "ARM_T1_HOV_Bear.lua",
 		corpse = "ARM_T1_HOV_Bear_dead",
 		icontype = "hover",
 		category = "ARM HOVER LEVEL1 NOWEAPON NOTAIR NOTSUB",

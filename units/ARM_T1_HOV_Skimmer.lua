@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t1_hov_skimmer",
 		objectname = "ARM_T1_HOV_Skimmer.s3o",
+		script = "ARM_T1_HOV_Skimmer.lua",
 		corpse = "ARM_T1_HOV_Skimmer_dead",
 		icontype = "hover",
 		category = "ARM HOVER LEVEL1 WEAPON NOTAIR NOTSUB",
