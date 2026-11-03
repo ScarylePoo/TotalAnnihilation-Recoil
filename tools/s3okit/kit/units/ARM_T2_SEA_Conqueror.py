@@ -11,7 +11,7 @@ Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the 
 import math
 
 UNIT = dict(
-    wreck=dict(seed=31, drop=['barrel2'], pose={'turret': (0, 50, 0), 'barrel1': (22, 0, 0)}),
+    wreck=dict(seed=31, remove=['barrel2'], pose={'turret': (0, 50, 0), 'barrel1': (22, 0, 0)}),
     preview_pose={},
 )
 

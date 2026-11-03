@@ -17,7 +17,7 @@ import math
 UNIT = dict(
     # the launcher sits under the closed roofs at rest; the script raises it, so give it full texture
     always_visible=['plate', 'turret1', 'launcher1', 'rocket1', 'rocket2'],
-    wreck=dict(seed=23, drop=['door2'], pose={'launcher2': (10, 40, 0), 'door1': (0, 0, -18)}),
+    wreck=dict(seed=23, remove=['door2'], pose={'launcher2': (10, 40, 0), 'door1': (0, 0, -18)}),
     preview_pose={'door1': {'move': (-10.5, 0, 0)}, 'door2': {'move': (10.875, 0, 0)},
                   'plate': {'move': (0, 10.875, 0)}, 'launcher1': (-90, 0, 0)},
 )
