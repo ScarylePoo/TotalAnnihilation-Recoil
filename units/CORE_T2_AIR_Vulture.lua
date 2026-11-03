@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_air_vulture",
 		objectname = "CORE_T2_AIR_Vulture.s3o",
+		script = "CORE_T2_AIR_Vulture.lua",
 		corpse = "CORE_T2_AIR_Vulture_dead",
 		icontype = "aircraft",
 		category = "CORE VTOL LEVEL2 NOWEAPON NOTSUB",

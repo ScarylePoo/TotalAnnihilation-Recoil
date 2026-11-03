@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_def_airrepairpad",
 		objectname = "CORE_T2_DEF_AirRepairPad.s3o",
+		script = "CORE_T2_DEF_AirRepairPad.lua",
 		corpse = "CORE_T2_DEF_AirRepairPad_dead",
 		icontype = "building",
 		category = "CORE LEVEL2 NOWEAPON NOTAIR NOTSUB",

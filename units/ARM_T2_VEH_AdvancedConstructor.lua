@@ -9,6 +9,7 @@ return {
 		unitname = "arm_t2_veh_advancedconstructor",
 		buildoptions = Shared.buildListArmT2VehicleConstructor,
 		objectname = "ARM_T2_VEH_AdvancedConstructor.s3o",
+		script = "ARM_T2_VEH_AdvancedConstructor.lua",
 		corpse = "ARM_T2_VEH_AdvancedConstructor_dead",
 		icontype = "tank",
 		category = "ARM TANK LEVEL2 NOWEAPON NOTAIR NOTSUB",

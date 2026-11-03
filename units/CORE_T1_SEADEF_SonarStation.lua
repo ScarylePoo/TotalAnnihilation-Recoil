@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t1_seadef_sonarstation",
 		objectname = "CORE_T1_SEADEF_SonarStation.s3o",
+		script = "CORE_T1_SEADEF_SonarStation.lua",
 		corpse = "CORE_T1_SEADEF_SonarStation_dead",
 		icontype = "building_radar_sonar",
 		category = "CORE SPECIAL LEVEL1 NOTAIR NOTSUB",

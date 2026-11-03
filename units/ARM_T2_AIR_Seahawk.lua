@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t2_air_seahawk",
 		objectname = "ARM_T2_AIR_Seahawk.s3o",
+		script = "ARM_T2_AIR_Seahawk.lua",
 		corpse = "ARM_T2_AIR_Seahawk_dead",
 		icontype = "aircraft",
 		category = "ARM VTOL LEVEL2 NOWEAPON NOTSUB",

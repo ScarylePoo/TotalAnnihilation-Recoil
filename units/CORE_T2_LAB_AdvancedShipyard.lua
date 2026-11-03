@@ -9,6 +9,7 @@ return {
 		unitname = "core_t2_lab_advancedshipyard",
 		buildoptions = Shared.buildListCoreAdvancedShipyard,
 		objectname = "CORE_T2_LAB_AdvancedShipyard.s3o",
+		script = "CORE_T2_LAB_AdvancedShipyard.lua",
 		corpse = "CORE_T2_LAB_AdvancedShipyard_dead",
 		icontype = "factory",
 		category = "CORE PLANT LEVEL2 NOWEAPON NOTAIR NOTSUB",

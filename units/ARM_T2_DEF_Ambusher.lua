@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t2_def_ambusher",
 		objectname = "ARM_T2_DEF_Ambusher.s3o",
+		script = "ARM_T2_DEF_Ambusher.lua",
 		corpse = "ARM_T2_DEF_Ambusher_dead",
 		icontype = "turret",
 		category = "ARM LEVEL2 WEAPON NOTAIR NOTSUB",

@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t2_air_lancet",
 		objectname = "ARM_T2_AIR_Lancet.s3o",
+		script = "ARM_T2_AIR_Lancet.lua",
 		corpse = "ARM_T2_AIR_Lancet_dead",
 		icontype = "aircraft",
 		category = "ARM VTOL LEVEL2 WEAPON NOTSUB",

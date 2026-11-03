@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t1_seapl_voodoo",
 		objectname = "CORE_T1_SEAPL_Voodoo.s3o",
+		script = "CORE_T1_SEAPL_Voodoo.lua",
 		corpse = "CORE_T1_SEAPL_Voodoo_dead",
 		icontype = "aircraft",
 		category = "CORE VTOL LEVEL1 WEAPON NOTSUB",

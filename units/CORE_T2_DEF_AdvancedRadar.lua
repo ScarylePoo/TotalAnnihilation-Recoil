@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_def_advancedradar",
 		objectname = "CORE_T2_DEF_AdvancedRadar.s3o",
+		script = "CORE_T2_DEF_AdvancedRadar.lua",
 		corpse = "CORE_T2_DEF_AdvancedRadar_dead",
 		icontype = "building_radar_sonar",
 		category = "CORE SPECIAL LEVEL2 NOWEAPON NOTAIR NOTSUB",

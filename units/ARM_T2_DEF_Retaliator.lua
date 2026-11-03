@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t2_def_retaliator",
 		objectname = "ARM_T2_DEF_Retaliator.s3o",
+		script = "ARM_T2_DEF_Retaliator.lua",
 		corpse = "ARM_T2_DEF_Retaliator_dead",
 		icontype = "nuke",
 		category = "ARM SPECIAL LEVEL2 WEAPON NOTAIR NOTSUB",

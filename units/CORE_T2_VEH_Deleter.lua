@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_veh_deleter",
 		objectname = "CORE_T2_VEH_Deleter.s3o",
+		script = "CORE_T2_VEH_Deleter.lua",
 		corpse = "CORE_T2_VEH_Deleter_dead",
 		icontype = "tank",
 		category = "CORE TANK LEVEL2 NOWEAPON NOTAIR NOTSUB",

@@ -8,6 +8,7 @@ return {
 		side = "ARM",
 		unitname = "arm_t2_sea_conqueror",
 		objectname = "ARM_T2_SEA_Conqueror.s3o",
+		script = "ARM_T2_SEA_Conqueror.lua",
 		corpse = "ARM_T2_SEA_Conqueror_dead",
 		icontype = "ship",
 		category = "ARM SHIP LEVEL2 WEAPON NOTAIR NOTSUB",

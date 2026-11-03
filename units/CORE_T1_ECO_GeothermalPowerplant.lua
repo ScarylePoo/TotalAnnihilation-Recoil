@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t1_eco_geothermalpowerplant",
 		objectname = "CORE_T1_ECO_GeothermalPowerplant.s3o",
+		script = "CORE_T1_ECO_GeothermalPowerplant.lua",
 		corpse = "CORE_T1_ECO_GeothermalPowerplant_dead",
 		icontype = "building",
 		category = "CORE LEVEL1 NOWEAPON NOTAIR NOTSUB",

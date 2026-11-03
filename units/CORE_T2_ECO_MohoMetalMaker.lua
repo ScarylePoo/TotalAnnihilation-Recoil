@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_eco_mohometalmaker",
 		objectname = "CORE_T2_ECO_MohoMetalMaker.s3o",
+		script = "CORE_T2_ECO_MohoMetalMaker.lua",
 		corpse = "CORE_T2_ECO_MohoMetalMaker_dead",
 		icontype = "building_metal_source_big",
 		category = "CORE LEVEL2 NOWEAPON NOTAIR NOTSUB",

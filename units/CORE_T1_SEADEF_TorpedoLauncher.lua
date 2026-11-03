@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t1_seadef_torpedolauncher",
 		objectname = "CORE_T1_SEADEF_TorpedoLauncher.s3o",
+		script = "CORE_T1_SEADEF_TorpedoLauncher.lua",
 		corpse = "CORE_T1_SEADEF_TorpedoLauncher_dead",
 		icontype = "turret",
 		category = "CORE SPECIAL LEVEL1 WEAPON NOTAIR NOTSUB",

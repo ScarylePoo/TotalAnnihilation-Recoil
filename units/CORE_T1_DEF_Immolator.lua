@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t1_def_immolator",
 		objectname = "CORE_T1_DEF_Immolator.s3o",
+		script = "CORE_T1_DEF_Immolator.lua",
 		corpse = "CORE_T1_DEF_Immolator_dead",
 		icontype = "turret",
 		category = "CORE LEVEL1 WEAPON NOTAIR NOTSUB",

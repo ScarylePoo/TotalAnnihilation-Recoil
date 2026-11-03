@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t1_hov_slinger",
 		objectname = "CORE_T1_HOV_Slinger.s3o",
+		script = "CORE_T1_HOV_Slinger.lua",
 		corpse = "CORE_T1_HOV_Slinger_dead",
 		icontype = "hover",
 		category = "CORE HOVER LEVEL1 WEAPON NOTAIR NOTSUB",

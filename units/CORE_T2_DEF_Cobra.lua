@@ -8,6 +8,7 @@ return {
 		side = "CORE",
 		unitname = "core_t2_def_cobra",
 		objectname = "CORE_T2_DEF_Cobra.s3o",
+		script = "CORE_T2_DEF_Cobra.lua",
 		corpse = "CORE_T2_DEF_Cobra_dead",
 		icontype = "turret",
 		category = "CORE LEVEL2 WEAPON NOTAIR NOTSUB",
