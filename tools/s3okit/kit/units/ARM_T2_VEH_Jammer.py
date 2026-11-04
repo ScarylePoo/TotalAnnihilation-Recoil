@@ -57,7 +57,7 @@ def build(k):
     b.box((3.4, 10.6, -16.05), (4.6, 11.4, -15.9), 'lightr', bevel=0.0, mirror=True)
     # whip aerials on the cab corners
     for x in (-4.4, 4.4):
-        b.cyl((x, 14.6, -14.0), (x, 15.2, -14.0), 0.3, 8, 'dark')
+        b.cyl((x, 13.0, -14.0), (x, 15.2, -14.0), 0.3, 8, 'dark')
         b.cyl((x, 15.2, -14.0), (x, 20.0, -14.0), 0.09, 6, 'steel', r2=0.045)
         b.cyl((x, 20.0, -14.0), (x, 20.2, -14.0), 0.14, 6, 'lightc')
 
