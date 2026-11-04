@@ -522,6 +522,10 @@ Open for the user: nano beams on pad repair and one plane per standalone pad; im
 missing in 40-deep water (they dive to ~75); a Hulk stalled when its unload spot was 201 elmos away (limit 198). Decided: heavy kills leave a heap (Killed: 1 wreck, 2 heap, 3 nothing);
 Hurricane keeps its original layout with canattackground = false on the laser (branch s3o-hurricane is abandoned). kit/cob2lus.py generated the 170 converted scripts and skips hand-edited ones.
 
+### Paused 2026-11-03 at the user's request, mid floating-geometry review
+Branches NOT merged yet: `s3o-float1` (mobile units, done), `s3o-float2` (defences/economy, done), `s3o-float3` (factories/naval, stopped early: check its last report and which flagged stems remain). To resume: finish float3, merge all three into s3o-remodel, regression + AIM=1 + PADS=1 + GAP=1.
+Then: (1) float2's e7e0fbbb fixes a `visibility_cull` bug that deleted large top faces and left holes; only re-baked units have the fix, so measure how many other installed models have holes before deciding on a wider rebake. (2) Swatter fired 5 shots per phase in older AIM logs, now fires once and stops, cause unknown (not from float1). (3) Look in game: Mine5 studs, Core Solar wings, Neutron riser, Peeper outer wings, Arm T1 vehicle Constructor windscreen.
+
 ### Setup on this WSL machine (replaces the bpy/pip lines in "Setup in a fresh session")
 Ubuntu 26.04 ships Python 3.14; bpy needs 3.13. Venv: `source ~/.venvs/s3o/bin/activate` (made with uv; libSM/libICE were unpacked
 from `apt download` debs into the venv's bpy/lib since there is no sudo). Engine: `~/engine/2026.09.01`. Clone:
