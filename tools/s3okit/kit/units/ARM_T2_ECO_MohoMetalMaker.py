@@ -52,6 +52,7 @@ def build(k):
     b.plan(3.9, 27.6, sq(29.0), 'paint', bevel=0.4, top_inset=2.4)
     b.cyl((0, 27.5, 0), (0, 28.0, 0), 9.8, 8, 'black', rot=math.pi / 8)
     b.box((-22.0, 27.5, -1.4), (22.0, 28.2, 1.4), 'dark', bevel=0.05)              # hinge rail
+    b.box((9.6, 27.5, -1.4), (18.0, 30.4, 1.4), 'dark', bevel=0.05, mirror=True)   # bearing blocks the lid arms turn on, clear of the column
     for sx in (-1, 1):
         for sz in (-1, 1):
             lo = (min(sx * 18.0, sx * 29.4), 3.9, min(sz * 18.0, sz * 29.4))
@@ -78,7 +79,7 @@ def build(k):
     c = k.piece('mmakercore')
     oc = lambda r: [(r * math.cos(math.pi / 8 + i * math.pi / 4), r * math.sin(math.pi / 8 + i * math.pi / 4))
                     for i in range(8)]
-    c.plan(-8.0, 26.0, oc(8.4), 'paint', bevel=0.3, top_inset=0.6)
+    c.plan(-13.5, 26.0, oc(8.4), 'paint', bevel=0.3, top_inset=0.6)     # long enough to stay in the roof when raised 39.6
     for y in (0.0, 8.0, 16.0):
         c.plan(y, y + 1.6, oc(8.6), 'dark', bevel=0.06, top_inset=0.1)
     c.plan(25.9, 29.0, oc(9.4), 'paint2', bevel=0.25, top_inset=1.6)

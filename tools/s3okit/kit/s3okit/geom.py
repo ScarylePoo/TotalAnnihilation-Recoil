@@ -325,11 +325,19 @@ def visibility_cull(objs, ground=True, air=False, rays=48, interior_thresh=0.7, 
             e = esc / len(dirs)
             f[expo] = e
             if back / len(dirs) > interior_thresh and MATS[f.material_index] not in protect:
-                # confirm at points near every corner: a big face whose centre happens to sit inside
-                # a small part must survive; only faces buried everywhere are deleted
+                # confirm over the whole face: a big face whose centre and corners happen to sit inside small parts
+                # (a landing deck with a centre light and corner chevrons) must survive; only faces buried everywhere are deleted.
+                # Points run round the boundary (corners and along each edge), just inside it and further in.
                 buried = True
-                for v in f.verts:
-                    p = M @ (f.calc_center_median().lerp(v.co, 0.85)) + n * 0.02
+                cen = f.calc_center_median(); vs = [v.co for v in f.verts]
+                checks = []
+                for i, a in enumerate(vs):
+                    b = vs[(i + 1) % len(vs)]
+                    for t in (0.0, 0.25, 0.5, 0.75):
+                        e = a.lerp(b, t)
+                        checks += [e + (cen - e).normalized() * min(0.1, (cen - e).length * 0.5), cen.lerp(e, 0.85), cen.lerp(e, 0.5)]
+                for q in checks:
+                    p = M @ q + n * 0.02
                     b2 = sum(1 for d in dirs[::3] if (h := self_bvh.ray_cast(p, d, 1000))[0] is not None and h[1].dot(d) > 0)
                     if b2 / len(dirs[::3]) <= interior_thresh:
                         buried = False; break

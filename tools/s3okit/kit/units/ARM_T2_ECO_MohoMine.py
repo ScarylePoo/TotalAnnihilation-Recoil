@@ -50,7 +50,7 @@ def build(k):
         r = 9.6 - (y - 18.9) / 22.1 * 3.2
         b.cyl((0, y, 1.52), (0, y + 1.6, 1.52), r + 0.4, 8, 'dark', rot=math.pi / 8, bevel=0.05)
     b.cyl((0, 40.8, 1.52), (0, 42.6, 1.52), 7.4, 12, 'dark', rot=math.pi / 12, bevel=0.1)
-    b.box((-1.4, 1.0, 39.6), (1.4, 2.6, 39.9), 'lightc', bevel=0.0)
+    b.box((-1.4, 1.0, 35.8), (1.4, 2.6, 36.9), 'lightc', bevel=0.0)
 
     # ------------------------------------------------------------------ extractor: three-armed loop frame
     e = k.piece('extractor'); E = e.at

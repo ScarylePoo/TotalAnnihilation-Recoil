@@ -69,8 +69,8 @@ def build(k):
         t.box(A(-9.4, y, -12.6), A(9.4, y + 0.6, -11.6), 'dark', bevel=0.0)
     # front mantlet round the spindle
     t.cyl(A(0, 6.13, 4.0), A(0, 6.13, 6.4), 10.4, 12, 'dark', bevel=0.15)
-    t.box(A(-11.0, 13.0, 4.6), A(-8.6, 14.2, 6.0), 'lightw', bevel=0.0)
-    t.box(A(8.6, 13.0, 4.6), A(11.0, 14.2, 6.0), 'lightw', bevel=0.0)
+    t.box(A(-11.0, 10.6, 4.6), A(-8.6, 12.8, 6.0), 'lightw', bevel=0.0)
+    t.box(A(8.6, 10.6, 4.6), A(11.0, 12.8, 6.0), 'lightw', bevel=0.0)
 
     # ---------------------------------------------------------------- spindle: gatling drum (origin 0, 57.37, 6.52)
     sp = k.piece('spindle'); P = sp.at
