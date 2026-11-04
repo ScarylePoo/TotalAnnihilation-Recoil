@@ -90,7 +90,7 @@ def build(k):
     # ------------------------------------------------------------------ gun-tower pylon (stern)
     b.hull([(x * s, y, z) for s in (-1, 1) for x, y, z in
             [(7.0, 10.8, -18.6), (7.0, 10.8, -31.4), (3.8, 21.1, -22.0), (3.8, 21.1, -28.4)]], 'paint2', bevel=0.2)
-    b.box((7.0, 13.0, -27.6), (7.25, 13.6, -22.4), 'lightc', bevel=0.0, mirror=True)
+    b.box((6.1, 13.0, -27.6), (6.5, 13.6, -22.4), 'lightc', bevel=0.0, mirror=True)
     # quarterdeck: stern bollards + red stern light
     for z in (-36.0,):
         b.cyl((4.2, DECK, z), (4.2, DECK + 1.2, z), 0.7, 8, 'dark', mirror=True)
