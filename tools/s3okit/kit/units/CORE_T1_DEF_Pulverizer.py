@@ -53,7 +53,7 @@ def build(k):
     t.hull([A(x * sx, y, z) for sx in (-1, 1) for x, y, z in
             [(9.6, 0.6, 9.6), (9.6, 13.6, 7.8), (9.2, 0.8, 10.8), (9.2, 13.2, 9.0)]], 'paint2', bevel=0.15)
     t.box(A(-11.0, 6.0, -6.0), A(11.0, 9.0, 2.0), 'paint2', bevel=0.2)       # side ammo cheeks
-    t.box(A(-0.8, 15.2, -8.2), A(0.8, 15.6, -7.0), 'lightr', bevel=0.0)
+    t.box(A(-0.8, 13.4, -8.2), A(0.8, 14.5, -7.0), 'lightr', bevel=0.0)
     t.box(A(-8.0, 1.0, -11.0), A(8.0, 7.0, -10.6), 'black', bevel=0.0)
 
     # ---------------------------------------------------------------- tubes (gun1 top centre, gun2/3 low sides)
