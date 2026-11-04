@@ -77,12 +77,14 @@ def build(k):
     b.box((16.2, 21.4, -0.2), (19.2, 21.8, 0.8), 'dark', bevel=0.04)
     b.cyl((17.7, 22.6, 0.3), (17.7, 22.9, 0.3), 0.28, 8, 'lightr')
     # tail lights
-    b.box((17.0, 9.8, -19.6), (18.6, 10.6, -19.0), 'lightr', bevel=0.0, mirror=True)
+    b.hull([(12.4, 9.8, -20.14), (14.0, 9.8, -18.92), (12.4, 10.6, -20.16), (14.0, 10.6, -18.94),
+            (12.4, 9.8, -19.7), (14.0, 9.8, -18.5), (12.4, 10.6, -19.7), (14.0, 10.6, -18.5)], 'lightr', bevel=0.0, mirror=True)
 
     # ---------------------------------------------------------------- Box (origin 0, 13.5, -10.45): launcher
     bx = k.piece('Box'); B = bx.at
     bx.box(B(-6.6, 0.2, -10.2), B(6.6, 6.4, 10.0), 'paint', bevel=0.22)
     bx.box(B(-5.6, 6.35, -9.0), B(5.6, 6.6, 8.0), 'team', bevel=0.05)
+    bx.box(B(-5.0, -1.2, -8.0), B(5.0, 0.4, 8.0), 'dark', bevel=0.08)        # sled: keeps the raised box on the well floor
     for sx in (-1, 1):
         bx.box(B(min(6.4 * sx, 7.2 * sx), 1.2, -9.4), B(max(6.4 * sx, 7.2 * sx), 5.8, 9.4), 'dark', bevel=0.08)
     # front face: three tube mouths at the flare positions (x -3.5/0/3.5, y 3.0)

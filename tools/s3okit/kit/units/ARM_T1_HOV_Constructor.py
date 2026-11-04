@@ -72,7 +72,8 @@ def build(k):
         b.box((-4.6, y, -23.55), (4.6, y + 0.5, -23.1), 'dark', bevel=0.03)
     b.cyl((3.2, 14.6, -19.6), (3.2, 16.6, -19.6), 0.8, 10, 'dark', bevel=0.04, mirror=True)
     b.cyl((3.2, 16.6, -19.6), (3.2, 16.7, -19.6), 0.55, 10, 'black', mirror=True)
-    b.box((13.6, 9.0, -22.0), (15.0, 10.0, -21.4), 'lightr', bevel=0.0, mirror=True)
+    b.hull([(9.8, 9.0, -21.7), (11.2, 9.0, -21.14), (9.8, 10.0, -21.54), (11.2, 10.0, -20.97),
+            (9.8, 9.0, -21.3), (11.2, 9.0, -20.7), (9.8, 10.0, -21.1), (11.2, 10.0, -20.5)], 'lightr', bevel=0.0, mirror=True)
     # bay floor walls inside (seen when the doors are open)
     b.box((-4.6, 6.4, -16.6), (4.6, 6.9, 13.1), 'dark', bevel=0.0)
     # beacon on the stern block, left

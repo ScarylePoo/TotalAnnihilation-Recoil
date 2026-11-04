@@ -66,7 +66,7 @@ def build(k):
     b.box((-3.2, 21.0, 6.4), (3.2, 22.0, 7.6), 'steel', bevel=0.08)
     # lights
     b.box((-1.4, 9.4, 21.2), (1.4, 10.6, 21.8), 'lightw', bevel=0.0)
-    b.box((14.6, 7.6, -22.6), (16.2, 8.6, -22.0), 'lightr', bevel=0.0, mirror=True)
+    b.box((11.2, 7.6, -21.1), (12.8, 8.6, -20.4), 'lightr', bevel=0.0, mirror=True)
 
     # ------------------------------------------------------------------ pole / turret / arms
     p = k.piece('pole'); P = p.at
