@@ -18,8 +18,8 @@ UNIT = dict(
     ground=False, water=WL,
     flipped=['door1', 'door2', 'door3', 'door4'],
     wreck=dict(seed=181, drop=['door2']),
-    preview_pose={'float1': {'move': (0, 0, -5.375)}, 'float2': {'move': (4.5, 0, -2.625)},
-                  'float3': {'move': (4.375, 0, 2.5)}, 'float4': {'move': (0, 0, 5.375)},
+    preview_pose={'float1': {'move': (0, 1.5, -5.375)}, 'float2': {'move': (4.5, 0, -2.625)},
+                  'float3': {'move': (4.375, 0, 2.5)}, 'float4': {'move': (0, 1.5, 5.375)},
                   'float5': {'move': (-4.625, 0, 2.75)}, 'float6': {'move': (-4.625, 0, -2.625)},
                   'door1': (-90, 0, 0), 'door2': (90, 0, 0), 'door3': (0, 0, -90), 'door4': (0, 0, 90)},
 )
@@ -52,7 +52,7 @@ def build(k):
                bevel=0.0)
     for a in (22.5, 112.5, 202.5, 292.5):
         c, s = math.cos(math.radians(a)), math.sin(math.radians(a))
-        b.box((c * (RO + 0.4) - 0.8, 30.0, s * (RO + 0.4) - 0.8), (c * (RO + 0.4) + 0.8, 31.0, s * (RO + 0.4) + 0.8),
+        b.box((c * 20.4 - 0.8, 30.0, s * 20.4 - 0.8), (c * 20.4 + 0.8, 31.0, s * 20.4 + 0.8),
               'lightc', bevel=0.0)
     # well floor ring under the iris, core column, diagonal struts
     b.cyl((0, 2.0, 0), (0, 26.2, 0), 6.4, 8, 'paint2', r2=5.6, rot=math.pi / 8, bevel=0.2)
@@ -72,6 +72,10 @@ def build(k):
                     for w in (-0.9, 0.9)], 'steel', bevel=0.12)
     b.hull([(x, y, -x + w) for x in (-2.6, 2.6) for y in (45.0, 47.4) for w in (-1.3, 1.3)], 'steel', bevel=0.12)
     b.box((-0.8, 47.3, -0.8), (0.8, 47.7, 0.8), 'lightr', bevel=0.0)
+
+    for i in range(1, 7):         # a spoke from the column into each float, hidden in the drum at rest, still inside it pushed out
+        o = k.P['float%d' % i]; r = math.hypot(o[0], o[2]); c, s = o[0] / r, o[2] / r
+        b.cyl((c * 5.0, o[1] + 0.6, s * 5.0), (c * 13.0, o[1] + 0.6, s * 13.0), 0.9, 6, 'dark')
 
     # ---------------------------------------------------------------- glow: converter crystal
     g = k.piece('glow')
