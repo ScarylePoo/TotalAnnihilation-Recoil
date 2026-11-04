@@ -193,6 +193,27 @@ def corpse_chain(corpse, repo=REPO):
 
 
 # ------------------------------------------------------------------ script piece usage
+def moved_pieces(path, tree, min_deg=20):
+    """Lua pieces the script swings by at least min_deg on x or z, or spins, and everything hanging off them. tree: {piece: {'parent': name}}.
+    A turn by a runtime value (aim pitch) does not count: guns barely pitch and their undersides stay out of sight."""
+    if not path or not path.lower().endswith('.lua') or not os.path.exists(path):
+        return set()
+    t = re.sub(r'--[^\n]*', '', open(path, encoding='latin-1').read())
+    out = {m.group(1).lower() for m in re.finditer(r'\bSpin\s*\(\s*(\w+)\s*,\s*[xz]_axis', t)}
+    for pc, deg in re.findall(r'\bTurn\s*\(\s*(\w+)\s*,\s*[xz]_axis\s*,\s*(?:math\.)?rad\(\s*(-?[\d.]+)', t):
+        if abs(float(deg)) >= min_deg:
+            out.add(pc.lower())
+    low = {n.lower(): (v.get('parent') or '').lower() for n, v in tree.items()}
+    res = set()
+    for n in low:
+        a = n
+        while a:
+            if a in out:
+                res.add(n); break
+            a = low.get(a, '')
+    return res
+
+
 def script_summary(path):
     """(pieces, {piece: sorted usage}) for a COB or a Lua unit script."""
     if path.lower().endswith('.cob'):

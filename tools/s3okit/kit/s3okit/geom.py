@@ -292,9 +292,11 @@ def _world_polys(objs):
     return verts, polys, owner
 
 
-def visibility_cull(objs, ground=True, air=False, rays=48, interior_thresh=0.7, protect=('ash',)):
+def visibility_cull(objs, ground=True, air=False, rays=48, interior_thresh=0.7, protect=('ash',), moved=()):
     """Delete faces buried inside their own piece's solids (and ground-contact undersides for land units).
-    Returns {obj: {face_index_after: exposure}} via a 'expo' float face attribute."""
+    moved: pieces the script swings: what faces the ground at rest may not when they move, so they keep their undersides.
+    Sets a 'expo' float face attribute. Returns ({obj: (faces, killed)}, restored): restored is the visible area (elmo^2) the old rules would have deleted."""
+    restored = 0.0
     vtx, polys, owner = _world_polys(objs)
     whole = BVHTree.FromPolygons(vtx, polys)
     stats = {}
@@ -329,6 +331,8 @@ def visibility_cull(objs, ground=True, air=False, rays=48, interior_thresh=0.7, 
                 # (a landing deck with a centre light and corner chevrons) must survive; only faces buried everywhere are deleted.
                 # Points run round the boundary (corners and along each edge), just inside it and further in.
                 buried = True
+                old = all(sum(1 for d in dirs[::3] if (h := self_bvh.ray_cast(M @ f.calc_center_median().lerp(v.co, 0.85) + n * 0.02, d, 1000))[0] is not None and h[1].dot(d) > 0)
+                          / len(dirs[::3]) > interior_thresh for v in f.verts)
                 cen = f.calc_center_median(); vs = [v.co for v in f.verts]
                 checks = []
                 for i, a in enumerate(vs):
@@ -343,13 +347,18 @@ def visibility_cull(objs, ground=True, air=False, rays=48, interior_thresh=0.7, 
                         buried = False; break
                 if buried:
                     kill.append(f)
+                elif old and e > 0.02:
+                    restored += f.calc_area()
             elif ground and not air and n.y < -0.95 and c.y < 0.35:
-                kill.append(f)          # flat underside sitting on the ground
+                if ob.name.lower() in moved:
+                    restored += f.calc_area()
+                else:
+                    kill.append(f)      # flat underside sitting on the ground
         stats[ob.name] = (len(bm.faces), len(kill))
         if kill:
             bmesh.ops.delete(bm, geom=kill, context='FACES')
         bm.to_mesh(me); bm.free()
-    return stats
+    return stats, restored
 
 
 def force_exposure(objs, value=1.0):

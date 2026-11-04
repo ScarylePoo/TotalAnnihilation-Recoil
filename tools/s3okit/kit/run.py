@@ -55,7 +55,8 @@ def st_build(unitname, draft=False):
     objs = k.realize()
     bpy.context.view_layer.update()
     meshes = [o for o in objs.values() if o.type == 'MESH']
-    cull = geom.visibility_cull(meshes, ground=U['ground'] and U['water'] is None, air=U['air'])
+    moved = xta.moved_pieces(os.path.join(REPO, 'scripts', unitname + '.lua'), k.T)
+    cull, restored = geom.visibility_cull(meshes, ground=U['ground'] and U['water'] is None, air=U['air'], moved=moved)
     # pieces hidden at rest but shown by the script (builder cranes in a closed hangar, ...): full texture priority
     geom.force_exposure([o for o in meshes if o.name in set(U.get('always_visible', ()))])
     lifts = {}
@@ -65,7 +66,7 @@ def st_build(unitname, draft=False):
             dy += U.get('water_lift', {}).get(p, 0.0); p = k.T[p]['parent']
         lifts[n] = dy
     geom.unwrap(meshes, res=U['res'], ground=U['ground'] and U['water'] is None, air=U['air'], water=U['water'],
-                flipped=set(U.get('flipped', ())), water_lift=lifts)
+                flipped=set(U.get('flipped', ())) | {o.name for o in meshes if o.name.lower() in moved}, water_lift=lifts)
     geom.add_mirrors(meshes)
     geom.apply_clones(k)
     allobjs = list(k.objs.values())
@@ -89,6 +90,7 @@ def st_build(unitname, draft=False):
     rep['mirror_asymmetry'] = asym
     rep['pieces'] = list(k.T)
     if info.get('script'):
+        rep['cull_restored_area'] = round(restored, 2)
         bp, use = xta.script_summary(os.path.join(REPO, info['script']))
         rep['script_pieces_missing'] = [p for p in bp if p.lower() not in {n.lower() for n in k.T}]
     json.dump(rep, open(os.path.join(wd, 'build_report.json'), 'w'), indent=1)
