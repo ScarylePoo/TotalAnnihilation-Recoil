@@ -67,7 +67,7 @@ def build(k):
         j = (i + 1) % 8
         b.hull([(x * 0.97 + x2 * 0.03, y, z * 0.97 + z2 * 0.03) for (x, z), (x2, z2) in
                 ((t0[i], t0[j]), (t0[j], t0[i]), (t1[i], t1[j]), (t1[j], t1[i])) for y in (H, H + 0.2)], 'team', bevel=0.0)
-    b.box((-1.0, 3.0, RO0 - 1.6), (1.0, 4.2, RO0 - 0.9), 'lightc', bevel=0.0)
+    b.box((-1.0, 3.0, RO0 - 3.8), (1.0, 4.2, RO0 - 2.7), 'lightc', bevel=0.0)
 
     # ------------------------------------------------------------------ doors: quarter lids, hanging when open
     # door1 origin (-0.54, 8.58, 15.57): panel x -15.1..0, hanging y -16.1..0 at the rim; inner face (-z) is the lid top
