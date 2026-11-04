@@ -107,7 +107,7 @@ def build(k):
         f.hull([F(x, y, z) for x, y, z in
                 [(0.2, -0.9, 0.4), (1.9, -0.9, 0.4), (3.6, -0.9, -8.9), (5.3, -0.9, -8.9),
                  (0.2, 1.0, 0.4), (1.9, 1.0, 0.4), (3.6, 1.0, -8.9), (5.3, 1.0, -8.9)]], 'hazard', bevel=0.1, mirror=True)
-        f.box(F(3.5, -0.9, -14.6), F(5.3, 1.0, -8.6), 'steel', bevel=0.1, mirror=True)
+        f.box(F(3.3, -0.9, -17.5), F(5.3, 1.0, -8.6), 'steel', bevel=0.1, mirror=True)     # the tips reach the gun's trunnion
     # gun = nano head (origin 0, 9.12, -12.12): between the prong tips, emitter dish pointing at beam
     g = k.piece('gun'); G = g.at
     g.cyl(G(-3.4, 0, 0), G(3.4, 0, 0), 0.9, 10, 'dark')
