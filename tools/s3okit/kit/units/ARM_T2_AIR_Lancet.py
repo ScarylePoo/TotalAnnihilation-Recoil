@@ -27,7 +27,7 @@ UNIT = dict(
     always_visible=['wing1', 'wing2'],
     # flight pose: wings out and back, fins apart (engine x = -COB x)
     preview_pose={'wing1': {'move': (-6.5, 0, -12.75)}, 'wing2': {'move': (6.75, 0, -13.0)},
-                  'tail1': {'move': (-4.625, 0, 0)}, 'tail2': {'move': (5.0, 0, 0)}},
+                  'tail1': {'move': (-1.6, 0, 0)}, 'tail2': {'move': (1.6, 0, 0)}},
 )
 
 
