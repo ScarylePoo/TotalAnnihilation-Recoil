@@ -130,7 +130,7 @@ def build(k):
     ta.hull([A(x * sx, y, z) for sx in (-1, 1) for x, y, z in
              [(8.8, 0.0, -6.8), (8.8, 0.0, 6.8), (7.2, 16.0, -6.0), (7.2, 16.0, 6.0), (5.4, 27.0, -5.0), (5.4, 27.0, 5.0)]],
             'paint', bevel=0.3)
-    ta.box(A(-4.4, 26.95, -4.0), A(4.4, 27.2, 4.0), 'team', bevel=0.03)
+    ta.box(A(-5.0, 26.95, -4.6), A(5.0, 27.2, 4.6), 'team', bevel=0.03)
     for sx in (-1, 1):
         ta.box(A(sx * 7.0 - 0.6 if sx > 0 else -7.6, 4.0, -5.0), A(7.6 if sx > 0 else -7.0 + 0.6, 12.0, 5.0), 'dark', bevel=0.05)
     sa = k.piece('sleevea'); SA = sa.at
