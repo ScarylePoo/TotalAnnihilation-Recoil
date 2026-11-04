@@ -325,11 +325,11 @@ def visibility_cull(objs, ground=True, air=False, rays=48, interior_thresh=0.7, 
             e = esc / len(dirs)
             f[expo] = e
             if back / len(dirs) > interior_thresh and MATS[f.material_index] not in protect:
-                # confirm at points near every corner: a big face whose centre happens to sit inside
+                # confirm at points close to every corner (0.85 used to delete a block top under a plate inset by under 15 %, leaving the plate floating over a slit): a big face whose centre happens to sit inside
                 # a small part must survive; only faces buried everywhere are deleted
                 buried = True
                 for v in f.verts:
-                    p = M @ (f.calc_center_median().lerp(v.co, 0.85)) + n * 0.02
+                    p = M @ (f.calc_center_median().lerp(v.co, 0.99)) + n * 0.02
                     b2 = sum(1 for d in dirs[::3] if (h := self_bvh.ray_cast(p, d, 1000))[0] is not None and h[1].dot(d) > 0)
                     if b2 / len(dirs[::3]) <= interior_thresh:
                         buried = False; break
