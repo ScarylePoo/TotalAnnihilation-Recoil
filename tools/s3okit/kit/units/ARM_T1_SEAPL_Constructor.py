@@ -26,7 +26,7 @@ def build(k):
     b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
             [(2.4, 5.6, 21.5), (5.0, 8.4, 15.8), (3.8, 11.0, 11.4), (2.2, 5.74, 21.62), (4.8, 8.56, 15.95), (3.6, 11.15, 11.5)]],
            'glass', bevel=0.05)
-    b.box((-2.2, 2.8, 20.8), (2.2, 3.6, 21.2), 'lightw', bevel=0.0)
+    b.box((-2.2, 2.8, 19.9), (2.2, 3.6, 21.2), 'lightw', bevel=0.0)
     # team roof band (hull top is flat at about y 11.6 between z 5 and -8)
     b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
             [(5.0, 11.62, 5.0), (5.0, 11.8, 5.0), (5.0, 11.24, -8.0), (5.0, 11.42, -8.0)]], 'team', bevel=0.0)

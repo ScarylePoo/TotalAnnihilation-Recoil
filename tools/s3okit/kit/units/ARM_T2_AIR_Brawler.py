@@ -18,7 +18,8 @@ UNIT = dict(
     always_visible=['wing1', 'wing2'],
     # flight pose (engine x = -COB x)
     preview_pose={'wing1': {'move': (-7.25, 0, 0)}, 'wing2': {'move': (7.25, 0, 0)},
-                  'weapon1': {'move': (7.125, 0, 0)}, 'weapon2': {'move': (-7.375, 0, 0)}},
+                  'weapon1': {'move': (7.125, 0, 0)}, 'weapon2': {'move': (-7.375, 0, 0)},
+                  'tail1': (0, 0, -55.94), 'tail2': (0, 0, 65.67)},
 )
 
 
@@ -72,7 +73,7 @@ def build(k):
            'team', bevel=0.0, mirror=True)
     b.box((7.5, 17.7, -22.8), (8.4, 18.1, -21.8), 'lightr', bevel=0.0, mirror=True)
     # rear lift nozzle (rearthrust 0, 4.7, -18.8)
-    b.cyl((0, 6.0, -18.8), (0, 4.6, -18.8), 2.0, 12, 'dark', r2=1.7, bevel=0.04)
+    b.cyl((0, 7.6, -18.8), (0, 4.6, -18.8), 2.0, 12, 'dark', r2=1.7, bevel=0.04)
     b.cyl((0, 4.62, -18.8), (0, 4.5, -18.8), 1.2, 12, 'lightc')
 
     # ------------------------------------------------------------------ wing2 (origin 4.75, 8.38, 0; slides +7.25)
@@ -85,7 +86,7 @@ def build(k):
     w.cyl(W(12.5, 0.6, 3.0), W(12.5, 0.6, -13.2), 2.0, 12, 'paint2', r2=1.8, rot=math.pi / 12, bevel=0.08)
     w.cyl(W(12.5, 0.6, 3.2), W(12.5, 0.6, 2.9), 1.3, 12, 'black')
     w.cyl(W(12.5, 0.6, -13.15), W(12.5, 0.6, -13.35), 1.2, 12, 'lightc')
-    w.cyl(W(12.5, -1.6, -8.5), W(12.5, -2.2, -8.5), 1.4, 12, 'dark')       # lift-jet grille under the nacelle
+    w.cyl(W(12.5, -0.9, -8.5), W(12.5, -2.2, -8.5), 1.4, 12, 'dark')       # lift-jet grille under the nacelle
     w.box(W(16.6, 0.2, -10.4), W(17.2, 1.3, -9.4), 'lightw', bevel=0.0)
     k.clone('wing1', 'wing2', mirror_x=True)
 
