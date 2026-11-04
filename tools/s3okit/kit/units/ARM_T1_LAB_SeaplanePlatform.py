@@ -44,17 +44,21 @@ def build(k):
     # ------------------------------------------------------------------ base: submerged well, pods, braces
     b = k.piece('base')
     ring_o, ring_i = octagon(40.0), octagon(35.0)
+    ring_t = octagon(R - 1.0, PX, PZ)
     for i in range(8):                                                     # well wall: eight segments
         pts = [ring_o[i], ring_o[(i + 1) % 8], ring_i[i], ring_i[(i + 1) % 8]]
         b.hull([(x, y, z) for x, z in pts for y in (0.0, 30.0)], 'paint2', bevel=0.25)
         b.hull([(x, y, z) for x, z in pts for y in (29.9, 30.4)], 'team' if i % 2 == 0 else 'hazard', bevel=0.05)
+        # lip closing the well round the tower, so the raised tower still bears on it
+        lip = [ring_i[i], ring_i[(i + 1) % 8], ring_t[i], ring_t[(i + 1) % 8]]
+        b.hull([(x, y, z) for x, z in lip for y in (29.5, 30.3)], 'paint2', bevel=0.05)
     for sx in (-1, 1):
         for sz in (-1, 1):
             cx, cz = sx * 47.0, sz * 47.0
             b.cyl((cx, 0.0, cz), (cx, 43.0, cz), 8.4, 8, 'paint', rot=math.pi / 8, bevel=0.3)
             b.cyl((cx, 42.9, cz), (cx, 43.4, cz), 6.8, 8, 'team', rot=math.pi / 8)
             ex, ez = -sz * 1.6, sx * 1.6                                   # brace arm from the pod to the well
-            b.hull([(px + s * ex, y, pz + s * ez) for px, pz in ((cx - 6.0 * sx, cz - 6.0 * sz), (sx * 27.0, sz * 27.0))
+            b.hull([(px + s * ex, y, pz + s * ez) for px, pz in ((cx - 5.0 * sx, cz - 5.0 * sz), (sx * 25.0, sz * 25.0))
                     for s in (-1, 1) for y in (24.0, 28.0)], 'paint2', bevel=0.2)
 
     # ------------------------------------------------------------------ platform (origin 1.25, 0.25, -2.5)
