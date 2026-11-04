@@ -56,6 +56,8 @@ def build(k):
     t.hull([A(x * s, y, z) for s in (-1, 1) for x, y, z in
             [(5.6, -1.8, 4.6), (7.4, -1.8, -1.6), (4.6, -1.8, -6.8),
              (2.6, -1.8, 8.4), (2.2, 3.4, 7.2), (6.6, 3.4, -1.4), (4.2, 3.4, -6.0)]], 'paint', bevel=0.16)
+    # arms from the bridge's nose out to the launcher boxes' tails: the boxes hung beside it on nothing
+    t.box(A(3.0, -0.6, 5.5), A(5.3, 2.6, 7.6), 'dark', bevel=0.1, mirror=True)
     # dark window band wrapping the front of the bridge
     t.hull([A(x * s, y, z) for s in (-1, 1) for x, y, z in
             [(2.25, 3.2, 7.4), (6.85, 3.2, -1.3), (2.45, 5.1, 6.6), (7.25, 5.1, -1.6),
