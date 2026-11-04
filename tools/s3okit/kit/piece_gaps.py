@@ -2,6 +2,7 @@
 """Find pieces that float off the unit while it animates, from a `GAP=1 tools/headless-test/run.sh` run.
 
     python3 piece_gaps.py /tmp/tmp.XXX/gapdata.txt [--units REGEX] [--min-gap 1.0] [--json out.json] [-j 8] [-v]
+    PIECE_GAPS_MAX_TOL=0.6 caps the gap treated as touching, which otherwise grows with the unit (1.98 on a large factory)
 
 The probe (zz_piece_gap_probe) logs model-space piece matrices of every unit def in action. For each logged pose this poses the real S3O geometry:
 triangle surface samples per piece (spacing scales with the unit, see spacing()), KD-tree distance between pieces, and a generalised winding number test so
@@ -155,6 +156,10 @@ def analyse(args):
         return res
     s = spacing(sum(p.total for p in geo))
     tol = max(s * 1.6, 0.6)
+    mt = float(os.environ.get('PIECE_GAPS_MAX_TOL', 0))    # a big unit's tolerance grows with it and hides real gaps; cap it (finer sampling, slower)
+    if mt and tol > mt:
+        tol = mt
+        s = tol / 1.6
     res['spacing'], res['tol'] = round(s, 2), round(tol, 2)
     rng = np.random.default_rng(0)
     for p in geo:
