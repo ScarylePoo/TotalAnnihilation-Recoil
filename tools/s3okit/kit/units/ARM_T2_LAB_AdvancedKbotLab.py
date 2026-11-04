@@ -65,7 +65,7 @@ def build(k):
                + [(x, 16.0, z) for x in (-38.5, -33.0) for z in (zs * 43.5 - 1.5, zs * 43.5 + 1.5)], 'paint',
                bevel=0.3, mirror=True)
         b.box((-38.2, 15.9, zs * 43.5 - 1.3), (-33.3, 16.4, zs * 43.5 + 1.3), 'team', bevel=0.06, mirror=True)
-        b.box((-31.4, 8.0, zs * 44.5 - 0.6), (-31.1, 9.4, zs * 44.5 + 0.6), 'lightc', bevel=0.0, mirror=True)
+        b.box((-32.3, 8.0, zs * 44.5 - 0.6), (-31.85, 9.4, zs * 44.5 + 0.6), 'lightc', bevel=0.0, mirror=True)
 
     # ------------------------------------------------------------------ gantry frames (centerbar origin 0)
     c = k.piece('centerbar1')
