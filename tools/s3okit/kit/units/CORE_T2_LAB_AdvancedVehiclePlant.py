@@ -22,7 +22,7 @@ UNIT = dict(
     wreck=dict(seed=76, drop=['wing2']),
     preview_pose={
         'wing1': (0, 0, 179.99), 'wing2': (-179.46, 0, 0), 'wing3': (0, 0, -179.46),
-        'drawer1': {'move': (0, 20.625, 0)}, 'drawer2': {'move': (0, 20.5, 0)},
+        'drawer1': {'move': (0, 18.0, 0)}, 'drawer2': {'move': (0, 18.0, 0)},
         'gun1': {'move': (7.75, 0, 7.875)}, 'gun2': {'move': (-7.75, 0, 7.75)},
         'pad': {'move': (0, 0, 23.0)},
     },
@@ -63,7 +63,7 @@ def build(k):
         b.hull([(x, 13.5, z) for x in (xc - 7.0, xc + 7.0) for z in (-51.0, -36.0)]
                + [(x, 27.7, z) for x in (xc - 4.0, xc + 4.0) for z in (-47.0, -40.0)], 'paint', bevel=0.3)
         b.box((xc - 3.8, 27.6, -46.8), (xc + 3.8, 28.1, -40.2), 'team', bevel=0.06)
-        b.box((xc - 7.4, 8.0, -31.9), (xc + 7.4, 9.4, -31.6), 'lightw', bevel=0.0)
+        b.box((xc - 7.4, 8.0, -33.1), (xc + 7.4, 9.4, -32.55), 'lightw', bevel=0.0)
         x0, x1 = sorted((sx * 36.0, sx * 58.0))
         b.plan(0.0, 9.0, [(x0, 32.0), (x1, 32.0), (x1, 47.0), (x0, 47.0)], 'paint', bevel=0.3, top_inset=1.5)
         xc = sx * 47.0
