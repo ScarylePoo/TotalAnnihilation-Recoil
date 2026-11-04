@@ -60,13 +60,13 @@ def build(k):
     # hold: black floor and dark inner walls just under the panels
     b.box((-23.4, 4.0, -17.4), (23.4, 4.4, 31.3), 'black', bevel=0.0)
     # rubbing strake on the flare
-    b.hull([(x, y, z) for x in (31.8, 32.4) for y in (5.6, 6.6) for z in (-40.0, 26.0)], 'dark', bevel=0.05, mirror=True)
+    b.hull([(x, y, z) for x in (30.4, 31.85) for y in (3.6, 4.6) for z in (-40.0, 26.0)], 'dark', bevel=0.05, mirror=True)
     # ------------------------------------------------------------------ forecastle (raised, light steel top)
     b.hull([(x * s, y, z) for s in (-1, 1) for x, y, z in
             [(12.5, DECK, 33.8), (12.5, DECK, 45.0), (8.8, 18.8, 36.2), (8.8, 18.8, 40.0)]], 'paint', bevel=0.2)
     b.hull([(x * s, y, z) for s in (-1, 1) for x, y, z in
             [(8.2, 18.75, 36.6), (8.2, 18.75, 39.6), (8.1, 18.95, 36.7), (8.1, 18.95, 39.5)]], 'steel', bevel=0.03)
-    b.box((11.6, 14.2, 44.6), (12.0, 15.2, 45.4), 'lightw', bevel=0.0, mirror=True)
+    b.box((11.1, 13.3, 43.6), (11.7, 14.3, 44.4), 'lightw', bevel=0.0, mirror=True)
     for x in (6.0,):
         b.cyl((x, DECK, 47.0), (x, DECK + 1.4, 47.0), 1.0, 10, 'dark', mirror=True)
     # vents between hold and crane base
@@ -82,7 +82,7 @@ def build(k):
     b.hull([(x * s, y, z) for s in (-1, 1) for x, y, z in
             [(20.6, 22.45, -25.6), (20.6, 22.45, -27.6), (20.5, 22.65, -25.6), (20.5, 22.65, -27.6)]], 'hazard', bevel=0.0)
     b.box((21.15, 17.0, -38.0), (21.4, 18.0, -28.0), 'lightc', bevel=0.0, mirror=True)
-    b.box((-2.0, 9.6, -58.0), (2.0, 10.4, -57.6), 'lightr', bevel=0.0)
+    b.box((-2.0, 9.6, -52.9), (2.0, 10.4, -51.8), 'lightr', bevel=0.0)
 
     # ------------------------------------------------------------------ sliding deck panels (light steel, team stripe)
     def panel(name, z0, z1, y0, ox):

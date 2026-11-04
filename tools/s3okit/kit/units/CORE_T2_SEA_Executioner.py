@@ -64,7 +64,7 @@ def build(k):
     b.box((-6.6, 16.9, -46.8), (0.4, 20.0, -41.3), 'dark', bevel=0.1)
     for x in (-5.6, -3.0):
         b.box((x, 19.9, -46.0), (x + 2.2, 20.15, -42.2), 'black', bevel=0.0)
-    b.box((-3.0, 8.6, -48.1), (3.0, 9.5, -47.7), 'lightr', bevel=0.0)
+    b.box((-3.0, 8.6, -51.9), (3.0, 9.5, -50.9), 'lightr', bevel=0.0)
     # team bands along the whole waist, framing the dark deckhouse
     b.hull([(x, y, z) for y in (DECK + 0.06, DECK + 0.22) for x, z in [(9.4, -38.0), (13.4, -38.0), (14.4, -13.7), (14.6, -6.0), (9.4, -6.0)]], 'team', bevel=0.03, mirror=True)
 

@@ -89,7 +89,7 @@ def build(k):
     g.hull([(x * s, y, z) for s in (-1, 1) for x, y, z in
             [(10.4, DECK - 0.2, -14.0), (10.4, DECK - 0.2, -34.0), (6.0, DECK - 0.2, -37.0), (6.0, DECK - 0.2, -11.0),
              (8.0, 16.2, -17.0), (8.0, 16.2, -31.0), (4.6, 16.2, -32.6), (4.6, 16.2, -15.4)]], 'paint2', bevel=0.2)
-    g.box((10.1, 11.0, -27.0), (10.35, 11.6, -21.0), 'lightc', bevel=0.0, mirror=True)
+    g.box((9.2, 11.0, -27.0), (9.6, 11.6, -21.0), 'lightc', bevel=0.0, mirror=True)
     # radar mast on the pedestal's rear shoulder
     g.cyl((0, 16.0, -32.0), (0, 23.0, -32.4), 0.5, 8, 'dark', r2=0.3)
     g.box((-3.6, 21.0, -32.7), (3.6, 21.6, -31.9), 'dark', bevel=0.05)

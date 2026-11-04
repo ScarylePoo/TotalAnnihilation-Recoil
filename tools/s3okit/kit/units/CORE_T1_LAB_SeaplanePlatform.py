@@ -38,8 +38,8 @@ def build(k):
     b = k.piece('base')
     for sx in (-1, 1):
         for sz in (-1, 1):
-            pts = [(sx * 22.0, sz * 33.0), (sx * 22.0, sz * 55.0), (sx * 40.0, sz * 55.0), (sx * 55.0, sz * 40.0),
-                   (sx * 55.0, sz * 22.0), (sx * 33.0, sz * 22.0)]
+            pts = [(sx * 19.5, sz * 33.0), (sx * 19.5, sz * 55.0), (sx * 40.0, sz * 55.0), (sx * 55.0, sz * 40.0),
+                   (sx * 55.0, sz * 19.5), (sx * 33.0, sz * 19.5)]     # against the cross's sides: nothing else holds them up
             b.plan(0.0, 31.0, pts, 'paint2', bevel=0.3, top_inset=0.8)
             inner = [(x * 0.92 + sx * 2.0, z * 0.92 + sz * 2.0) for x, z in pts]
             b.plan(30.9, 31.4, inner, 'paint' if sx * sz > 0 else 'hazard', bevel=0.05)

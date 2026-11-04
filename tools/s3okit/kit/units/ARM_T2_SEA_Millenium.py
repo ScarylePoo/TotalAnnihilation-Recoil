@@ -81,7 +81,7 @@ def build(k):
            'team', bevel=0.03, mirror=True)
     # stern deck: bollards, stern light
     b.cyl((7.0, DECK, -56.0), (7.0, DECK + 1.4, -56.0), 0.9, 8, 'dark', mirror=True)
-    b.box((-3.8, 10.0, -65.6), (3.8, 11.6, -64.9), 'lightr', bevel=0.0)
+    b.box((-3.8, 10.0, -68.4), (3.8, 11.6, -67.3), 'lightr', bevel=0.0)
     # ------------------------------------------------------------------ forward barbette under turret2
     b.hull([(x * s, y, z) for s in (-1, 1) for x, y, z in
             [(11.0, CIT - 0.1, 28.8), (17.3, CIT - 0.1, 17.5), (17.3, CIT - 0.1, 1.3), (8.1, 34.2, 22.5), (10.9, 34.2, 17.5), (10.9, 34.2, 6.3)]],

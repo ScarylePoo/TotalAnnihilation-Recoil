@@ -95,7 +95,7 @@ def build(k):
 
     # roof slabs (closed: the lane roof; open: hidden inside the blocks)
     a = k.piece('door1A'); A = a.at
-    a.box(A(-7.3, 8.8, -23.5), A(7.3, 10.2, 0.0), 'paint', bevel=0.2)
+    a.box(A(-7.3, 8.8, -23.5), A(7.3, 10.2, 1.2), 'paint', bevel=0.2)     # butts against the door block when closed, still inside it open
     a.box(A(-5.6, 10.1, -22.0), A(5.6, 10.4, -1.5), 'paint2', bevel=0.05)
     k.clone('door2A', 'door1A', mirror_x=True)
     c = k.piece('door3A'); C = c.at

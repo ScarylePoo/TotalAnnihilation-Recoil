@@ -48,7 +48,7 @@ def build(k):
     for z in (-6.0, -3.0, 0.0):
         t.box(T(9.5, 3.6, z), T(9.9, 6.6, z + 1.6), 'black', bevel=0.0)
     t.hull([T(x, y, z) for x in (-4.0, -1.4) for y in (2.0, 6.0) for z in (-4.6, 2.6)], 'paint2', bevel=0.15)
-    t.box(T(3.0, 9.4, 5.2), T(5.0, 9.7, 6.0), 'lightr', bevel=0.0)
+    t.box(T(3.0, 9.3, 3.0), T(5.0, 9.7, 3.8), 'lightr', bevel=0.0)
 
     # ---------------------------------------------------------------- turret2: laser house (-4.62, 20.5, -5.12)
     h = k.piece('turret2'); H = h.at

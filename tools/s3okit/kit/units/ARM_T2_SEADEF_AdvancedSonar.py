@@ -68,9 +68,9 @@ def build(k):
     def knuckle(name, along_x):
         h = k.piece(name); H = h.at
         if along_x:
-            h.cyl(H(-2.6, 0.2, 0), H(2.6, 0.2, 0), 1.3, 8, 'dark')
+            h.cyl(H(-2.6, 0.2, 0), H(2.6, 0.2, 0), 2.0, 8, 'dark')
         else:
-            h.cyl(H(0, 0.2, -2.6), H(0, 0.2, 2.6), 1.3, 8, 'dark')
+            h.cyl(H(0, 0.2, -2.6), H(0, 0.2, 2.6), 2.0, 8, 'dark')
     knuckle('hinge1', True)
     k.clone('hinge2', 'hinge1')
     knuckle('hinge3', False)

@@ -50,7 +50,7 @@ def build(k):
     for sx in (-1, 1):       # turret origin x is -0.00004: no mirror=True, both legs built
         t.hull([T(sx * x, y, z) for x, y in ((14.0, -4.0), (19.0, -4.0), (10.6, -17.0), (13.6, -17.0))
                 for z in (-3.0, 3.0)], 'paint', bevel=0.25)
-        t.cyl(T(sx * 9.4, -16.76, 0), T(sx * 13.8, -16.76, 0), 3.0, 10, 'dark', bevel=0.08)
+        t.cyl(T(sx * 8.2, -16.76, 0), T(sx * 13.8, -16.76, 0), 3.0, 10, 'dark', bevel=0.08)
         t.hull([T(sx * x, y, z) for x, y in ((14.6, -6.0), (16.0, -6.0), (21.0, -3.6), (22.0, -4.3))
                 for z in (-1.0, 1.0)], 'dark', bevel=0.05)
     for sx in (-1, 1):
