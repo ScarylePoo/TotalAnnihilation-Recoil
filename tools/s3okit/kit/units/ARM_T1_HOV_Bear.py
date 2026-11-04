@@ -133,6 +133,6 @@ def build(k):
     m = k.piece('magnet2222'); M = m.at
     m.box(M(-1.4, -3.0, -1.4), M(1.4, 1.4, 1.4), 'steel', bevel=0.1)
     m.cyl(M(0, -7.4, 0), M(0, -4.4, 0), 7.2, 18, 'dark', bevel=0.15)
-    m.cyl(M(0, -4.45, 0), M(0, -3.95, 0), 6.4, 18, 'hazard', bevel=0.05)
+    m.cyl(M(0, -4.45, 0), M(0, -3.95, 0), 7.1, 18, 'hazard', bevel=0.05)   # covers the drum's whole top: its culled cap left a ring open
     m.cyl(M(0, -3.95, 0), M(0, -3.0, 0), 2.2, 12, 'dark', bevel=0.05)
     m.cyl(M(0, -7.5, 0), M(0, -7.42, 0), 5.6, 18, 'black')

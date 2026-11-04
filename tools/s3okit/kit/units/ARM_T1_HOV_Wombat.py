@@ -53,7 +53,7 @@ def build(k):
     # right rear: one big lift fan
     x, z = 9.8, -13.2
     b.cyl((x, 12.2, z), (x, 13.8, z), 6.4, 18, 'dark', bevel=0.14)
-    b.cyl((x, 13.8, z), (x, 13.85, z), 5.4, 18, 'black')
+    b.cyl((x, 13.8, z), (x, 13.85, z), 6.3, 18, 'black')   # reaches the cowl: its culled cap left a ring open
     for i in range(6):
         a = i * math.pi / 3 + 0.25
         ca, sa = math.cos(a), math.sin(a)
