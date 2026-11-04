@@ -62,7 +62,7 @@ def build(k):
     t.hull([A(x, -3.6, z) for x, z in hexa(12.8)] + [A(x, -1.6, z) for x, z in hexa(13.2)], 'paint2', bevel=0.15)
     for sx in (-1, 1):      # plasturret origin x is -0.004: no mirror=True on this piece
         t.box(A(3.8 * sx, -2.6, 9.6), A(9.6 * sx, 4.4, 16.6), 'paint2', bevel=0.2)
-    t.box(A(-0.9, 1.0, 12.2), A(0.9, 2.6, 13.0), 'lightw', bevel=0.0)
+    t.box(A(-0.9, 1.0, 10.6), A(0.9, 2.6, 11.9), 'lightw', bevel=0.0)
 
     # ---------------------------------------------------------------- guns (plasgunL origin 6.70, 40.77, 18.41)
     g = k.piece('plasgunL'); G = g.at
