@@ -522,9 +522,9 @@ Open for the user: nano beams on pad repair and one plane per standalone pad; im
 missing in 40-deep water (they dive to ~75); a Hulk stalled when its unload spot was 201 elmos away (limit 198). Decided: heavy kills leave a heap (Killed: 1 wreck, 2 heap, 3 nothing);
 Hurricane keeps its original layout with canattackground = false on the laser (branch s3o-hurricane is abandoned). kit/cob2lus.py generated the 170 converted scripts and skips hand-edited ones.
 
-### Paused 2026-11-03 at the user's request, mid floating-geometry review
-Branches NOT merged yet: `s3o-float1` (mobile units, done), `s3o-float2` (defences/economy, done), `s3o-float3` (factories/naval, stopped early: check its last report and which flagged stems remain). To resume: finish float3, merge all three into s3o-remodel, regression + AIM=1 + PADS=1 + GAP=1.
-Then: (1) float2's e7e0fbbb fixes a `visibility_cull` bug that deleted large top faces and left holes; only re-baked units have the fix, so measure how many other installed models have holes before deciding on a wider rebake. (2) Swatter fired 5 shots per phase in older AIM logs, now fires once and stops, cause unknown (not from float1). (3) Look in game: Mine5 studs, Core Solar wings, Neutron riser, Peeper outer wings, Arm T1 vehicle Constructor windscreen.
+### Floating-geometry and hole review done 2026-11-04, merged
+Tools: `kit/piece_islands.py` (loose geometry at rest), `PIECE_GAPS_MAX_TOL=0.6 kit/piece_gaps.py` (loose in animation), `kit/model_holes.py` (open holes). Cull fixes: a face is deleted only if buried over its whole area, and pieces a script swings (xta.moved_pieces) keep undersides. 52 models re-baked. model_holes reports only the Silencer's stored nuke and an Arm Shipyard underwater brace. Under 1.1 elmo in animation, left: Bear and Hulk doors, both Seaplane Platforms, Arm T2 AdvancedConstructor, Hammer, Core T1 vehicle Constructor, Jethro, Core Solar wings, Neutron riser, Core Kbot Lab doors, Maverick. Audit gotcha: AIM's ground targets say nothing about AA units (Swatter 1 shot there, 16 shots 13 hits against aircraft).
+Look in game: Mine5 studs, Peeper outer wings, Arm T1 vehicle Constructor windscreen, sea constructors' build target.
 
 ### Setup on this WSL machine (replaces the bpy/pip lines in "Setup in a fresh session")
 Ubuntu 26.04 ships Python 3.14; bpy needs 3.13. Venv: `source ~/.venvs/s3o/bin/activate` (made with uv; libSM/libICE were unpacked
