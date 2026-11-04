@@ -79,6 +79,7 @@ def build(k):
     b.cyl((-17.2, 21.0, -6.0), (-17.2, 21.2, -6.0), 0.14, 6, 'lightr')
 
     # ------------------------------------------------------------------ scissor lift
+    b.box((-3.0, 10.2, -3.2), (3.0, 14.4, 1.4), 'dark', bevel=0.1)              # lift pedestal on the well floor: the arms' pivot sat 2.5 above it
     a1 = k.piece('arm1'); A = a1.at
     a1.cyl(A(-2.6, 0.6, 0), A(2.6, 0.6, 0), 1.0, 10, 'dark', bevel=0.04)
     a1.box(A(-1.6, 0.0, -11.8), A(1.6, 2.6, 0.4), 'steel', bevel=0.12)

@@ -14,7 +14,7 @@ UNIT = dict(
     skeleton_opts=dict(height=13.2, hipx=4.5),
     res=1024,
     wreck=dict(seed=8, drop=['luparm'], remove=[]),
-    preview_pose={},
+    preview_pose={'lemg': {'move': (0, 0, -0.6)}},    # script Create seats the gun
 )
 
 

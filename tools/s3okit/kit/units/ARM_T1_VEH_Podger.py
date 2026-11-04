@@ -58,7 +58,8 @@ def build(k):
     # rear: mine chute (dark slot with hazard frame) and tail lights
     b.box((-3.6, 9.4, -25.8), (3.6, 13.4, -25.3), 'hazard', bevel=0.05)
     b.box((-2.6, 10.0, -25.95), (2.6, 12.8, -25.7), 'black', bevel=0.0)
-    b.box((4.2, 14.0, -24.0), (5.2, 15.0, -23.8), 'lightr', bevel=0.0, mirror=True)
+    b.hull([(4.4, 14.0, -22.9), (5.4, 14.0, -22.9), (4.4, 15.0, -22.15), (5.4, 15.0, -22.15),
+            (4.4, 14.0, -22.4), (5.4, 14.0, -22.4), (4.4, 15.0, -21.7), (5.4, 15.0, -21.7)], 'lightr', bevel=0.0, mirror=True)
     # amber beacon on the cab roof (mine layer warning light)
     b.cyl((-3.4, 16.0, 4.0), (-3.4, 16.7, 4.0), 0.85, 10, 'dark')
     b.cyl((-3.4, 16.7, 4.0), (-3.4, 17.5, 4.0), 0.6, 10, 'lightw')

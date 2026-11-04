@@ -36,7 +36,7 @@ def build(k):
     b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
             [(0.8, 3.2, 31.2), (2.6, 4.8, 26.4), (2.2, 6.4, 25.0), (1.0, 5.0, 30.0), (2.4, 2.8, 27.0)]], 'glass', bevel=0.06)
     b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
-            [(2.2, 8.0, 20.2), (3.6, 9.4, 15.0), (2.0, 11.2, 11.0), (1.0, 11.6, 13.0), (3.4, 10.4, 10.4)]], 'glass', bevel=0.08)
+            [(2.2, 7.5, 20.2), (3.6, 8.9, 15.0), (2.0, 10.7, 11.0), (1.0, 11.1, 13.0), (3.4, 9.9, 10.4)]], 'glass', bevel=0.08)
     b.cyl((0, 3.8, 31.0), (0, 3.8, 33.6), 0.45, 8, 'dark', r2=0.15)
     # team saddle across the spine (broad flat band, the fuselage's colour block)
     b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in

@@ -44,7 +44,7 @@ def build(k):
     # team spine plate
     b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
             [(2.4, 9.02, 4.0), (2.4, 9.02, -12.0), (2.4, 9.2, 4.0), (2.4, 9.2, -12.0)]], 'team', bevel=0.03)
-    b.box((-1.0, 8.9, 6.0), (1.0, 9.6, 7.4), 'dark', bevel=0.04)
+    b.box((-1.0, 8.0, 6.0), (1.0, 9.6, 7.4), 'dark', bevel=0.04)
     b.cyl((0, 9.6, 6.7), (0, 9.9, 6.7), 0.4, 8, 'lightr')
     # bomb bay along the belly
     b.box((-3.0, 0.7, -14.0), (3.0, 1.3, 6.0), 'black', bevel=0.06)
@@ -82,7 +82,7 @@ def build(k):
     w = k.piece('wingb'); W = w.at
     out = [(0.0, 12.5), (0.0, -11.7), (18.7, -14.5), (17.7, -3.5)]
     w.hull([W(x, y, z) for y, z in out for x in (-0.9, -0.05)], 'paint2', bevel=0.08)   # outer face = underside in flight
-    w.hull([W(x, y, z) for y, z in [(1.6, 9.6), (1.6, -10.4), (16.6, -12.8), (16.0, -4.4)] for x in (-1.0, -0.84)], 'team', bevel=0.03)
+    w.hull([W(x, y, z) for y, z in [(2.2, 9.4), (2.2, -10.4), (15.4, -12.5), (14.9, -5.0)] for x in (-1.0, -0.84)], 'team', bevel=0.03)
     w.hull([W(x, y, z) for y, z in [(0.6, -10.6), (0.6, -11.6), (18.4, -14.4), (18.4, -13.2)] for x in (-0.98, -0.86)], 'dark', bevel=0.0)
     w.cyl(W(-0.5, 18.4, -3.0), W(-0.5, 18.4, -14.6), 0.6, 8, 'dark', r2=0.45)
     w.cyl(W(-0.5, 18.4, -2.5), W(-0.5, 18.4, -3.02), 0.38, 8, 'lightw', r2=0.6)

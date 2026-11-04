@@ -84,7 +84,7 @@ def build(k):
     # stern: exhaust grille, tail lights, team band across the rear pods' inner ends
     b.box((-4.0, 5.6, -21.6), (4.0, 8.6, -20.8), 'dark', bevel=0.06)
     b.box((-3.6, 6.0, -21.75), (3.6, 8.2, -21.5), 'black', bevel=0.0)
-    b.box((5.4, 6.2, -24.4), (7.4, 7.2, -23.8), 'lightr', bevel=0.0, mirror=True)
+    b.box((5.4, 5.5, -24.4), (7.4, 6.5, -23.8), 'lightr', bevel=0.0, mirror=True)
     b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
             [(5.6, 10.0, -17.4), (5.6, 10.0, -14.0), (5.6, 10.2, -17.4), (5.6, 10.2, -14.0)]], 'team', bevel=0.03)
     # antenna

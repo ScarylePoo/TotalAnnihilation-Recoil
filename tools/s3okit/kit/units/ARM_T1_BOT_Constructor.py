@@ -14,7 +14,7 @@ UNIT = dict(
     skeleton_opts=dict(height=9.0, hipx=6.0),
     res=1024,
     wreck=dict(seed=10, drop=['rflap'], remove=[]),
-    preview_pose={},
+    preview_pose={'lflap': {'move': (0, -2.6, 0)}, 'rflap': {'move': (0, -2.6, 0)}},    # script Create seats the roof
 )
 
 

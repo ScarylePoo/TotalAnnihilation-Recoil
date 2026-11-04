@@ -77,7 +77,7 @@ def build(k):
     fan(a, (A(14.36, 0, -0.16)[0], A(14.36, 0, -0.16)[2]), 4.6, A(0, -3.6, 0)[1], A(0, 4.4, 0)[1])
     # guide vane behind the fan
     a.hull([A(x, y, z) for x in (13.9, 14.8) for y, z in ((-2.6, -4.6), (3.8, -4.6), (-2.0, -8.6), (2.6, -8.0))], 'paint2', bevel=0.08)
-    a.box(A(14.0, 3.6, -8.4), A(14.7, 3.9, -7.8), 'lightw', bevel=0.0)
+    a.box(A(14.0, 2.5, -8.4), A(14.7, 2.85, -7.8), 'lightw', bevel=0.0)
     k.clone('arm2', 'arm1', mirror_x=True)
 
     # ------------------------------------------------------------------ tail fan (arm3 origin 0, 5, -6.12)
@@ -88,6 +88,6 @@ def build(k):
     fan(t, (T(0.22, 0, -15.2)[0], T(0.22, 0, -15.2)[2]), 5.4, T(0, -3.2, 0)[1], T(0, 5.0, 0)[1])
     # twin tail fins either side of the big fan
     for s in (-1, 1):
-        t.hull([T(x, y, z) for x in (s * 6.0 + 0.22, s * 6.8 + 0.22) for y, z in
+        t.hull([T(x, y, z) for x in (s * 5.4 + 0.22, s * 6.2 + 0.22) for y, z in
                 ((2.0, -12.0), (2.0, -19.0), (9.4, -16.6), (9.4, -19.6))], 'paint', bevel=0.08)
         t.box(T(s * 6.4 + 0.22 - 0.45, 9.4, -19.4), T(s * 6.4 + 0.22 + 0.45, 9.8, -18.6), 'lightr', bevel=0.0)

@@ -25,6 +25,8 @@ def wheel(k, name, x0, x1, r):
 def build(k):
     wheel(k, 'rwheel', 10.0, 14.0, 5.2)
     wheel(k, 'mwheel', 6.6, 9.6, 3.5)
+    w = k.piece('mwheel'); W = w.at
+    w.cyl(W(5.0, 0, 0), W(6.7, 0, 0), 1.2, 10, 'dark', mirror=True)          # stub axle: the wheel stood 0.6 off the hull
     wheel(k, 'fwheel', 5.6, 8.6, 3.5)
 
     b = k.piece('base')
@@ -61,7 +63,7 @@ def build(k):
         b.box((-4.0, y, -18.15), (4.0, y + 0.45, -17.9), 'black', bevel=0.0)
     b.cyl((6.6, 8.0, -17.4), (6.6, 8.8, -19.4), 0.55, 10, 'dark', mirror=True)
     b.cyl((6.6, 8.8, -19.4), (6.6, 8.85, -19.55), 0.38, 10, 'black', mirror=True)
-    b.box((7.2, 10.8, -17.75), (8.6, 11.6, -17.55), 'lightr', bevel=0.0, mirror=True)
+    b.box((7.2, 10.8, -17.1), (8.6, 11.6, -16.6), 'lightr', bevel=0.0, mirror=True)
     # long whip antenna (scout tell), left rear
     b.cyl((-6.8, 12.4, -15.4), (-6.8, 13.1, -15.4), 0.34, 8, 'dark')
     b.cyl((-6.8, 13.1, -15.4), (-6.8, 21.0, -15.4), 0.1, 6, 'steel', r2=0.045)

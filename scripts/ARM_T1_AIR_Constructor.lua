@@ -18,18 +18,18 @@ end
 
 local function activatescr()
 	Move(wing1, x_axis, 0)
-	Move(wing1, x_axis, 11.25, 12.39)
+	Move(wing1, x_axis, 10.25, 11.29)  -- wings stay in the hull's slots: the COB's 11.25 and 14.6 slid them 0.7 and 1.1 elmo off it
 	Move(wing2, x_axis, 0)
-	Move(wing2, x_axis, -13.6, 15)  -- the COB's 14.6 took the kit wing 1.1 elmo off the hull
+	Move(wing2, x_axis, -12.75, 14.04)
 	Sleep(908)
 	Sleep(40)
 end
 
 local function deactivatescr()
-	Move(wing1, x_axis, 11.25)
-	Move(wing1, x_axis, 0, 12.39)
-	Move(wing2, x_axis, -13.6)
-	Move(wing2, x_axis, 0, 15)
+	Move(wing1, x_axis, 10.25)
+	Move(wing1, x_axis, 0, 11.29)
+	Move(wing2, x_axis, -12.75)
+	Move(wing2, x_axis, 0, 14.04)
 	Sleep(908)
 	Sleep(40)
 end
@@ -57,6 +57,7 @@ local function RequestState(requested)
 end
 
 function script.Create()
+	Move(wing2, y_axis, 0.7)  -- kit wing2 hangs 0.4 under the hull and 0.7 below wing1
 	InitState()
 	StartThread(SmokeUnit, {base})
 end

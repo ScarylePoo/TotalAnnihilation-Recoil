@@ -5,7 +5,7 @@ under the belly and slide out sideways on take-off (COB move x), so the flying p
 The TA model's body is centred at x -4; the new body is centred at x 0 so it mirrors, and the two wings are built
 separately (wing1 extends 2.7 elmo inboard of its origin) so that both slide out to the same span either side
 (flight roots at +-8, tips at +-22).
-Pieces (TA layout): base, wing1 (+x side, slides +11.25), wing2 (-x side, slides -14.6), rearthrust (empty).
+Pieces (TA layout): base, wing1 (+x side, slides +10.25), wing2 (-x side, slides -12.75, raised 0.7), rearthrust (empty).
 Value groups from above: light Arm hull and wings, equipment deck in construction stripes (builder read), near-black
 vents, team on the tail fins, the deck spine, the wing roots and tips; yellow hazard on the nano projector.
 Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the -X twin sharing UVs."""
@@ -14,7 +14,7 @@ import math
 UNIT = dict(
     res=1024,
     wreck=dict(seed=14, remove=['wing1']),
-    preview_pose={'wing1': {'move': (11.25, 0, 0)}, 'wing2': {'move': (-14.625, 0, 0)}},
+    preview_pose={'wing1': {'move': (10.25, 0, 0)}, 'wing2': {'move': (-12.75, 0.7, 0)}},
 )
 
 

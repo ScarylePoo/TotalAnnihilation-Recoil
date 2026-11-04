@@ -40,7 +40,7 @@ def build(k):
     t.cyl(A(0, 5.4, -3.4), A(0, 5.4, -8.4), 3.4, 6, 'paint2', rot=math.pi / 6, bevel=0.14)
     for y in (4.2, 5.2, 6.2):
         t.box(A(-2.0, y, -8.6), A(2.0, y + 0.45, -8.3), 'black', bevel=0.0)
-    t.cyl(A(-2.2, 8.4, -6.8), A(-2.2, 13.6, -6.8), 0.12, 6, 'steel', r2=0.06)
+    t.cyl(A(-2.2, 7.2, -6.8), A(-2.2, 13.6, -6.8), 0.12, 6, 'steel', r2=0.06)
     t.cyl(A(-2.2, 13.6, -6.8), A(-2.2, 13.85, -6.8), 0.16, 6, 'lightc')
     # hip skirt plates either side of the waist (break up the silhouette between chest and legs)
     t.hull([A(x, y, z) for x, y, z in

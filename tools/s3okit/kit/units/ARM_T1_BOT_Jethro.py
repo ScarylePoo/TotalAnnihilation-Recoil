@@ -12,7 +12,7 @@ UNIT = dict(
     skeleton_opts=dict(hipx=3.3),      # TA's 2.52 makes the two legs touch
     res=1024,
     wreck=dict(seed=6, drop=['ruparm'], remove=[]),
-    preview_pose={},
+    preview_pose={'ruparm': {'move': (1.2, 0, 0)}, 'luparm': {'move': (-1.2, 0, 0)}},    # script Create seats the pods
 )
 
 
