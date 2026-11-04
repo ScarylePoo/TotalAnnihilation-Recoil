@@ -60,7 +60,7 @@ def build(k):
 
     # ------------------------------------------------------------------ stand: the pillar that rises (origin 0, 1.8, 0)
     s = k.piece('stand'); S = s.at
-    s.box(S(-5.6, -0.2, -6.4), S(5.6, 33.6, 6.2), 'paint', bevel=0.3)
+    s.box(S(-5.6, -1.8, -6.4), S(5.6, 33.6, 6.2), 'paint', bevel=0.3)     # down to the well floor
     for yy in (8.0, 18.0, 28.0):
         s.box(S(-5.9, yy, -6.7), S(5.9, yy + 1.4, 6.5), 'dark', bevel=0.08)
     s.box(S(-3.6, 2.0, 6.2), S(3.6, 26.0, 6.6), 'paint2', bevel=0.06)
