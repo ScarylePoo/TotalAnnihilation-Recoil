@@ -11,7 +11,7 @@ UNIT = dict(
     skeleton_opts=dict(hipx=5.0),
     res=1024,
     wreck=dict(seed=30, drop=['ltong'], remove=[]),
-    preview_pose={'ltong': (180, 0, 0), 'rtong': (180, 0, 0), 'tongspivot': (0, 0, 25)},     # jammer active
+    preview_pose={'ltong': (180, 0, 0), 'rtong': (180, 0, 0), 'tongspivot': (0, 0, 25), 'torso': {'move': (0, -1.25, 0)}},     # jammer active
 )
 
 

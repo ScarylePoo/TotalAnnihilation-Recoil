@@ -13,7 +13,7 @@ UNIT = dict(
     skeleton_opts=dict(hipx=5.4),
     res=1024,
     wreck=dict(seed=14, drop=['gunbase'], remove=[]),
-    preview_pose={},
+    preview_pose={'turret': {'move': (0, -1.3, 0)}},    # script Create seats the turret
 )
 
 
