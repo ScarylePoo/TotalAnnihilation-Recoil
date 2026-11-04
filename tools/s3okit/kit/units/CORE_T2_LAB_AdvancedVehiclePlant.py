@@ -81,6 +81,8 @@ def build(k):
     wedge(w2, lambda x, y, z: (o2.x - z, o2.y + y, o2.z + x))
 
     # ------------------------------------------------------------------ drawers + guns (drawer1 origin -27.7, 0.66, -17.7)
+    # a post inside each drawer, which hung on nothing while rising 18 between the ground and the flipped wings
+    b.cyl((-27.7, 0.0, -17.7), (-27.7, 20.5, -17.7), 5.0, 8, 'dark', rot=math.pi / 8, mirror=True)
     d = k.piece('drawer1'); D = d.at
     oc = [(8.6 * math.cos(math.pi / 8 + i * math.pi / 4), 8.6 * math.sin(math.pi / 8 + i * math.pi / 4)) for i in range(8)]
     d.hull([D(x, y, z) for x, z in oc for y in (0.0, 20.6)], 'paint2', bevel=0.3)
