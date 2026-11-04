@@ -64,7 +64,7 @@ def build(k):
     # afterdeck vents, stern light
     for x in (-4.6, -1.5, 1.6):
         b.box((x, DECK - 0.1, -47.4), (x + 2.6, DECK + 0.2, -44.0), 'black', bevel=0.0)
-    b.box((-3.0, 5.6, -50.0), (3.0, 6.5, -49.6), 'lightr', bevel=0.0)
+    b.box((-3.0, 5.6, -51.9), (3.0, 6.5, -51.0), 'lightr', bevel=0.0)
 
     # ------------------------------------------------------------------ bridge tower + wings
     b.hull([(x * s, y, z) for s in (-1, 1) for x, y, z in
