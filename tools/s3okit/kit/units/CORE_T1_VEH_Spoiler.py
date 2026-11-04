@@ -43,7 +43,7 @@ def build(k):
     # mine chute at the back: hazard frame, black slot
     b.box((-5.0, 4.8, -24.2), (5.0, 9.6, -23.6), 'hazard', bevel=0.05)
     b.box((-3.8, 5.4, -24.35), (3.8, 9.0, -24.1), 'black', bevel=0.0)
-    b.box((8.4, 12.6, -23.2), (10.0, 13.6, -22.9), 'lightr', bevel=0.0, mirror=True)
+    b.box((8.4, 12.6, -22.55), (10.0, 13.6, -21.9), 'lightr', bevel=0.0, mirror=True)
     # ------------------------------------------------------------------ cab + bonnet (front)
     b.hull([(x * sx, y, z) for sx in (-1, 1) for x, y, z in
             [(9.4, 6.4, -4.4), (9.4, 6.4, 22.4), (8.2, 6.2, 24.2),

@@ -131,7 +131,7 @@ function script.StartBuilding(heading, pitch)
 	Move(lift, y_axis, 9, 20)  -- lift and nano travel cut: the COB's took them 2.9 and 3.2 elmo off the kit model
 	Move(turret, y_axis, 5.5, 20)
 	WaitForMove(lift, y_axis)
-	Move(nano, z_axis, 1.6, 20)
+	Move(nano, z_axis, 0.8, 20)
 	Move(rear, z_axis, -3, 20)
 	Turn(panel_t, x_axis, rad(-60), rad(240))
 	Turn(panel_b, x_axis, rad(60), rad(240))
