@@ -516,10 +516,9 @@ ARM_T2_BOT_AdvancedConstructor (14.5, plus stripes). CORE_T2_BOT_AdvancedConstru
 
 ## Resume state (2026-11-02, WSL session): all 266 units have kit models and Lua scripts
 
-Nothing here is merged to `main`: that waits for the user's in-game test, and nothing has been rendered by the engine with a GPU. Test modes in tools/headless-test/run.sh: plain
+Merged to `main` on 2026-11-05 at the user's request (`8eb9ce7d`, fast-forward, no tag: the user is not going back). No agent has seen it rendered with a GPU; the user tests in game. Test modes in tools/headless-test/run.sh: plain
 regression, AIM=1 (fire/hits/pitch), SCRIPTP=1 (poses, build, corpses, transports), GAP=1 (floating pieces, kit/piece_gaps.py), PADS=1 (repair pads), WATER=1 (sea transports, torpedoes).
-Open for the user: nano beams on pad repair and one plane per standalone pad; impact effects on the 81 weapon defs without one; hover cargo on hover/ship transports; torpedoes
-missing in 40-deep water (they dive to ~75); a Hulk stalled when its unload spot was 201 elmos away (limit 198). Decided: heavy kills leave a heap (Killed: 1 wreck, 2 heap, 3 nothing);
+User decisions: pads hold one plane each; nano spray on repair added (look unverified); no hover cargo; torpedoes fixed by groundBounce in weapondefs_post.lua (droppers beside a beach only 18/38). Open: impact effects on the 81 weapon defs without one WAIT for the user's prep work; old .COB files still in scripts/, unused; a Hulk stalled when its unload spot was 201 elmos away (limit 198). Decided: heavy kills leave a heap (Killed: 1 wreck, 2 heap, 3 nothing);
 Hurricane keeps its original layout with canattackground = false on the laser (branch s3o-hurricane is abandoned). kit/cob2lus.py generated the 170 converted scripts and skips hand-edited ones.
 
 ### Floating-geometry and hole review done 2026-11-04, merged
