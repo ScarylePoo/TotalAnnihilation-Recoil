@@ -39,6 +39,13 @@ end
 --  because a carrier would stop for it and a pad builds no further than 38
 --  elmos. It costs what engine repair costs: repairEnergyCostFactor of the
 --  plane's energy cost per part repaired, which is 0 in this game (free).
+--
+--  The nano spray is drawn here too, for the same reason: the engine only sprays
+--  for a real builder's repair, Lua cannot ask it for a nano particle, and the
+--  CEG class CNanoProjectile has no colour field (this game's builders spray in
+--  team colour). Synced says when a plane is being repaired, nothing else; each
+--  client makes and draws its particles from there, so randomness cannot desync.
+--  Speed, spread, aim and colour rules copy CProjectileHandler::AddNanoParticle.
 --------------------------------------------------------------------------------
 
 local CMD_PAD_REPAIR = 33791
@@ -61,8 +68,209 @@ if not gadgetHandler:IsSyncedCode() then
 	local spIsUnitAllied        = Spring.IsUnitAllied
 	local spGetUnitIsBeingBuilt = Spring.GetUnitIsBeingBuilt
 
+	local NANO_SPEED    = 3       -- elmos a frame, as the engine's
+	local NANO_SPREAD   = 0.15    -- random part of the direction, as the engine's
+	local NANO_RADIUS   = 3.5     -- of the sprite
+	local NANO_ALPHA    = 0.35    -- at its centre. Colour stays full: mostly additive, like the engine's
+	local NANO_MAX      = 1000    -- alive at once, all pads together, and never more than MaxNanoParticles
+	local RATE_DEFAULT  = 0.32    -- NanoParticlesRate's default gets one particle a frame, the classic spray
+
+	local spGetUnitPosition     = Spring.GetUnitPosition
+	local spGetUnitPiecePosDir  = Spring.GetUnitPiecePosDir
+	local spGetUnitViewPosition = Spring.GetUnitViewPosition
+	local spGetUnitRadius       = Spring.GetUnitRadius
+	local spGetUnitTeam         = Spring.GetUnitTeam
+	local spIsUnitInLos         = Spring.IsUnitInLos
+	local spIsSphereInView      = Spring.IsSphereInView
+	local spGetFrameTimeOffset  = Spring.GetFrameTimeOffset
+	local spGetGameFrame        = Spring.GetGameFrame
+	local random, sqrt, max, floor = math.random, math.sqrt, math.max, math.floor
+	local glPushMatrix, glPopMatrix, glTranslate, glBillboard, glCallList = gl.PushMatrix, gl.PopMatrix, gl.Translate, gl.Billboard, gl.CallList
+
+	local beams = {}    -- planeID -> { pad, plane, pieces = {a, b}, nextPiece, particles = {}, list = display list }
+	local alive = 0
+	local maxAlive, rate, teamSpray = 0, 1, true
+	local sprites = {}  -- "r g b" -> display list
+	local nano = {beams = beams, drawn = 0, onEmit = nil}  -- for the probe
+	GG.AirPadNano = nano
+
+	-- a soft spot in one colour; gl.Color cannot tint a list whose vertices have their own
+	local function Sprite(r, g, b)
+		local key = floor(r * 255) .. " " .. floor(g * 255) .. " " .. floor(b * 255)
+		if not sprites[key] then
+			sprites[key] = gl.CreateList(function()
+				gl.BeginEnd(GL.TRIANGLES, function()
+					for i = 0, 7 do
+						local a0, a1 = i * math.pi / 4, (i + 1) * math.pi / 4
+						gl.Color(r, g, b, NANO_ALPHA)
+						gl.Vertex(0, 0, 0)
+						gl.Color(0, 0, 0, 0)
+						gl.Vertex(math.cos(a0) * NANO_RADIUS, math.sin(a0) * NANO_RADIUS, 0)
+						gl.Vertex(math.cos(a1) * NANO_RADIUS, math.sin(a1) * NANO_RADIUS, 0)
+					end
+				end)
+			end)
+		end
+		return sprites[key]
+	end
+
+	local function PaintBeam(beam)
+		local r, g, b
+		if teamSpray then
+			r, g, b = Spring.GetTeamColor(spGetUnitTeam(beam.pad))
+		else
+			local ud = UnitDefs[spGetUnitDefID(beam.pad)]
+			r, g, b = ud.nanoColorR, ud.nanoColorG, ud.nanoColorB
+		end
+		beam.r, beam.g, beam.b = r, g, b
+		beam.list = Sprite(r, g, b)
+	end
+
+	local function ReadSettings()
+		maxAlive = math.min(Spring.GetConfigInt("MaxNanoParticles", 2000), NANO_MAX)
+		rate = Spring.GetConfigFloat("NanoParticlesRate", RATE_DEFAULT) / RATE_DEFAULT
+		teamSpray = Spring.GetConfigInt("TeamNanoSpray", 1) ~= 0
+	end
+
+	local function StopBeam(planeID)
+		local beam = beams[planeID]
+		if beam then
+			alive = alive - #beam.particles
+			beams[planeID] = nil
+		end
+	end
+
+	-- synced: plane being repaired by this pad (from these pieces), or no pad: not any more
+	local function OnBeam(_, planeID, padID, pieceA, pieceB)
+		StopBeam(planeID)
+		if padID then
+			local beam = {pad = padID, plane = planeID, pieces = {pieceA, pieceB}, nextPiece = 1, particles = {}, owed = 0}
+			PaintBeam(beam)
+			beams[planeID] = beam
+		end
+	end
+
+	local function Emit(beam, frame, padX, padY, padZ)
+		local piece = beam.pieces[beam.nextPiece]
+		beam.nextPiece = 3 - beam.nextPiece
+		local sx, sy, sz = spGetUnitPiecePosDir(beam.pad, piece)
+		local _, _, _, mx, my, mz = spGetUnitPosition(beam.plane, true)
+		if not sx or not mx then
+			return false
+		end
+		-- anywhere in the middle of the plane, as the engine aims at a builder's target
+		local spot = spGetUnitRadius(beam.plane) * 0.5
+		local tx = mx + (random() * 2 - 1) * spot
+		local ty = my + (random() * 2 - 1) * spot
+		local tz = mz + (random() * 2 - 1) * spot
+		local dx, dy, dz = tx - sx, ty - sy, tz - sz
+		local length = max(sqrt(dx * dx + dy * dy + dz * dz), 1)
+		dx = dx / length + (random() * 2 - 1) * NANO_SPREAD
+		dy = dy / length + (random() * 2 - 1) * NANO_SPREAD
+		dz = dz / length + (random() * 2 - 1) * NANO_SPREAD
+		-- kept relative to the pad, so on a moving carrier the spray goes where the plane is by then
+		local particle = {
+			x = sx - padX, y = sy - padY, z = sz - padZ,
+			vx = dx * NANO_SPEED, vy = dy * NANO_SPEED, vz = dz * NANO_SPEED,
+			born = frame, dies = frame + max(floor(length / NANO_SPEED), 1),
+		}
+		local particles = beam.particles
+		particles[#particles + 1] = particle
+		alive = alive + 1
+		if nano.onEmit then
+			nano.onEmit(beam, particle, piece, sx, sy, sz, tx, ty, tz)
+		end
+		return true
+	end
+
+	function gadget:GameFrame(frame)
+		if not next(beams) then
+			return
+		end
+		if frame % 30 == 0 then
+			ReadSettings()
+			for _, beam in pairs(beams) do
+				PaintBeam(beam)
+			end
+		end
+		for planeID, beam in pairs(beams) do
+			local particles = beam.particles
+			local n = #particles
+			local kept = 0
+			for i = 1, n do
+				local particle = particles[i]
+				if particle.dies > frame then
+					kept = kept + 1
+					particles[kept] = particle
+				end
+			end
+			for i = kept + 1, n do
+				particles[i] = nil
+			end
+			alive = alive - (n - kept)
+
+			local padX, padY, padZ = spGetUnitPosition(beam.pad)
+			beam.owed = beam.owed + rate
+			while beam.owed >= 1 do
+				beam.owed = beam.owed - 1
+				if padX and alive < maxAlive and not Emit(beam, frame, padX, padY, padZ) then
+					break
+				end
+			end
+		end
+	end
+
+	-- where a particle is, given where the pad is drawn
+	function nano.Position(particle, padX, padY, padZ, frames)
+		local age = frames - particle.born
+		return padX + particle.x + particle.vx * age, padY + particle.y + particle.vy * age, padZ + particle.z + particle.vz * age
+	end
+
+	function gadget:DrawWorld()
+		if alive <= 0 then
+			return
+		end
+		local _, fullView = Spring.GetSpectatingState()
+		local allyTeam = Spring.GetLocalAllyTeamID()
+		local frames = spGetGameFrame() + spGetFrameTimeOffset()
+		gl.Blending(GL.ONE, GL.ONE_MINUS_SRC_ALPHA)
+		gl.DepthTest(true)
+		gl.DepthMask(false)
+		for _, beam in pairs(beams) do
+			local padX, padY, padZ = spGetUnitViewPosition(beam.pad)
+			-- gadgets can read everything: no spraying from what this player cannot see
+			if padX and beam.list and spIsSphereInView(padX, padY, padZ, 200)
+				and (fullView or spIsUnitInLos(beam.pad, allyTeam) or spIsUnitInLos(beam.plane, allyTeam)) then
+				local particles, list = beam.particles, beam.list
+				for i = 1, #particles do
+					local x, y, z = nano.Position(particles[i], padX, padY, padZ, frames)
+					glPushMatrix()
+					glTranslate(x, y, z)
+					glBillboard()
+					glCallList(list)
+					glPopMatrix()
+				end
+				beam.drawn = (beam.drawn or 0) + #particles
+				nano.drawn = nano.drawn + #particles
+			end
+		end
+		gl.DepthMask(false)
+		gl.DepthTest(false)
+		gl.Blending(GL.SRC_ALPHA, GL.ONE_MINUS_SRC_ALPHA)
+		gl.Color(1, 1, 1, 1)
+	end
+
 	function gadget:Initialize()
 		Spring.SetCustomCommandDrawData(CMD_PAD_REPAIR, "Repair", {0.3, 1, 0.4, 0.8}, true)
+		ReadSettings()
+		gadgetHandler:AddSyncAction("airpad_nano", OnBeam)
+	end
+
+	function gadget:Shutdown()
+		gadgetHandler:RemoveSyncAction("airpad_nano")
+		for _, list in pairs(sprites) do
+			gl.DeleteList(list)
+		end
 	end
 
 	-- right click on a friendly pad with a damaged aircraft selected
@@ -99,6 +307,7 @@ local PATIENCE     = 30 * 30    -- frames waiting before a free pad at any dista
 local HOLD_RADIUS  = 320        -- airplanes waiting: the orbit around the pad
 local HOLD_HEIGHT  = 170        -- above the pad, plus HOLD_STACK per place in the queue
 local HOLD_STACK   = 35
+local MAST_PIECES  = {"radar", "dish"}  -- carriers have no QueryNanoPiece: the spray comes off the mast
 
 local spGetUnitPosition       = Spring.GetUnitPosition
 local spGetUnitPiecePosDir    = Spring.GetUnitPiecePosDir
@@ -153,6 +362,30 @@ local function CallScript(unitID, name)
 	end
 end
 
+-- what the spray comes from, as a builder's would: the script says (these scripts take turns between two); no list: the landing point
+local function NanoPieces(unitID, env)
+	local list = {}
+	local query = env.script.QueryNanoPiece
+	if query then
+		for i = 1, 2 do
+			local piece = Spring.UnitScript.CallAsUnit(unitID, query)
+			if piece and piece > 0 then
+				list[#list + 1] = piece
+			end
+		end
+	end
+	if #list == 0 then
+		local map = Spring.GetUnitPieceMap(unitID)
+		for i = 1, #MAST_PIECES do
+			if map[MAST_PIECES[i]] then
+				list[1] = map[MAST_PIECES[i]]
+				break
+			end
+		end
+	end
+	return list
+end
+
 local function AddPad(unitID, unitDefID)
 	local env = Spring.UnitScript.GetScriptEnv(unitID)
 	local query = env and env.script.QueryLandingPads
@@ -169,7 +402,7 @@ local function AddPad(unitID, unitDefID)
 		end
 	end
 	if #points > 0 then
-		pads[unitID] = {id = unitID, points = points, rate = UnitDefs[unitDefID].repairSpeed}
+		pads[unitID] = {id = unitID, points = points, rate = UnitDefs[unitDefID].repairSpeed, nano = NanoPieces(unitID, env)}
 	end
 end
 
@@ -226,7 +459,22 @@ end
 -- Leaving and ending
 --------------------------------------------------------------------------------
 
+-- says so to the unsynced side, which does the spray; every way out of a repair comes through Lift or ReleasePoint
+local function SetBeam(trip, on)
+	if on == (trip.beam or false) then
+		return
+	end
+	trip.beam = on
+	if on then
+		local nano, piece = trip.pad.nano, trip.point.piece
+		SendToUnsynced("airpad_nano", trip.unit, trip.pad.id, nano[1] or piece, nano[2] or nano[1] or piece)
+	else
+		SendToUnsynced("airpad_nano", trip.unit)
+	end
+end
+
 local function ReleasePoint(trip)
+	SetBeam(trip, false)
 	if trip.point then
 		trip.point.plane = nil
 		trip.point = nil
@@ -358,6 +606,7 @@ local function Lift(trip, why)
 	if trip.state ~= "land" and trip.state ~= "deck" then
 		return
 	end
+	SetBeam(trip, false)
 	if why == "cancel" then
 		trip.cancelled = true
 		retryAt[unitID] = spGetGameFrame() + RETRY_DELAY
@@ -478,9 +727,13 @@ local function StepDeck(trip, frame)
 	trip.yaw = PadYaw(pad.id) + trip.yawOffset
 	Place(trip)
 
+	local working = not spGetUnitIsStunned(pad.id) and not spGetUnitIsBeingBuilt(pad.id)
+	if not working then
+		SetBeam(trip, false)
+	end
 	if frame >= trip.nextRepair then
 		trip.nextRepair = frame + 5
-		if not spGetUnitIsStunned(pad.id) and not spGetUnitIsBeingBuilt(pad.id) then
+		if working then
 			local health, maxHealth = spGetUnitHealth(unitID)
 			local ud = UnitDefs[planes[unitID]]
 			local part = pad.rate / ud.buildTime * 5 / 30
@@ -489,6 +742,7 @@ local function StepDeck(trip, frame)
 				health = min(health + part * maxHealth, maxHealth)
 				spSetUnitHealth(unitID, health)
 			end
+			SetBeam(trip, pays and health < maxHealth)
 			if health >= maxHealth then
 				Lift(trip)
 			end
