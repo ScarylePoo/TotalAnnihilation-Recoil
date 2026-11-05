@@ -95,6 +95,13 @@ for id, weaponDef in pairs(WeaponDefs) do
 		end
 		if weaponDef.weapontype == "TorpedoLauncher" then
 			weaponDef.soundhitwet = weaponDef.soundhitdry
+			-- A dropped torpedo enters the water at plane speed (~11 elmos/frame, 3x its rated speed) and the engine never slows it,
+			-- while it turns a fixed angle per frame: it needs 75 elmos (turnrate 15000) to over 150 (10000) to level off, and
+			-- blows up on any shallower seabed. Touching the seabed instead sheds the excess speed and lets it steer on.
+			weaponDef.groundbounce = true
+			weaponDef.bouncerebound = 0.2
+			weaponDef.bounceslip = 0.3
+			weaponDef.numbounce = 2
 		else
 			local AoE = tonumber(weaponDef.areaofeffect) or 0
 			if AoE<50 then
