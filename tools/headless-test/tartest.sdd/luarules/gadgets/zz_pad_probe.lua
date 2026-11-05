@@ -24,7 +24,153 @@ if not gadgetHandler:IsSyncedCode() then
     Spring.Echo("[HARNESS] PAD " .. ((n == 1 and onPadHurt == CMD_PAD and not onPlane and not onPadFull) and "PASS" or "FAIL") .. " rightclick DefaultCommand: selected " .. n .. " damaged plane on pad=" ..
       tostring(onPadHurt) .. " on non-pad=" .. tostring(onPlane) .. " full-health plane on pad=" .. tostring(onPadFull))
   end
-  function gadget:Initialize() gadgetHandler:AddSyncAction("padprobe_click", Run) end
+  -- ---------------------------------------------------- the nano spray. Headless draws nothing: this checks what the emitter does, not how it looks.
+  -- The synced side sends, every frame, who it sees being repaired (on deck, damaged, pad working): the set the emitter may spray for.
+  Spring.SetConfigInt("MaxNanoParticles", 2000) -- 0 on headless, which would turn the spray off
+  Spring.SetConfigInt("TeamNanoSpray", 1)
+  local nowF, repairing, repairingPrev = 0, {}, {}
+  local N = { emits = 0, illegal = 0, offPad = 0, offPlane = 0, wrongPiece = 0, maxPad = 0, maxAim = 0, maxAlive = 0, moving = 0, maxDrift = 0, maxSpeed = 0, teamBad = 0, teamChecks = 0, greenBad = 0, greenChecks = 0, wrongFrame = 0 }
+  local firstBad = {}
+  local expectFrames, emitFrames, names = {}, {}, {}
+  local inFlight = {}
+  local colourSince = 0
+  local PIECES = { arm_t2_def_airrepairpad = { beam1 = true, beam2 = true }, core_t2_def_airrepairpad = { beam1 = true, beam2 = true }, arm_t2_sea_colossus = { radar = true }, core_t2_sea_hive = { dish = true } }
+  local pieceSeen = {}
+  local function Bad(what, s) N[what] = N[what] + 1; firstBad[what] = firstBad[what] or s end
+  local function Report(ok, name, ...)
+    local t = { ... }
+    for i = 1, #t do t[i] = tostring(t[i]) end
+    Spring.Echo("[HARNESS] PAD " .. (ok and "PASS " or "FAIL ") .. name .. " " .. table.concat(t, " "))
+  end
+  local function OnEmit(beam, particle, piece, sx, sy, sz, tx, ty, tz)
+    local nano = GG.AirPadNano
+    N.emits = N.emits + 1
+    local key = beam.plane .. ":" .. beam.pad
+    emitFrames[beam.plane] = (emitFrames[beam.plane] or 0) + 1
+    if not repairing[key] and not repairingPrev[key] then Bad("illegal", "f=" .. nowF .. " " .. key) end
+    if particle.born ~= nowF then Bad("wrongFrame", "born " .. particle.born .. " at " .. nowF) end
+    local padDef = UnitDefs[Spring.GetUnitDefID(beam.pad)]
+    local pieceName = Spring.GetUnitPieceList(beam.pad)[piece]
+    pieceSeen[padDef.name .. "." .. tostring(pieceName)] = true
+    if not PIECES[padDef.name][pieceName] then Bad("wrongPiece", padDef.name .. "." .. tostring(pieceName)) end
+    local px, py, pz = Spring.GetUnitPosition(beam.pad)
+    local dPad = math.sqrt((sx - px)^2 + (sy - py)^2 + (sz - pz)^2)
+    N.maxPad = math.max(N.maxPad, dPad)
+    if dPad > 90 then Bad("offPad", padDef.name .. " start " .. dPad .. " from pad") end
+    local _, _, _, mx, my, mz = Spring.GetUnitPosition(beam.plane, true)
+    local radius = Spring.GetUnitRadius(beam.plane)
+    local dAim = math.sqrt((tx - mx)^2 + (ty - my)^2 + (tz - mz)^2)
+    N.maxAim = math.max(N.maxAim, dAim / radius)
+    if dAim > radius then Bad("offPlane", "aim " .. dAim .. " off a plane of radius " .. radius) end
+    -- on a moving carrier: when it dies, is it at the plane, which has moved on by then?
+    local vx, _, vz = Spring.GetUnitVelocity(beam.pad)
+    local speed = math.sqrt(vx * vx + vz * vz)
+    if speed > 1 and particle.dies - particle.born >= 3 then
+      N.maxSpeed = math.max(N.maxSpeed, speed)
+      inFlight[#inFlight + 1] = { beam = beam, particle = particle, radius = radius, length = math.sqrt((tx - sx)^2 + (ty - sy)^2 + (tz - sz)^2) }
+    end
+    N.maxAlive = math.max(N.maxAlive, (function() local c = 0; for _, b in pairs(nano.beams) do c = c + #b.particles end; return c end)())
+  end
+  local drawCells = {}
+  local function OnDrawCell(_, plane, pad, name) drawCells[#drawCells + 1] = { plane = plane, pad = pad, name = name } end
+  local function OnFrame(_, frame, list, deckCount)
+    nowF = frame
+    repairingPrev, repairing = repairing, {}
+    for plane, pad in string.gmatch(list, "(%d+):(%d+)") do
+      repairing[plane .. ":" .. pad] = true
+      expectFrames[tonumber(plane)] = (expectFrames[tonumber(plane)] or 0) + 1
+    end
+    local nano = GG.AirPadNano
+    if nano and not nano.onEmit then nano.onEmit = OnEmit end
+    -- every beam alive has to be a repair going on
+    for plane, beam in pairs(nano and nano.beams or {}) do
+      local key = plane .. ":" .. beam.pad
+      if not repairing[key] and not repairingPrev[key] then Bad("illegal", "beam open f=" .. frame .. " " .. key) end
+      if frame - colourSince > 31 then
+        local want, r, g, b
+        if colourSince == 0 or N.colourMode ~= "green" then
+          r, g, b = Spring.GetTeamColor(Spring.GetUnitTeam(beam.pad))
+          N.teamChecks = N.teamChecks + 1
+          -- it repaints once a second; a pad given to another team gets that long
+          if math.abs(beam.r - r) + math.abs(beam.g - g) + math.abs(beam.b - b) > 0.01 then
+            beam.wrongSince = beam.wrongSince or frame
+            if frame - beam.wrongSince > 31 then Bad("teamBad", "plane " .. plane .. " " .. tostring(beam.r) .. " want " .. tostring(r)) end
+          else
+            beam.wrongSince = nil
+          end
+        else
+          local ud = UnitDefs[Spring.GetUnitDefID(beam.pad)]
+          N.greenChecks = N.greenChecks + 1
+          if math.abs(beam.r - ud.nanoColorR) + math.abs(beam.g - ud.nanoColorG) + math.abs(beam.b - ud.nanoColorB) > 0.01 then Bad("greenBad", tostring(beam.r)) end
+        end
+      end
+    end
+    -- the draw call: one player's own repair and an enemy's, both on screen. Team 0 is the player's; team 1 is not allied
+    if frame == 61 then Spring.SetCameraTarget(1800, 100, 10900, 0) end
+    for _, c in ipairs(drawCells) do
+      local beam = nano and nano.beams[c.plane]
+      if beam then
+        c.beamFrames = (c.beamFrames or 0) + 1
+        c.drawn = beam.drawn or 0
+        c.inView = c.inView or Spring.IsUnitInView(c.pad)
+        c.los = c.los or Spring.IsUnitInLos(c.pad, Spring.GetLocalAllyTeamID()) or Spring.IsUnitInLos(c.plane, Spring.GetLocalAllyTeamID())
+      end
+    end
+    if frame == 2400 then Spring.SetConfigInt("TeamNanoSpray", 0); N.colourMode = "green"; colourSince = frame end
+    -- particles on a moving carrier, just before they die
+    local i = 1
+    while inFlight[i] do
+      local f = inFlight[i]
+      if frame >= f.particle.dies - 1 then
+        if nano.beams[f.beam.plane] == f.beam then
+          N.moving = N.moving + 1
+          local px, py, pz = Spring.GetUnitPosition(f.beam.pad)
+          local x, y, z = nano.Position(f.particle, px, py, pz, frame + 1)
+          local _, _, _, mx, my, mz = Spring.GetUnitPosition(f.beam.plane, true)
+          local drift = math.sqrt((x - mx)^2 + (y - my)^2 + (z - mz)^2)
+          -- what it may be off by: where in the plane it aimed, and the random part of its direction
+          N.maxDrift = math.max(N.maxDrift, drift - f.radius * 0.87 - f.length * 0.26)
+        end
+        table.remove(inFlight, i)
+      else
+        i = i + 1
+      end
+    end
+  end
+  local function OnEnd()
+    local nano = GG.AirPadNano
+    Report(N.emits > 0 and N.illegal == 0 and N.wrongFrame == 0, "nano_only_while_repairing", N.emits, "particles, illegal", N.illegal, firstBad.illegal or "")
+    local worst, worstPlane = 2, nil
+    local planes = 0
+    for plane, count in pairs(expectFrames) do
+      if count >= 45 then
+        planes = planes + 1
+        local ratio = (emitFrames[plane] or 0) / count
+        if ratio < worst then worst, worstPlane = ratio, plane end
+      end
+    end
+    Report(planes > 10 and worst > 0.75, "nano_sprays_all_through_the_repair", planes, "planes, worst particles per repairing frame", string.format("%.2f", worst), "plane", worstPlane)
+    local seen = {}
+    for k in pairs(pieceSeen) do seen[#seen + 1] = k end
+    table.sort(seen)
+    Report(N.wrongPiece == 0 and N.offPad == 0 and pieceSeen["arm_t2_def_airrepairpad.beam1"] and pieceSeen["arm_t2_def_airrepairpad.beam2"] and pieceSeen["core_t2_def_airrepairpad.beam1"] and pieceSeen["arm_t2_sea_colossus.radar"] and pieceSeen["core_t2_sea_hive.dish"], "nano_starts_on_the_pads_nano_piece",
+      table.concat(seen, ","), string.format("furthest from pad origin %.0f", N.maxPad), firstBad.wrongPiece or "", firstBad.offPad or "")
+    Report(N.offPlane == 0, "nano_aims_into_the_plane", string.format("furthest aim %.2f of plane radius", N.maxAim), firstBad.offPlane or "")
+    Report(N.moving > 100 and N.maxDrift < 1 and N.maxSpeed > 1, "nano_reaches_the_plane_on_a_moving_carrier", N.moving, "particles followed", string.format("carrier up to %.2f e/f, worst %.2f elmos beyond aim and spread", N.maxSpeed, N.maxDrift))
+    Report(N.teamChecks > 0 and N.teamBad == 0 and N.greenChecks > 0 and N.greenBad == 0, "nano_colour_follows_TeamNanoSpray", "team colour", N.teamChecks, "checks", N.teamBad, "bad; nanoColor", N.greenChecks, "checks", N.greenBad, "bad", firstBad.teamBad or "")
+    local open = 0
+    for _ in pairs(nano.beams) do open = open + 1 end
+    local mine, theirs = drawCells[1], drawCells[2]
+    Report(open == 0, "nano_no_beam_left_open", "beams still open", open, "most particles alive at once", N.maxAlive)
+    Report(mine and mine.beamFrames and mine.drawn > 0, "nano_drawn_for_own_repair", "particle draws", mine and mine.drawn, "beam frames", mine and mine.beamFrames, "in view", mine and mine.inView, "in los", mine and mine.los)
+    Report(theirs and theirs.beamFrames and theirs.inView and not theirs.los and theirs.drawn == 0, "nano_hidden_outside_los", "particle draws", theirs and theirs.drawn, "beam frames", theirs and theirs.beamFrames, "in view", theirs and theirs.inView, "in los", theirs and theirs.los)
+  end
+  function gadget:Initialize()
+    gadgetHandler:AddSyncAction("padprobe_click", Run)
+    gadgetHandler:AddSyncAction("padprobe_frame", OnFrame)
+    gadgetHandler:AddSyncAction("padprobe_end", OnEnd)
+    gadgetHandler:AddSyncAction("padprobe_drawcell", OnDrawCell)
+  end
   return
 end
 
@@ -616,6 +762,22 @@ function T.resume()
   end, "stun: deck")
 end
 
+-- ------------------------------------------------------------- nano on screen: the player's pad, and an enemy's out of sight (the unsynced side watches)
+function T.nanoView()
+  for _, c in ipairs({ { 0, 1700, 11800, "mine" }, { 1, 1900, 10000, "theirs" } }) do
+    local team, x, z = c[1], c[2], c[3]
+    local pad = Spawn("arm_t2_def_airrepairpad", x, z, team)
+    local plane = Spawn("arm_t1_air_thunder", x - 300, z, team)
+    Spring.GiveOrderToUnit(plane, CMD.AUTOREPAIRLEVEL, { 0 }, 0)
+    Spring.GiveOrderToUnit(plane, CMD.FIRE_STATE, { 0 }, 0)
+    After(2, function()
+      Hurt(plane, 0.2)
+      Spring.GiveOrderToUnit(plane, CMD_PAD, { pad }, 0)
+      SendToUnsynced("padprobe_drawcell", plane, pad, c[4])
+    end)
+  end
+end
+
 -- ------------------------------------------------------------- right click
 function T.click()
   local x, z = 3500, 11700
@@ -637,7 +799,7 @@ function gadget:GameFrame(frame)
     end
   end
   if frame == START then
-    for _, n in ipairs({ "click", "kinds", "busy", "carrierPoints", "moving", "noPad", "planeDies", "killed", "cancels", "levels", "transfer", "resume" }) do T[n]() end
+    for _, n in ipairs({ "click", "nanoView", "kinds", "busy", "carrierPoints", "moving", "noPad", "planeDies", "killed", "cancels", "levels", "transfer", "resume" }) do T[n]() end
     -- the Land at button is what the UI sees
     local thunder = Spawn("arm_t1_air_thunder", 3000, 11700, 1)
     After(2, function()
@@ -664,11 +826,21 @@ function gadget:GameFrame(frame)
     end
   end
   if frame > START then StepTracked(frame) end
+  do -- who is being repaired right now, as this probe sees it: for the unsynced nano checks
+    local parts = {}
+    for unitID, trip in pairs(GG.AirPads.trips) do
+      if trip.state == "deck" and trip.pad and Hp(unitID) < 1 and not Spring.GetUnitIsStunned(trip.pad.id) then
+        parts[#parts + 1] = unitID .. ":" .. trip.pad.id
+      end
+    end
+    SendToUnsynced("padprobe_frame", frame, table.concat(parts, ","))
+  end
   if frame >= START + 60 and (frame % 300 == 0) then
     if #whens == 0 and next(at) == nil then END = frame end
   end
   if frame == END or frame == START + 7200 then
     for _, w in ipairs(whens) do res(false, "UNFINISHED", tostring(w.name), "waited", frame - w.since) end
+    SendToUnsynced("padprobe_end")
     Spring.Echo("[HARNESS] PAD DONE pass " .. passes .. " fail " .. fails .. " at frame " .. frame)
     Spring.SendCommands("quitforce")
   end
