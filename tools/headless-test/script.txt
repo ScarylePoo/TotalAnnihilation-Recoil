@@ -17,6 +17,7 @@
 	[MODOPTIONS]
 	{
 		debugmode=1;
+		skippregame=1;
 	}
 	[PLAYER0]
 	{

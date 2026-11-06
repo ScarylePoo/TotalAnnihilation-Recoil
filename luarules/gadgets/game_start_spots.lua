@@ -1,0 +1,952 @@
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+--
+--  file:    game_start_spots.lua
+--  brief:   builds the list of start spots used by the placement phase
+--
+--  Ported from game_start_spots.lua in Splinter Faction (same author, GPL v2+).
+--
+--  Reads start positions from the map's mapinfo.lua, moves any that sit in the
+--  void on voidwater maps onto nearby land, throws the set away if spots
+--  overlap (a sure sign they're placeholder data), synthesises spots from
+--  resource clusters when the map is short, and partitions the result between
+--  allyteams. Publishes the result through GG.StartSpots and game rules params.
+--
+--  Changes from Splinter Faction:
+--    * start boxes: when every allyteam has a start box of its own (a lobby
+--      game with boxes), a spot belongs to the allyteam whose box holds it,
+--      spots outside every box are dropped, and an allyteam whose box holds too
+--      few spots gets new ones invented inside its box.
+--    * without boxes, the split gives each allyteam at least one spot per team
+--      (when there are enough spots), so a 3v1 does not leave the three
+--      sharing; an allyteam with no usable engine start position is placed by
+--      its start box centre instead of being left without spots.
+--    * mapinfo's startPos is read whatever its capitalisation, spots off the
+--      map are dropped and spots hard against its edge are moved in.
+--
+--  Consumer: game_spawn.lua calls GG.StartSpots.Get() in GameStart.
+--
+--  Licensed under the terms of the GNU GPL, v2 or later.
+--
+--------------------------------------------------------------------------------
+--------------------------------------------------------------------------------
+
+function gadget:GetInfo()
+	return {
+		name      = "Start Spots",
+		desc      = "Loads, validates, synthesises and partitions start positions",
+		author    = "Scary le Poo; SplinterFaction Team",
+		date      = "2026-11-06",
+		license   = "GNU GPL, v2 or later",
+		layer     = -5,          -- before Spawn (layer 0)
+		enabled   = true
+	}
+end
+
+if (not gadgetHandler:IsSyncedCode()) then
+	return false
+end
+
+--------------------------------------------------------------------------------
+-- State
+--------------------------------------------------------------------------------
+
+local mapSpots = {}     -- spotIdx (1-based) → {x, z, allyteam, synthetic}
+local isFFA    = false
+local built    = false  -- Build() has run (result may still be empty)
+local voidWater = nil   -- map has voidwater (nil = not checked yet)
+
+local gaiaTeamID = Spring.GetGaiaTeamID()
+
+local function CountNonGaiaTeams()
+	local n = 0
+	for _, tID in ipairs(Spring.GetTeamList()) do
+		if tID ~= gaiaTeamID then n = n + 1 end
+	end
+	return n
+end
+
+-- allyteamID → number of non-gaia teams in it, for allyteams that have any
+local function AllyTeamCounts()
+	local counts = {}
+	for _, atID in ipairs(Spring.GetAllyTeamList()) do
+		local count = 0
+		for _, tID in ipairs(Spring.GetTeamList(atID) or {}) do
+			if tID ~= gaiaTeamID then count = count + 1 end
+		end
+		if count > 0 then counts[atID] = count end
+	end
+	return counts
+end
+
+--------------------------------------------------------------------------------
+-- Start boxes
+--------------------------------------------------------------------------------
+
+-- The allyteam's start box as {x1, z1, x2, z2}, or nil when it has none (the
+-- engine reports the whole map then).
+local function StartBox(atID)
+	local x1, z1, x2, z2 = Spring.GetAllyTeamStartBox(atID)
+	if not x1 then return nil end
+	local mx, mz = Game.mapSizeX, Game.mapSizeZ
+	if x1 <= 1 and z1 <= 1 and x2 >= mx - 1 and z2 >= mz - 1 then return nil end
+	if x2 - x1 < 1 or z2 - z1 < 1 then return nil end
+	return { x1 = x1, z1 = z1, x2 = x2, z2 = z2 }
+end
+
+local function InBox(box, x, z)
+	return x >= box.x1 and x <= box.x2 and z >= box.z1 and z <= box.z2
+end
+
+-- Boxes for every participating allyteam, or nil unless all of them have one.
+local function AllStartBoxes(atCounts)
+	local boxes, any = {}, false
+	for atID in pairs(atCounts) do
+		local box = StartBox(atID)
+		if not box then return nil end
+		boxes[atID] = box
+		any = true
+	end
+	return any and boxes or nil
+end
+
+--------------------------------------------------------------------------------
+-- Synthetic start positions
+--
+-- Some maps ship start positions that sit on top of one another (or none at
+-- all).  Those are useless for placement, so after loading mapinfo we:
+--   1. Collapse any spots closer than DUPLICATE_RADIUS into one.
+--   2. If fewer distinct spots remain than there are teams, invent new ones.
+--
+-- Invented spots prefer clusters of resource locations (3+ ideal, 2 is fine),
+-- and are spread as far apart as possible from every existing spot and from
+-- each other.  Farthest-point spreading naturally puts them along the long
+-- axis of a non-square map.
+--------------------------------------------------------------------------------
+
+local DUPLICATE_RADIUS  = 128   -- elmos; spots closer than this are one spot
+local MIN_SPOTS         = 2     -- always keep at least this many usable spots
+local SYNTH_SPOTS_PER_TEAM = 2  -- when the whole set is invented, spots per team (gives a choice)
+local CLUSTER_RADIUS    = 384   -- elmos; resource points within this form a cluster
+local IDEAL_CLUSTER     = 3     -- clusters this big or bigger score full marks
+local MIN_SEPARATION    = 512   -- elmos; never invent a spot closer than this to another
+local EDGE_MARGIN       = 256   -- elmos; keep invented spots off the map edge
+local SPOT_EDGE_MIN     = 128   -- elmos; map spots nearer the edge than this are moved in
+local GRID_CANDIDATES   = 8     -- N×N geometric fallback grid across the map (or box)
+
+-- Voidwater maps (asteroids, floating islands): the engine draws nothing where
+-- the ground is at or below the waterline, so that area is empty space and a
+-- commander must never start there.
+local VOID_CLEARANCE_REAL  = 48    -- elmos of solid ground a mapinfo spot needs around it (commander footprint)
+local VOID_CLEARANCE_SYNTH = 160   -- elmos of solid ground an invented spot needs (shared-spot ring + first buildings)
+local VOID_CLEARANCE_NUDGE = 96    -- elmos of solid ground a void spot is given when it is moved onto land
+local VOID_NUDGE_RADIUS    = 512   -- elmos; a void spot farther than this from land is parked junk and is dropped
+local VOID_NUDGE_MIN_GAP   = 256   -- elmos; a moved spot landing closer than this to another spot is dropped
+local NUDGE_STEP           = 32    -- elmos; ring spacing when searching for nearby usable ground
+local SPAWN_RESCUE_RADIUS  = 1024  -- elmos; how far SafeSpawnPos searches for solid ground
+
+-- Unit circle sample directions shared by the clearance test and nudge search.
+local RING_DIRS = {}
+for i = 1, 16 do
+	local a = (i - 1) / 16 * 2 * math.pi
+	RING_DIRS[i] = { math.cos(a), math.sin(a) }
+end
+
+-- A key of a table read raw from mapinfo.lua, whatever its capitalisation (the
+-- engine's own parser ignores case; many maps lower-case their keys, some
+-- do not).
+local function KeyAnyCase(t, key)
+	if type(t) ~= "table" then return nil end
+	if t[key] ~= nil then return t[key] end
+	for k, v in pairs(t) do
+		if type(k) == "string" and string.lower(k) == key then
+			return v
+		end
+	end
+	return nil
+end
+
+-- Does the map set voidwater?  The engine exposes this to unsynced code only
+-- (gl.GetMapRendering), so synced reads it from mapinfo.lua.
+local function MapHasVoidWater(mi)
+	local v = KeyAnyCase(mi, "voidwater")
+	return v == true or v == 1 or v == "1" or v == "true"
+end
+
+-- True when (x, z) and everything within `clearance` elmos of it is above the
+-- waterline.  Samples two rings (full and half radius) of 8 points each.
+local function HasSolidGround(x, z, clearance)
+	if x < 0 or z < 0 or x > Game.mapSizeX or z > Game.mapSizeZ then return false end
+	if Spring.GetGroundHeight(x, z) <= 0 then return false end
+	if clearance and clearance > 0 then
+		for i = 1, 16, 2 do
+			local d = RING_DIRS[i]
+			if Spring.GetGroundHeight(x + d[1] * clearance,       z + d[2] * clearance)       <= 0
+			or Spring.GetGroundHeight(x + d[1] * clearance * 0.5, z + d[2] * clearance * 0.5) <= 0 then
+				return false
+			end
+		end
+	end
+	return true
+end
+
+-- Walk outward from (x, z) in rings and return the first position that passes
+-- `test(px, pz)`, or nil if nothing within maxRadius does.  Deterministic.
+local function FindNear(x, z, maxRadius, test)
+	for r = NUDGE_STEP, maxRadius, NUDGE_STEP do
+		for i = 1, 16 do
+			local d = RING_DIRS[i]
+			local px, pz = x + d[1] * r, z + d[2] * r
+			if test(px, pz) then return px, pz end
+		end
+	end
+	return nil
+end
+
+-- Voidwater maps only: repair mapinfo spots that sit in (or hang over) the
+-- void.  A spot with land within VOID_NUDGE_RADIUS is moved onto it (the mapper
+-- meant that ledge and missed).  A spot with no land in reach is an unused slot
+-- parked off the playable area and is dropped.  A moved spot that would land on
+-- top of another spot is dropped too, so the overlap test that follows only
+-- ever judges the map's own data, never a collision this repair created.
+-- Spot order is preserved and indices are re-packed to stay contiguous 1..N.
+-- Returns moved, dropped.
+local function FixVoidSpots()
+	local function Solid(px, pz) return HasSolidGround(px, pz, VOID_CLEARANCE_NUDGE) end
+	local gap2 = VOID_NUDGE_MIN_GAP * VOID_NUDGE_MIN_GAP
+
+	-- Pass 1: spots already on solid ground are fixed points.
+	local anchors = {}
+	local inVoid  = {}
+	for i = 1, #mapSpots do
+		local s = mapSpots[i]
+		if HasSolidGround(s.x, s.z, VOID_CLEARANCE_REAL) then
+			anchors[#anchors + 1] = s
+		else
+			inVoid[i] = true
+		end
+	end
+
+	-- Pass 2: move or drop the rest, in map order.
+	local kept = {}
+	local moved, dropped = 0, 0
+	for i = 1, #mapSpots do
+		local s = mapSpots[i]
+		if not inVoid[i] then
+			kept[#kept + 1] = s
+		else
+			local nx, nz = FindNear(s.x, s.z, VOID_NUDGE_RADIUS, Solid)
+			local crowded = false
+			if nx then
+				for _, a in ipairs(anchors) do
+					local dx, dz = nx - a.x, nz - a.z
+					if dx * dx + dz * dz < gap2 then crowded = true; break end
+				end
+			end
+			if nx and not crowded then
+				Spring.Echo(string.format("[Start Spots]   start position (%.0f, %.0f) is in the void, moved to (%.0f, %.0f)",
+				                          s.x, s.z, nx, nz))
+				s.x, s.z = nx, nz
+				s.nudged = true
+				kept[#kept + 1] = s
+				anchors[#anchors + 1] = s
+				moved = moved + 1
+			else
+				Spring.Echo(string.format("[Start Spots]   dropping start position in the void (%.0f, %.0f): %s",
+				                          s.x, s.z, nx and "no room next to an existing spot" or "no land in reach"))
+				dropped = dropped + 1
+			end
+		end
+	end
+	mapSpots = kept
+	return moved, dropped
+end
+
+-- Collapse near-duplicate spots in mapSpots (keeps the first of each group and
+-- re-packs indices so they stay contiguous 1..N).  Returns the number removed.
+local function DedupeMapSpots()
+	local kept = {}
+	local removed = 0
+	local r2 = DUPLICATE_RADIUS * DUPLICATE_RADIUS
+	for i = 1, #mapSpots do
+		local s = mapSpots[i]
+		local dup = false
+		for _, k in ipairs(kept) do
+			local dx, dz = s.x - k.x, s.z - k.z
+			if dx * dx + dz * dz < r2 then dup = true; break end
+		end
+		if dup then
+			removed = removed + 1
+			Spring.Echo(string.format("[Start Spots]   dropping duplicate start position (%.0f, %.0f)", s.x, s.z))
+		else
+			kept[#kept + 1] = s
+		end
+	end
+	mapSpots = kept
+	return removed
+end
+
+-- Gather resource locations as a flat list of {x, z}.  Sources, in order:
+--   a) a list published by a metal-spot gadget in GG (any of the names below)
+--   b) a scan of the engine metal map, blobs merged into points
+--   c) geothermal features (always appended — a vent is a resource too)
+-- Cached: the map's resources do not change before the game starts.
+local resourcePoints, resourceSource
+
+local function CollectResourcePoints()
+	if resourcePoints then return resourcePoints, resourceSource end
+	local pts = {}
+	local source = "none"
+
+	-- (a) gadget-published spot lists
+	local ggNames = { "metalSpots", "metalMakerSpots", "mexSpots" }
+	for _, key in ipairs(ggNames) do
+		local list = GG and GG[key]
+		if type(list) == "table" then
+			for _, s in ipairs(list) do
+				if type(s) == "table" and s.x and s.z then
+					pts[#pts + 1] = { x = s.x, z = s.z }
+				end
+			end
+			if #pts > 0 then source = "GG." .. key; break end
+		end
+	end
+
+	-- (b) metal map scan (16 elmos per metal-map cell)
+	if #pts == 0 and Spring.GetMetalAmount then
+		local cellsX = math.floor(Game.mapSizeX / 16)
+		local cellsZ = math.floor(Game.mapSizeZ / 16)
+		local cells  = {}
+		local maxM   = 0
+		for cz = 0, cellsZ - 1 do
+			for cx = 0, cellsX - 1 do
+				local m = Spring.GetMetalAmount(cx, cz) or 0
+				if m > 0 then
+					cells[#cells + 1] = { x = cx * 16 + 8, z = cz * 16 + 8, m = m }
+					if m > maxM then maxM = m end
+				end
+			end
+		end
+		-- Ignore faint background metal; keep cells that are clearly "a spot".
+		local threshold = maxM * 0.25
+		local MERGE_R2  = 80 * 80
+		for _, c in ipairs(cells) do
+			if c.m >= threshold then
+				local merged = false
+				for _, p in ipairs(pts) do
+					local dx, dz = c.x - p.x, c.z - p.z
+					if dx * dx + dz * dz < MERGE_R2 then
+						-- metal-weighted running centroid
+						local w = p.w + c.m
+						p.x = (p.x * p.w + c.x * c.m) / w
+						p.z = (p.z * p.w + c.z * c.m) / w
+						p.w = w
+						merged = true
+						break
+					end
+				end
+				if not merged then
+					pts[#pts + 1] = { x = c.x, z = c.z, w = c.m }
+				end
+			end
+		end
+		if #pts > 0 then source = "metal map" end
+	end
+
+	-- (c) geothermal features
+	local geoCount = 0
+	for _, fID in ipairs(Spring.GetAllFeatures()) do
+		local fd = FeatureDefs[Spring.GetFeatureDefID(fID)]
+		if fd and fd.geoThermal then
+			local fx, _, fz = Spring.GetFeaturePosition(fID)
+			if fx then
+				pts[#pts + 1] = { x = fx, z = fz }
+				geoCount = geoCount + 1
+			end
+		end
+	end
+	if geoCount > 0 then
+		source = (source == "none") and "geothermal" or (source .. " + geothermal")
+	end
+
+	resourcePoints, resourceSource = pts, source
+	return pts, source
+end
+
+-- The area invented spots may go in: the whole map less EDGE_MARGIN, or a
+-- start box less a smaller margin.  {x1, z1, x2, z2}.
+local function SynthArea(box)
+	if not box then
+		return { EDGE_MARGIN, EDGE_MARGIN, Game.mapSizeX - EDGE_MARGIN, Game.mapSizeZ - EDGE_MARGIN }
+	end
+	local mx = math.min(EDGE_MARGIN, (box.x2 - box.x1) * 0.15)
+	local mz = math.min(EDGE_MARGIN, (box.z2 - box.z1) * 0.15)
+	return { math.max(box.x1 + mx, 64), math.max(box.z1 + mz, 64),
+	         math.min(box.x2 - mx, Game.mapSizeX - 64), math.min(box.z2 - mz, Game.mapSizeZ - 64) }
+end
+
+-- Is this a sane place to put a commander?  Dry land, inside the area, and
+-- on voidwater maps comfortably clear of the void (rim, craters, holes).
+local function IsUsableGround(x, z, area)
+	if x < area[1] or z < area[2] or x > area[3] or z > area[4] then
+		return false
+	end
+	if voidWater then
+		return HasSolidGround(x, z, VOID_CLEARANCE_SYNTH)
+	end
+	return Spring.GetGroundHeight(x, z) > 0
+end
+
+-- Build the candidate list for synthetic spots, inside `box` when given.
+-- Each candidate is {x, z, q} where q ∈ [0,1] is resource quality.
+local function BuildSpotCandidates(box)
+	local cands = {}
+	local area = SynthArea(box)
+	local function Usable(x, z) return IsUsableGround(x, z, area) end
+	local pts, source = CollectResourcePoints()
+	Spring.Echo(string.format("[Start Spots] Resource points for synthetic spots: %d (%s)", #pts, source))
+
+	-- Resource clusters: for every point, gather neighbours within
+	-- CLUSTER_RADIUS and use the cluster centroid as a candidate.
+	local cr2 = CLUSTER_RADIUS * CLUSTER_RADIUS
+	for _, p in ipairs(pts) do
+		if not box or InBox(box, p.x, p.z) then
+			local cx, cz, n = 0, 0, 0
+			for _, q in ipairs(pts) do
+				local dx, dz = p.x - q.x, p.z - q.z
+				if dx * dx + dz * dz <= cr2 then
+					cx = cx + q.x; cz = cz + q.z; n = n + 1
+				end
+			end
+			cx, cz = cx / n, cz / n
+			if not Usable(cx, cz) then
+				-- The centroid can land in a crater, a pond, or off the rim even
+				-- though the resources around it are fine.  Slide it to the nearest
+				-- usable ground inside the cluster rather than losing the cluster.
+				cx, cz = FindNear(cx, cz, CLUSTER_RADIUS, Usable)
+			end
+			if cx then
+				-- Quality: 1 point = weak, 2 = acceptable, IDEAL_CLUSTER+ = full marks
+				local q = math.min(n, IDEAL_CLUSTER) / IDEAL_CLUSTER
+				cands[#cands + 1] = { x = cx, z = cz, q = q, n = n }
+			end
+		end
+	end
+
+	-- Geometric fallback grid.  Quality 0 so any resource candidate beats it,
+	-- but it guarantees we can always place *something*.
+	local N = GRID_CANDIDATES
+	local function AddGrid(checkGround)
+		for gz = 1, N do
+			for gx = 1, N do
+				local x = area[1] + (area[3] - area[1]) * (gx - 0.5) / N
+				local z = area[2] + (area[4] - area[2]) * (gz - 0.5) / N
+				if not checkGround or Usable(x, z) then
+					cands[#cands + 1] = { x = x, z = z, q = 0, n = 0, grid = true }
+				end
+			end
+		end
+	end
+	AddGrid(true)
+	if #cands == 0 then
+		-- Every grid point is underwater or in the void (or the area is tiny):
+		-- take them anyway.  SafeSpawnPos still rescues the actual spawn.
+		AddGrid(false)
+	end
+
+	return cands
+end
+
+-- Invent `count` new spots and append them to mapSpots, inside `box` and
+-- owned by `allyteam` when given (allyteam = -1 otherwise).
+-- Greedy farthest-point selection weighted by resource quality:
+--   score = minDistToAnySpot × (0.35 + 0.65 × quality)
+-- so a 3-resource cluster wins over empty ground unless the empty ground is
+-- ~3× farther from everyone.  Candidates within MIN_SEPARATION of an existing
+-- spot are skipped outright; if that leaves nothing, the constraint is relaxed.
+local function GenerateSyntheticSpots(count, box, allyteam)
+	if count <= 0 then return 0 end
+	local cands = BuildSpotCandidates(box)
+	if #cands == 0 then return 0 end
+
+	local mapCX, mapCZ = Game.mapSizeX / 2, Game.mapSizeZ / 2
+	local minSep2 = MIN_SEPARATION * MIN_SEPARATION
+	local added = 0
+
+	for _ = 1, count do
+		local best, bestScore = nil, -1
+		local relaxed = false
+
+		local function Evaluate(allowClose)
+			for _, c in ipairs(cands) do
+				if not c.used then
+					-- Distance to the nearest existing spot (real or synthetic).
+					-- With no spots at all, use distance from map centre so the
+					-- first pick lands toward an edge/corner instead of mid-map.
+					local minD2 = math.huge
+					for _, s in ipairs(mapSpots) do
+						local dx, dz = c.x - s.x, c.z - s.z
+						local d2 = dx * dx + dz * dz
+						if d2 < minD2 then minD2 = d2 end
+					end
+					local ok = true
+					if minD2 == math.huge then
+						local dx, dz = c.x - mapCX, c.z - mapCZ
+						minD2 = dx * dx + dz * dz
+					elseif minD2 < minSep2 and not allowClose then
+						ok = false
+					end
+					if ok then
+						local score = math.sqrt(minD2) * (0.35 + 0.65 * c.q)
+						if score > bestScore then
+							bestScore = score
+							best = c
+						end
+					end
+				end
+			end
+		end
+
+		Evaluate(false)
+		if not best then
+			relaxed = true
+			Evaluate(true)
+		end
+		if not best then break end
+
+		best.used = true
+		mapSpots[#mapSpots + 1] = { x = best.x, z = best.z, allyteam = allyteam or -1, synthetic = true }
+		added = added + 1
+		Spring.Echo(string.format(
+			"[Start Spots]   synthetic spot %d at (%.0f, %.0f)  resources=%d  %s%s%s",
+			#mapSpots, best.x, best.z, best.n,
+			best.grid and "[grid fallback]" or "[resource cluster]",
+			box and (" [start box of allyteam " .. tostring(allyteam) .. "]") or "",
+			relaxed and " (separation relaxed)" or ""))
+	end
+
+	return added
+end
+
+--------------------------------------------------------------------------------
+-- Partition by start boxes
+--------------------------------------------------------------------------------
+
+-- Every allyteam has a box: a spot is its box's (the nearest box centre wins
+-- where boxes overlap), spots outside every box go, and a box holding fewer
+-- spots than its allyteam has teams gets invented spots. `discarded` means the
+-- map's spots were thrown away, so every box is filled with a choice of spots.
+local function PartitionByBoxes(boxes, atCounts, discarded)
+	local kept = {}
+	for _, s in ipairs(mapSpots) do
+		local owner, bestD2 = nil, math.huge
+		for atID, box in pairs(boxes) do
+			if InBox(box, s.x, s.z) then
+				local dx = s.x - (box.x1 + box.x2) / 2
+				local dz = s.z - (box.z1 + box.z2) / 2
+				local d2 = dx * dx + dz * dz
+				if d2 < bestD2 or (d2 == bestD2 and atID < owner) then owner, bestD2 = atID, d2 end
+			end
+		end
+		if owner then
+			s.allyteam = owner
+			kept[#kept + 1] = s
+		else
+			Spring.Echo(string.format("[Start Spots]   dropping start position (%.0f, %.0f): outside every start box", s.x, s.z))
+		end
+	end
+	mapSpots = kept
+
+	local atIDs = {}
+	for atID in pairs(boxes) do atIDs[#atIDs + 1] = atID end
+	table.sort(atIDs)
+	for _, atID in ipairs(atIDs) do
+		local have = 0
+		for _, s in ipairs(mapSpots) do
+			if s.allyteam == atID then have = have + 1 end
+		end
+		local want = atCounts[atID] * (discarded and SYNTH_SPOTS_PER_TEAM or 1)
+		if have < want then
+			Spring.Echo(string.format("[Start Spots] Start box of allyteam %d holds %d spot(s) for %d team(s) — synthesising %d",
+			                          atID, have, atCounts[atID], want - have))
+			GenerateSyntheticSpots(want - have, boxes[atID], atID)
+		end
+	end
+end
+
+--------------------------------------------------------------------------------
+-- Map spot loading and partition
+--------------------------------------------------------------------------------
+
+local function Build()
+	built = true
+	local ok, mi = pcall(VFS.Include, "mapinfo.lua", nil, VFS.MAP)
+	local teams = ok and KeyAnyCase(mi, "teams")
+	if type(teams) == "table" then
+		-- Collect spots (mapinfo is 0-indexed)
+		for i = 0, 999 do
+			local t = teams[i]
+			if not t then break end
+			local sp = KeyAnyCase(t, "startpos")
+			local x, z = KeyAnyCase(sp, "x"), KeyAnyCase(sp, "z")
+			if type(x) == "number" and type(z) == "number" then
+				if x >= 0 and z >= 0 and x <= Game.mapSizeX and z <= Game.mapSizeZ then
+					-- a spot hard against the edge (the engine's generated
+					-- maps put one at 20, 20) leaves no room to build: move it in
+					local cx = math.max(SPOT_EDGE_MIN, math.min(Game.mapSizeX - SPOT_EDGE_MIN, x))
+					local cz = math.max(SPOT_EDGE_MIN, math.min(Game.mapSizeZ - SPOT_EDGE_MIN, z))
+					if cx ~= x or cz ~= z then
+						Spring.Echo(string.format("[Start Spots]   start position (%.0f, %.0f) is against the map edge, moved to (%.0f, %.0f)", x, z, cx, cz))
+					end
+					mapSpots[#mapSpots + 1] = { x = cx, z = cz, allyteam = -1 }
+				else
+					Spring.Echo(string.format("[Start Spots]   dropping start position off the map (%.0f, %.0f)", x, z))
+				end
+			end
+		end
+	else
+		Spring.Echo("[Start Spots] mapinfo.lua unavailable or has no teams table — will synthesise start positions")
+	end
+
+	local loaded = #mapSpots
+
+	-- Voidwater maps: spots in the void are repaired first, before the overlap
+	-- test, so a pile of unused slots parked off the playable area doesn't
+	-- condemn the real spots along with it.
+	voidWater = MapHasVoidWater(ok and mi or nil)
+	if voidWater then
+		local moved, dropped = FixVoidSpots()
+		Spring.Echo(string.format("[Start Spots] Voidwater map: %d start position(s) moved out of the void, %d dropped",
+		                          moved, dropped))
+	end
+
+	local removed = DedupeMapSpots()
+	Spring.Echo("[Start Spots] Loaded " .. loaded .. " map spots from mapinfo (" .. removed .. " duplicate(s) dropped)")
+
+	-- Overlapping starts mean the map's start data is bogus, not merely
+	-- short.  Throw the whole set away and build a fresh one with room to
+	-- choose (SYNTH_SPOTS_PER_TEAM per team, at least MIN_SPOTS).
+	if removed > 0 then
+		Spring.Echo("[Start Spots] Overlapping start positions — discarding mapinfo spots, synthesising a full set")
+		mapSpots = {}
+	end
+
+	local teamCount = CountNonGaiaTeams()
+	local atCounts  = AllyTeamCounts()
+	local boxes     = AllStartBoxes(atCounts)
+
+	if boxes then
+		Spring.Echo("[Start Spots] Every allyteam has a start box — spots follow the boxes")
+		PartitionByBoxes(boxes, atCounts, removed > 0)
+	else
+		-- Make sure there is one distinct spot per team (and never fewer than
+		-- MIN_SPOTS).  Anything missing is invented from resource clusters.
+		if removed > 0 then
+			GenerateSyntheticSpots(math.max(teamCount * SYNTH_SPOTS_PER_TEAM, MIN_SPOTS))
+		else
+			local needed = math.max(teamCount, MIN_SPOTS)
+			if #mapSpots < needed then
+				Spring.Echo(string.format("[Start Spots] Only %d spot(s) for %d team(s) — synthesising %d",
+				                          #mapSpots, teamCount, needed - #mapSpots))
+				GenerateSyntheticSpots(needed - #mapSpots)
+			end
+		end
+	end
+
+	if #mapSpots == 0 then
+		Spring.Echo("[Start Spots] No usable start positions and synthesis failed — skipping placement phase")
+		return
+	end
+
+	local spotTotal = #mapSpots
+
+	-- FFA detection: more than 2 allyteams where every allyteam has exactly 1 team.
+	-- A 1v1 duel (2 allyteams × 1 player each) is NOT considered FFA. With
+	-- start boxes each player keeps to their own box instead.
+	local totalAT, multiAT = 0, 0
+	for _, count in pairs(atCounts) do
+		totalAT = totalAT + 1
+		if count > 1 then multiAT = multiAT + 1 end
+	end
+	isFFA = (not boxes) and (totalAT > 2 and multiAT == 0)
+
+	if isFFA then
+		Spring.Echo("[Start Spots] FFA detected — all spots open to all players")
+		-- all spots remain with allyteam = -1
+	elseif not boxes then
+		-- Balanced, spatially-coherent spot partition.
+		--
+		-- Goals:
+		--   1. Each team's spots should form a contiguous cluster — no teammate
+		--      stranded in the middle of the enemy side.
+		--   2. The split should be balanced (each allyteam a spot per team
+		--      first, the rest shared out evenly).
+		--
+		-- For the common 2-team case we project every spot onto the axis that
+		-- separates the two sides (the line between the engine-assigned team
+		-- centroids), sort along it, and cut at the quota boundary.  This yields
+		-- a clean half-space split (left/right, top/bottom, or whatever diagonal
+		-- the map intends) that is both contiguous and balanced.
+		--
+		-- For 3+ allyteams (rare in sided play) we fall back to a balanced greedy
+		-- auction by centroid distance.
+
+		-- Centroid per allyteam from engine-assigned start positions; an
+		-- allyteam with none usable takes its start box centre (the map centre
+		-- without a box), so every allyteam takes part in the split.
+		local centroids = {}
+		for atID in pairs(atCounts) do
+			local cx, cz, n = 0, 0, 0
+			for _, tID in ipairs(Spring.GetTeamList(atID)) do
+				if tID ~= gaiaTeamID then
+					local tx, _, tz = Spring.GetTeamStartPosition(tID)
+					if tx and (tx > 0 or tz > 0) then
+						cx = cx + tx; cz = cz + tz; n = n + 1
+					end
+				end
+			end
+			if n > 0 then
+				centroids[atID] = { x = cx / n, z = cz / n }
+			else
+				local x1, z1, x2, z2 = Spring.GetAllyTeamStartBox(atID)
+				x1, z1 = x1 or 0, z1 or 0
+				x2, z2 = x2 or Game.mapSizeX, z2 or Game.mapSizeZ
+				centroids[atID] = { x = (x1 + x2) / 2, z = (z1 + z2) / 2 }
+			end
+		end
+
+		-- Deterministic ordered list of participating allyteams
+		local allyteamIDs = {}
+		for atID in pairs(centroids) do
+			allyteamIDs[#allyteamIDs + 1] = atID
+		end
+		table.sort(allyteamIDs)
+
+		local numAT = #allyteamIDs
+
+		-- Quota: a spot per team where the spots allow it, then the rest
+		-- shared out evenly (the first allyteams get any remainder).
+		local quota = {}
+		local teamsTotal = 0
+		for _, atID in ipairs(allyteamIDs) do teamsTotal = teamsTotal + atCounts[atID] end
+		if spotTotal >= teamsTotal then
+			local extra = spotTotal - teamsTotal
+			local base, rest = math.floor(extra / numAT), extra % numAT
+			for i, atID in ipairs(allyteamIDs) do
+				quota[atID] = atCounts[atID] + base + (i <= rest and 1 or 0)
+			end
+		else
+			local base, rest = math.floor(spotTotal / numAT), spotTotal % numAT
+			for i, atID in ipairs(allyteamIDs) do
+				quota[atID] = base + (i <= rest and 1 or 0)
+			end
+		end
+
+		Spring.Echo(string.format("[Start Spots] Partition: %d spots across %d allyteams", spotTotal, numAT))
+
+		if numAT == 1 then
+			for _, spot in ipairs(mapSpots) do spot.allyteam = allyteamIDs[1] end
+		elseif numAT == 2 then
+			-- ── Gap-search split (contiguous + balanced + barrier-aware) ──────
+			--
+			-- A straight cut perpendicular to the centroid axis works only when
+			-- the two team start positions happen to line up with the map's
+			-- intended divide.  When the engine drops the 1v1 starts diagonally,
+			-- that cut slices a corner off the wrong side — stranding teammates
+			-- across a river in team games.
+			--
+			-- Instead we search many candidate cut directions and pick the one
+			-- whose *balanced* cut falls in the largest natural gap in the spot
+			-- distribution (a river, chokepoint, or empty band).  The centroid
+			-- axis is used as the default and is only overridden when another
+			-- direction separates the two halves markedly more cleanly.  The
+			-- team centroids then decide which half belongs to which team.
+
+			local at1, at2 = allyteamIDs[1], allyteamIDs[2]
+			local c1, c2   = centroids[at1], centroids[at2]
+
+			-- Flat spot list for repeated projection
+			local spotList = {}
+			for spotIdx, spot in ipairs(mapSpots) do
+				spotList[#spotList + 1] = { s = spotIdx, x = spot.x, z = spot.z }
+			end
+
+			-- Cut rank for the balance point (mid split; exact per-team quota is
+			-- applied at assignment time below).
+			local kCut = math.max(1, math.floor(spotTotal / 2))
+
+			-- Score a direction: normalised gap between the two balanced halves.
+			-- Larger = the halves are separated by more empty space along dir.
+			local function ScoreDir(dx, dz)
+				if spotTotal < 2 then return -1 end
+				local proj = {}
+				for i = 1, #spotList do
+					proj[i] = spotList[i].x * dx + spotList[i].z * dz
+				end
+				table.sort(proj)
+				local span = proj[#proj] - proj[1]
+				if span < 1 then return -1 end
+				return (proj[kCut + 1] - proj[kCut]) / span
+			end
+
+			-- Default direction: the centroid axis (engine intent).
+			local cax, caz = c2.x - c1.x, c2.z - c1.z
+			local clen = math.sqrt(cax * cax + caz * caz)
+			if clen < 1 then
+				-- Degenerate centroids: seed with the map's horizontal axis; the
+				-- search below will still find the best separating direction.
+				cax, caz, clen = 1, 0, 1
+			end
+			cax, caz = cax / clen, caz / clen
+
+			local bestDx, bestDz = cax, caz
+			local bestScore      = ScoreDir(cax, caz)
+			local centroidScore  = bestScore
+
+			-- Sample directions across a half-circle (a line is undirected, so
+			-- 0..π covers every distinct cut orientation).  Override the default
+			-- only when a direction is clearly better, so uniform maps with no
+			-- real barrier keep the sensible engine-intended axis.
+			local STEPS  = 36     -- 5° resolution
+			local MARGIN = 0.03   -- required improvement over the centroid axis
+			for step = 0, STEPS - 1 do
+				local theta  = math.pi * step / STEPS
+				local dx, dz = math.cos(theta), math.sin(theta)
+				local sc     = ScoreDir(dx, dz)
+				if sc > bestScore + MARGIN then
+					bestScore = sc
+					bestDx, bestDz = dx, dz
+				end
+			end
+
+			-- Project all spots along the chosen direction and sort ascending.
+			local ordered = {}
+			for i = 1, #spotList do
+				ordered[i] = {
+					s = spotList[i].s,
+					p = spotList[i].x * bestDx + spotList[i].z * bestDz,
+				}
+			end
+			table.sort(ordered, function(a, b)
+				if a.p ~= b.p then return a.p < b.p end
+				return a.s < b.s
+			end)
+
+			-- Which team owns the low-projection half?  The one whose centroid
+			-- projects lower along the cut direction.
+			local c1p = c1.x * bestDx + c1.z * bestDz
+			local c2p = c2.x * bestDx + c2.z * bestDz
+			local lowTeam, highTeam
+			if c1p <= c2p then
+				lowTeam, highTeam = at1, at2
+			else
+				lowTeam, highTeam = at2, at1
+			end
+
+			-- Assign: first quota[lowTeam] spots to the low side, rest to the high.
+			local lowQuota = quota[lowTeam]
+			for rank, item in ipairs(ordered) do
+				mapSpots[item.s].allyteam = (rank <= lowQuota) and lowTeam or highTeam
+			end
+
+			Spring.Echo(string.format(
+				"[Start Spots] Gap split: dir=(%.2f, %.2f)  centroidScore=%.3f  bestScore=%.3f  lowTeam=%d gets %d",
+				bestDx, bestDz, centroidScore, bestScore, lowTeam, lowQuota))
+		else
+			-- ── Balanced greedy auction (3+ allyteams) ────────────────────────
+			local candidates = {}
+			for spotIdx, spot in ipairs(mapSpots) do
+				for _, atID in ipairs(allyteamIDs) do
+					local c  = centroids[atID]
+					local dx = spot.x - c.x
+					local dz = spot.z - c.z
+					candidates[#candidates + 1] = { s = spotIdx, a = atID, d = dx*dx + dz*dz }
+				end
+			end
+			table.sort(candidates, function(a, b)
+				if a.d ~= b.d then return a.d < b.d end
+				if a.s ~= b.s then return a.s < b.s end
+				return a.a < b.a
+			end)
+
+			local assigned   = {}
+			local teamCounts = {}
+			for _, atID in ipairs(allyteamIDs) do teamCounts[atID] = 0 end
+
+			for _, cand in ipairs(candidates) do
+				if not assigned[cand.s] and teamCounts[cand.a] < quota[cand.a] then
+					mapSpots[cand.s].allyteam = cand.a
+					assigned[cand.s]          = true
+					teamCounts[cand.a]        = teamCounts[cand.a] + 1
+				end
+			end
+
+			for spotIdx in ipairs(mapSpots) do
+				if not assigned[spotIdx] then
+					mapSpots[spotIdx].allyteam = allyteamIDs[1]
+				end
+			end
+		end
+	end
+
+	if not isFFA then
+		for i, spot in ipairs(mapSpots) do
+			Spring.Echo(string.format("[Start Spots]   spot[%d] (%.0f, %.0f) → allyteam %d",
+			                          i, spot.x, spot.z, spot.allyteam))
+		end
+	end
+
+	-- Broadcast spot positions and side assignments for widget display.
+	-- Claim state is NOT broadcast globally — each team tracks its own via
+	-- team rules params with allied-only visibility (see game_spawn.lua).
+	Spring.SetGameRulesParam("spotCount", spotTotal)
+	Spring.SetGameRulesParam("isFFA", isFFA and 1 or 0)
+	for i, spot in ipairs(mapSpots) do
+		Spring.SetGameRulesParam("spot_" .. i .. "_x",  spot.x)
+		Spring.SetGameRulesParam("spot_" .. i .. "_z",  spot.z)
+		Spring.SetGameRulesParam("spot_" .. i .. "_at", spot.allyteam)
+		Spring.SetGameRulesParam("spot_" .. i .. "_synth", spot.synthetic and 1 or 0)
+	end
+end
+
+--------------------------------------------------------------------------------
+-- Public interface
+--------------------------------------------------------------------------------
+
+GG.StartSpots = {
+	-- Returns spots (array, may be empty) and isFFA.  Builds on first call so
+	-- callers don't depend on gadget callin ordering.  Must be called at or
+	-- after GameStart: partitioning reads engine-assigned team start positions.
+	Get = function()
+		if not built then Build() end
+		return mapSpots, isFFA
+	end,
+
+	-- The allyteam's start box ({x1, z1, x2, z2}) or nil when it has none.
+	StartBox = StartBox,
+
+	-- Last line of defense for anything about to be spawned.  On voidwater
+	-- maps, returns the nearest position with solid ground under it when
+	-- (x, z) is in the void; otherwise returns (x, z) untouched.  Covers
+	-- engine-assigned fallback positions and shared-spot ring offsets,
+	-- neither of which goes through spot validation.
+	SafeSpawnPos = function(x, z)
+		if voidWater == nil then
+			local ok, mi = pcall(VFS.Include, "mapinfo.lua", nil, VFS.MAP)
+			voidWater = MapHasVoidWater(ok and mi or nil)
+		end
+		if not voidWater or not x or not z then return x, z end
+		local function Solid(px, pz) return HasSolidGround(px, pz, VOID_CLEARANCE_REAL) end
+		if Solid(x, z) then return x, z end
+		local nx, nz = FindNear(x, z, SPAWN_RESCUE_RADIUS, Solid)
+		if nx then
+			Spring.Echo(string.format("[Start Spots] Spawn position (%.0f, %.0f) is in the void, moved to (%.0f, %.0f)", x, z, nx, nz))
+			return nx, nz
+		end
+		return x, z
+	end,
+}
+
+function gadget:Shutdown()
+	GG.StartSpots = nil
+end
