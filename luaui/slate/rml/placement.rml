@@ -1,0 +1,144 @@
+<rml>
+<head>
+	<title>Slate start placement</title>
+	<link type="text/rcss" href="theme.rcss"/>
+	<style>
+		/* ---- the start spots, over the map ----------------------------------
+		   Each marker is moved from Lua to follow its spot on the ground (left
+		   and top are the spot's center; the margins pull the square onto
+		   it). The size here must match MARKER_SIZE in slate_placement.lua.
+
+		   free  open, on the player's side      mine  the player's pick
+		   done  the player's confirmed pick     mate  taken by an ally
+		   foe   the other side's (shown for reference only)
+		   can   may be clicked                  hot   under the mouse */
+		.spot {
+			position: absolute;
+			width: 48dp;
+			height: 48dp;
+			margin: -24dp 0dp 0dp -24dp;
+			box-sizing: border-box;
+			text-align: center;
+			font-weight: bold;
+			font-size: 19dp;
+			line-height: 42dp;
+			color: #f4f5f7;
+			background-color: rgba(13, 14, 16, 200);
+			border: 3dp rgba(255, 255, 255, 60);
+			border-radius: 8dp;
+		}
+		.spot.can {
+			pointer-events: auto;
+		}
+		.spot.free { border-color: #a9bdd0; }
+		.spot.mate { border-color: rgba(255, 255, 255, 60); color: #b5bac1; }
+		.spot.foe {
+			border-color: rgba(255, 179, 166, 110);
+			background-color: rgba(13, 14, 16, 110);
+			color: #8a9099;
+		}
+		.spot.hot {
+			border-color: #c3d3e2;
+			background-color: rgba(169, 189, 208, 90);
+		}
+		.spot.mine { border-color: #f2c230; }
+		.spot.done { border-color: #9be7a8; color: #9be7a8; }
+		/* a second outline around a confirmed pick */
+		.ring {
+			position: absolute;
+			left: -11dp;
+			top: -11dp;
+			width: 64dp;
+			height: 64dp;
+			box-sizing: border-box;
+			border: 2dp rgba(155, 231, 168, 150);
+			border-radius: 12dp;
+		}
+		/* how many allied teams share the spot, when more than one */
+		.count {
+			position: absolute;
+			right: -10dp;
+			top: -10dp;
+			padding: 0dp 5dp;
+			font-size: 12dp;
+			line-height: 16dp;
+			color: #0d0e10;
+			background-color: #f2c230;
+			border-radius: 5dp;
+		}
+
+		/* ---- the panel at the bottom -----------------------------------------
+		   Its position is set from Lua (hud.PlacePanel); its size here must
+		   match PANEL_WIDTH and PANEL_HEIGHT in slate_placement.lua. */
+		#placement {
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			width: 560dp;
+			height: 88dp;
+			box-sizing: border-box;
+			padding: 14dp 16dp;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			pointer-events: auto;
+		}
+		#words {
+			flex: 1;
+			margin-right: 16dp;
+			text-align: center;
+		}
+		#title {
+			font-size: 15dp;
+			line-height: 20dp;
+			white-space: nowrap;
+			color: #f4f5f7;
+		}
+		#title.quiet {
+			color: #b5bac1;
+		}
+		#timer {
+			font-size: 13dp;
+			line-height: 20dp;
+			color: #eceef0;
+		}
+		#timer.urgent {
+			color: #ffb3a6;
+		}
+		#timer-bar {
+			margin-top: 4dp;
+		}
+		#timer-fill {
+			width: 100%;
+		}
+		#timer-fill.urgent {
+			background-color: #ffb3a6;
+		}
+		#confirm {
+			width: 150dp;
+			padding-left: 0dp;
+			padding-right: 0dp;
+		}
+		#confirm.done {
+			color: #0d0e10;
+			background-color: #9be7a8;
+			border-color: #9be7a8;
+		}
+	</style>
+</head>
+<body>
+	<div id="root" class="hidden">
+		<div id="spots"/>
+		<div id="placement" class="panel">
+			<div id="words">
+				<div id="title"/>
+				<div id="timer"/>
+				<div id="timer-bar" class="bar">
+					<div id="timer-fill" class="bar-fill"/>
+				</div>
+			</div>
+			<div id="confirm" class="button primary disabled">Confirm</div>
+		</div>
+	</div>
+</body>
+</rml>

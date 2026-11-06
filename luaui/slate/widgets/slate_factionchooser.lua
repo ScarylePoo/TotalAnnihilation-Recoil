@@ -32,7 +32,7 @@ end
 --  one need do nothing, the widget removes itself quietly. A game that wants
 --  it provides:
 --
---    a gadget (game_spawn.lua in the game it came from) that
+--    a gadget (luarules/gadgets/game_spawn.lua in TA:Recoil) that
 --      - sets the game rules param "phase" to "faction" while the choice is
 --        open and to anything else ("placement", "done") once it is over;
 --      - sets "factionDeadlineFrame" to the game frame the choice closes at;
@@ -260,7 +260,11 @@ function widget:Initialize()
 end
 
 function widget:Shutdown()
-	WG.SlatePregame = nil
+	-- the placement widget, when it runs, keeps the HUD hidden into the
+	-- placement phase and brings it back itself
+	if not WG.SlatePlacement then
+		WG.SlatePregame = nil
+	end
 	if hud then
 		hud.UnregisterPanel(LAYOUT_NAME)
 		hud.OffChange(LAYOUT_NAME)
