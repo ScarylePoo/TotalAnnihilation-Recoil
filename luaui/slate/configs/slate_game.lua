@@ -99,6 +99,30 @@ return {
 		whisper  = "luaui/sounds/message_private.wav",
 	},
 
+	-- The faction chooser at the start of a game (slate_factionchooser.lua),
+	-- one card per faction. `id` is the commander the spawn gadget creates
+	-- (gamedata/sidedata.lua); `picture` a file path from the game root, shown
+	-- at 392x220 dp (784x440 pixels, so it is sharp up to 4K); `color` tints
+	-- the card. The pictures are placeholders from tools/faction_placeholders.py.
+	factions = {
+		{
+			id      = "arm_commander",
+			name    = "Arm",
+			blurb   = "The free individuals of the Arm refuse the Core's patterning of minds into machines. "
+				.. "Their machines are lighter, quicker and cheaper: they win by speed, range and numbers.",
+			picture = "luaui/slate/images/factions/arm.png",
+			color   = "#4a86e0",
+		},
+		{
+			id      = "core_commander",
+			name    = "Core",
+			blurb   = "The Core would copy every human mind into a machine, and has fought four thousand years to do it. "
+				.. "Their machines are heavier, tougher and hit harder.",
+			picture = "luaui/slate/images/factions/core.png",
+			color   = "#d84a3c",
+		},
+	},
+
 	-- Extra entries in the game menu, after Slate's own (settings, graphs,
 	-- share, log, key bindings, widgets). `command` goes to Spring.SendCommands;
 	-- `confirm` asks for a second click; `playersOnly` hides the entry from
