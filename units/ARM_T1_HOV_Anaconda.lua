@@ -24,9 +24,9 @@ return {
 		canpatrol = 1,
 		canguard = 1,
 		canhover = 1,
-		maxvelocity = 2.8,
-		brakerate = 0.11,
-		acceleration = 0.09,
+		maxvelocity = 2.6,  -- TA 3.1c (was 2.8)
+		brakerate = 0.09,  -- TA 3.1c (was 0.11)
+		acceleration = 0.06,  -- TA 3.1c (was 0.09)
 		turnrate = 250,
 		maxwaterdepth = 0,
 		maxslope = 16,
@@ -37,11 +37,11 @@ return {
 		explodeas = "BIG_UNITEX",
 		selfdestructas = "BIG_UNIT",
 		-- properties
-		maxdamage = 1280,
+		maxdamage = 880,  -- TA 3.1c (was 1280)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 490,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 280,  -- TA 3.1c (was 490)
 		-- unit animation
 		footprintx = 3,
 		footprintz = 3,

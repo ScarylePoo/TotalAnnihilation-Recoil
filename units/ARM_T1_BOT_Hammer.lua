@@ -23,9 +23,9 @@ return {
 		canmove = 1,
 		canpatrol = 1,
 		canguard = 1,
-		maxvelocity = 1.3,
-		brakerate = 0.18,
-		acceleration = 0.13,
+		maxvelocity = 1.1,  -- TA 3.1c (was 1.3)
+		brakerate = 0.1831,  -- TA 3.1c (was 0.18)
+		acceleration = 0.1,  -- TA 3.1c (was 0.13)
 		turnrate = 995,
 		-- combat
 		firestate = 2,
@@ -34,11 +34,11 @@ return {
 		explodeas = "BIG_UNITEX",
 		selfdestructas = "BIG_UNIT",
 		-- properties
-		maxdamage = 650,
+		maxdamage = 800,  -- TA 3.1c (was 650)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 437,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 250,  -- TA 3.1c (was 437)
 		-- unit animation
 		upright = 1,
 		smoothanim = 1,

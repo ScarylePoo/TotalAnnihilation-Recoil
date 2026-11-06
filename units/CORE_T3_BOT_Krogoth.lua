@@ -14,9 +14,9 @@ return {
 		icontype = "krogoth",
 		category = "CORE KBOT LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
-		buildcostenergy = 186664,
-		buildcostmetal = 36489,
-		buildtime = 482193,
+		buildcostenergy = 116664,  -- TA 3.1c (was 186664)
+		buildcostmetal = 29489,  -- TA 3.1c (was 36489)
+		buildtime = 382193,  -- TA 3.1c (was 482193)
 		-- movement or placement
 		movementclass = "KROGOTH",
 		movestate = -1,
@@ -38,8 +38,8 @@ return {
 		maxdamage = 29918,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 446,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 255,  -- TA 3.1c (was 446)
 		-- other abilities
 		cantbetransported = 1,
 		-- unit animation

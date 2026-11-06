@@ -14,9 +14,10 @@ return {
 		icontype = "turret",
 		category = "CORE LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
-		buildcostenergy = 1908,
-		buildcostmetal = 195,
+		buildcostenergy = 2608,  -- TA 3.1c (was 1908)
+		buildcostmetal = 268,  -- TA 3.1c (was 195)
 		buildtime = 4724,
+		energystorage = 100,  -- TA 3.1c (was unset)
 		-- movement or placement
 		maxwaterdepth = 0,
 		maxslope = 10,
@@ -26,11 +27,11 @@ return {
 		explodeas = "MEDIUM_BUILDINGEX",
 		selfdestructas = "MEDIUM_BUILDING",
 		-- properties
-		maxdamage = 610,
+		maxdamage = 710,  -- TA 3.1c (was 610)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 613,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 350,  -- TA 3.1c (was 613)
 		-- unit animation
 		footprintx = 2,
 		footprintz = 2,

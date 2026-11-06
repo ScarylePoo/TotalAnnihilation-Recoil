@@ -14,9 +14,9 @@ return {
 		icontype = "turret",
 		category = "ARM LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
-		buildcostenergy = 124680,
-		buildcostmetal = 6184,
-		buildtime = 65185,
+		buildcostenergy = 64680,  -- TA 3.1c (was 124680)
+		buildcostmetal = 4184,  -- TA 3.1c (was 6184)
+		buildtime = 85185,  -- TA 3.1c (was 65185)
 		-- movement or placement
 		maxwaterdepth = 0,
 		maxslope = 10,
@@ -34,8 +34,8 @@ return {
 		maxdamage = 1800,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 367,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 210,  -- TA 3.1c (was 367)
 		-- unit animation
 		footprintx = 4,
 		footprintz = 4,

@@ -16,14 +16,15 @@ return {
 		-- costs, makes, uses, storage
 		buildcostenergy = 5987,
 		buildcostmetal = 844,
-		buildtime = 14475,
+		buildtime = 10975,  -- TA 3.1c (was 14475)
+		energystorage = 100,  -- TA 3.1c (was unset)
 		-- movement or placement
 		movementclass = "KBOTGOOD",
 		movestate = -1,
 		canmove = 1,
 		canpatrol = 1,
 		canguard = 1,
-		maxvelocity = 0.35,
+		maxvelocity = 0.34,  -- TA 3.1c (was 0.35)
 		brakerate = 0.1,
 		acceleration = 0.04,
 		turnrate = 90,
@@ -33,14 +34,14 @@ return {
 		firestate = 2,
 		badtargetcategory = "VTOL",
 		nochasecategory = "VTOL",
-		explodeas = "HUGE_UNITEX",
-		selfdestructas = "HUGE_UNITEX",
+		explodeas = "BIG_UNITEX",
+		selfdestructas = "BIG_UNIT",
 		-- properties
-		maxdamage = 5500,
+		maxdamage = 4950,  -- TA 3.1c (was 5500)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 429,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 245,  -- TA 3.1c (was 429)
 		-- other abilities
 		cantbetransported = 1,
 		-- unit animation

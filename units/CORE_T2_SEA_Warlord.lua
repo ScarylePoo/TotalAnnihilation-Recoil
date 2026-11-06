@@ -14,9 +14,11 @@ return {
 		icontype = "ship",
 		category = "CORE SHIP LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
-		buildcostenergy = 24676,
-		buildcostmetal = 5226,
+		buildcostenergy = 19741,  -- TA 3.1c (was 24676)
+		buildcostmetal = 4181,  -- TA 3.1c (was 5226)
 		buildtime = 40640,
+		energymake = 46,  -- TA 3.1c (was unset)
+		energyuse = 44,  -- TA 3.1c (was unset)
 		-- movement or placement
 		movementclass = "BIG_SHIP",
 		movestate = -1,
@@ -25,9 +27,9 @@ return {
 		canguard = 1,
 		floater = 1,
 		maxvelocity = 2.15,
-		brakerate = 0.018,
-		acceleration = 0.0175,
-		turnrate = 138,
+		brakerate = 0.0183,  -- TA 3.1c (was 0.018)
+		acceleration = 0.0045,  -- TA 3.1c (was 0.0175)
+		turnrate = 69,  -- TA 3.1c (was 138)
 		-- combat
 		firestate = 2,
 		badtargetcategory = "VTOL",
@@ -35,11 +37,11 @@ return {
 		explodeas = "BIG_UNITEX",
 		selfdestructas = "BIG_UNIT",
 		-- properties
-		maxdamage = 7940,
+		maxdamage = 6140,  -- TA 3.1c (was 7940)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 612,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 350,  -- TA 3.1c (was 612)
 		-- unit animation
 		footprintx = 8,
 		footprintz = 8,

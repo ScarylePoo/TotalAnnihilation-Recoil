@@ -9,7 +9,7 @@ return {
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
-		range = 525,  -- 300
+		range = 300,  -- TA 3.1c (was 525)  -- 300
 		reloadtime = 1.2,
 		weaponvelocity = 350,
 		areaofeffect = 16,

@@ -15,20 +15,21 @@ return {
 		icontype = "tank",
 		category = "CORE TANK LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
-		buildcostenergy = 8504,
-		buildcostmetal = 715,
-		buildtime = 20806,
-		energymake = 5,
-		metalmake = 0.1,
+		buildcostenergy = 4504,  -- TA 3.1c (was 8504)
+		buildcostmetal = 455,  -- TA 3.1c (was 715)
+		buildtime = 10806,  -- TA 3.1c (was 20806)
+		energymake = 21,  -- TA 3.1c (was 5)
+		metalmake = 0.5,  -- TA 3.1c (was 0.1)
 		energystorage = 100,
 		metalstorage = 100,
+		energyuse = 0.2,  -- TA 3.1c (was unset)
 		-- movement or placement
 		movementclass = "TANKSH3",
 		movestate = -1,
 		canmove = 1,
 		canpatrol = 1,
 		canguard = 1,
-		maxvelocity = 1.7,
+		maxvelocity = 1.5,  -- TA 3.1c (was 1.7)
 		brakerate = 0.03,
 		acceleration = 0.016,
 		turnrate = 210,
@@ -36,8 +37,8 @@ return {
 		maxslope = 16,
 		-- nanolathing
 		builder = 1,
-		workertime = 120,
-		builddistance = 128,
+		workertime = 200,  -- TA 3.1c (was 120)
+		builddistance = 60,  -- TA 3.1c (was 128)
 		-- combat
 		explodeas = "BIG_UNITEX",
 		selfdestructas = "BIG_UNIT",
@@ -45,8 +46,8 @@ return {
 		maxdamage = 1220,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 397,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 227,  -- TA 3.1c (was 397)
 		-- unit animation
 		leavetracks = 1,
 		trackwidth = 36,

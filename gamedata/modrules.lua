@@ -13,9 +13,7 @@ return {
 	sensors = {
 		los = {
 			losmiplevel = 3,
-			airlosmiplevel = 4,
-			losmul = 1.0,
-			airlosmul = 1.0,
+			airmiplevel = 4,  -- was airlosmiplevel, a key Recoil does not read (it read the default, 1); losmul/airlosmul are not read either
 		},
 	},
 }

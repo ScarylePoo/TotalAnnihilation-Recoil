@@ -14,8 +14,8 @@ return {
 		icontype = "tank",
 		category = "ARM TANK LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
-		buildcostenergy = 2621,
-		buildcostmetal = 314,
+		buildcostenergy = 2140,  -- TA 3.1c (was 2621)
+		buildcostmetal = 264,  -- TA 3.1c (was 314)
 		buildtime = 4530,
 		-- movement or placement
 		movementclass = "TANKSH3",
@@ -23,9 +23,9 @@ return {
 		canmove = 1,
 		canpatrol = 1,
 		canguard = 1,
-		maxvelocity = 1.3,
-		brakerate = 0.04,
-		acceleration = 0.02,
+		maxvelocity = 1,  -- TA 3.1c (was 1.3)
+		brakerate = 0.01,  -- TA 3.1c (was 0.04)
+		acceleration = 0.01,  -- TA 3.1c (was 0.02)
 		turnrate = 350,
 		maxwaterdepth = 0,
 		maxslope = 12,
@@ -39,8 +39,8 @@ return {
 		maxdamage = 525,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 385,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 220,  -- TA 3.1c (was 385)
 		-- unit animation
 		leavetracks = 1,
 		trackwidth = 32,

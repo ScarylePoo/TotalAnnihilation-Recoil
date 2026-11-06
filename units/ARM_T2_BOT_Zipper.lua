@@ -23,9 +23,9 @@ return {
 		canmove = 1,
 		canpatrol = 1,
 		canguard = 1,
-		maxvelocity = 3.93,
-		brakerate = 0.27,
-		acceleration = 0.18,
+		maxvelocity = 2.53,  -- TA 3.1c (was 3.93)
+		brakerate = 0.25,  -- TA 3.1c (was 0.27)
+		acceleration = 0.14,  -- TA 3.1c (was 0.18)
 		turnrate = 1300,
 		maxwaterdepth = 12,
 		maxslope = 17,
@@ -39,8 +39,8 @@ return {
 		maxdamage = 550,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 460,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 263,  -- TA 3.1c (was 460)
 		-- unit animation
 		upright = 1,
 		smoothanim = 1,

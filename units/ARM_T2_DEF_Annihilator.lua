@@ -17,6 +17,7 @@ return {
 		buildcostenergy = 25025,
 		buildcostmetal = 3985,
 		buildtime = 75071,
+		damagemodifier = 0.5,  -- TA 3.1c (was unset)
 		-- movement or placement
 		maxwaterdepth = 0,
 		maxslope = 10,
@@ -24,14 +25,14 @@ return {
 		firestate = 2,
 		badtargetcategory = "VTOL",
 		explodeas = "ATOMIC_BLAST",
-		selfdestructas = "CRAWL_BLASTEX",
+		selfdestructas = "CRAWL_BLASTSML",
 		-- properties
 		maxdamage = 1410,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 665,
-		radardistance = 1500,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 380,  -- TA 3.1c (was 665)
+		radardistance = 1200,  -- TA 3.1c (was 1500)
 		-- other abilities
 		activatewhenbuilt = 1,
 		onoffable = 1,

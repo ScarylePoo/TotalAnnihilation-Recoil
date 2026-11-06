@@ -26,14 +26,14 @@ return {
 		explodeas = "ARMMINE6",
 		selfdestructas = "ARMMINE6",
 		-- properties
-		maxdamage = 55,
+		maxdamage = 100,  -- TA 3.1c (was 55)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
 		sightdistance = 100,
 		-- other abilities
 		stealth = 1,
-		cloakcost = 40,
+		cloakcost = 79,  -- TA 3.1c (was 40)
 		mincloakdistance = 10,
 		-- unit animation
 		footprintx = 1,

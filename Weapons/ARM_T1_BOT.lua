@@ -10,37 +10,36 @@ return {
 		collidefriendly = 0,
 		turret = 1,
 		minbarrelangle = -35,
-		range = 590,  -- 320//500//690//630//650//530
-		reloadtime = 2.57,  -- 1.95//2.4//3.4//1.95
-		weaponvelocity = 270,  -- 210//270//305
+		range = 320,  -- TA 3.1c (was 590)  -- 320//500//690//630//650//530
+		reloadtime = 1.95,  -- TA 3.1c (was 2.57)  -- 1.95//2.4//3.4//1.95
+		weaponvelocity = 210,  -- TA 3.1c (was 270)  -- 210//270//305
 		areaofeffect = 48,
 		soundstart = "cannon1",
 		soundhit = "xplomed3",
 		explosiongenerator = "custom:MARY_SUE",
 		startsmoke = 1,
 		damage = {
-			default = 105,
+			default = 85,  -- TA 3.1c (was 105)
 		},
 	},
 	emg = {
+		weapontype = "Cannon",  -- TA E.M.G. as a Cannon instead of EmgCannon (user decision: EmgCannon is poorly maintained in Recoil); it now has gravity
+		rgbcolor = "0.9 0.9 0.2",  -- TA E.M.G. yellow
 		id = 16,
 		name = "E.M.G.",
-		rendertype = 4,
 		-- 2D bitmap
-		color = 2,
 		-- EMG bitmap shell, its a hack
-		lineofsight = 1,
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
 		-- model=plasma;
-		range = 255,  -- 280 180 255//255
+		range = 180,  -- TA 3.1c (was 255)  -- 280 180 255//255
 		reloadtime = 0.4,
 		weapontimer = 1,
-		weaponvelocity = 400,  -- 300
-		sprayangle = 768,  -- 1024
+		weaponvelocity = 300,  -- TA 3.1c (was 400)  -- 300
+		sprayangle = 1024,  -- TA 3.1c (was 768)  -- 1024
 		areaofeffect = 8,
-		burst = 4,
+		burst = 3,  -- TA 3.1c (was 4)
 		burstrate = .1,
 		soundstart = "armsml2",
 		soundhit = "lasrhit1",
@@ -49,7 +48,7 @@ return {
 		explosiongenerator = "custom:FLASH1white",
 		startsmoke = 1,
 		damage = {
-			default = 14,  -- 10 16
+			default = 8,  -- TA 3.1c (was 14)  -- 10 16
 		},
 	},
 	kbot_rocket = {
@@ -61,8 +60,8 @@ return {
 		collidefriendly = 0,
 		turret = 1,
 		model = "missile",
-		range = 500,  -- 400//690
-		reloadtime = 8.3,  -- 8//6//6.5
+		range = 400,  -- TA 3.1c (was 500)  -- 400//690
+		reloadtime = 4,  -- TA 3.1c (was 8.3)  -- 8//6//6.5
 		weapontimer = 2,
 		weaponvelocity = 250,
 		startvelocity = 250,
@@ -85,26 +84,25 @@ return {
 		lavaexplosionart = "lavasplash",
 		startsmoke = 1,
 		damage = {
-			default = 110,  -- 250//220
+			default = 105,  -- TA 3.1c (was 110)  -- 250//220
 		},
 	},
 	armwar_emg = {
+		weapontype = "Cannon",  -- TA E.M.G. as a Cannon instead of EmgCannon (user decision: EmgCannon is poorly maintained in Recoil); it now has gravity
+		rgbcolor = "0.9 0.9 0.2",  -- TA E.M.G. yellow
 		id = 171,
 		name = "E.M.G.",
-		rendertype = 4,
-		color = 1,
 		avoidfriendly = 0,
 		collidefriendly = 0,
-		lineofsight = 1,
 		turret = 1,
-		range = 320,  -- 180
+		range = 180,  -- TA 3.1c (was 320)  -- 180
 		reloadtime = 0.4,
 		weapontimer = 1,
-		weaponvelocity = 500,  -- 300
-		sprayangle = 512,  -- 1024
+		weaponvelocity = 300,  -- TA 3.1c (was 500)  -- 300
+		sprayangle = 1024,  -- TA 3.1c (was 512)  -- 1024
 		areaofeffect = 8,
-		burst = 4,
-		burstrate = .07,
+		burst = 2,  -- TA 3.1c (was 4)
+		burstrate = 0.2,  -- TA 3.1c (was .07)
 		soundstart = "armsml2",
 		soundhit = "lasrhit1",
 		soundtrigger = 1,
@@ -117,7 +115,7 @@ return {
 		lavaexplosiongaf = "fx",
 		lavaexplosionart = "lavasplashsm",
 		damage = {
-			default = 20,  -- 12//16
+			default = 12,  -- TA 3.1c (was 20)  -- 12//16
 		},
 	},
 	armwar_lcannon = {
@@ -128,9 +126,9 @@ return {
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
-		range = 420,  -- 240
+		range = 240,  -- TA 3.1c (was 420)  -- 240
 		reloadtime = 2.13,
-		weaponvelocity = 250,  -- 170
+		weaponvelocity = 170,  -- TA 3.1c (was 250)  -- 170
 		areaofeffect = 32,
 		soundstart = "canlite3",
 		soundhit = "xplosml3",
@@ -143,7 +141,7 @@ return {
 		lavaexplosionart = "lavasplash",
 		startsmoke = 1,
 		damage = {
-			default = 80,
+			default = 60,  -- TA 3.1c (was 80)
 		},
 	},
 }

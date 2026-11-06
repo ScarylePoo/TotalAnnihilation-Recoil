@@ -10,8 +10,8 @@ return {
 		collidefriendly = 0,
 		turret = 1,
 		model = "missile",
-		range = 500,  -- 400//700//730//690
-		reloadtime = 6.6,  -- 3.7//6.1
+		range = 400,  -- TA 3.1c (was 500)  -- 400//700//730//690
+		reloadtime = 3.7,  -- TA 3.1c (was 6.6)  -- 3.7//6.1
 		weapontimer = 2,
 		weaponvelocity = 250,
 		startvelocity = 250,
@@ -32,7 +32,7 @@ return {
 		lavaexplosionart = "lavasplash",
 		startsmoke = 1,
 		damage = {
-			default = 220,  -- 100//250
+			default = 100,  -- TA 3.1c (was 220)  -- 100//250
 		},
 	},
 	core_thud = {
@@ -44,16 +44,16 @@ return {
 		collidefriendly = 0,
 		turret = 1,
 		minbarrelangle = -35,
-		range = 590,  -- 320//403//500//690//630//650//530
-		reloadtime = 2.5,  -- 1.9//2.4//3.4//1.9
-		weaponvelocity = 270,  -- 210//270//305
+		range = 230,  -- TA 3.1c (was 590)  -- 320//403//500//690//630//650//530
+		reloadtime = 1.9,  -- TA 3.1c (was 2.5)  -- 1.9//2.4//3.4//1.9
+		weaponvelocity = 210,  -- TA 3.1c (was 270)  -- 210//270//305
 		areaofeffect = 48,
 		soundstart = "cannon1",
 		soundhit = "xplomed3",
 		explosiongenerator = "custom:MARY_SUE",
 		startsmoke = 1,
 		damage = {
-			default = 100,  -- 105//80//95
+			default = 80,  -- TA 3.1c (was 100)  -- 105//80//95
 		},
 	},
 }

@@ -23,7 +23,7 @@ return {
 		canmove = 1,
 		canpatrol = 1,
 		canguard = 1,
-		maxvelocity = 3.4,
+		maxvelocity = 3,  -- TA 3.1c (was 3.4)
 		brakerate = 0.06,
 		acceleration = 0.04,
 		turnrate = 499,
@@ -39,9 +39,9 @@ return {
 		maxdamage = 79,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 543,
-		radardistance = 800,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 310,  -- TA 3.1c (was 543)
+		radardistance = 0,  -- TA 3.1c (was 800)
 		-- other abilities
 		activatewhenbuilt = 1,
 		-- unit animation
@@ -86,7 +86,7 @@ return {
 		},
 		weapons = {
 			{
-				name = "ARM_SCOUT_LASER",
+				name = "ARM_LASER",
 			},
 		},
 	},

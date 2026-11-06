@@ -15,13 +15,15 @@ return {
 		icontype = "ship",
 		category = "ARM UNDERWATER LEVEL2 NOWEAPON NOTAIR",
 		-- costs, makes, uses, storage
-		buildcostenergy = 8568,
-		buildcostmetal = 865,
-		buildtime = 17265,
-		energymake = 5,
-		metalmake = 0.1,
-		energystorage = 100,
-		metalstorage = 100,
+		buildcostenergy = 7568,  -- TA 3.1c (was 8568)
+		buildcostmetal = 695,  -- TA 3.1c (was 865)
+		buildtime = 16565,  -- TA 3.1c (was 17265)
+		energymake = 17,  -- TA 3.1c (was 5)
+		metalmake = 0.9,  -- TA 3.1c (was 0.1)
+		energystorage = 50,  -- TA 3.1c (was 100)
+		metalstorage = 50,  -- TA 3.1c (was 100)
+		energyuse = 0.1,  -- TA 3.1c (was unset)
+		sonardistance = 400,  -- TA 3.1c (was unset)
 		-- movement or placement
 		movementclass = "SHIP_SUBMARINE",
 		movestate = -1,
@@ -30,12 +32,12 @@ return {
 		canguard = 1,
 		maxvelocity = 2.15,
 		brakerate = 0.2,
-		acceleration = 0.03,
+		acceleration = 0.032,  -- TA 3.1c (was 0.03)
 		turnrate = 256,
 		-- nanolathing
 		builder = 1,
-		workertime = 140,
-		builddistance = 128,
+		workertime = 225,  -- TA 3.1c (was 140)
+		builddistance = 100,  -- TA 3.1c (was 128)
 		-- combat
 		explodeas = "SMALL_UNITEX",
 		selfdestructas = "SMALL_UNIT",
@@ -43,8 +45,8 @@ return {
 		maxdamage = 360,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 210,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 120,  -- TA 3.1c (was 210)
 		-- unit animation
 		waterline = 40,
 		footprintx = 3,

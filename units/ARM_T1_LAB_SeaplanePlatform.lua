@@ -16,10 +16,11 @@ return {
 		category = "ARM PLANT LEVEL1 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 5396,
-		buildcostmetal = 1663,
-		buildtime = 10248,
-		energystorage = 100,
-		metalstorage = 100,
+		buildcostmetal = 2223,  -- TA 3.1c (was 1663)
+		buildtime = 19248,  -- TA 3.1c (was 10248)
+		energystorage = 200,  -- TA 3.1c (was 100)
+		metalstorage = 900,  -- TA 3.1c (was 100)
+		metalmake = 1,  -- TA 3.1c (was unset)
 		-- movement or placement
 		movestate = 1,
 		canmove = 1,
@@ -27,7 +28,7 @@ return {
 		minwaterdepth = 20,  -- 30
 		-- nanolathing
 		builder = 1,
-		workertime = 110,
+		workertime = 200,  -- TA 3.1c (was 110)
 		-- combat
 		explodeas = "LARGE_BUILDINGEX",
 		selfdestructas = "LARGE_BUILDING",
@@ -35,8 +36,8 @@ return {
 		maxdamage = 1820,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 227,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 130,  -- TA 3.1c (was 227)
 		-- unit animation
 		waterline = 53,
 		footprintx = 7,

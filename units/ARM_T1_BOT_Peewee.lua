@@ -15,7 +15,7 @@ return {
 		category = "ARM KBOT LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 697,
-		buildcostmetal = 67,
+		buildcostmetal = 53,  -- TA 3.1c (was 67)
 		buildtime = 1452,
 		-- movement or placement
 		movementclass = "KBOTSTANDARD",
@@ -23,7 +23,7 @@ return {
 		canmove = 1,
 		canpatrol = 1,
 		canguard = 1,
-		maxvelocity = 2.5,
+		maxvelocity = 1.8,  -- TA 3.1c (was 2.5)
 		brakerate = 0.19,
 		acceleration = 0.1,
 		turnrate = 1120,
@@ -34,11 +34,11 @@ return {
 		explodeas = "SMALL_UNITEX",
 		selfdestructas = "SMALL_UNIT",
 		-- properties
-		maxdamage = 325,
+		maxdamage = 250,  -- TA 3.1c (was 325)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 490,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 280,  -- TA 3.1c (was 490)
 		-- unit animation
 		upright = 1,
 		smoothanim = 1,

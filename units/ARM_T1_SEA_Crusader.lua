@@ -14,9 +14,9 @@ return {
 		icontype = "ship",
 		category = "ARM SHIP LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
-		buildcostenergy = 4237,
-		buildcostmetal = 882,
-		buildtime = 10391,
+		buildcostenergy = 4537,  -- TA 3.1c (was 4237)
+		buildcostmetal = 898,  -- TA 3.1c (was 882)
+		buildtime = 13391,  -- TA 3.1c (was 10391)
 		-- movement or placement
 		movementclass = "SMALL_SHIP",
 		movestate = -1,
@@ -27,7 +27,7 @@ return {
 		maxvelocity = 2.9,
 		brakerate = 0.013,
 		acceleration = 0.04,
-		turnrate = 242,
+		turnrate = 121,  -- TA 3.1c (was 242)
 		-- combat
 		firestate = 2,
 		badtargetcategory = "VTOL",
@@ -35,11 +35,11 @@ return {
 		explodeas = "BIG_UNITEX",
 		selfdestructas = "BIG_UNIT",
 		-- properties
-		maxdamage = 1870,
+		maxdamage = 2870,  -- TA 3.1c (was 1870)
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 595,
-		sonardistance = 455,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 330,  -- TA 3.1c (was 595)
+		sonardistance = 305,  -- TA 3.1c (was 455)
 		-- other abilities
 		activatewhenbuilt = 1,
 		-- unit animation

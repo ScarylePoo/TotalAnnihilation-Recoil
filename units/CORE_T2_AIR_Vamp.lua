@@ -24,10 +24,10 @@ return {
 		canguard = 1,
 		canfly = 1,
 		cruisealt = 160,
-		maxvelocity = 17,
+		maxvelocity = 12,  -- TA 3.1c (was 17)
 		brakerate = 7,
-		acceleration = 0.85,
-		turnrate = 920,
+		acceleration = 0.35,  -- TA 3.1c (was 0.85)
+		turnrate = 620,  -- TA 3.1c (was 920)
 		maxwaterdepth = 0,
 		maxslope = 10,
 		-- combat
@@ -39,8 +39,8 @@ return {
 		maxdamage = 490,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 612,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 350,  -- TA 3.1c (was 612)
 		-- other abilities
 		canloopbackattack = 1,
 		stealth = 1,
@@ -85,10 +85,10 @@ return {
 		},
 		weapons = {
 			{
-				name = "CORE_STEALTH_FIGHTER_MISSILE",
+				name = "CORVTOL_ADVMISSILE",
 			},
 			{
-				name = "CORE_STEALTH_FIGHTER_MISSILE",
+				name = "CORVTOL_ADVMISSILE2",
 			},
 		},
 	},

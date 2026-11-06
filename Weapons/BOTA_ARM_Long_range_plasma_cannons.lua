@@ -3,6 +3,7 @@
 return {
 	big_bertha = {
 		-- used by units
+		-- ARM_T2_DEF_BigBertha
 		-- type
 		weapontype = "Cannon",
 		turret = 1,
@@ -23,17 +24,18 @@ return {
 		weaponvelocity = 800,
 		accuracy = 500,
 		-- costs
-		energypershot = 9000,
+		energypershot = 1500,  -- TA 3.1c (was 9000)
 		-- stats
-		range = 4608,
-		reloadtime = 20,
+		range = 4096,  -- TA 3.1c (was 4608)
+		reloadtime = 7,  -- TA 3.1c (was 20)
 		areaofeffect = 80,
 		damage = {
-			default = 1500,
+			default = 2000,  -- TA 3.1c (was 1500)
 		},
 	},
 	vulcan = {
 		-- used by units
+		-- ARM_T2_DEF_Vulcan
 		-- type
 		weapontype = "Cannon",
 		turret = 1,
@@ -51,15 +53,15 @@ return {
 		collidefriendly = 1,
 		tolerance = 300,
 		weaponvelocity = 800,
-		accuracy = 700,
+		accuracy = 800,  -- TA 3.1c (was 700)
 		-- costs
-		energypershot = 4000,
+		energypershot = 2000,  -- TA 3.1c (was 4000)
 		-- stats
-		range = 3584,
-		reloadtime = 1,
+		range = 3080,  -- TA 3.1c (was 3584)
+		reloadtime = 0.25,  -- TA 3.1c (was 1)
 		areaofeffect = 100,
 		damage = {
-			default = 400,
+			default = 1000,  -- TA 3.1c (was 400)
 		},
 	},
 }

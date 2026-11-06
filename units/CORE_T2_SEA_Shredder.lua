@@ -26,7 +26,7 @@ return {
 		floater = 1,
 		maxvelocity = 2.8,
 		brakerate = 0.018,
-		acceleration = 0.02,
+		acceleration = 0.01,  -- TA 3.1c (was 0.02)
 		turnrate = 145,
 		-- combat
 		firestate = 2,
@@ -38,8 +38,8 @@ return {
 		maxdamage = 2450,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 612,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 350,  -- TA 3.1c (was 612)
 		-- unit animation
 		footprintx = 4,
 		footprintz = 4,

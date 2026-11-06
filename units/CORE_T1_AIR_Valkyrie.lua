@@ -24,21 +24,21 @@ return {
 		canguard = 1,
 		canfly = 1,
 		cruisealt = 80,
-		maxvelocity = 9.2,
+		maxvelocity = 7,  -- TA 3.1c (was 9.2)
 		brakerate = 4,
-		acceleration = 0.2,
-		turnrate = 245,
+		acceleration = 0.02,  -- TA 3.1c (was 0.2)
+		turnrate = 145,  -- TA 3.1c (was 245)
 		maxwaterdepth = 0,
 		maxslope = 10,
 		-- combat
 		explodeas = "BIG_UNITEX",
 		selfdestructas = "BIG_UNIT",
 		-- properties
-		maxdamage = 230,
+		maxdamage = 160,  -- TA 3.1c (was 230)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 210,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 245,  -- TA 3.1c (was 210)
 		-- other abilities
 		canload = 1,
 		transportsize = 3,

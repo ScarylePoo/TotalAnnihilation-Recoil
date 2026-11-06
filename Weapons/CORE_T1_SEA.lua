@@ -10,9 +10,9 @@ return {
 		collidefriendly = 0,
 		turret = 1,
 		minbarrelangle = -25,
-		range = 950,  -- 660//1100
+		range = 660,  -- TA 3.1c (was 950)  -- 660//1100
 		reloadtime = 2.4,
-		weaponvelocity = 380,  -- 300
+		weaponvelocity = 300,  -- TA 3.1c (was 380)  -- 300
 		areaofeffect = 48,
 		soundstart = "cannhvy1",
 		soundhit = "xplomed2",
@@ -24,7 +24,6 @@ return {
 		explosiongenerator = "custom:PLASMA_Expl",
 		damage = {
 			default = 180,
-			-- subs=0;
 		},
 	},
 }

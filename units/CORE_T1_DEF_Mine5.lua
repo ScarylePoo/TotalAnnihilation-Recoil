@@ -15,6 +15,7 @@ return {
 		buildcostenergy = 7607,
 		buildcostmetal = 264,
 		buildtime = 9508,
+		mincloakdistance = 10,  -- TA 3.1c (was unset)
 		-- movement or placement
 		maxwaterdepth = 0,
 		maxslope = 15,
@@ -26,14 +27,14 @@ return {
 		explodeas = "CORMINE5",
 		selfdestructas = "CORMINE5",
 		-- properties
-		maxdamage = 45,
+		maxdamage = 200,  -- TA 3.1c (was 45)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
 		sightdistance = 70,
 		-- other abilities
 		stealth = 1,
-		cloakcost = 4,
+		cloakcost = 70,  -- TA 3.1c (was 4)
 		mincloakcistance = 10,
 		-- unit animation
 		footprintx = 1,

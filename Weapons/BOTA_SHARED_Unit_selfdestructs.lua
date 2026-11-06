@@ -85,6 +85,35 @@ return {
 			default = 350,
 		},
 	},
+	crawl_blastsml = {
+		-- TA 3.1c weapon crawl_blastsml (BOTA used big_unit for it as well)
+		-- used by units
+		-- type
+		-- visuals
+		-- sounds
+		-- behaviour
+		-- costs
+		-- stats
+		rendertype = 4,
+		ballistic = 1,
+		turret = 1,
+		range = 480,
+		reloadtime = 3.6,
+		weaponvelocity = 250,
+		areaofeffect = 275,  -- TA 3.1c (was 110)
+		soundstart = "largegun",
+		soundhit = "xplolrg3",
+		explosiongaf = "fx",
+		explosionart = "explode2",
+		waterexplosiongaf = "fx",
+		waterexplosionart = "h2oboom2",
+		shakemagnitude = 8,
+		shakeduration = .3,
+		explosiongenerator = "custom:BIG_SUICIDE_Expl",
+		damage = {
+			default = 1200,  -- TA 3.1c (was 350)
+		},
+	},
 	crawl_blast = {
 		-- used by units
 		-- type

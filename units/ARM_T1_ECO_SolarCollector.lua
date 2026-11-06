@@ -14,7 +14,7 @@ return {
 		icontype = "building",
 		category = "ARM LEVEL1 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
-		buildcostenergy = 75,
+		buildcostenergy = 760,  -- TA 3.1c (was 75)
 		buildcostmetal = 145,
 		buildtime = 2495,
 		energyuse = -20,  -- needed to be like this to get the solar stop making energy when deactivated
@@ -28,12 +28,12 @@ return {
 		maxdamage = 326,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 367,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 210,  -- TA 3.1c (was 367)
 		-- other abilities
 		activatewhenbuilt = 1,
 		onoffable = 1,
-		damagemodifier = 0.33,
+		damagemodifier = 0.3333,  -- TA 3.1c (was 0.33)
 		-- unit animation
 		footprintx = 5,
 		footprintz = 5,

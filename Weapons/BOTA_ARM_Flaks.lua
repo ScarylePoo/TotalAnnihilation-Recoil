@@ -18,11 +18,11 @@ return {
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		canattackground = 0,
-		range = 900,  -- 700
+		range = 700,  -- TA 3.1c (was 900)  -- 700
 		reloadtime = 0.6,
 		weapontimer = 1,
 		weaponvelocity = 950,
-		areaofeffect = 220,  -- 120
+		areaofeffect = 120,  -- TA 3.1c (was 220)  -- 120
 		edgeeffectiveness = 0.90,
 		soundstart = "canlite2",
 		soundhit = "flakhit",  -- xplomed2
@@ -40,8 +40,7 @@ return {
 		startsmoke = 1,
 		explosiongenerator = "custom:FLAK_BURST_Expl",
 		damage = {
-			default = 180,
-			planes = 180,  -- armor group needed only for defense range
+			default = 130,  -- TA 3.1c (was 180)
 		},
 	},
 	armaas_weapon3 = {
@@ -59,11 +58,11 @@ return {
 		ballistic = 1,
 		turret = 1,
 		canattackground = 0,
-		range = 1000,  -- 750
+		range = 750,  -- TA 3.1c (was 1000)  -- 750
 		reloadtime = 0.7,
 		weapontimer = 1,
 		weaponvelocity = 950,
-		areaofeffect = 225,  -- 125
+		areaofeffect = 125,  -- TA 3.1c (was 225)  -- 125
 		edgeeffectiveness = 0.90,
 		soundstart = "canlite2",
 		soundhit = "flakhit",  -- xplomed2
@@ -81,7 +80,7 @@ return {
 		startsmoke = 1,
 		explosiongenerator = "custom:FLAK_BURST_Expl",
 		damage = {
-			default = 186,  -- 146
+			default = 146,  -- TA 3.1c (was 186)  -- 146
 		},
 	},
 	armyork_gun = {
@@ -101,11 +100,11 @@ return {
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		canattackground = 0,
-		range = 880,  -- 680
+		range = 680,  -- TA 3.1c (was 880)  -- 680
 		reloadtime = 0.55,
 		weapontimer = 1,
 		weaponvelocity = 900,
-		areaofeffect = 190,  -- 105
+		areaofeffect = 105,  -- TA 3.1c (was 190)  -- 105
 		edgeeffectiveness = 0.90,
 		soundstart = "canlite2",
 		soundhit = "flakhit",  -- xplomed2
@@ -123,7 +122,7 @@ return {
 		startsmoke = 1,
 		explosiongenerator = "custom:FLAK_BURST_Expl",
 		damage = {
-			default = 168,  -- 128
+			default = 128,  -- TA 3.1c (was 168)  -- 128
 		},
 	},
 }

@@ -2,18 +2,17 @@
 
 return {
 	vtol_emg = {
+		weapontype = "Cannon",  -- TA E.M.G. as a Cannon instead of EmgCannon (user decision: EmgCannon is poorly maintained in Recoil); it now has gravity
+		rgbcolor = "0.9 0.9 0.2",  -- TA E.M.G. yellow
 		id = 18,
 		name = "E.M.G.",
-		rendertype = 4,
 		-- 2D bitmap
-		color = 1,
 		-- EMG bitmap
-		lineofsight = 1,
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 0,
 		-- model=plasma;
-		range = 450,  -- 370//400
+		range = 370,  -- TA 3.1c (was 450)  -- 370//400
 		reloadtime = 0.6,
 		weapontimer = 1,
 		weaponvelocity = 450,

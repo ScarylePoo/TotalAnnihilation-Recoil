@@ -15,11 +15,11 @@ return {
 		icontype = "factory",
 		category = "CORE PLANT LEVEL1 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
-		buildcostenergy = 4421,
-		buildcostmetal = 1193,
-		buildtime = 12005,
-		energystorage = 100,
-		metalstorage = 100,
+		buildcostenergy = 5421,  -- TA 3.1c (was 4421)
+		buildcostmetal = 1793,  -- TA 3.1c (was 1193)
+		buildtime = 19005,  -- TA 3.1c (was 12005)
+		energystorage = 200,  -- TA 3.1c (was 100)
+		metalstorage = 200,  -- TA 3.1c (was 100)
 		-- movement or placement
 		movestate = -1,
 		canmove = 1,
@@ -28,7 +28,7 @@ return {
 		maxslope = 10,
 		-- nanolathing
 		builder = 1,
-		workertime = 130,
+		workertime = 200,  -- TA 3.1c (was 130)
 		-- combat
 		explodeas = "LARGE_BUILDINGEX",
 		selfdestructas = "LARGE_BUILDING",
@@ -36,8 +36,8 @@ return {
 		maxdamage = 3356,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 420,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 240,  -- TA 3.1c (was 420)
 		-- unit animation
 		footprintx = 8,
 		footprintz = 7,

@@ -14,7 +14,7 @@ return {
 		icontype = "building",
 		category = "CORE LEVEL1 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
-		buildcostenergy = 1563,
+		buildcostenergy = 700,  -- TA 3.1c (was 1563)
 		buildtime = 2682,
 		makesmetal = 1,
 		energyuse = 60,
@@ -22,14 +22,14 @@ return {
 		maxwaterdepth = 0,
 		maxslope = 10,
 		-- combat
-		explodeas = "CRAWL_BLASTEX",
-		selfdestructas = "CRAWL_BLASTEX",
+		explodeas = "SMALL_BUILDINGEX",
+		selfdestructas = "SMALL_BUILDING",
 		-- properties
 		maxdamage = 150,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 367,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 210,  -- TA 3.1c (was 367)
 		-- other abilities
 		activatewhenbuilt = 1,
 		onoffable = 1,

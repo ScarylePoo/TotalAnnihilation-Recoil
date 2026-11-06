@@ -26,6 +26,7 @@ return {
 		waterexplosionart = "h2oboom2",
 		damage = {
 			default = 400,
+			arm_t1_def_mine1_armor = 30,
 		},
 	},
 	armmine2 = {
@@ -53,6 +54,7 @@ return {
 		waterexplosionart = "h2o",
 		damage = {
 			default = 600,
+			arm_t1_def_mine2_armor = 30,
 		},
 	},
 	armmine3 = {
@@ -79,7 +81,8 @@ return {
 		waterexplosiongaf = "fx",
 		waterexplosionart = "h2o",
 		damage = {
-			default = 1200,
+			default = 1300,  -- TA 3.1c (was 1200)
+			arm_t1_def_mine3_armor = 30,
 		},
 	},
 	armmine4 = {
@@ -107,6 +110,7 @@ return {
 		waterexplosionart = "h2o",
 		damage = {
 			default = 1500,
+			arm_t1_def_mine4_armor = 30,
 		},
 	},
 	armmine5 = {
@@ -122,7 +126,7 @@ return {
 		range = 480,
 		reloadtime = 3.6,
 		weaponvelocity = 250,
-		areaofeffect = 150,
+		areaofeffect = 130,  -- TA 3.1c (was 150)
 		edgeeffectiveness = 0.1,
 		shakemagnitude = 0,
 		shakeduration = 0,
@@ -133,7 +137,8 @@ return {
 		waterexplosiongaf = "fx",
 		waterexplosionart = "h2o",
 		damage = {
-			default = 4000,
+			default = 2000,  -- TA 3.1c (was 4000)
+			arm_t1_def_mine5_armor = 30,
 		},
 	},
 	armmine6 = {
@@ -146,10 +151,10 @@ return {
 		-- stats
 		name = "Nuclear Mine",
 		ballistic = 1,
-		range = 700,
+		range = 480,  -- TA 3.1c (was 700)
 		reloadtime = 3.6,
 		weaponvelocity = 250,
-		areaofeffect = 700,
+		areaofeffect = 350,  -- TA 3.1c (was 700)
 		edgeeffectiveness = 0.15,
 		shakemagnitude = 0,
 		shakeduration = 0,
@@ -161,7 +166,9 @@ return {
 		waterexplosionart = "h2o",
 		explosiongenerator = "custom:MINI_NUCLEAR_Expl",
 		damage = {
-			default = 9000,
+			default = 4500,  -- TA 3.1c (was 9000)
+			arm_commander_armor = 2900,
+			core_commander_armor = 2900,
 		},
 	},
 }

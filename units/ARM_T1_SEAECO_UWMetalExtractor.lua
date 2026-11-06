@@ -14,10 +14,10 @@ return {
 		icontype = "building",
 		category = "ARM LEVEL1 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
-		buildcostenergy = 1274,
-		buildcostmetal = 97,
+		buildcostenergy = 2074,  -- TA 3.1c (was 1274)
+		buildcostmetal = 130,  -- TA 3.1c (was 97)
 		buildtime = 4175,
-		energyuse = 5,
+		energyuse = 2,  -- TA 3.1c (was 5)
 		extractsmetal = 0.001,
 		-- movement or placement
 		minwaterdepth = 19,
@@ -29,8 +29,8 @@ return {
 		maxdamage = 330,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 245,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 140,  -- TA 3.1c (was 245)
 		-- other abilities
 		activatewhenbuilt = 1,
 		onoffable = 1,

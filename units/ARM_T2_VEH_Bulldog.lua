@@ -23,9 +23,9 @@ return {
 		canmove = 1,
 		canpatrol = 1,
 		canguard = 1,
-		maxvelocity = 1.6,
-		brakerate = 0.009,
-		acceleration = 0.04,
+		maxvelocity = 1.1,  -- TA 3.1c (was 1.6)
+		brakerate = 0.0076,  -- TA 3.1c (was 0.009)
+		acceleration = 0.01,  -- TA 3.1c (was 0.04)
 		turnrate = 300,
 		maxwaterdepth = 100,
 		maxslope = 11,
@@ -33,14 +33,14 @@ return {
 		firestate = 2,
 		badtargetcategory = "VTOL",
 		nochasecategory = "VTOL",
-		explodeas = "HUGE_UNITEX",
-		selfdestructas = "HUGE_UNITEX",
+		explodeas = "BIG_UNITEX",
+		selfdestructas = "BIG_UNIT",
 		-- properties
-		maxdamage = 2819,
+		maxdamage = 2102,  -- TA 3.1c (was 2819)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 455,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 260,  -- TA 3.1c (was 455)
 		-- unit animation
 		leavetracks = 1,
 		trackwidth = 40,

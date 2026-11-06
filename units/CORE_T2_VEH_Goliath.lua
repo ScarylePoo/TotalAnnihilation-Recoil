@@ -14,16 +14,16 @@ return {
 		icontype = "tank",
 		category = "CORE TANK LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
-		buildcostenergy = 5906,
-		buildcostmetal = 1097,
-		buildtime = 11058,
+		buildcostenergy = 3906,  -- TA 3.1c (was 5906)
+		buildcostmetal = 697,  -- TA 3.1c (was 1097)
+		buildtime = 7058,  -- TA 3.1c (was 11058)
 		-- movement or placement
 		movementclass = "GOLIATH",  -- HEAVYTANK//TANKSH3
 		movestate = -1,
 		canmove = 1,
 		canpatrol = 1,
 		canguard = 1,
-		maxvelocity = 1,
+		maxvelocity = 0.8,  -- TA 3.1c (was 1)
 		brakerate = 0.03,
 		acceleration = 0.015,
 		turnrate = 206,
@@ -33,15 +33,15 @@ return {
 		firestate = 2,
 		badtargetcategory = "VTOL",
 		nochasecategory = "VTOL",
-		explodeas = "HUGE_UNITEX",
-		selfdestructas = "HUGE_UNITEX",
+		explodeas = "BIG_UNITEX",
+		selfdestructas = "BIG_UNIT",
 		-- properties
-		maxdamage = 3650,
+		maxdamage = 2845,  -- TA 3.1c (was 3650)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
 		mass = 3001,  -- Valkyrie limit is 3000
-		sightdistance = 420,
+		sightdistance = 210,  -- TA 3.1c (was 420)
 		-- unit animation
 		leavetracks = 1,
 		trackwidth = 40,

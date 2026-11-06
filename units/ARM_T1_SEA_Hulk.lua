@@ -14,8 +14,8 @@ return {
 		icontype = "ship",
 		category = "ARM SHIP LEVEL1 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
-		buildcostenergy = 6639,
-		buildcostmetal = 1293,
+		buildcostenergy = 4639,  -- TA 3.1c (was 6639)
+		buildcostmetal = 919,  -- TA 3.1c (was 1293)
 		buildtime = 14538,
 		-- movement or placement
 		movementclass = "MEDIUM_SHIP",
@@ -26,20 +26,20 @@ return {
 		floater = 1,
 		maxvelocity = 1.9,
 		brakerate = 0.018,
-		acceleration = 0.019,
-		turnrate = 256,
+		acceleration = 0.009,  -- TA 3.1c (was 0.019)
+		turnrate = 128,  -- TA 3.1c (was 256)
 		-- combat
 		explodeas = "BIG_UNITEX",
 		selfdestructas = "BIG_UNIT",
 		-- properties
-		maxdamage = 4000,
+		maxdamage = 2000,  -- TA 3.1c (was 4000)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 437,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 250,  -- TA 3.1c (was 437)
 		-- other abilities
 		canload = 1,
-		transportsize = 20,
+		transportsize = 3,  -- TA 3.1c (was 20)
 		transportcapacity = 20,
 		transportmass = 28000,  -- core krog mass is 29800
 		-- unit animation

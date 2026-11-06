@@ -34,12 +34,12 @@ return {
 		explodeas = "SMALL_UNITEX",
 		selfdestructas = "SMALL_UNIT",
 		-- properties
-		maxdamage = 376,
+		maxdamage = 276,  -- TA 3.1c (was 376)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 262,
-		sonardistance = 700,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 150,  -- TA 3.1c (was 262)
+		sonardistance = 450,  -- TA 3.1c (was 700)
 		-- other abilities
 		activatewhenbuilt = 1,
 		-- unit animation

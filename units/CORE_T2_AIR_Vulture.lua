@@ -18,6 +18,7 @@ return {
 		buildcostmetal = 169,
 		buildtime = 13264,
 		energyuse = 20,
+		energymake = 20,  -- TA 3.1c (was unset)
 		-- movement or placement
 		movestate = -1,
 		canmove = 1,
@@ -25,7 +26,7 @@ return {
 		canguard = 1,
 		canfly = 1,
 		cruisealt = 210,
-		maxvelocity = 9.6,
+		maxvelocity = 9.3,  -- TA 3.1c (was 9.6)
 		brakerate = 3,
 		acceleration = 0.08,
 		turnrate = 365,
@@ -38,9 +39,9 @@ return {
 		maxdamage = 170,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 612,
-		radardistance = 2100,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 350,  -- TA 3.1c (was 612)
+		radardistance = 1590,  -- TA 3.1c (was 2100)
 		-- other abilities
 		activatewhenbuilt = 1,
 		onoffable = 1,

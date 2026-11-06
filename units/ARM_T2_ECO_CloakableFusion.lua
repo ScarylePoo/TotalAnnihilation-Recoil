@@ -14,7 +14,7 @@ return {
 		icontype = "building_energy_source_big",
 		category = "ARM LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
-		buildcostenergy = 39058,
+		buildcostenergy = 42058,  -- TA 3.1c (was 39058)
 		buildcostmetal = 5420,
 		buildtime = 105487,
 		energymake = 1000,
@@ -25,11 +25,11 @@ return {
 		explodeas = "ATOMIC_BLAST",
 		selfdestructas = "NUCLEAR_MISSILE",
 		-- properties
-		maxdamage = 3200,
+		maxdamage = 2200,  -- TA 3.1c (was 3200)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 368,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 210,  -- TA 3.1c (was 368)
 		-- other abilities
 		cloakcost = 450,
 		mincloakdistance = 110,

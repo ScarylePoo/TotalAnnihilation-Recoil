@@ -21,10 +21,10 @@ return {
 		maxwaterdepth = 0,
 		minwaterdepth = 1,
 		-- properties
-		maxdamage = 1000,
+		maxdamage = 3500,  -- TA 3.1c (was 1000)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
 		sightdistance = 100,
 		-- other abilities
 		isfeature = 1,

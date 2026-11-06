@@ -14,9 +14,9 @@ return {
 		icontype = "building_metal_source_big",
 		category = "ARM LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
-		buildcostenergy = 29350,
-		buildcostmetal = 158,
-		buildtime = 104980,
+		buildcostenergy = 9350,  -- TA 3.1c (was 29350)
+		buildcostmetal = 58,  -- TA 3.1c (was 158)
+		buildtime = 34980,  -- TA 3.1c (was 104980)
 		makesmetal = 16,
 		energyuse = 800,
 		-- movement or placement
@@ -29,8 +29,8 @@ return {
 		maxdamage = 400,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 376,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 210,  -- TA 3.1c (was 376)
 		-- other abilities
 		activatewhenbuilt = 1,
 		onoffable = 1,

@@ -10,10 +10,10 @@ return {
 		collidefriendly = 0,
 		turret = 1,
 		minbarrelangle = -25,
-		range = 1610,  -- 1300 //in range of fixed guns
+		range = 1300,  -- TA 3.1c (was 1610)  -- 1300 //in range of fixed guns
 		reloadtime = 3,
-		weaponvelocity = 490,  -- 350
-		areaofeffect = 78,
+		weaponvelocity = 350,  -- TA 3.1c (was 490)  -- 350
+		areaofeffect = 64,  -- TA 3.1c (was 78)
 		soundstart = "cannhvy1",
 		soundhit = "xplomed2",
 		accuracy = 300,
@@ -27,8 +27,7 @@ return {
 		targetmoveerror = .05,
 		explosiongenerator = "custom:PLASMA_Expl",
 		damage = {
-			default = 290,
-			-- subs=0;
+			default = 220,  -- TA 3.1c (was 290)
 		},
 	},
 	cor_bats = {
@@ -40,10 +39,10 @@ return {
 		collidefriendly = 0,
 		turret = 1,
 		minbarrelangle = -25,
-		range = 1300,  -- 1700
-		reloadtime = 2.0,  -- 2.46
-		weaponvelocity = 465,  -- 350
-		areaofeffect = 94,
+		range = 1250,  -- TA 3.1c (was 1300)  -- 1700
+		reloadtime = 2.46,  -- TA 3.1c (was 2.0)  -- 2.46
+		weaponvelocity = 350,  -- TA 3.1c (was 465)  -- 350
+		areaofeffect = 64,  -- TA 3.1c (was 94)
 		soundstart = "cannhvy1",
 		soundhit = "xplomed2",
 		accuracy = 300,
@@ -57,8 +56,7 @@ return {
 		targetmoveerror = .05,
 		explosiongenerator = "custom:PLASMA_Expl",
 		damage = {
-			default = 390,
-			-- subs=0;
+			default = 270,  -- TA 3.1c (was 390)
 		},
 	},
 }

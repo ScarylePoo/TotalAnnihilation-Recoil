@@ -16,9 +16,9 @@ return {
 		-- costs, makes, uses, storage
 		buildcostenergy = 8700,
 		buildcostmetal = 1508,
-		buildtime = 23150,
-		energyuse = 24,
-		extractsmetal = 0.005,
+		buildtime = 35750,  -- TA 3.1c (was 23150)
+		energyuse = 15,  -- TA 3.1c (was 24)
+		extractsmetal = 0.003,  -- TA 3.1c (was 0.005)
 		-- movement or placement
 		maxwaterdepth = 0,
 		maxslope = 10,
@@ -29,8 +29,8 @@ return {
 		maxdamage = 1573,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 376,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 210,  -- TA 3.1c (was 376)
 		-- other abilities
 		activatewhenbuilt = 1,
 		onoffable = 1,

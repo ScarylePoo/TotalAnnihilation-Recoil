@@ -23,7 +23,7 @@ return {
 		canmove = 1,
 		canpatrol = 1,
 		canguard = 1,
-		maxvelocity = 1,
+		maxvelocity = 0.8,  -- TA 3.1c (was 1)
 		brakerate = 0.19,
 		acceleration = 0.02,
 		turnrate = 220,
@@ -36,11 +36,11 @@ return {
 		explodeas = "BIG_UNITEX",
 		selfdestructas = "MEDIUM_UNIT",
 		-- properties
-		maxdamage = 425,
+		maxdamage = 375,  -- TA 3.1c (was 425)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 385,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 220,  -- TA 3.1c (was 385)
 		-- unit animation
 		leavetracks = 1,
 		trackwidth = 24,

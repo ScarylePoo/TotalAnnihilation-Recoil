@@ -17,6 +17,7 @@ return {
 		buildcostenergy = 5443,
 		buildcostmetal = 589,
 		buildtime = 9622,
+		energystorage = 200,  -- TA 3.1c (was unset)
 		-- movement or placement
 		maxwaterdepth = 0,
 		maxslope = 10,
@@ -26,11 +27,11 @@ return {
 		explodeas = "MEDIUM_BUILDINGEX",
 		selfdestructas = "MEDIUM_BUILDING",
 		-- properties
-		maxdamage = 1000,
+		maxdamage = 1200,  -- TA 3.1c (was 1000)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 613,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 350,  -- TA 3.1c (was 613)
 		-- unit animation
 		footprintx = 3,
 		footprintz = 3,
@@ -64,7 +65,7 @@ return {
 		},
 		weapons = {
 			{
-				name = "CORE_HEAVY_LASER",
+				name = "CORE_LASERH1",
 			},
 		},
 	},

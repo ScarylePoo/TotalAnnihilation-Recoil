@@ -33,11 +33,11 @@ return {
 		explodeas = "SMALL_UNITEX",
 		selfdestructas = "SMALL_UNIT",
 		-- properties
-		maxdamage = 470,
+		maxdamage = 570,  -- TA 3.1c (was 470)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 490,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 280,  -- TA 3.1c (was 490)
 		-- unit animation
 		footprintx = 4,
 		footprintz = 4,
@@ -74,7 +74,7 @@ return {
 		},
 		weapons = {
 			{
-				name = "CORE_SCOUT_LASER",
+				name = "COREPT_LASER",
 			},
 			{
 				name = "CORKBOT_MISSILE",

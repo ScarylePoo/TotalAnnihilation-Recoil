@@ -23,12 +23,13 @@ return {
 		weaponacceleration = 40,
 		turnrate = 24384,
 		-- stats
-		range = 1100,
-		reloadtime = 12,
-		areaofeffect = 140,
+		range = 670,  -- TA 3.1c (was 1100)
+		reloadtime = 9,  -- TA 3.1c (was 12)
+		areaofeffect = 80,  -- TA 3.1c (was 140)
 		edgeeffectiveness = 0.75,
+		metalpershot = 0,  -- TA 3.1c (was unset)
 		damage = {
-			default = 600,
+			default = 300,  -- TA 3.1c (was 600)
 		},
 	},
 	arm_ship_rocket = {
@@ -53,12 +54,13 @@ return {
 		weaponacceleration = 40,
 		turnrate = 24384,
 		-- stats
-		range = 1630,
+		range = 1300,  -- TA 3.1c (was 1630)
 		reloadtime = 12,
-		areaofeffect = 215,
+		areaofeffect = 96,  -- TA 3.1c (was 215)
 		edgeeffectiveness = 0.50,
+		metalpershot = 0,  -- TA 3.1c (was unset)
 		damage = {
-			default = 900,
+			default = 500,  -- TA 3.1c (was 900)
 		},
 	},
 	arm_veh_rocket = {
@@ -83,12 +85,13 @@ return {
 		weaponacceleration = 40,
 		turnrate = 24384,
 		-- stats
-		range = 1200,
+		range = 800,  -- TA 3.1c (was 1200)
 		reloadtime = 12,
 		edgeeffectiveness = 0.75,
-		areaofeffect = 150,
+		areaofeffect = 96,  -- TA 3.1c (was 150)
+		metalpershot = 0,  -- TA 3.1c (was unset)
 		damage = {
-			default = 600,
+			default = 500,  -- TA 3.1c (was 600)
 		},
 	},
 }

@@ -24,15 +24,15 @@ return {
 		canmove = 1,
 		canpatrol = 0,
 		canguard = 0,
-		maxvelocity = 1.1,
+		maxvelocity = 0.8,  -- TA 3.1c (was 1.1)
 		brakerate = 0.2,
-		acceleration = 0.01,
+		acceleration = 0.011,  -- TA 3.1c (was 0.01)
 		turnrate = 230,
 		maxwaterdepth = 0,
 		maxslope = 16,
 		-- nanolathing
 		builder = 1,
-		workertime = 120,
+		workertime = 100,  -- TA 3.1c (was 120)
 		builddistance = 70,
 		canassist = 0,
 		canreclaim = 0,
@@ -44,8 +44,8 @@ return {
 		maxdamage = 1400,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 254,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 145,  -- TA 3.1c (was 254)
 		-- unit animation
 		leavetracks = 1,
 		trackwidth = 24,

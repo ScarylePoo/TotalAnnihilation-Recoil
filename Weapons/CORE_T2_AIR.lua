@@ -9,14 +9,14 @@ return {
 		collidefriendly = 0,
 		lineofsight = 1,
 		model = "missile",
-		range = 520,  -- 450
+		range = 450,  -- TA 3.1c (was 520)  -- 450
 		reloadtime = 2,
 		weapontimer = 5,
 		weaponvelocity = 350,
 		startvelocity = 100,
 		weaponacceleration = 51,
 		metalpershot = 0,
-		turnrate = 5680,  -- 7680
+		turnrate = 7680,  -- TA 3.1c (was 5680)  -- 7680
 		areaofeffect = 48,
 		soundstart = "rocklit3",
 		soundhit = "explode",
@@ -34,7 +34,7 @@ return {
 		startsmoke = 1,
 		guidance = 1,
 		damage = {
-			default = 145,  -- 125
+			default = 125,  -- TA 3.1c (was 145)  -- 125
 		},
 	},
 	vtol_rocket2 = {
@@ -45,14 +45,14 @@ return {
 		collidefriendly = 0,
 		lineofsight = 1,
 		model = "missile",
-		range = 520,  -- 450
+		range = 450,  -- TA 3.1c (was 520)  -- 450
 		reloadtime = 2,
 		weapontimer = 5,
 		weaponvelocity = 350,
 		startvelocity = 250,
 		weaponacceleration = 131,
 		metalpershot = 0,
-		turnrate = 4680,  -- 7680
+		turnrate = 7680,  -- TA 3.1c (was 4680)  -- 7680
 		areaofeffect = 48,
 		soundstart = "rocklit3",
 		soundhit = "explode",
@@ -70,7 +70,7 @@ return {
 		startsmoke = 1,
 		guidance = 1,
 		damage = {
-			default = 145,  -- 125
+			default = 125,  -- TA 3.1c (was 145)  -- 125
 		},
 	},
 }

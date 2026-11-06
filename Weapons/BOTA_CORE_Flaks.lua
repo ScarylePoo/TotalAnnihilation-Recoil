@@ -18,11 +18,11 @@ return {
 		collidefriendly = 0,
 		turret = 1,
 		canattackground = 0,
-		range = 1000,  -- 750
+		range = 750,  -- TA 3.1c (was 1000)  -- 750
 		reloadtime = 0.7,
 		weapontimer = 1,
 		weaponvelocity = 950,
-		areaofeffect = 225,  -- 125
+		areaofeffect = 125,  -- TA 3.1c (was 225)  -- 125
 		edgeeffectiveness = 0.90,
 		soundstart = "canlite2",
 		soundhit = "flakhit",  -- xplomed2
@@ -40,8 +40,7 @@ return {
 		startsmoke = 1,
 		explosiongenerator = "custom:FLAK_BURST_Expl",
 		damage = {
-			default = 186,
-			planes = 186,  -- armor group needed only for defense range
+			default = 146,  -- TA 3.1c (was 186)
 		},
 	},
 	corarch_weapon3 = {
@@ -60,11 +59,11 @@ return {
 		turret = 1,
 		toairweapon = 1,
 		canattackground = 0,
-		range = 1000,  -- 750
+		range = 750,  -- TA 3.1c (was 1000)  -- 750
 		reloadtime = 0.7,
 		weapontimer = 1,
 		weaponvelocity = 950,
-		areaofeffect = 225,  -- 125
+		areaofeffect = 125,  -- TA 3.1c (was 225)  -- 125
 		edgeeffectiveness = 0.90,
 		soundstart = "canlite2",
 		soundhit = "flakhit",  -- xplomed2
@@ -82,7 +81,7 @@ return {
 		startsmoke = 1,
 		explosiongenerator = "custom:FLAK_BURST_Expl",
 		damage = {
-			default = 186,  -- 146
+			default = 146,  -- TA 3.1c (was 186)  -- 146
 		},
 	},
 	corsent_gun = {
@@ -102,11 +101,11 @@ return {
 		collidefriendly = 0,
 		canattackground = 0,
 		turret = 1,
-		range = 930,  -- 720
+		range = 720,  -- TA 3.1c (was 930)  -- 720
 		reloadtime = 0.95,
 		weapontimer = 1,
 		weaponvelocity = 900,
-		areaofeffect = 200,  -- 110
+		areaofeffect = 110,  -- TA 3.1c (was 200)  -- 110
 		edgeeffectiveness = 0.90,
 		soundstart = "canlite2",
 		soundhit = "flakhit",  -- xplomed2
@@ -124,7 +123,7 @@ return {
 		startsmoke = 1,
 		explosiongenerator = "custom:FLAK_BURST_Expl",
 		damage = {
-			default = 170,  -- 130
+			default = 130,  -- TA 3.1c (was 170)  -- 130
 		},
 	},
 }

@@ -18,6 +18,7 @@ return {
 		buildcostmetal = 165,
 		buildtime = 12819,
 		energyuse = 23,
+		energymake = 23,  -- TA 3.1c (was unset)
 		-- movement or placement
 		movestate = -1,
 		canmove = 1,
@@ -27,7 +28,7 @@ return {
 		cruisealt = 160,
 		maxvelocity = 9.2,
 		brakerate = 4,
-		acceleration = 0.11,
+		acceleration = 0.095,  -- TA 3.1c (was 0.11)
 		turnrate = 356,
 		maxwaterdepth = 0,
 		maxslope = 10,
@@ -38,9 +39,9 @@ return {
 		maxdamage = 110,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 650,
-		radardistance = 2250,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 350,  -- TA 3.1c (was 650)
+		radardistance = 1650,  -- TA 3.1c (was 2250)
 		-- other abilities
 		activatewhenbuilt = 1,
 		onoffable = 1,

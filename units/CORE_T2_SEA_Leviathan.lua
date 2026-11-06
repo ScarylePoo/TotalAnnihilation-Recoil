@@ -17,16 +17,18 @@ return {
 		buildcostenergy = 19940,
 		buildcostmetal = 3850,
 		buildtime = 38567,
+		energymake = 0.5,  -- TA 3.1c (was unset)
+		energyuse = 15,  -- TA 3.1c (was unset)
 		-- movement or placement
 		movementclass = "SHIP_SUBMARINE",
 		movestate = -1,
 		canmove = 1,
 		canpatrol = 1,
 		canguard = 1,
-		maxvelocity = 1.5,
+		maxvelocity = 1.9,  -- TA 3.1c (was 1.5)
 		brakerate = 0.016,
 		acceleration = 0.03,
-		turnrate = 196,
+		turnrate = 72,  -- TA 3.1c (was 196)
 		-- combat
 		firestate = 2,
 		badtargetcategory = "VTOL",
@@ -37,9 +39,9 @@ return {
 		maxdamage = 3052,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 650,
-		sonardistance = 1130,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 490,  -- TA 3.1c (was 650)
+		sonardistance = 658,  -- TA 3.1c (was 1130)
 		-- other abilities
 		activatewhenbuilt = 1,
 		-- unit animation

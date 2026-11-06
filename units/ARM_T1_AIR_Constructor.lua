@@ -16,10 +16,13 @@ return {
 		category = "ARM VTOL LEVEL1 NOWEAPON NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 4320,
-		buildcostmetal = 275,
+		buildcostmetal = 105,  -- TA 3.1c (was 275)
 		buildtime = 8844,
 		energystorage = 50,
 		metalstorage = 50,
+		energymake = 11,  -- TA 3.1c (was unset)
+		metalmake = 0.2,  -- TA 3.1c (was unset)
+		energyuse = 0.1,  -- TA 3.1c (was unset)
 		-- movement or placement
 		movestate = -1,
 		canmove = 1,
@@ -29,14 +32,14 @@ return {
 		cruisealt = 70,
 		maxvelocity = 6.9,
 		brakerate = 1.5,
-		acceleration = 0.09,
-		turnrate = 180,
+		acceleration = 0.06,  -- TA 3.1c (was 0.09)
+		turnrate = 90,  -- TA 3.1c (was 180)
 		maxwaterdepth = 0,
 		maxslope = 10,
 		-- nanolathing
 		builder = 1,
-		workertime = 55,
-		builddistance = 128,
+		workertime = 50,  -- TA 3.1c (was 55)
+		builddistance = 40,  -- TA 3.1c (was 128)
 		-- combat
 		explodeas = "SMALL_UNITEX",
 		selfdestructas = "SMALL_UNIT",
@@ -44,8 +47,8 @@ return {
 		maxdamage = 280,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 290,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 280,  -- TA 3.1c (was 290)
 		-- unit animation
 		collide = 1,
 		footprintx = 3,

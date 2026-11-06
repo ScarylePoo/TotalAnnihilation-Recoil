@@ -23,18 +23,20 @@ return {
 		weaponvelocity = 100,
 		startvelocity = 100,
 		weaponacceleration = 15,
-		turnrate = 4000,
+		turnrate = 500,  -- TA 3.1c (was 4000)
 		-- stats
-		range = 500,
-		reloadtime = 4,
+		range = 400,  -- TA 3.1c (was 500)
+		reloadtime = 2.71,  -- TA 3.1c (was 4)
 		areaofeffect = 16,
 		damage = {
-			default = 546,
-			-- subkillers=191;
+			default = 370,  -- TA 3.1c (was 546)
+			arm_t2_sea_piranha_armor = 130,
+			core_t2_sea_shark_armor = 130,
 		},
 	},
 	coax_torpedo = {
 		-- used by units
+		-- ARM_T1_SEADEF_TorpedoLauncher
 		-- CORE_T1_SEADEF_TorpedoLauncher
 		-- type
 		weapontype = "TorpedoLauncher",
@@ -54,9 +56,9 @@ return {
 		weaponvelocity = 100,
 		startvelocity = 100,
 		weaponacceleration = 15,
-		turnrate = 3000,
+		turnrate = 500,  -- TA 3.1c (was 3000)
 		-- stats
-		range = 500,
+		range = 400,  -- TA 3.1c (was 500)
 		reloadtime = 2.6,
 		areaofeffect = 16,
 		damage = {
@@ -82,18 +84,18 @@ return {
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		weapontimer = 5,
-		weaponvelocity = 2,
-		startvelocity = 2,
+		weaponvelocity = 100,  -- TA 3.1c (was 2)
+		startvelocity = 100,  -- TA 3.1c (was 2)
 		weaponacceleration = 15,
 		turnrate = 15000,
 		-- stats
-		range = 480,
+		range = 300,  -- TA 3.1c (was 480)
 		reloadtime = 6,
 		areaofeffect = 16,
 		burst = 2,
 		bursttime = 0.35,
 		damage = {
-			default = 600,
+			default = 400,  -- TA 3.1c (was 600)
 		},
 	},
 	corseap_weapon2 = {
@@ -115,12 +117,12 @@ return {
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		weapontimer = 5,
-		weaponvelocity = 2,
-		startvelocity = 2,
+		weaponvelocity = 100,  -- TA 3.1c (was 2)
+		startvelocity = 100,  -- TA 3.1c (was 2)
 		weaponacceleration = 15,
 		turnrate = 15000,
 		-- stats
-		range = 480,
+		range = 300,  -- TA 3.1c (was 480)
 		reloadtime = 6,
 		areaofeffect = 16,
 		damage = {
@@ -156,7 +158,6 @@ return {
 		areaofeffect = 16,
 		damage = {
 			default = 780,
-			-- subs=1100;
 		},
 	},
 	corssub_weapon = {
@@ -183,18 +184,17 @@ return {
 		weaponacceleration = 15,
 		turnrate = 38000,
 		-- stats
-		range = 750,
+		range = 500,  -- TA 3.1c (was 750)
 		reloadtime = 5.8,
 		areaofeffect = 5,
 		damage = {
 			default = 812,
-			-- subkillers=300;
-			-- armatl=150;
-			-- coratl=150;
-			-- armtl=250;
-			-- cortl=250;
-			-- armsubk=80;
-			-- corshark=90;
+			arm_t1_seadef_torpedolauncher_armor = 250,
+			arm_t2_sea_piranha_armor = 80,
+			arm_t2_seadef_advancedtorpedolauncher_armor = 150,
+			core_t1_seadef_torpedolauncher_armor = 250,
+			core_t2_sea_shark_armor = 90,
+			core_t2_seadef_advancedtorpedolauncher_armor = 150,
 		},
 	},
 	corsmart_torpedo = {
@@ -221,12 +221,13 @@ return {
 		weaponacceleration = 15,
 		turnrate = 10000,
 		-- stats
-		range = 550,
+		range = 375,  -- TA 3.1c (was 550)
 		reloadtime = 2.28,
 		areaofeffect = 16,
 		damage = {
 			default = 210,
-			-- subs=1100;//800
+			arm_t1_sea_lurker_armor = 600,
+			core_t1_sea_snake_armor = 600,
 		},
 	},
 	coratl_torpedo = {
@@ -253,7 +254,7 @@ return {
 		weaponacceleration = 10,
 		turnrate = 30500,
 		-- stats
-		range = 900,
+		range = 600,  -- TA 3.1c (was 900)
 		reloadtime = 4.4,
 		areaofeffect = 16,
 		damage = {

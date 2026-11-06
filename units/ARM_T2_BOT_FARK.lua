@@ -14,25 +14,28 @@ return {
 		icontype = "kbot",
 		category = "ARM KBOT LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
-		buildcostenergy = 7019,
-		buildcostmetal = 626,
-		buildtime = 16831,
-		energystorage = 100,
-		metalstorage = 100,
+		buildcostenergy = 3219,  -- TA 3.1c (was 7019)
+		buildcostmetal = 480,  -- TA 3.1c (was 626)
+		buildtime = 7931,  -- TA 3.1c (was 16831)
+		energystorage = 0,  -- TA 3.1c (was 100)
+		metalstorage = 0,  -- TA 3.1c (was 100)
+		energymake = 17,  -- TA 3.1c (was unset)
+		metalmake = 0.5,  -- TA 3.1c (was unset)
+		energyuse = 0.4,  -- TA 3.1c (was unset)
 		-- movement or placement
 		movementclass = "KBOTSTANDARD",
 		movestate = -1,
 		canmove = 1,
 		canpatrol = 1,
 		canguard = 1,
-		maxvelocity = 2.6,
+		maxvelocity = 2.1,  -- TA 3.1c (was 2.6)
 		brakerate = 0.6,
-		acceleration = 0.22,
+		acceleration = 0.18,  -- TA 3.1c (was 0.22)
 		turnrate = 1010,
 		-- nanolathing
 		builder = 1,
-		workertime = 130,
-		builddistance = 128,
+		workertime = 180,  -- TA 3.1c (was 130)
+		builddistance = 60,  -- TA 3.1c (was 128)
 		-- combat
 		explodeas = "BIG_UNITEX",
 		selfdestructas = "BIG_UNIT",
@@ -40,8 +43,8 @@ return {
 		maxdamage = 830,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 507,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 290,  -- TA 3.1c (was 507)
 		-- unit animation
 		upright = 1,
 		smoothanim = 1,

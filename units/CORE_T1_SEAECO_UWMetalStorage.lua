@@ -28,8 +28,8 @@ return {
 		maxdamage = 1750,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 227,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 130,  -- TA 3.1c (was 227)
 		-- unit animation
 		footprintx = 4,
 		footprintz = 4,

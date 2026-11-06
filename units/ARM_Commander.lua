@@ -28,14 +28,14 @@ return {
 		canmove = 1,
 		canpatrol = 1,
 		canguard = 1,
-		maxvelocity = 1.8,
+		maxvelocity = 1.2,  -- TA 3.1c (was 1.8)
 		brakerate = 0.3,
-		acceleration = 0.5,
+		acceleration = 0.15,  -- TA 3.1c (was 0.5)
 		turnrate = 1044,
 		-- nanolathing
 		builder = 1,
 		workertime = 300,
-		builddistance = 128,
+		builddistance = 60,  -- TA 3.1c (was 128)
 		cancapture = 1,
 		-- combat
 		candgun = 1,
@@ -47,12 +47,12 @@ return {
 		-- properties
 		showplayername = 1,
 		commander = 1,
-		maxdamage = 3500,
+		maxdamage = 3000,  -- TA 3.1c (was 3500)
 		hidedamage = 1,
 		mass = 2999,  -- so it's transportable damnit
-		sightdistance = 500,
-		radardistance = 700,
-		sonardistance = 700,
+		sightdistance = 290,  -- TA 3.1c (was 500)
+		radardistance = 400,  -- TA 3.1c (was 700)
+		sonardistance = 400,  -- TA 3.1c (was 700)
 		-- other abilities
 		activatewhenbuilt = 1,
 		cloakcost = 200,
@@ -115,7 +115,7 @@ return {
 		},
 		weapons = {
 			[1] = {
-				name = "COMMANDER_LASER",
+				name = "ARMCOMLASER",
 			},
 			[3] = {
 				name = "DISINTEGRATOR",

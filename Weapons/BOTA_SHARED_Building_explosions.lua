@@ -3,10 +3,6 @@
 return {
 	small_buildingex = {
 		-- used by units
-		-- ARM_T1_ECO_MetalExtractor
-		-- ARM_T2_ECO_MohoMine
-		-- CORE_T1_ECO_MetalExtractor
-		-- CORE_T2_ECO_MohoMine
 		-- type
 		-- visuals
 		-- sounds
@@ -53,8 +49,6 @@ return {
 	},
 	large_buildingex = {
 		-- used by units
-		-- ARM_T2_ECO_MohoMetalMaker
-		-- CORE_T2_ECO_MohoMetalMaker
 		-- type
 		-- visuals
 		-- sounds
@@ -99,30 +93,6 @@ return {
 		shakeduration = .5,
 		damage = {
 			default = 900,
-		},
-	},
-	geo_splode = {
-		-- used by units
-		-- type
-		-- visuals
-		-- sounds
-		-- behaviour
-		-- costs
-		-- stats
-		rendertype = 4,
-		ballistic = 1,
-		turret = 1,
-		range = 480,
-		reloadtime = 3.6,
-		weaponvelocity = 250,
-		areaofeffect = 300,
-		soundstart = "earthyboom",
-		soundhit = "heavyexplosion",
-		explosiongenerator = "custom:GEOPLANT_Expl",
-		shakemagnitude = 12,
-		shakeduration = 1,
-		damage = {
-			default = 1200,
 		},
 	},
 	atomic_blastex = {

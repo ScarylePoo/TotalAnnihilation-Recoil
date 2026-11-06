@@ -16,10 +16,13 @@ return {
 		category = "CORE VTOL LEVEL1 NOWEAPON NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 5824,
-		buildcostmetal = 425,
+		buildcostmetal = 125,  -- TA 3.1c (was 425)
 		buildtime = 11520,
 		energystorage = 50,
 		metalstorage = 50,
+		energymake = 11,  -- TA 3.1c (was unset)
+		metalmake = 0.3,  -- TA 3.1c (was unset)
+		energyuse = 0.1,  -- TA 3.1c (was unset)
 		-- movement or placement
 		movestate = -1,
 		canmove = 1,
@@ -35,17 +38,17 @@ return {
 		maxslope = 10,
 		-- nanolathing
 		builder = 1,
-		workertime = 55,
-		builddistance = 128,
+		workertime = 50,  -- TA 3.1c (was 55)
+		builddistance = 40,  -- TA 3.1c (was 128)
 		-- combat
 		explodeas = "SMALL_UNITEX",
 		selfdestructas = "SMALL_UNIT",
 		-- properties
-		maxdamage = 200,
+		maxdamage = 180,  -- TA 3.1c (was 200)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 472,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 270,  -- TA 3.1c (was 472)
 		-- unit animation
 		collide = 1,
 		footprintx = 3,

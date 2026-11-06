@@ -23,8 +23,8 @@ return {
 		canpatrol = 1,
 		canguard = 1,
 		canfly = 1,
-		cruisealt = 220,
-		maxvelocity = 10.1,
+		cruisealt = 160,  -- TA 3.1c (was 220)
+		maxvelocity = 9.1,  -- TA 3.1c (was 10.1)
 		brakerate = 0.5,
 		acceleration = 0.05,
 		turnrate = 256,
@@ -39,8 +39,8 @@ return {
 		maxdamage = 480,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 612,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 350,  -- TA 3.1c (was 612)
 		-- other abilities
 		candropflare = 1,
 		flarereload = 4,

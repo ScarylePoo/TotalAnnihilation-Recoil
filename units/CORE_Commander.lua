@@ -22,15 +22,16 @@ return {
 		metalmake = 1,
 		energystorage = 1050,
 		metalstorage = 1050,
+		energyuse = 1,  -- TA 3.1c (was unset)
 		-- movement or placement
 		movementclass = "COMMANDER",
 		movestate = 1,
 		canmove = 1,
 		canpatrol = 1,
 		canguard = 1,
-		maxvelocity = 1.6,
+		maxvelocity = 1.07,  -- TA 3.1c (was 1.6)
 		brakerate = 0.32,
-		acceleration = 0.5,
+		acceleration = 0.16,  -- TA 3.1c (was 0.5)
 		turnrate = 1030,
 		-- nanolathing
 		builder = 1,
@@ -47,12 +48,12 @@ return {
 		-- properties
 		showplayername = 1,
 		commander = 1,
-		maxdamage = 3500,
+		maxdamage = 3000,  -- TA 3.1c (was 3500)
 		hidedamage = 1,
 		mass = 2999,  -- for transportableability >:-(
-		sightdistance = 515,
-		radardistance = 700,
-		sonardistance = 700,
+		sightdistance = 290,  -- TA 3.1c (was 515)
+		radardistance = 400,  -- TA 3.1c (was 700)
+		sonardistance = 400,  -- TA 3.1c (was 700)
 		-- other abilities
 		activatewhenbuilt = 1,
 		cloakcost = 200,
@@ -115,7 +116,7 @@ return {
 		},
 		weapons = {
 			[1] = {
-				name = "COMMANDER_LASER",
+				name = "CORCOMLASER",
 			},
 			[3] = {
 				name = "DISINTEGRATOR",

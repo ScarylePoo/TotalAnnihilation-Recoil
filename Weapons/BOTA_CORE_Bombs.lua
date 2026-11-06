@@ -17,10 +17,10 @@ return {
 		collidefriendly = 0,
 		-- stats
 		range = 1280,
-		reloadtime = 0.14,
-		areaofeffect = 48,
+		reloadtime = 0.19,  -- TA 3.1c (was 0.14)
+		areaofeffect = 56,  -- TA 3.1c (was 48)
 		damage = {
-			default = 165,  -- 150
+			default = 150,  -- TA 3.1c (was 165)  -- 150
 		},
 	},
 	core_hurricane_bomb = {
@@ -39,10 +39,10 @@ return {
 		collidefriendly = 0,
 		-- stats
 		range = 1280,
-		reloadtime = 0.13,
+		reloadtime = 0.16,  -- TA 3.1c (was 0.13)
 		areaofeffect = 64,
 		damage = {
-			default = 217,
+			default = 187,  -- TA 3.1c (was 217)
 		},
 	},
 }

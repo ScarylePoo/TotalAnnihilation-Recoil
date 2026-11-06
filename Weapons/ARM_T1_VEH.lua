@@ -2,24 +2,23 @@
 
 return {
 	emg = {
+		weapontype = "Cannon",  -- TA E.M.G. as a Cannon instead of EmgCannon (user decision: EmgCannon is poorly maintained in Recoil); it now has gravity
+		rgbcolor = "0.9 0.9 0.2",  -- TA E.M.G. yellow
 		id = 16,
 		name = "E.M.G.",
-		rendertype = 4,
 		-- 2D bitmap
-		color = 2,
 		-- EMG bitmap shell, its a hack
-		lineofsight = 1,
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
 		-- model=plasma;
-		range = 255,
+		range = 180,  -- TA 3.1c (was 255)
 		reloadtime = 0.4,
 		weapontimer = 1,
-		weaponvelocity = 400,
-		sprayangle = 768,
+		weaponvelocity = 300,  -- TA 3.1c (was 400)
+		sprayangle = 1024,  -- TA 3.1c (was 768)
 		areaofeffect = 8,
-		burst = 4,
+		burst = 3,  -- TA 3.1c (was 4)
 		burstrate = .1,
 		soundstart = "armsml2",
 		soundhit = "lasrhit1",
@@ -28,7 +27,7 @@ return {
 		explosiongenerator = "custom:FLASH1white",
 		startsmoke = 1,
 		damage = {
-			default = 14,
+			default = 8,  -- TA 3.1c (was 14)
 		},
 	},
 	arm_lightcannon = {
@@ -39,16 +38,16 @@ return {
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
-		range = 420,  -- 240
-		reloadtime = 1.33,
-		weaponvelocity = 350,  -- 170
+		range = 240,  -- TA 3.1c (was 420)  -- 240
+		reloadtime = 1.53,  -- TA 3.1c (was 1.33)
+		weaponvelocity = 170,  -- TA 3.1c (was 350)  -- 170
 		areaofeffect = 32,
 		soundstart = "canlite3",
 		soundhit = "xplosml3",
 		explosiongenerator = "custom:TANKSHOT_Expl",
 		startsmoke = 1,
 		damage = {
-			default = 70,  -- 50//75
+			default = 50,  -- TA 3.1c (was 70)  -- 50//75
 		},
 	},
 }

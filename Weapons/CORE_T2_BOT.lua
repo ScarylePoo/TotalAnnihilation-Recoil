@@ -10,7 +10,7 @@ return {
 		collidefriendly = 0,
 		turret = 1,
 		minbarrelangle = -35,
-		range = 402,  -- 230
+		range = 230,  -- TA 3.1c (was 402)  -- 230
 		reloadtime = 1.9,
 		weaponvelocity = 210,
 		areaofeffect = 48,
@@ -35,9 +35,9 @@ return {
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
-		range = 1000,  -- 655//1146
-		reloadtime = 2.45,  -- 1.45
-		weaponvelocity = 400,  -- 290
+		range = 655,  -- TA 3.1c (was 1000)  -- 655//1146
+		reloadtime = 1.45,  -- TA 3.1c (was 2.45)  -- 1.45
+		weaponvelocity = 290,  -- TA 3.1c (was 400)  -- 290
 		areaofeffect = 36,
 		soundstart = "cannon1",
 		soundhit = "xplomed3",
@@ -50,7 +50,7 @@ return {
 		lavaexplosionart = "lavasplash",
 		startsmoke = 1,
 		damage = {
-			default = 105,  -- 55
+			default = 55,  -- TA 3.1c (was 105)  -- 55
 		},
 	},
 	flamethrower = {
@@ -62,11 +62,11 @@ return {
 		collidefriendly = 0,
 		turret = 1,
 		lineofsight = 1,  -- needed i think
-		range = 260,  -- 160//240//220
+		range = 160,  -- TA 3.1c (was 260)  -- 160//240//220
 		reloadtime = 1.2,  -- 1.2//.68
 		weapontimer = 1,
-		weaponvelocity = 150,  -- 188//110//130
-		areaofeffect = 42,  -- 32
+		weaponvelocity = 188,  -- TA 3.1c (was 150)  -- 188//110//130
+		areaofeffect = 32,  -- TA 3.1c (was 42)  -- 32
 		burst = 17,  -- 17
 		burstrate = .04,  -- .4
 		sprayangle = 1024,  -- 1024
@@ -81,8 +81,8 @@ return {
 		tolerance = 200,
 		guidance = 1,  -- dunno why it's needed
 		damage = {
-			default = 16,  -- 10//20
-			-- firethrower=2;
+			default = 10,  -- TA 3.1c (was 16)  -- 10//20
+			core_t2_bot_pyro_armor = 2,
 		},
 	},
 }

@@ -15,7 +15,7 @@ return {
 		category = "ARM VTOL LEVEL1 WEAPON NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 3234,
-		buildcostmetal = 110,
+		buildcostmetal = 99,  -- TA 3.1c (was 110)
 		buildtime = 9182,
 		-- movement or placement
 		movestate = -1,
@@ -24,10 +24,10 @@ return {
 		canguard = 1,
 		canfly = 1,
 		cruisealt = 110,
-		maxvelocity = 16,
+		maxvelocity = 10,  -- TA 3.1c (was 16)
 		brakerate = 6,
-		acceleration = 0.55,
-		turnrate = 750,
+		acceleration = 0.35,  -- TA 3.1c (was 0.55)
+		turnrate = 512,  -- TA 3.1c (was 750)
 		maxwaterdepth = 0,
 		maxslope = 10,
 		-- combat
@@ -39,8 +39,8 @@ return {
 		maxdamage = 196,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 610,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 350,  -- TA 3.1c (was 610)
 		-- other abilities
 		canloopbackattack = 1,
 		-- unit animation

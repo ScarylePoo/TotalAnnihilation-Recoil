@@ -57,34 +57,6 @@ return {
 			default = 50,
 		},
 	},
-	huge_unitex = {
-		-- used by units
-		-- type
-		-- visuals
-		-- sounds
-		-- behaviour
-		-- costs
-		-- stats
-		rendertype = 4,
-		ballistic = 1,
-		turret = 1,
-		range = 550,
-		reloadtime = 3.6,
-		weaponvelocity = 250,
-		areaofeffect = 110,
-		soundstart = "largegun",
-		soundhit = "xplolrg3",
-		explosiongaf = "fx",
-		explosionart = "explode2",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2oboom2",
-		shakemagnitude = 8,
-		shakeduration = .3,
-		explosiongenerator = "custom:HUGE_UNIT_Expl",
-		damage = {
-			default = 700,
-		},
-	},
 	corpyro_blast = {
 		-- used by units
 		-- type
@@ -111,36 +83,7 @@ return {
 		explosiongenerator = "custom:PYRO_UNIT_Expl",
 		damage = {
 			default = 60,
-		},
-	},
-	crawl_blastex = {
-		-- used by units
-		-- ARM_T1_ECO_MetalMaker
-		-- CORE_T1_ECO_MetalMaker
-		-- type
-		-- visuals
-		-- sounds
-		-- behaviour
-		-- costs
-		-- stats
-		rendertype = 4,
-		ballistic = 1,
-		turret = 1,
-		range = 480,
-		reloadtime = 3.6,
-		weaponvelocity = 250,
-		areaofeffect = 275,
-		soundstart = "largegun",
-		soundhit = "xplonuk3",
-		explosiongaf = "fx",
-		explosionart = "explode2",
-		waterexplosiongaf = "fx",
-		waterexplosionart = "h2oboom2",
-		shakemagnitude = 24,
-		shakeduration = 1.5,
-		explosiongenerator = "custom:CRAWL_UNIT_Expl",
-		damage = {
-			default = 1200,
+			core_t2_bot_pyro_armor = 15,
 		},
 	},
 	decoy_commander_blast = {

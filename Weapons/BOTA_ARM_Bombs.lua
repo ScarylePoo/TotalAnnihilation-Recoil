@@ -17,10 +17,10 @@ return {
 		collidefriendly = 0,
 		-- stats
 		range = 1280,
-		reloadtime = 0.14,
+		reloadtime = 0.18,  -- TA 3.1c (was 0.14)
 		areaofeffect = 48,
 		damage = {
-			default = 173,
+			default = 158,  -- TA 3.1c (was 173)
 		},
 	},
 	arm_phoenix_bomb = {
@@ -39,10 +39,10 @@ return {
 		collidefriendly = 0,
 		-- stats
 		range = 1280,
-		reloadtime = 0.13,
-		areaofeffect = 64,
+		reloadtime = 0.15,  -- TA 3.1c (was 0.13)
+		areaofeffect = 59,  -- TA 3.1c (was 64)
 		damage = {
-			default = 215,
+			default = 195,  -- TA 3.1c (was 215)
 		},
 	},
 }

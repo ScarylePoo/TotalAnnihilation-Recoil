@@ -15,8 +15,8 @@ return {
 		category = "ARM VTOL LEVEL1 NOWEAPON NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 1475,
-		buildcostmetal = 40,
-		buildtime = 2485,
+		buildcostmetal = 40.28,  -- TA 3.1c (was 40)
+		buildtime = 2585,  -- TA 3.1c (was 2485)
 		-- movement or placement
 		movestate = -1,
 		canmove = 1,
@@ -37,9 +37,9 @@ return {
 		maxdamage = 80,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 750,
-		radardistance = 1300,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 350,  -- TA 3.1c (was 750)
+		radardistance = 700,  -- TA 3.1c (was 1300)
 		-- unit animation
 		collide = 0,
 		footprintx = 2,

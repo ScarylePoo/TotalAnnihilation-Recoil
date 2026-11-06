@@ -18,6 +18,7 @@ return {
 		buildcostmetal = 1379,
 		buildtime = 25271,
 		energymake = 380,
+		energyuse = 45,  -- TA 3.1c (was unset)
 		-- movement or placement
 		movementclass = "BIG_SHIP",
 		movestate = -1,
@@ -27,11 +28,11 @@ return {
 		floater = 1,
 		maxvelocity = 2.2,
 		brakerate = 0.02,
-		acceleration = 0.02,
-		turnrate = 128,
+		acceleration = 0.01,  -- TA 3.1c (was 0.02)
+		turnrate = 64,  -- TA 3.1c (was 128)
 		-- nanolathing
 		builder = 1,
-		workertime = 800,
+		workertime = 200,  -- TA 3.1c (was 800)
 		canassist = 0,
 		canreclaim = 0,
 		-- combat
@@ -41,9 +42,9 @@ return {
 		maxdamage = 3500,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 612,
-		radardistance = 2400,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 350,  -- TA 3.1c (was 612)
+		radardistance = 1780,  -- TA 3.1c (was 2400)
 		-- other abilities
 		activatewhenbuilt = 1,
 		onoffable = 1,

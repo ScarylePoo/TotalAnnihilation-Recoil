@@ -16,12 +16,14 @@ return {
 		category = "CORE UNDERWATER LEVEL2 NOWEAPON NOTAIR",
 		-- costs, makes, uses, storage
 		buildcostenergy = 7911,
-		buildcostmetal = 864,
+		buildcostmetal = 690,  -- TA 3.1c (was 864)
 		buildtime = 17228,
-		energymake = 5,
-		metalmake = 0.1,
+		energymake = 16.4,  -- TA 3.1c (was 5)
+		metalmake = 0.9,  -- TA 3.1c (was 0.1)
 		energystorage = 100,
 		metalstorage = 100,
+		energyuse = 1.6,  -- TA 3.1c (was unset)
+		sonardistance = 500,  -- TA 3.1c (was unset)
 		-- movement or placement
 		movementclass = "SHIP_SUBMARINE",
 		movestate = -1,
@@ -34,8 +36,8 @@ return {
 		turnrate = 256,
 		-- nanolathing
 		builder = 1,
-		workertime = 140,
-		builddistance = 128,
+		workertime = 225,  -- TA 3.1c (was 140)
+		builddistance = 80,  -- TA 3.1c (was 128)
 		-- combat
 		explodeas = "SMALL_UNITEX",
 		selfdestructas = "SMALL_UNIT",
@@ -43,8 +45,8 @@ return {
 		maxdamage = 370,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 210,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 120,  -- TA 3.1c (was 210)
 		-- unit animation
 		waterline = 40,
 		footprintx = 3,

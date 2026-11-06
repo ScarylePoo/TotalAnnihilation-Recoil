@@ -15,16 +15,16 @@ return {
 		category = "CORE TANK LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 3048,
-		buildcostmetal = 573,
-		buildtime = 6730,
+		buildcostmetal = 473,  -- TA 3.1c (was 573)
+		buildtime = 8730,  -- TA 3.1c (was 6730)
 		-- movement or placement
 		movementclass = "HEAVYTANK",
 		movestate = -1,
 		canmove = 1,
 		canpatrol = 1,
 		canguard = 1,
-		maxvelocity = 1.45,
-		brakerate = 0.008,
+		maxvelocity = 1.2,  -- TA 3.1c (was 1.45)
+		brakerate = 0.0076,  -- TA 3.1c (was 0.008)
 		acceleration = 0.011,
 		turnrate = 299,
 		maxwaterdepth = 10,
@@ -33,14 +33,14 @@ return {
 		firestate = 2,
 		badtargetcategory = "VTOL",
 		nochasecategory = "VTOL",
-		explodeas = "HUGE_UNITEX",
-		selfdestructas = "HUGE_UNITEX",
+		explodeas = "BIG_UNITEX",
+		selfdestructas = "BIG_UNIT",
 		-- properties
-		maxdamage = 2500,
+		maxdamage = 2014,  -- TA 3.1c (was 2500)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 420,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 240,  -- TA 3.1c (was 420)
 		-- unit animation
 		leavetracks = 1,
 		trackwidth = 40,

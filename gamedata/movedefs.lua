@@ -5,7 +5,7 @@ return {
 		name = "SMALL_SHIP",
 		footprintx = 4,
 		footprintz = 4,
-		minwaterdepth = 5,
+		minwaterdepth = 3,  -- TA 3.1c (was 5)
 		-- ARM_T1_SEA_Constructor
 		-- ARM_T1_SEA_Crusader
 		-- ARM_T1_SEA_Skeeter
@@ -33,7 +33,7 @@ return {
 		name = "BIG_SHIP",
 		footprintx = 8,
 		footprintz = 8,
-		minwaterdepth = 20,
+		minwaterdepth = 15,  -- TA 3.1c (was 20)
 		-- ARM_T2_SEA_Colossus
 		-- ARM_T2_SEA_Millenium
 		-- CORE_T2_SEA_Hive
@@ -69,21 +69,21 @@ return {
 		name = "TANKSH3",
 		footprintx = 3,
 		footprintz = 3,
-		maxwaterdepth = 20,
+		maxwaterdepth = 12,  -- TA 3.1c (was 20)
 		maxslope = 16,
 	},
 	{  -- TANKS AND KBOTS USE THIS ONE
 		name = "TANKSH2",
 		footprintx = 2,
 		footprintz = 2,
-		maxwaterdepth = 20,
+		maxwaterdepth = 12,  -- TA 3.1c (was 20)
 		maxslope = 20,
 	},
 	{
 		name = "SPID3",
 		footprintx = 3,
 		footprintz = 3,
-		maxwaterdepth = 24,
+		maxwaterdepth = 16,  -- TA 3.1c (was 24)
 	},
 	{
 		name = "TANKHOVER3",
@@ -98,14 +98,14 @@ return {
 		name = "KBOTSTANDARD",
 		footprintx = 2,
 		footprintz = 2,
-		maxwaterdepth = 18,
+		maxwaterdepth = 12,  -- TA 3.1c (was 18)
 		maxslope = 36,
 	},
 	{
 		name = "KBOTBAD",
 		footprintx = 2,
 		footprintz = 2,
-		maxwaterdepth = 16,
+		maxwaterdepth = 12,  -- TA 3.1c (was 16)
 		maxslope = 24,  -- 32
 	},
 	{
@@ -128,7 +128,7 @@ return {
 		name = "KROGOTH",
 		footprintx = 6,
 		footprintz = 6,
-		maxwaterdepth = 50,
+		maxwaterdepth = 12,  -- TA 3.1c (was 50)
 		maxslope = 32,
 		crushstrength = 1000,
 	},
@@ -150,7 +150,7 @@ return {
 		name = "GOLIATH",
 		footprintx = 3,
 		footprintz = 3,
-		maxwaterdepth = 16,
+		maxwaterdepth = 12,  -- TA 3.1c (was 16)
 		maxslope = 16,
 		crushstrength = 500,
 	},

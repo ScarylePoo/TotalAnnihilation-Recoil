@@ -3,10 +3,6 @@
 return {
 	small_building = {
 		-- used by units
-		-- ARM_T1_ECO_MetalExtractor
-		-- ARM_T2_ECO_MohoMine
-		-- CORE_T1_ECO_MetalExtractor
-		-- CORE_T2_ECO_MohoMine
 		-- type
 		-- visuals
 		-- sounds
@@ -51,8 +47,6 @@ return {
 	},
 	large_building = {
 		-- used by units
-		-- ARM_T2_ECO_MohoMetalMaker
-		-- CORE_T2_ECO_MohoMetalMaker
 		-- type
 		-- visuals
 		-- sounds

@@ -14,19 +14,19 @@ return {
 		icontype = "nuke",
 		category = "ARM SPECIAL LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
-		buildcostenergy = 58800,
+		buildcostenergy = 88000,  -- TA 3.1c (was 58800)
 		buildcostmetal = 1437,
-		buildtime = 43068,
+		buildtime = 95678,  -- TA 3.1c (was 43068)
 		-- movement or placement
 		movementclass = "TANKSH3",
 		movestate = -1,
 		canmove = 1,
 		canpatrol = 1,
 		canguard = 1,
-		maxvelocity = 1.4,
+		maxvelocity = 1.2,  -- TA 3.1c (was 1.4)
 		brakerate = 0.027,
 		acceleration = 0.015,
-		turnrate = 400,
+		turnrate = 430,  -- TA 3.1c (was 400)
 		maxwaterdepth = 0,
 		maxslope = 10,
 		-- combat
@@ -34,13 +34,13 @@ return {
 		badtargetcategory = "VTOL NOTAIR",
 		nochasecategory = "VTOL NOTAIR",
 		explodeas = "ATOMIC_BLAST",
-		selfdestructas = "CRAWL_BLASTEX",
+		selfdestructas = "CRAWL_BLASTSML",
 		-- properties
 		maxdamage = 780,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 271,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 155,  -- TA 3.1c (was 271)
 		-- other abilities
 		damagemodifier = 0.5,
 		-- unit animation
@@ -86,7 +86,7 @@ return {
 		},
 		weapons = {
 			{
-				name = "MOBILE_ANTI_NUCLEAR_MISSILE",
+				name = "ARMSCAB_WEAPON",
 			},
 		},
 	},

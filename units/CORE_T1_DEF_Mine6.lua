@@ -12,8 +12,8 @@ return {
 		script = "CORE_T1_DEF_Mine6.lua",
 		category = "CORE MINE LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
-		buildcostenergy = 25172,
-		buildcostmetal = 545,
+		buildcostenergy = 26172,  -- TA 3.1c (was 25172)
+		buildcostmetal = 595,  -- TA 3.1c (was 545)
 		buildtime = 32715,
 		-- movement or placement
 		maxwaterdepth = 0,
@@ -26,14 +26,14 @@ return {
 		explodeas = "CORMINE6",
 		selfdestructas = "CORMINE6",
 		-- properties
-		maxdamage = 50,
+		maxdamage = 200,  -- TA 3.1c (was 50)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
 		sightdistance = 90,
 		-- other abilities
 		stealth = 1,
-		cloakcost = 40,
+		cloakcost = 123,  -- TA 3.1c (was 40)
 		mincloakdistance = 10,
 		-- unit animation
 		footprintx = 1,

@@ -27,9 +27,9 @@ return {
 		maxdamage = 562,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 250,
-		sonardistance = 950,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 150,  -- TA 3.1c (was 250)
+		sonardistance = 650,  -- TA 3.1c (was 950)
 		-- other abilities
 		activatewhenbuilt = 1,
 		-- unit animation

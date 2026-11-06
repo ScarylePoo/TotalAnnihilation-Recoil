@@ -14,9 +14,9 @@ return {
 		icontype = "nuke",
 		category = "ARM SPECIAL LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
-		buildcostenergy = 140134,
-		buildcostmetal = 3010,
-		buildtime = 118453,
+		buildcostenergy = 52134,  -- TA 3.1c (was 140134)
+		buildcostmetal = 1010,  -- TA 3.1c (was 3010)
+		buildtime = 178453,  -- TA 3.1c (was 118453)
 		-- movement or placement
 		maxwaterdepth = 0,
 		maxslope = 10,
@@ -26,10 +26,10 @@ return {
 		explodeas = "ATOMIC_BLASTEX",
 		selfdestructas = "NUCLEAR_MISSILE",
 		-- properties
-		maxdamage = 3079,
+		maxdamage = 2300,  -- TA 3.1c (was 3079)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
 		sightdistance = 350,
 		-- unit animation
 		footprintx = 5,

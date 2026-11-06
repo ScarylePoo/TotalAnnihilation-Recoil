@@ -24,8 +24,8 @@ return {
 		canguard = 1,
 		canfly = 1,
 		cruisealt = 200,
-		maxvelocity = 10,
-		brakerate = 1.3,
+		maxvelocity = 9,  -- TA 3.1c (was 10)
+		brakerate = 0.4,  -- TA 3.1c (was 1.3)
 		acceleration = 0.08,
 		turnrate = 356,
 		maxwaterdepth = 0,
@@ -33,14 +33,14 @@ return {
 		-- combat
 		firestate = 2,
 		nochasecategory = "UNDERWATER",
-		explodeas = "BIG_UNITEX",
-		selfdestructas = "BIG_UNIT",
+		explodeas = "LIGHTNING",
+		selfdestructas = "CRAWL_BLASTSML",
 		-- properties
 		maxdamage = 320,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 512,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 350,  -- TA 3.1c (was 512)
 		-- unit animation
 		collide = 0,
 		footprintx = 3,

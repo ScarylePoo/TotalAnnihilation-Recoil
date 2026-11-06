@@ -23,12 +23,13 @@ return {
 		weaponacceleration = 40,
 		turnrate = 24384,
 		-- stats
-		range = 1100,
-		reloadtime = 13,
-		areaofeffect = 140,
+		range = 650,  -- TA 3.1c (was 1100)
+		reloadtime = 9,  -- TA 3.1c (was 13)
+		areaofeffect = 80,  -- TA 3.1c (was 140)
 		edgeeffectiveness = 0.75,
+		metalpershot = 0,  -- TA 3.1c (was unset)
 		damage = {
-			default = 600,
+			default = 320,  -- TA 3.1c (was 600)
 		},
 	},
 	core_kbot_rocket = {
@@ -53,12 +54,13 @@ return {
 		weaponacceleration = 34,
 		turnrate = 28384,
 		-- stats
-		range = 1000,
-		reloadtime = 12,
-		areaofeffect = 140,
-		edgeeffectiveness = 0.75,
+		range = 600,  -- TA 3.1c (was 1000)
+		reloadtime = 8,  -- TA 3.1c (was 12)
+		areaofeffect = 60,  -- TA 3.1c (was 140)
+		edgeeffectiveness = 0.5,  -- TA 3.1c (was 0.75)
+		metalpershot = 0,  -- TA 3.1c (was unset)
 		damage = {
-			default = 500,
+			default = 240,  -- TA 3.1c (was 500)
 		},
 	},
 	core_ship_rocket = {
@@ -83,12 +85,13 @@ return {
 		weaponacceleration = 40,
 		turnrate = 24384,
 		-- stats
-		range = 1680,
+		range = 1300,  -- TA 3.1c (was 1680)
 		reloadtime = 9,
-		areaofeffect = 215,
+		areaofeffect = 96,  -- TA 3.1c (was 215)
 		edgeeffectiveness = 0.50,
+		metalpershot = 0,  -- TA 3.1c (was unset)
 		damage = {
-			default = 900,
+			default = 500,  -- TA 3.1c (was 900)
 		},
 	},
 	core_veh_rocket = {
@@ -113,12 +116,13 @@ return {
 		weaponacceleration = 38,
 		turnrate = 24384,
 		-- stats
-		range = 1200,
+		range = 800,  -- TA 3.1c (was 1200)
 		reloadtime = 13,
-		areaofeffect = 150,
+		areaofeffect = 96,  -- TA 3.1c (was 150)
 		edgeeffectiveness = 0.75,
+		metalpershot = 0,  -- TA 3.1c (was unset)
 		damage = {
-			default = 600,
+			default = 500,  -- TA 3.1c (was 600)
 		},
 	},
 	krogoth_rocket = {
@@ -138,18 +142,21 @@ return {
 		avoidfriendly = 0,
 		collidefriendly = 1,
 		firestarter = 70,
-		weapontimer = 2,
-		flighttime = 7,
+		weapontimer = 5,  -- TA 3.1c (was 2)
+		flighttime = 15,  -- TA 3.1c (was 7)
 		startvelocity = 250,
 		weaponacceleration = 200,
 		weaponvelocity = 550,
 		turnrate = 63000,
 		-- stats
-		range = 1300,
+		range = 900,  -- TA 3.1c (was 1300)
 		reloadtime = 1.4,
-		areaofeffect = 120,
+		areaofeffect = 80,  -- TA 3.1c (was 120)
+		metalpershot = 0,  -- TA 3.1c (was unset)
 		damage = {
-			default = 251,
+			default = 131,  -- TA 3.1c (was 251)
+			arm_aircraft = 383,
+			core_aircraft = 383,
 		},
 	},
 }

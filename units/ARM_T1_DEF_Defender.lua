@@ -15,7 +15,7 @@ return {
 		category = "ARM SPECIAL LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 843,
-		buildcostmetal = 116,
+		buildcostmetal = 79,  -- TA 3.1c (was 116)
 		buildtime = 1843,
 		-- movement or placement
 		maxwaterdepth = 0,
@@ -26,11 +26,11 @@ return {
 		explodeas = "BIG_UNITEX",
 		selfdestructas = "BIG_UNIT",
 		-- properties
-		maxdamage = 450,
+		maxdamage = 295,  -- TA 3.1c (was 450)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 600,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 350,  -- TA 3.1c (was 600)
 		-- unit animation
 		footprintx = 3,
 		footprintz = 3,

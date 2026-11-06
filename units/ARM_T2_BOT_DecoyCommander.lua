@@ -42,9 +42,9 @@ return {
 		maxdamage = 1420,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 500,
-		radardistance = 700,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 290,  -- TA 3.1c (was 500)
+		radardistance = 0,  -- TA 3.1c (was 700)
 		sonardistance = 700,
 		-- other abilities
 		activatewhenbuilt = 1,
@@ -106,7 +106,7 @@ return {
 		},
 		weapons = {
 			{
-				name = "COMMANDER_LASER",
+				name = "ARMCOMLASER",
 			},
 		},
 	},

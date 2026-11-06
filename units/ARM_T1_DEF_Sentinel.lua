@@ -17,6 +17,7 @@ return {
 		buildcostenergy = 5398,
 		buildcostmetal = 584,
 		buildtime = 9575,
+		energystorage = 200,  -- TA 3.1c (was unset)
 		-- movement or placement
 		maxwaterdepth = 0,
 		maxslope = 10,
@@ -26,11 +27,11 @@ return {
 		explodeas = "MEDIUM_BUILDINGEX",
 		selfdestructas = "MEDIUM_BUILDING",
 		-- properties
-		maxdamage = 930,
+		maxdamage = 1230,  -- TA 3.1c (was 930)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 635,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 380,  -- TA 3.1c (was 635)
 		-- unit animation
 		footprintx = 3,
 		footprintz = 3,

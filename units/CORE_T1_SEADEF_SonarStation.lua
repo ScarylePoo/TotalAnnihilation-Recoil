@@ -18,6 +18,7 @@ return {
 		buildcostmetal = 20,
 		buildtime = 900,
 		energyuse = 8,
+		energymake = 8,  -- TA 3.1c (was unset)
 		-- movement or placement
 		minwaterdepth = 10,
 		maxslope = 10,
@@ -28,9 +29,9 @@ return {
 		maxdamage = 52,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 306,
-		sonardistance = 1523,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 175,  -- TA 3.1c (was 306)
+		sonardistance = 1223,  -- TA 3.1c (was 1523)
 		-- other abilities
 		activatewhenbuilt = 1,
 		onoffable = 1,

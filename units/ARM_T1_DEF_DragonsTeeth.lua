@@ -20,7 +20,7 @@ return {
 		maxwaterdepth = 0,
 		maxslope = 32,
 		-- properties
-		maxdamage = 350,
+		maxdamage = 3500,  -- TA 3.1c (was 350)
 		hidedamage = 1,
 		mass = 100,
 		sightdistance = 100,

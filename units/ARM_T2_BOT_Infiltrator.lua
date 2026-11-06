@@ -23,7 +23,7 @@ return {
 		canmove = 1,
 		canpatrol = 1,
 		canguard = 1,
-		maxvelocity = 2.1,
+		maxvelocity = 1.9,  -- TA 3.1c (was 2.1)
 		brakerate = 0.15,
 		acceleration = 0.2,
 		turnrate = 1016,
@@ -36,13 +36,13 @@ return {
 		maxdamage = 270,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 490,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 280,  -- TA 3.1c (was 490)
 		-- other abilities
 		stealth = 1,
-		cloakcost = 120,
-		cloakcostmoving = 400,
-		mincloakdistance = 40,
+		cloakcost = 210,  -- TA 3.1c (was 120)
+		cloakcostmoving = 800,  -- TA 3.1c (was 400)
+		mincloakdistance = 80,  -- TA 3.1c (was 40)
 		-- unit animation
 		upright = 1,
 		smoothanim = 1,

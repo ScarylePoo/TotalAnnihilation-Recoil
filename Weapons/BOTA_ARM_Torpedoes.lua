@@ -23,19 +23,21 @@ return {
 		weaponvelocity = 100,
 		startvelocity = 100,
 		weaponacceleration = 15,
-		turnrate = 4000,
+		turnrate = 500,  -- TA 3.1c (was 4000)
 		-- stats
-		range = 500,
-		reloadtime = 4,
+		range = 400,  -- TA 3.1c (was 500)
+		reloadtime = 2.7,  -- TA 3.1c (was 4)
 		areaofeffect = 16,
 		damage = {
-			default = 518,
-			-- subkillers=170;
+			default = 350,  -- TA 3.1c (was 518)
+			arm_t2_sea_piranha_armor = 115,
+			core_t2_sea_shark_armor = 115,
 		},
 	},
 	coax_torpedo = {
 		-- used by units
 		-- ARM_T1_SEADEF_TorpedoLauncher
+		-- CORE_T1_SEADEF_TorpedoLauncher
 		-- type
 		weapontype = "TorpedoLauncher",
 		turret = 1,
@@ -54,9 +56,9 @@ return {
 		weaponvelocity = 100,
 		startvelocity = 100,
 		weaponacceleration = 15,
-		turnrate = 3000,
+		turnrate = 500,  -- TA 3.1c (was 3000)
 		-- stats
-		range = 500,
+		range = 400,  -- TA 3.1c (was 500)
 		reloadtime = 2.6,
 		areaofeffect = 16,
 		damage = {
@@ -87,13 +89,13 @@ return {
 		weaponacceleration = 15,
 		turnrate = 15000,
 		-- stats
-		range = 480,
+		range = 300,  -- TA 3.1c (was 480)
 		reloadtime = 6,
 		burst = 2,
 		bursttime = 0.35,
 		areaofeffect = 16,
 		damage = {
-			default = 600,
+			default = 400,  -- TA 3.1c (was 600)
 		},
 	},
 	armseap_weapon2 = {
@@ -120,7 +122,7 @@ return {
 		weaponacceleration = 15,
 		turnrate = 15000,
 		-- stats
-		range = 480,
+		range = 300,  -- TA 3.1c (was 480)
 		reloadtime = 6,
 		areaofeffect = 16,
 		damage = {
@@ -156,7 +158,6 @@ return {
 		areaofeffect = 16,
 		damage = {
 			default = 750,
-			-- subs=1000;
 		},
 	},
 	armsmart_torpedo = {
@@ -183,12 +184,13 @@ return {
 		weaponacceleration = 15,
 		turnrate = 10000,
 		-- stats
-		range = 550,
+		range = 375,  -- TA 3.1c (was 550)
 		reloadtime = 2.3,
 		areaofeffect = 16,
 		damage = {
 			default = 200,
-			-- subs=1060;//760
+			arm_t1_sea_lurker_armor = 580,
+			core_t1_sea_snake_armor = 580,
 		},
 	},
 	armatl_torpedo = {
@@ -215,7 +217,7 @@ return {
 		weaponacceleration = 20,
 		turnrate = 45500,
 		-- stats
-		range = 970,
+		range = 650,  -- TA 3.1c (was 970)
 		reloadtime = 4.5,
 		areaofeffect = 16,
 		damage = {

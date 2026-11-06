@@ -21,15 +21,15 @@ return {
 		minwaterdepth = 10,
 		-- combat
 		firestate = 2,
-		explodeas = "BIG_UNITEX",
-		selfdestructas = "MEDIUM_UNIT",
+		explodeas = "SMALL_UNITEX",
+		selfdestructas = "SMALL_UNIT",
 		-- properties
 		maxdamage = 520,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 260,
-		sonardistance = 950,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 150,  -- TA 3.1c (was 260)
+		sonardistance = 650,  -- TA 3.1c (was 950)
 		-- other abilities
 		activatewhenbuilt = 1,
 		-- unit animation

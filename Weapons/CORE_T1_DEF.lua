@@ -9,10 +9,10 @@ return {
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
-		range = 560,
+		range = 320,  -- TA 3.1c (was 560)
 		reloadtime = 0.8,
 		weaponvelocity = 310,
-		areaofeffect = 140,
+		areaofeffect = 70,  -- TA 3.1c (was 140)
 		soundstart = "cannon3",
 		soundhit = "xplosml4",
 		explosiongaf = "fx",
@@ -24,7 +24,10 @@ return {
 		startsmoke = 1,
 		explosiongenerator = "custom:PLASMA_Expl",
 		damage = {
-			default = 40,
+			default = 10,  -- TA 3.1c (was 40)
+			arm_t1_bot_peewee_armor = 80,
+			arm_t1_bot_warrior_armor = 150,
+			arm_t1_veh_flash_armor = 200,
 		},
 	},
 	corfixed_gun = {
@@ -35,9 +38,9 @@ return {
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
-		range = 1500,
+		range = 1200,  -- TA 3.1c (was 1500)
 		reloadtime = 2.8,
-		weaponvelocity = 460,
+		weaponvelocity = 350,  -- TA 3.1c (was 460)
 		areaofeffect = 85,
 		soundstart = "cannhvy5",
 		soundhit = "xplomed2",

@@ -14,8 +14,8 @@ return {
 		icontype = "aircraft",
 		category = "CORE VTOL LEVEL1 WEAPON NOTSUB",
 		-- costs, makes, uses, storage
-		buildcostenergy = 7785,
-		buildcostmetal = 365,
+		buildcostenergy = 9785,  -- TA 3.1c (was 7785)
+		buildcostmetal = 545,  -- TA 3.1c (was 365)
 		buildtime = 23698,
 		-- movement or placement
 		movestate = -1,
@@ -23,10 +23,10 @@ return {
 		canpatrol = 1,
 		canguard = 1,
 		canfly = 1,
-		cruisealt = 100,
+		cruisealt = 75,  -- TA 3.1c (was 100)
 		maxvelocity = 10.5,
-		brakerate = 4,
-		acceleration = 0.36,
+		brakerate = 3,  -- TA 3.1c (was 4)
+		acceleration = 0.26,  -- TA 3.1c (was 0.36)
 		turnrate = 512,
 		maxwaterdepth = 255,
 		maxslope = 10,
@@ -35,11 +35,11 @@ return {
 		explodeas = "BIG_UNITEX",
 		selfdestructas = "MEDIUM_UNIT",
 		-- properties
-		maxdamage = 310,
+		maxdamage = 210,  -- TA 3.1c (was 310)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 612,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 350,  -- TA 3.1c (was 612)
 		-- unit animation
 		collide = 0,
 		footprintx = 3,

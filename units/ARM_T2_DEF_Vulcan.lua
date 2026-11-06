@@ -15,8 +15,8 @@ return {
 		category = "ARM LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 479111,
-		buildcostmetal = 30198,
-		buildtime = 325421,
+		buildcostmetal = 45198,  -- TA 3.1c (was 30198)
+		buildtime = 587421,  -- TA 3.1c (was 325421)
 		-- movement or placement
 		maxwaterdepth = 0,
 		maxslope = 10,
@@ -34,8 +34,8 @@ return {
 		maxdamage = 1400,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 367,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 210,  -- TA 3.1c (was 367)
 		-- unit animation
 		footprintx = 4,
 		footprintz = 4,

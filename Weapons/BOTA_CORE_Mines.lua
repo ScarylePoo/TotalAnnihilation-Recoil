@@ -26,6 +26,7 @@ return {
 		waterexplosionart = "h2o",
 		damage = {
 			default = 200,
+			core_t1_def_mine1_armor = 45,
 		},
 	},
 	cormine2 = {
@@ -53,6 +54,7 @@ return {
 		waterexplosionart = "h2o",
 		damage = {
 			default = 400,
+			core_t1_def_mine2_armor = 45,
 		},
 	},
 	cormine3 = {
@@ -68,7 +70,7 @@ return {
 		range = 480,
 		reloadtime = 3.6,
 		weaponvelocity = 250,
-		areaofeffect = 130,
+		areaofeffect = 160,  -- TA 3.1c (was 130)
 		edgeeffectiveness = 0.1,
 		shakemagnitude = 0,
 		shakeduration = 0,
@@ -79,7 +81,8 @@ return {
 		waterexplosiongaf = "fx",
 		waterexplosionart = "h2o",
 		damage = {
-			default = 1200,
+			default = 700,  -- TA 3.1c (was 1200)
+			core_t1_def_mine3_armor = 45,
 		},
 	},
 	cormine4 = {
@@ -107,6 +110,7 @@ return {
 		waterexplosionart = "h2o",
 		damage = {
 			default = 1100,
+			core_t1_def_mine4_armor = 45,
 		},
 	},
 	cormine5 = {
@@ -134,6 +138,7 @@ return {
 		waterexplosionart = "h2o",
 		damage = {
 			default = 2000,
+			core_t1_def_mine5_armor = 30,
 		},
 	},
 	cormine6 = {
@@ -146,10 +151,10 @@ return {
 		-- stats
 		name = "Nuclear Mine",
 		ballistic = 1,
-		range = 700,
+		range = 480,  -- TA 3.1c (was 700)
 		reloadtime = 3.6,
 		weaponvelocity = 400,
-		areaofeffect = 700,
+		areaofeffect = 400,  -- TA 3.1c (was 700)
 		edgeeffectiveness = 0.15,
 		shakemagnitude = 0,
 		shakeduration = 0,
@@ -161,7 +166,9 @@ return {
 		waterexplosionart = "h2o",
 		explosiongenerator = "custom:MINI_NUCLEAR_Expl",
 		damage = {
-			default = 8000,
+			default = 4300,  -- TA 3.1c (was 8000)
+			arm_commander_armor = 2900,
+			core_commander_armor = 2900,
 		},
 	},
 }

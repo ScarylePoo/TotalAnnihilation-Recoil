@@ -15,8 +15,8 @@ return {
 		category = "CORE LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 10928,
-		buildcostmetal = 151,
-		buildtime = 121253,
+		buildcostmetal = 51,  -- TA 3.1c (was 151)
+		buildtime = 41253,  -- TA 3.1c (was 121253)
 		makesmetal = 12,
 		energyuse = 625,
 		-- movement or placement
@@ -29,8 +29,8 @@ return {
 		maxdamage = 500,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 367,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 210,  -- TA 3.1c (was 367)
 		-- other abilities
 		activatewhenbuilt = 1,
 		onoffable = 1,

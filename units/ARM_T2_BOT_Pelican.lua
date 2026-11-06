@@ -16,7 +16,7 @@ return {
 		-- costs, makes, uses, storage
 		buildcostenergy = 2468,
 		buildcostmetal = 255,
-		buildtime = 5582,
+		buildtime = 5982,  -- TA 3.1c (was 5582)
 		-- movement or placement
 		movementclass = "TANKHOVER3",
 		movestate = -1,
@@ -25,9 +25,9 @@ return {
 		canmove = 1,
 		canpatrol = 1,
 		canguard = 1,
-		maxvelocity = 1.9,
-		brakerate = 0.35,
-		acceleration = 0.2,
+		maxvelocity = 1.5,  -- TA 3.1c (was 1.9)
+		brakerate = 0.15,  -- TA 3.1c (was 0.35)
+		acceleration = 0.1,  -- TA 3.1c (was 0.2)
 		turnrate = 400,
 		maxslope = 25,
 		-- combat
@@ -39,8 +39,8 @@ return {
 		maxdamage = 800,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 508,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 290,  -- TA 3.1c (was 508)
 		-- unit animation
 		upright = 1,
 		smoothanim = 1,

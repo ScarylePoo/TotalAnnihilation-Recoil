@@ -18,13 +18,14 @@ return {
 		buildcostmetal = 95,
 		buildtime = 3800,
 		energyuse = 15,
+		energymake = 15,  -- TA 3.1c (was unset)
 		-- movement or placement
 		movementclass = "KBOTSTANDARD",
 		movestate = -1,
 		canmove = 1,
 		canpatrol = 1,
 		canguard = 1,
-		maxvelocity = 1.3,
+		maxvelocity = 0.94,  -- TA 3.1c (was 1.3)
 		brakerate = 0.018,
 		acceleration = 0.045,
 		turnrate = 505,
@@ -39,9 +40,9 @@ return {
 		maxdamage = 320,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 420,
-		radardistance = 1850,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 240,  -- TA 3.1c (was 420)
+		radardistance = 1250,  -- TA 3.1c (was 1850)
 		-- other abilities
 		activatewhenbuilt = 1,
 		onoffable = 1,

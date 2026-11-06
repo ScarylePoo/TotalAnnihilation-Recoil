@@ -14,9 +14,9 @@ return {
 		icontype = "nuke",
 		category = "ARM SPECIAL LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
-		buildcostenergy = 88124,
-		buildcostmetal = 1637,
-		buildtime = 55678,
+		buildcostenergy = 88000,  -- TA 3.1c (was 88124)
+		buildcostmetal = 1437,  -- TA 3.1c (was 1637)
+		buildtime = 95678,  -- TA 3.1c (was 55678)
 		-- movement or placement
 		maxwaterdepth = 0,
 		maxslope = 10,
@@ -24,15 +24,15 @@ return {
 		firestate = 2,
 		badtargetcategory = "VTOL NOTAIR",
 		explodeas = "ATOMIC_BLAST",
-		selfdestructas = "CRAWL_BLASTEX",
+		selfdestructas = "CRAWL_BLASTSML",
 		-- properties
-		maxdamage = 1180,
+		maxdamage = 780,  -- TA 3.1c (was 1180)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
 		sightdistance = 155,
 		-- other abilities
-		damagemodifier = 0.4,
+		damagemodifier = 0.5,  -- TA 3.1c (was 0.4)
 		-- unit animation
 		footprintx = 4,
 		footprintz = 4,

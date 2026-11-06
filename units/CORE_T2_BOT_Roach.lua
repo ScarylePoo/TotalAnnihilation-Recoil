@@ -22,7 +22,7 @@ return {
 		canmove = 1,
 		canpatrol = 1,
 		canguard = 1,
-		maxvelocity = 1.4,
+		maxvelocity = 0.4,  -- TA 3.1c (was 1.4)
 		brakerate = 0.12,
 		acceleration = 0.1,
 		turnrate = 1370,
@@ -30,16 +30,16 @@ return {
 		maxslope = 32,
 		-- combat
 		kamikaze = 1,
-		kamikazedistance = 80,
+		kamikazedistance = 40,  -- TA 3.1c (was 80)
 		selfdestructcountdown = 1,
-		explodeas = "CRAWL_BLASTEX",
+		explodeas = "CRAWL_BLASTSML",
 		selfdestructas = "CRAWL_BLAST",
 		-- properties
 		maxdamage = 195,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 175,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 100,  -- TA 3.1c (was 175)
 		-- unit animation
 		smoothanim = 1,
 		leavetracks = 1,

@@ -15,11 +15,14 @@ return {
 		icontype = "hover",
 		category = "ARM HOVER LEVEL1 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
-		buildcostenergy = 4870,
-		buildcostmetal = 356,
-		buildtime = 12394,
-		energystorage = 50,
+		buildcostenergy = 4370,  -- TA 3.1c (was 4870)
+		buildcostmetal = 396,  -- TA 3.1c (was 356)
+		buildtime = 10494,  -- TA 3.1c (was 12394)
+		energystorage = 80,  -- TA 3.1c (was 50)
 		metalstorage = 50,
+		energymake = 16,  -- TA 3.1c (was unset)
+		metalmake = 0.3,  -- TA 3.1c (was unset)
+		energyuse = 1,  -- TA 3.1c (was unset)
 		-- movement or placement
 		movementclass = "TANKHOVER3",
 		movestate = -1,
@@ -28,15 +31,15 @@ return {
 		canguard = 1,
 		canhover = 1,
 		maxvelocity = 2.2,
-		brakerate = 0.06,
+		brakerate = 0.006,  -- TA 3.1c (was 0.06)
 		acceleration = 0.01,
 		turnrate = 120,
 		maxwaterdepth = 0,
 		maxslope = 16,
 		-- nanolathing
 		builder = 1,
-		workertime = 65,
-		builddistance = 128,
+		workertime = 80,  -- TA 3.1c (was 65)
+		builddistance = 70,  -- TA 3.1c (was 128)
 		-- combat
 		explodeas = "BIG_UNITEX",
 		selfdestructas = "BIG_UNIT",
@@ -44,8 +47,8 @@ return {
 		maxdamage = 723,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 470,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 270,  -- TA 3.1c (was 470)
 		-- unit animation
 		footprintx = 3,
 		footprintz = 3,

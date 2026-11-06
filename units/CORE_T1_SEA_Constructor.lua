@@ -16,10 +16,13 @@ return {
 		category = "CORE SHIP LEVEL1 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 2375,
-		buildcostmetal = 275,
+		buildcostmetal = 260,  -- TA 3.1c (was 275)
 		buildtime = 5537,
 		energystorage = 50,
 		metalstorage = 50,
+		energymake = 7,  -- TA 3.1c (was unset)
+		metalmake = 0.3,  -- TA 3.1c (was unset)
+		energyuse = 0.1,  -- TA 3.1c (was unset)
 		-- movement or placement
 		movementclass = "SMALL_SHIP",
 		movestate = -1,
@@ -33,8 +36,8 @@ return {
 		turnrate = 205,
 		-- nanolathing
 		builder = 1,
-		workertime = 70,
-		builddistance = 128,
+		workertime = 125,  -- TA 3.1c (was 70)
+		builddistance = 60,  -- TA 3.1c (was 128)
 		-- combat
 		explodeas = "SMALL_UNITEX",
 		selfdestructas = "SMALL_UNIT",
@@ -42,8 +45,8 @@ return {
 		maxdamage = 1150,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 377,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 220,  -- TA 3.1c (was 377)
 		-- unit animation
 		footprintx = 4,
 		footprintz = 4,

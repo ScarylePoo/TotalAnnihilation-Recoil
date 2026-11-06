@@ -14,8 +14,8 @@ return {
 		icontype = "building",
 		category = "ARM SPECIAL LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
-		buildcostenergy = 90000,
-		buildcostmetal = 3600,
+		buildcostenergy = 136058,  -- TA 3.1c (was 90000)
+		buildcostmetal = 15130,  -- TA 3.1c (was 3600)
 		buildtime = 154785,
 		energyuse = 1250,
 		-- movement or placement
@@ -28,8 +28,8 @@ return {
 		maxdamage = 1900,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 367,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 210,  -- TA 3.1c (was 367)
 		-- other abilities
 		activatewhenbuilt = 1,
 		onoffable = 1,

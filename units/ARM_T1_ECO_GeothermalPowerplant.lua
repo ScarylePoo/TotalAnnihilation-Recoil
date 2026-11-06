@@ -22,14 +22,14 @@ return {
 		maxwaterdepth = 0,
 		maxslope = 10,
 		-- combat
-		explodeas = "GEO_SPLODE",
-		selfdestructas = "GEO_SPLODE",
+		explodeas = "LARGE_BUILDINGEX",
+		selfdestructas = "NUCLEAR_MISSILE",
 		-- properties
 		maxdamage = 880,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 367,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 210,  -- TA 3.1c (was 367)
 		-- unit animation
 		footprintx = 4,
 		footprintz = 4,

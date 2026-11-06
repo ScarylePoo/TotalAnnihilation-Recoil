@@ -12,9 +12,9 @@ return {
 		script = "ARM_T1_DEF_Mine5.lua",
 		category = "ARM MINE LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
-		buildcostenergy = 4420,
-		buildcostmetal = 78,
-		buildtime = 4375,
+		buildcostenergy = 4135,  -- TA 3.1c (was 4420)
+		buildcostmetal = 132,  -- TA 3.1c (was 78)
+		buildtime = 5375,  -- TA 3.1c (was 4375)
 		-- movement or placement
 		maxwaterdepth = 0,
 		maxslope = 15,
@@ -26,14 +26,14 @@ return {
 		explodeas = "ARMMINE5",
 		selfdestructas = "ARMMINE5",
 		-- properties
-		maxdamage = 55,
+		maxdamage = 2000,  -- TA 3.1c (was 55)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
 		sightdistance = 55,
 		-- other abilities
 		stealth = 1,
-		cloakcost = 4,
+		cloakcost = 30,  -- TA 3.1c (was 4)
 		mincloakdistance = 10,
 		-- unit animation
 		footprintx = 1,

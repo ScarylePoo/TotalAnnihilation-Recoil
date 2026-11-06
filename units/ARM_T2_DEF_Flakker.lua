@@ -16,7 +16,7 @@ return {
 		-- costs, makes, uses, storage
 		buildcostenergy = 17425,
 		buildcostmetal = 1069,
-		buildtime = 20380,
+		buildtime = 38010,  -- TA 3.1c (was 20380)
 		-- movement or placement
 		maxwaterdepth = 0,
 		maxslope = 10,
@@ -28,8 +28,8 @@ return {
 		maxdamage = 1524,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 610,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 350,  -- TA 3.1c (was 610)
 		-- unit animation
 		footprintx = 2,
 		footprintz = 2,

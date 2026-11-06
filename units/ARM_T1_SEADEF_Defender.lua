@@ -17,6 +17,7 @@ return {
 		buildcostenergy = 987,
 		buildcostmetal = 71,
 		buildtime = 2163,
+		energyuse = 0.1,  -- TA 3.1c (was unset)
 		-- movement or placement
 		minwaterdepth = 2,
 		-- combat
@@ -28,8 +29,8 @@ return {
 		maxdamage = 252,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 600,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 360,  -- TA 3.1c (was 600)
 		-- unit animation
 		waterline = 15,
 		footprintx = 4,

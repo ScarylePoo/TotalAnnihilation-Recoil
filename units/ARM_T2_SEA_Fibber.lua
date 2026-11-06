@@ -17,7 +17,8 @@ return {
 		buildcostenergy = 2897,
 		buildcostmetal = 295,
 		buildtime = 11048,
-		energyuse = 25,
+		energyuse = 0.5,  -- TA 3.1c (was 25)
+		energymake = 0.5,  -- TA 3.1c (was unset)
 		-- movement or placement
 		movementclass = "SHIP_SUBMARINE",
 		movestate = -1,
@@ -37,9 +38,9 @@ return {
 		maxdamage = 450,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 260,
-		sonardistancejam = 850,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 150,  -- TA 3.1c (was 260)
+		sonardistancejam = 650,  -- TA 3.1c (was 850)
 		-- other abilities
 		activatewhenbuilt = 1,
 		onoffable = 1,

@@ -17,6 +17,7 @@ return {
 		buildcostenergy = 1054,
 		buildcostmetal = 72,
 		buildtime = 2357,
+		energyuse = 0.1,  -- TA 3.1c (was unset)
 		-- movement or placement
 		minwaterdepth = 2,
 		-- combat
@@ -24,10 +25,10 @@ return {
 		explodeas = "BIG_UNITEX",
 		selfdestructas = "BIG_UNIT",
 		-- properties
-		maxdamage = 390,
+		maxdamage = 290,  -- TA 3.1c (was 390)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
 		sightdistance = 360,
 		-- unit animation
 		waterline = 20,

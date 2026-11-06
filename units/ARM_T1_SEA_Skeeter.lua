@@ -16,7 +16,7 @@ return {
 		-- costs, makes, uses, storage
 		buildcostenergy = 985,
 		buildcostmetal = 100,
-		buildtime = 2000,
+		buildtime = 2062,  -- TA 3.1c (was 2000)
 		-- movement or placement
 		movementclass = "SMALL_SHIP",
 		movestate = -1,
@@ -33,11 +33,11 @@ return {
 		explodeas = "SMALL_UNITEX",
 		selfdestructas = "SMALL_UNIT",
 		-- properties
-		maxdamage = 360,
+		maxdamage = 560,  -- TA 3.1c (was 360)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 490,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 280,  -- TA 3.1c (was 490)
 		-- unit animation
 		waterline = 2,
 		footprintx = 4,
@@ -75,7 +75,7 @@ return {
 		},
 		weapons = {
 			{
-				name = "ARM_SCOUT_LASER",
+				name = "ARMPT_LASER",
 			},
 			{
 				name = "ARMKBOT_MISSILE",

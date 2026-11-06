@@ -18,6 +18,7 @@ return {
 		buildcostmetal = 131,
 		buildtime = 6708,
 		energyuse = 18,
+		energymake = 18,  -- TA 3.1c (was unset)
 		-- movement or placement
 		movementclass = "SMALL_SHIP",
 		movestate = -1,
@@ -38,8 +39,8 @@ return {
 		maxdamage = 510,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 612,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 300,  -- TA 3.1c (was 612)
 		radardistancejam = 700,
 		-- other abilities
 		activatewhenbuilt = 1,

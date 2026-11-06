@@ -17,12 +17,14 @@ return {
 		buildcostenergy = 8510,
 		buildcostmetal = 425,
 		buildtime = 21953,
+		energymake = 10,  -- TA 3.1c (was unset)
+		energystorage = 100,  -- TA 3.1c (was unset)
 		-- movement or placement
 		maxslope = 10,
 		maxwaterdepth = 0,
 		-- nanolathing
 		builder = 1,
-		workertime = 800,
+		workertime = 200,  -- TA 3.1c (was 800)
 		builddistance = 6,
 		-- combat
 		explodeas = "BIG_UNITEX",
@@ -31,8 +33,8 @@ return {
 		maxdamage = 680,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 300,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 175,  -- TA 3.1c (was 300)
 		-- other abilities
 		activatewhenbuilt = 1,
 		onoffable = 1,

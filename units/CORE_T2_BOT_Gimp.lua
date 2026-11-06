@@ -23,7 +23,7 @@ return {
 		canmove = 1,
 		canpatrol = 1,
 		canguard = 1,
-		maxvelocity = 1.3,
+		maxvelocity = 0.8,  -- TA 3.1c (was 1.3)
 		brakerate = 0.15,
 		acceleration = 0.04,
 		turnrate = 500,
@@ -39,8 +39,8 @@ return {
 		maxdamage = 1150,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 507,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 290,  -- TA 3.1c (was 507)
 		-- unit animation
 		upright = 1,
 		smoothanim = 1,

@@ -31,7 +31,6 @@ return {
 		areaofeffect = 16,
 		damage = {
 			default = 80,
-			-- subs=130;
 		},
 	},
 }

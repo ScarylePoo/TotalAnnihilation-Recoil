@@ -24,25 +24,25 @@ return {
 		canguard = 1,
 		canfly = 1,
 		cruisealt = 90,
-		maxvelocity = 8,
-		brakerate = 3,
-		acceleration = 0.2,
-		turnrate = 288,
+		maxvelocity = 7,  -- TA 3.1c (was 8)
+		brakerate = 1,  -- TA 3.1c (was 3)
+		acceleration = 0.04,  -- TA 3.1c (was 0.2)
+		turnrate = 128,  -- TA 3.1c (was 288)
 		maxwaterdepth = 0,
 		maxslope = 10,
 		-- combat
 		explodeas = "SMALL_UNITEX",
 		selfdestructas = "SMALL_UNIT",
 		-- properties
-		maxdamage = 210,
+		maxdamage = 150,  -- TA 3.1c (was 210)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 225,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 245,  -- TA 3.1c (was 225)
 		-- other abilities
 		canload = 1,
 		transportsize = 3,
-		transportcapacity = 1,
+		transportcapacity = 5,  -- TA 3.1c (was 1)
 		transportmass = 3000,
 		-- unit animation
 		collide = 0,

@@ -16,14 +16,14 @@ return {
 		-- costs, makes, uses, storage
 		buildcostenergy = 3500,
 		buildcostmetal = 420,
-		buildtime = 8126,
+		buildtime = 7500,  -- TA 3.1c (was 8126)
 		-- movement or placement
 		movementclass = "KBOTBAD",
 		movestate = -1,
 		canmove = 1,
 		canpatrol = 1,
 		canguard = 1,
-		maxvelocity = 0.8,
+		maxvelocity = 0.5,  -- TA 3.1c (was 0.8)
 		brakerate = 0.15,
 		acceleration = 0.1,
 		turnrate = 940,
@@ -36,11 +36,11 @@ return {
 		explodeas = "BIG_UNITEX",
 		selfdestructas = "BIG_UNIT",
 		-- properties
-		maxdamage = 3200,
+		maxdamage = 2800,  -- TA 3.1c (was 3200)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 350,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 200,  -- TA 3.1c (was 350)
 		-- unit animation
 		upright = 1,
 		smoothanim = 1,

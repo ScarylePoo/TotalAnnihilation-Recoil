@@ -9,8 +9,8 @@ return {
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
-		range = 500,  -- 260//455
-		reloadtime = 1.73,
+		range = 260,  -- TA 3.1c (was 500)  -- 260//455
+		reloadtime = 1.83,  -- TA 3.1c (was 1.73)
 		weaponvelocity = 280,
 		areaofeffect = 84,
 		soundstart = "canlite3",
@@ -25,7 +25,7 @@ return {
 		startsmoke = 1,
 		explosiongenerator = "custom:PLASMA_Expl",
 		damage = {
-			default = 280,  -- 180
+			default = 180,  -- TA 3.1c (was 280)  -- 180
 		},
 	},
 	core_lightcannon = {
@@ -36,16 +36,16 @@ return {
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
-		range = 420,  -- 240
-		reloadtime = 1.43,
-		weaponvelocity = 350,  -- 170
+		range = 240,  -- TA 3.1c (was 420)  -- 240
+		reloadtime = 1.53,  -- TA 3.1c (was 1.43)
+		weaponvelocity = 170,  -- TA 3.1c (was 350)  -- 170
 		areaofeffect = 32,
 		soundstart = "canlite3",
 		soundhit = "xplosml3",
 		explosiongenerator = "custom:TANKSHOT_Expl",
 		startsmoke = 1,
 		damage = {
-			default = 70,  -- 50//75
+			default = 50,  -- TA 3.1c (was 70)  -- 50//75
 		},
 	},
 }

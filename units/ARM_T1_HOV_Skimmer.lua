@@ -26,7 +26,7 @@ return {
 		canhover = 1,
 		maxvelocity = 3.7,
 		brakerate = 0.05,
-		acceleration = 0.18,
+		acceleration = 0.11,  -- TA 3.1c (was 0.18)
 		turnrate = 310,
 		maxwaterdepth = 0,
 		maxslope = 16,
@@ -37,11 +37,11 @@ return {
 		explodeas = "BIG_UNITEX",
 		selfdestructas = "BIG_UNIT",
 		-- properties
-		maxdamage = 240,
+		maxdamage = 200,  -- TA 3.1c (was 240)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 580,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 280,  -- TA 3.1c (was 580)
 		-- unit animation
 		footprintx = 3,
 		footprintz = 3,
@@ -77,7 +77,7 @@ return {
 		},
 		weapons = {
 			{
-				name = "ARM_SCOUT_LASER",
+				name = "ARMSH_WEAPON",
 			},
 		},
 	},

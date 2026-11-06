@@ -28,8 +28,8 @@ return {
 		maxdamage = 1658,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 630,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 360,  -- TA 3.1c (was 630)
 		-- other abilities
 		damagemodifier = 0.28,
 		-- unit animation

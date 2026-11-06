@@ -14,10 +14,11 @@ return {
 		icontype = "building",
 		category = "CORE LEVEL1 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
-		buildcostenergy = 100,
+		buildcostenergy = 790,  -- TA 3.1c (was 100)
 		buildcostmetal = 141,
 		buildtime = 2416,
 		energyuse = -20,  -- needed to be like this to get the solar stop making energy when deactivated
+		workertime = 100,  -- TA 3.1c (was unset)
 		-- movement or placement
 		maxwaterdepth = 0,
 		maxslope = 10,
@@ -28,12 +29,12 @@ return {
 		maxdamage = 320,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 367,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 210,  -- TA 3.1c (was 367)
 		-- other abilities
 		activatewhenbuilt = 1,
 		onoffable = 1,
-		damagemodifier = 0.33,
+		damagemodifier = 0.3333,  -- TA 3.1c (was 0.33)
 		-- unit animation
 		footprintx = 5,
 		footprintz = 5,

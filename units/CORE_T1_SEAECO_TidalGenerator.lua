@@ -14,7 +14,7 @@ return {
 		icontype = "building",
 		category = "CORE LEVEL1 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
-		buildcostenergy = 452,
+		buildcostenergy = 752,  -- TA 3.1c (was 452)
 		buildcostmetal = 81,
 		buildtime = 2094,
 		tidalgenerator = 1,
@@ -28,8 +28,8 @@ return {
 		maxdamage = 253,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 175,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 100,  -- TA 3.1c (was 175)
 		-- other abilities
 		activatewhenbuilt = 1,
 		-- unit animation

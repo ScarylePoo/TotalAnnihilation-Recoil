@@ -9,9 +9,9 @@ return {
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		turret = 1,
-		range = 1300,  -- 910//1250
+		range = 910,  -- TA 3.1c (was 1300)  -- 910//1250
 		reloadtime = 3.1,
-		weaponvelocity = 420,  -- 350
+		weaponvelocity = 350,  -- TA 3.1c (was 420)  -- 350
 		areaofeffect = 100,
 		soundstart = "cannhvy5",
 		soundhit = "xplomed2",

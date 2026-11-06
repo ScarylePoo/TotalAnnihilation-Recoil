@@ -18,6 +18,7 @@ return {
 		buildcostmetal = 139,
 		buildtime = 10064,
 		energyuse = 12,
+		energymake = 12,  -- TA 3.1c (was unset)
 		-- movement or placement
 		movestate = -1,
 		canmove = 1,
@@ -35,12 +36,12 @@ return {
 		explodeas = "BIG_UNITEX",
 		selfdestructas = "BIG_UNIT",
 		-- properties
-		maxdamage = 540,
+		maxdamage = 470,  -- TA 3.1c (was 540)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 612,
-		sonardistance = 1505,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 350,  -- TA 3.1c (was 612)
+		sonardistance = 1405,  -- TA 3.1c (was 1505)
 		-- other abilities
 		activatewhenbuilt = 1,
 		onoffable = 1,

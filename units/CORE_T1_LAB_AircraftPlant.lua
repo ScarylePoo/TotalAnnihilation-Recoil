@@ -20,6 +20,7 @@ return {
 		buildtime = 7180,
 		energystorage = 100,
 		metalstorage = 100,
+		radardistance = 510,  -- TA 3.1c (was unset)
 		-- movement or placement
 		movestate = 1,
 		canmove = 1,
@@ -28,7 +29,7 @@ return {
 		maxslope = 10,
 		-- nanolathing
 		builder = 1,
-		workertime = 110,
+		workertime = 100,  -- TA 3.1c (was 110)
 		-- combat
 		explodeas = "LARGE_BUILDINGEX",
 		selfdestructas = "LARGE_BUILDING",
@@ -36,8 +37,8 @@ return {
 		maxdamage = 1925,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 367,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 210,  -- TA 3.1c (was 367)
 		-- unit animation
 		footprintx = 7,
 		footprintz = 6,

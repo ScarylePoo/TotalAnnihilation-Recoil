@@ -13,6 +13,10 @@ local COMMANDERS = {
 }
 
 for name, ud in pairs(UnitDefs) do
+	-- TA units did not regenerate; the engine's default is 10 HP/s after idleTime. Units without the tag get none.
+	if ud.idleautoheal == nil then
+		ud.idleautoheal = 0
+	end
 	if COMMANDERS[name] then
 		ud.customparams = ud.customparams or {}
 		ud.customparams.iscommander = 1

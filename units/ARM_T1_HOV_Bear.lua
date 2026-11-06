@@ -24,9 +24,9 @@ return {
 		canpatrol = 1,
 		canguard = 1,
 		canhover = 1,
-		maxvelocity = 2,
-		brakerate = 0.018,
-		acceleration = 0.04,
+		maxvelocity = 1.8,  -- TA 3.1c (was 2)
+		brakerate = 0.0018,  -- TA 3.1c (was 0.018)
+		acceleration = 0.004,  -- TA 3.1c (was 0.04)
 		turnrate = 128,
 		minwaterdepth = 12,
 		-- combat
@@ -36,12 +36,12 @@ return {
 		maxdamage = 1150,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 437,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 250,  -- TA 3.1c (was 437)
 		-- other abilities
 		canload = 1,
 		transportmaxunits = 6,
-		transportsize = 6,
+		transportsize = 3,  -- TA 3.1c (was 6)
 		transportcapacity = 5,
 		-- unit animation
 		waterline = 4,

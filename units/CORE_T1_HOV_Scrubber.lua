@@ -24,7 +24,7 @@ return {
 		canpatrol = 1,
 		canguard = 1,
 		canhover = 1,
-		maxvelocity = 3.7,
+		maxvelocity = 3.5,  -- TA 3.1c (was 3.7)
 		brakerate = 0.05,
 		acceleration = 0.1,
 		turnrate = 310,
@@ -37,11 +37,11 @@ return {
 		explodeas = "BIG_UNITEX",
 		selfdestructas = "BIG_UNIT",
 		-- properties
-		maxdamage = 240,
+		maxdamage = 200,  -- TA 3.1c (was 240)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 560,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 280,  -- TA 3.1c (was 560)
 		-- unit animation
 		footprintx = 3,
 		footprintz = 3,
@@ -77,7 +77,7 @@ return {
 		},
 		weapons = {
 			{
-				name = "CORE_SCOUT_LASER",
+				name = "CORSH_WEAPON",
 			},
 		},
 	},

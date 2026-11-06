@@ -14,9 +14,9 @@ return {
 		icontype = "turret",
 		category = "CORE LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
-		buildcostenergy = 7787,
-		buildcostmetal = 872,
-		buildtime = 13528,
+		buildcostenergy = 6687,  -- TA 3.1c (was 7787)
+		buildcostmetal = 642,  -- TA 3.1c (was 872)
+		buildtime = 11528,  -- TA 3.1c (was 13528)
 		-- movement or placement
 		maxwaterdepth = 0,
 		maxslope = 10,
@@ -26,11 +26,11 @@ return {
 		explodeas = "MEDIUM_BUILDINGEX",
 		selfdestructas = "MEDIUM_BUILDING",
 		-- properties
-		maxdamage = 1088,
+		maxdamage = 988,  -- TA 3.1c (was 1088)
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 542,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 310,  -- TA 3.1c (was 542)
 		-- other abilities
 		damagemodifier = 0.125,
 		-- unit animation
@@ -66,7 +66,7 @@ return {
 		},
 		weapons = {
 			{
-				name = "CORE_HEAVY_LASER",
+				name = "CORVIPE_LASER",
 			},
 		},
 	},

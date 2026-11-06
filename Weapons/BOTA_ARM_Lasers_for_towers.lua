@@ -28,11 +28,11 @@ return {
 		-- costs
 		energypershot = 10,
 		-- stats
-		range = 512,
+		range = 300,  -- TA 3.1c (was 512)
 		reloadtime = 0.52,
 		areaofeffect = 8,
 		damage = {
-			default = 72,
+			default = 60,  -- TA 3.1c (was 72)
 		},
 	},
 	arm_tower_heavy_laser = {
@@ -41,7 +41,7 @@ return {
 		-- type
 		weapontype = "LaserCannon",
 		turret = 1,
-		tolerance = 500,
+		tolerance = 8000,  -- TA 3.1c (was 500)
 		-- visuals
 		loddistance = 4000,
 		duration = 0.15,
@@ -57,15 +57,15 @@ return {
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		firestarter = 90,
-		weaponvelocity = 900,
+		weaponvelocity = 800,  -- TA 3.1c (was 900)
 		-- costs
 		energypershot = 75,
 		-- stats
-		range = 685,
+		range = 430,  -- TA 3.1c (was 685)
 		reloadtime = 0.965,
 		areaofeffect = 8,
 		damage = {
-			default = 240,
+			default = 180,  -- TA 3.1c (was 240)
 		},
 	},
 	arm_floating_tower_heavy_laser = {
@@ -74,7 +74,7 @@ return {
 		-- type
 		weapontype = "LaserCannon",
 		turret = 1,
-		tolerance = 500,
+		tolerance = 8000,  -- TA 3.1c (was 500)
 		-- visuals
 		loddistance = 4000,
 		duration = 0.15,
@@ -90,15 +90,15 @@ return {
 		avoidfriendly = 0,
 		collidefriendly = 0,
 		firestarter = 90,
-		weaponvelocity = 900,
+		weaponvelocity = 800,  -- TA 3.1c (was 900)
 		-- costs
 		energypershot = 75,
 		-- stats
-		range = 730,
+		range = 480,  -- TA 3.1c (was 730)
 		reloadtime = 1.1,
 		areaofeffect = 8,
 		damage = {
-			default = 240,
+			default = 200,  -- TA 3.1c (was 240)
 		},
 	},
 }

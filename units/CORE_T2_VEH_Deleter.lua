@@ -18,13 +18,14 @@ return {
 		buildcostmetal = 100,
 		buildtime = 6404,
 		energyuse = 14,
+		energymake = 14,  -- TA 3.1c (was unset)
 		-- movement or placement
 		movementclass = "TANKSH3",
 		movestate = -1,
 		canmove = 1,
 		canpatrol = 1,
 		canguard = 1,
-		maxvelocity = 1.25,
+		maxvelocity = 1.05,  -- TA 3.1c (was 1.25)
 		brakerate = 0.014,
 		acceleration = 0.031,
 		turnrate = 512,
@@ -39,9 +40,9 @@ return {
 		maxdamage = 520,
 		hidedamage = 1,
 		idletime = 2200,
-		idleautoheal = .5,
-		sightdistance = 390,
-		radardistancejam = 520,
+		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
+		sightdistance = 230,  -- TA 3.1c (was 390)
+		radardistancejam = 420,  -- TA 3.1c (was 520)
 		-- other abilities
 		activatewhenbuilt = 1,
 		onoffable = 1,

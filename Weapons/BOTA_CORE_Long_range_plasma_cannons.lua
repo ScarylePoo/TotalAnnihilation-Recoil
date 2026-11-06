@@ -3,6 +3,7 @@
 return {
 	intimidator = {
 		-- used by units
+		-- CORE_T2_DEF_Intimidator
 		-- type
 		weapontype = "Cannon",
 		turret = 1,
@@ -20,20 +21,21 @@ return {
 		collidefriendly = 0,
 		firestarter = 50,
 		tolerance = 300,
-		weaponvelocity = 800,
-		accuracy = 600,
+		weaponvelocity = 1000,  -- TA 3.1c (was 800)
+		accuracy = 1000,  -- TA 3.1c (was 600)
 		-- costs
-		energypershot = 12000,
+		energypershot = 2000,  -- TA 3.1c (was 12000)
 		-- stats
 		range = 5120,
-		reloadtime = 23,
+		reloadtime = 8,  -- TA 3.1c (was 23)
 		areaofeffect = 100,
 		damage = {
-			default = 1800,
+			default = 2400,  -- TA 3.1c (was 1800)
 		},
 	},
 	buzzsaw = {
 		-- used by units
+		-- CORE_T2_DEF_Buzzsaw
 		-- type
 		weapontype = "Cannon",
 		turret = 1,
@@ -51,16 +53,16 @@ return {
 		collidefriendly = 0,
 		firestarter = 50,
 		tolerance = 300,
-		weaponvelocity = 800,
-		accuracy = 700,
+		weaponvelocity = 900,  -- TA 3.1c (was 800)
+		accuracy = 800,  -- TA 3.1c (was 700)
 		-- costs
-		energypershot = 4000,
+		energypershot = 2000,  -- TA 3.1c (was 4000)
 		-- stats
-		range = 4096,
-		reloadtime = 1.2,
+		range = 3800,  -- TA 3.1c (was 4096)
+		reloadtime = 0.5,  -- TA 3.1c (was 1.2)
 		areaofeffect = 120,
 		damage = {
-			default = 450,
+			default = 1800,  -- TA 3.1c (was 450)
 		},
 	},
 }
