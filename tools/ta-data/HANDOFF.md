@@ -4,6 +4,20 @@ Read this whole file before doing anything. It was written by Claude (cloud sess
 next Claude session (Claude Code in WSL2 on the user's Windows PC). The user is Scary le Poo (GitHub ScarylePoo),
 an experienced developer: be direct, no hand-holding.
 
+## Status (2026-11-06, branch `ta-values`)
+
+The conversion is done: TA 3.1c values are in the defs, scripts and gamedata. Read DEVIATIONS.md (what differs from
+TA and why) and BALANCE_NOTES.md (suggestions, none applied) first. New tools since the first handoff:
+`apply.py` (writes TA values into the Lua, text edits with `-- TA 3.1c (was X)` comments), `split_weapons.py` (undoes
+BOTA's weapon merges), `armor.py` (TA per-unit damage -> armor classes, writes gamedata/ArmorDefs.lua), `defdump.py`
+(runtime def dumps from `DUMP=<file> tools/headless-test/run.sh`, `--diff` before/after). Rerun order after a data
+change: run_all.sh, then split_weapons.py, compare.py + finalize.py, apply.py, armor.py.
+The graphical check: `VISUAL=unit1,unit2 [VISUALZOOM= VISUALDIST= VISUALOUT=] tools/headless-test/run.sh <engine>`
+(screenshots of the units firing at the ground). On this WSL machine the graphical engine needs SDL2/SDL3/OpenAL
+and audio libs that are not installed system-wide: they are unpacked (apt-get download + dpkg-deb -x, no root) into
+~/engine/libs/root, and run.sh adds them plus Mesa's D3D12 GPU driver (GALLIUM_DRIVER=d3d12) itself. The software
+renderer (llvmpipe) does not draw projectile sprites, so always render on the GPU.
+
 ## The job
 
 The user's goal, in his words: "pull stats and unit characteristics from the original game, and translate those as
