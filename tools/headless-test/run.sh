@@ -5,6 +5,9 @@
 #   AIM=1 tools/headless-test/run.sh ...      instead runs only zz_walker_aim_probe (fire, hits and gun pitch of every armed unit)
 #   SCRIPTP=1 tools/headless-test/run.sh ...  instead runs only zz_script_probe (poses, on/off, build, corpses, transports, pads, stockpile)
 #   PADS=1 tools/headless-test/run.sh ...     instead runs only zz_pad_probe (air repair pads: luarules/gadgets/unit_air_pads.lua)
+#   STARTP=duel|teams|ffa|boxes tools/headless-test/run.sh ...  instead runs only zz_start_probe: the pregame flow of
+#                                             game_spawn.lua (faction choice, placement, spawn) with simulated players, see the probe
+#   MAP=/path/map.sd7 MAPNAME="Map Name" ...  plays on that map instead of the generated blank one (e.g. one with start positions)
 #   KEEPLOG=path saves the cleaned infolog there (for tools/s3okit/kit/compare_probe.py)
 #   WATER=1 tools/headless-test/run.sh ...    instead runs only zz_water_probe (hover and ship transports at a shore, seaplane torpedoes, ship anti-air)
 #   TORP=<depth> tools/headless-test/run.sh ... instead runs only zz_torpedo_probe (every torpedo weapon in water that deep; TORPKIND=ship,sub,moving,shore,land,air picks targets)
@@ -39,6 +42,20 @@ sed -i "s/IsHost=1;/IsHost=1;\n\tHostPort=$((20000 + RANDOM % 30000));/" "$WD/sc
 [ -n "$TORP" ] && sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\ttorpprobe=$TORP;\n\t\ttorpkind=${TORPKIND:-ship,sub,moving,shore};/; s/blank_map_x=24/blank_map_x=32/; s/blank_map_y=24/blank_map_y=32/" "$WD/script.txt"
 [ -n "$GAP" ] && sed -i 's/debugmode=1;/debugmode=1;\n\t\tgaponly=1;/' "$WD/script.txt"
 [ -n "$PADS" ] && sed -i 's/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tpadonly=1;/' "$WD/script.txt" && sed -i 's/\[ALLYTEAM0\]/[TEAM2] { TeamLeader=0; AllyTeam=1; Side=ARM; StartPosX=300; StartPosZ=11800; }\n\t[TEAM3] { TeamLeader=0; AllyTeam=2; Side=ARM; StartPosX=1000; StartPosZ=11800; }\n\t[TEAM4] { TeamLeader=0; AllyTeam=3; Side=ARM; StartPosX=2000; StartPosZ=11800; }\n\t[TEAM5] { TeamLeader=0; AllyTeam=4; Side=ARM; StartPosX=3000; StartPosZ=11800; }\n\t[ALLYTEAM2] { NumAllies=0; }\n\t[ALLYTEAM3] { NumAllies=0; }\n\t[ALLYTEAM4] { NumAllies=0; }\n\t&/' "$WD/script.txt"
+if [ -n "$STARTP" ]; then
+  sed -i '/skippregame=1;/d' "$WD/script.txt"
+  sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tstartprobe=$STARTP;/" "$WD/script.txt"
+  case "$STARTP" in
+    teams) sed -i 's/\[ALLYTEAM0\]/[TEAM2] { TeamLeader=0; AllyTeam=0; Side=CORE; StartPosX=1000; StartPosZ=5000; }\n\t[TEAM3] { TeamLeader=0; AllyTeam=1; Side=ARM; StartPosX=5000; StartPosZ=1000; }\n\t&/' "$WD/script.txt" ;;
+    ffa)   sed -i 's/\[ALLYTEAM0\]/[TEAM2] { TeamLeader=0; AllyTeam=2; Side=ARM; StartPosX=1000; StartPosZ=5000; }\n\t[TEAM3] { TeamLeader=0; AllyTeam=3; Side=CORE; StartPosX=5000; StartPosZ=1000; }\n\t[ALLYTEAM2] { NumAllies=0; }\n\t[ALLYTEAM3] { NumAllies=0; }\n\t&/' "$WD/script.txt" ;;
+    boxes) sed -i 's/StartPosType=0;/StartPosType=2;/; s/\[ALLYTEAM0\] { NumAllies=0; }/[ALLYTEAM0] { NumAllies=0; StartRectLeft=0; StartRectTop=0; StartRectRight=0.3; StartRectBottom=1; }/; s/\[ALLYTEAM1\] { NumAllies=0; }/[ALLYTEAM1] { NumAllies=0; StartRectLeft=0.7; StartRectTop=0; StartRectRight=1; StartRectBottom=1; }/' "$WD/script.txt" ;;
+  esac
+fi
+if [ -n "$MAP" ]; then
+  mkdir -p "$WD/maps"
+  ln -s "$MAP" "$WD/maps/$(basename "$MAP")"
+  sed -i "/InitBlank=1;/d; s/MapName=blank_test;/MapName=${MAPNAME:?set MAPNAME to the name in the map mapinfo.lua};/" "$WD/script.txt"
+fi
 set +e
 timeout "${2:-1800}" "$ENGINE/spring-headless" --isolation --isolation-dir "$ENGINE" --write-dir "$WD" "$WD/script.txt" > "$WD/stdout.log" 2>&1
 echo "engine exit: $?   (infolog: $WD/infolog.txt)"
