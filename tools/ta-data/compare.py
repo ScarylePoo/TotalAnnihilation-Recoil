@@ -65,7 +65,9 @@ def conv(v):
     if lupa.lua_type(v) == 'table':
         keys = list(v.keys())
         if keys and all(isinstance(k, (int, float)) for k in keys):
-            return [conv(v[k]) for k in sorted(keys)]
+            if sorted(keys) == list(range(1, len(keys) + 1)):
+                return [conv(v[k]) for k in sorted(keys)]
+            return {int(k): conv(v[k]) for k in keys}   # sparse (e.g. weapons [1] and [3]): keep the slot numbers
         return {str(k).lower(): conv(v[k]) for k in keys}
     return v
 
@@ -161,11 +163,13 @@ for fname, rid, tid, how, model in mapping:
         continue
     rd = repo_units[fname][1]
     td = ta_units[tid]
-    rws = [x.get('name', x.get('def', '')) if isinstance(x, dict) else x for x in (rd.get('weapons') or [])]
-    rws = [str(x).lower() for x in rws]
+    ws = rd.get('weapons') or []
+    ws = dict(enumerate(ws, 1)) if isinstance(ws, list) else ws
     rd_flat = dict(rd)
-    for i, wn in enumerate(rws[:3]):
-        rd_flat['weapon%d' % (i + 1)] = wn
+    for i, x in ws.items():
+        wn = x.get('name', x.get('def', '')) if isinstance(x, dict) else x
+        if i <= 3:
+            rd_flat['weapon%d' % i] = str(wn).lower()
     for group, keys in UNIT_KEYS:
         for k in keys:
             tv, rv = norm(td.get(k)), norm(rd_flat.get(k))
