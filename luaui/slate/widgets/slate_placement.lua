@@ -42,8 +42,10 @@ end
 --    "isFFA"                   1 = all spots open to all, 0 = sided
 --    "spot_N_x", "spot_N_z"    world position of spot N (1-based)
 --    "spot_N_at"               allyteam owner (-1 = all in FFA)
---  and these team rules params, allied-only (public in FFA): "selectedSpot",
---  "claimedSpot", "confirmedSpot" (spot index). It listens with RecvLuaMsg for
+--  and these team rules params, allied-only: "selectedSpot", "claimedSpot",
+--  "confirmedSpot" (spot index), and private to the team "refusedSpot" and
+--  "refusedCount" (a selection refused because an opponent holds the spot;
+--  the count goes up by one each time). It listens with RecvLuaMsg for
 --    SELECT_BYTE .. spotIndex   tentative selection
 --    CONFIRM_BYTE               confirm the selection
 --  Without the "phase" param the widget only does the GameSetup part and
@@ -134,6 +136,12 @@ local myConfirmed  = nil  -- server-acknowledged confirmed spot index
 local shareMode    = false -- true when no free same-side spots remain (overflow)
 local confirmed    = false -- the player has confirmed a spot
 
+local refused        = {}  -- i -> true: tried, and an opponent holds it
+local refusedSeen    = 0   -- the gadget's refusedCount last seen
+local noticeUntil    = 0   -- os.clock() until which the notice shows
+local noticeText     = nil
+local NOTICE_SECONDS = 3
+
 local secondsLeft    = PLACEMENT_SECONDS
 local lastBeepSecond = nil
 
@@ -164,14 +172,14 @@ local function LoadSpots()
 end
 
 local function UpdateClaimCache()
-	-- Only read claims for teams on our own side.  Claim params are allied-only
-	-- in a sided game, so enemy claims are invisible here, which is the desired
-	-- behaviour; all sharers of a same-side spot are allied, so the counts
-	-- built here are the true occupancy of every spot we care about.  In FFA
-	-- every spot is open to everyone and the gadget makes claims public.
+	-- Only read claims for teams on our own side.  Claim params are allied-only,
+	-- so opponents' claims are invisible here, in FFA too, which is the desired
+	-- behaviour; all sharers of a spot are allied, so the counts built here are
+	-- the true occupancy of every spot we can know about.  A spot an opponent
+	-- holds is learnt only by trying it (see UpdateRefused).
 	claimCount = {}
 	claimMine  = {}
-	local allyTeams = (isFFA and Spring.GetTeamList() or Spring.GetTeamList(myAllyTeamID)) or {}
+	local allyTeams = Spring.GetTeamList(myAllyTeamID) or {}
 	for _, tID in ipairs(allyTeams) do
 		local claimed = ValidSpot(spGetTeamRulesParam(tID, "claimedSpot"))
 		if claimed then
@@ -186,7 +194,7 @@ local function UpdateClaimCache()
 	else
 		local free = 0
 		for i, spot in pairs(spots) do
-			if (isFFA or spot.allyteam == myAllyTeamID) and not claimCount[i] then
+			if (isFFA or spot.allyteam == myAllyTeamID) and not claimCount[i] and not refused[i] then
 				free = free + 1
 			end
 		end
@@ -202,13 +210,28 @@ local function UpdateServerState()
 	end
 end
 
+-- The gadget refused a selection: an opponent holds that spot. Say so, and
+-- show the spot as taken from now on.
+local function UpdateRefused()
+	local count = spGetTeamRulesParam(myTeamID, "refusedCount") or 0
+	if count > refusedSeen then
+		refusedSeen = count
+		local i = ValidSpot(spGetTeamRulesParam(myTeamID, "refusedSpot"))
+		if i then
+			refused[i] = true
+			noticeText = "Spot " .. i .. " is taken. Pick another."
+			noticeUntil = os.clock() + NOTICE_SECONDS
+		end
+	end
+end
+
 local function SpotOnMySide(i)
 	local spot = spots[i]
 	return spot ~= nil and (isFFA or spot.allyteam == myAllyTeamID)
 end
 
 local function SpotSelectable(i)
-	if not SpotOnMySide(i) then return false end
+	if not SpotOnMySide(i) or refused[i] then return false end
 	-- Selectable when: unclaimed, already mine, or (share mode) any same-side
 	-- spot even if a teammate holds it.
 	local occupied = (claimCount[i] or 0) > 0
@@ -296,6 +319,9 @@ local function SpotState(i)
 		return "done", false
 	elseif claimMine[i] then
 		return "mine", false
+	elseif refused[i] then
+		-- an opponent holds it (we know only because we tried it)
+		return "foe", false
 	elseif count > 0 then
 		-- Taken by a teammate. In share mode it is still a valid target
 		-- (overflow players may stack onto it), so it lights up.
@@ -357,6 +383,8 @@ local function RefreshPanel()
 		title = "Players are choosing start positions"
 	elseif confirmed then
 		title = "Waiting for the others..."
+	elseif noticeText and os.clock() < noticeUntil then
+		title = noticeText
 	elseif mySelected then
 		title = "Spot " .. mySelected .. " selected. Confirm when ready."
 	elseif shareMode then
@@ -590,6 +618,7 @@ function widget:Update()
 	-- the server acknowledges our selection; allies' claims change too
 	UpdateServerState()
 	UpdateClaimCache()
+	UpdateRefused()
 
 	-- The spot under the mouse: a marker over the ground (RmlUi says which),
 	-- or else one on the minimap. Either lights up both.

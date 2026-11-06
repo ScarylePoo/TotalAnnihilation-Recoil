@@ -32,8 +32,15 @@
 --                          in gamedata/sidedata.lua
 --    "\139" .. spotIndex   tentative spot selection
 --    "\140"                confirm the selected spot
---  Team rules params "selectedSpot", "claimedSpot", "confirmedSpot" tell
---  teammates (everyone, in FFA) and the placement widget what is taken.
+--  Team rules params "selectedSpot", "claimedSpot", "confirmedSpot" (allied
+--  only: teammates and spectators) tell the placement widget what is taken.
+--  A selection of a spot an opponent holds (FFA) is refused; only that team is
+--  told, through the private params "refusedSpot" (the spot) and
+--  "refusedCount" (goes up by one per refusal).
+--
+--  Start positions chosen in the lobby (startpostype 3): the placement phase
+--  is skipped and each team starts at its lobby position, unless the game has
+--  start boxes (an ally team with players whose box is not the whole map).
 --
 --  Changes from Splinter Faction: the factions are read from sidedata (no
 --  commander upgrade, no Survival AI); AI teams keep their lobby side; start
@@ -87,11 +94,11 @@ for _, sd in ipairs(Spring.GetSideData() or {}) do
 end
 
 local PRIVATE = { private = true }
--- Spot selection / confirmation is visible to teammates and spectators only;
--- in FFA, where every spot is open to everyone, to all (else a player could
--- not tell which spots an opponent already holds).
+-- Spot selection / confirmation is visible to teammates and spectators only,
+-- in FFA too: an opponent's spot is never shown. A player who tries a spot an
+-- opponent holds is refused and told so (the private "refusedSpot" below), so
+-- only spots a player actually tried are given away.
 local ALLIED  = { allied = true }
-local PUBLIC  = { public = true }
 local CLAIM_ACCESS = ALLIED
 
 --------------------------------------------------------------------------------
@@ -140,6 +147,7 @@ local confirmedSpots = {}   -- teamID → spotIdx (this team's one confirmed sel
 
 local mapSpots     = {}    -- spotIdx (1-based) → {x, z, allyteam}  (from GG.StartSpots)
 local usePlacement = false -- true when mapSpots has valid data
+local refusedCount = {}    -- teamID → selections refused because an opponent held the spot
 local isFFA        = false
 
 -- For the headless test harness's probe (tools/headless-test, STARTP=1): it
@@ -178,6 +186,16 @@ end
 
 local function AllyTeamOf(teamID)
 	return select(6, Spring.GetTeamInfo(teamID, false))
+end
+
+-- True when a team other than an ally of allyID claims the spot.
+local function ClaimedByOpponent(spotIdx, allyID)
+	local c = claimedSpots[spotIdx]
+	if not c then return false end
+	for t in pairs(c) do
+		if AllyTeamOf(t) ~= allyID then return true end
+	end
+	return false
 end
 
 -- Count same-side spots that this team could take without sharing: either
@@ -288,10 +306,11 @@ local function AutoSelectSpot(teamID)
 	-- ── Sharing fallback ──────────────────────────────────────────────────────
 	-- No unclaimed same-side spot remains (more players than spots on this side).
 	-- Share the least-crowded same-side spot so this team still lands on its own
-	-- side rather than at an arbitrary engine position.
+	-- side rather than at an arbitrary engine position. Never one an opponent
+	-- holds (FFA): with none left, the team starts at FallbackPos.
 	local fewest = math.huge
 	for i, spot in ipairs(mapSpots) do
-		local available = isFFA or (spot.allyteam == allyID)
+		local available = (isFFA or (spot.allyteam == allyID)) and not ClaimedByOpponent(i, allyID)
 		if available then
 			local n = ClaimCount(i)
 			if n < fewest then
@@ -484,6 +503,23 @@ end
 -- Game start
 --------------------------------------------------------------------------------
 
+-- The game has start boxes when an ally team with players has a box that is
+-- not the whole map (the engine reports the whole map for "no box").
+local function HasStartBoxes()
+	local gaiaTeamID = Spring.GetGaiaTeamID()
+	for _, atID in ipairs(Spring.GetAllyTeamList()) do
+		local players = false
+		for _, t in ipairs(Spring.GetTeamList(atID) or {}) do
+			if t ~= gaiaTeamID then players = true end
+		end
+		local x1, z1, x2, z2 = Spring.GetAllyTeamStartBox(atID)
+		if players and x1 and not (x1 <= 1 and z1 <= 1 and x2 >= Game.mapSizeX - 1 and z2 >= Game.mapSizeZ - 1) then
+			return true
+		end
+	end
+	return false
+end
+
 function gadget:GameStart()
 	-- only activate if engine didn't already spawn units (compatibility)
 	if #Spring.GetAllUnits() > 0 then
@@ -522,13 +558,15 @@ function gadget:GameStart()
 	-- Fetch the (already validated and partitioned) start spots before
 	-- broadcasting the phase, so the game rules params are ready when widgets
 	-- first read them.
-	if GG.StartSpots then
+	if Game.startPosType == 3 and not HasStartBoxes() then
+		-- the players chose their start positions in the lobby
+		Spring.Echo("[Game Spawn] Start positions chosen in the lobby — no placement phase")
+	elseif GG.StartSpots then
 		local spots, ffa = GG.StartSpots.Get()
 		if spots and #spots > 0 then
 			mapSpots     = spots
 			isFFA        = ffa
 			usePlacement = true
-			CLAIM_ACCESS = isFFA and PUBLIC or ALLIED
 		end
 	else
 		Spring.Echo("[Game Spawn] GG.StartSpots missing (game_start_spots.lua not loaded?) — skipping placement phase")
@@ -581,9 +619,17 @@ local function Receive(msg, teamID)
 		-- Claim rules:
 		--   • A free spot can always be claimed.
 		--   • A spot already claimed by this team is a no-op re-select.
-		--   • A spot claimed by *another* team is rejected (first claim wins)
-		--     unless this team has no free same-side spot left, in which case
-		--     sharing is permitted so overflow players aren't stranded.
+		--   • A spot an opponent holds (FFA) is refused, and only this team is
+		--     told: its own claims are all it can otherwise see.
+		--   • A spot claimed by an ally is refused (first claim wins) unless
+		--     this team has no free same-side spot left, in which case sharing
+		--     is permitted so overflow players aren't stranded.
+		if ClaimedByOpponent(spotIdx, allyID) then
+			refusedCount[teamID] = (refusedCount[teamID] or 0) + 1
+			Spring.SetTeamRulesParam(teamID, "refusedSpot", spotIdx, PRIVATE)
+			Spring.SetTeamRulesParam(teamID, "refusedCount", refusedCount[teamID], PRIVATE)
+			return
+		end
 		if not ClaimHas(spotIdx, teamID) and ClaimCount(spotIdx) > 0 then
 			if FreeSameSideSpots(allyID, teamID) > 0 then return end
 		end
