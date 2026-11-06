@@ -58,7 +58,7 @@ function script.AimWeapon(num, heading, pitch)
 		WaitForTurn(ruparm, x_axis)
 		WaitForTurn(biggun, x_axis)
 	else
-		Turn(luparm, x_axis, -pitch - rad(30), rad(89.98))
+		Turn(luparm, x_axis, -pitch - rad(30), math.rad(45))  -- TA 3.1c aim speed (was rad(89.98))
 		Turn(nanolath, x_axis, rad(-60), ELBOW_AIM)
 		WaitForTurn(luparm, x_axis)
 		WaitForTurn(nanolath, x_axis)

@@ -135,8 +135,8 @@ function script.AimWeapon(num, heading, pitch)
 	while s0 == 0 do
 		Sleep(250)
 	end
-	Turn(turret, y_axis, heading, rad(24.99))
-	Turn(gun, x_axis, -pitch, rad(20))
+	Turn(turret, y_axis, heading, math.rad(50))  -- TA 3.1c aim speed (was rad(24.99))
+	Turn(gun, x_axis, -pitch, math.rad(50))  -- TA 3.1c aim speed (was rad(20))
 	WaitForTurn(turret, y_axis)
 	WaitForTurn(gun, x_axis)
 	StartThread(RestoreAfterDelay)

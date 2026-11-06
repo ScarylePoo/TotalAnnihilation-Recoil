@@ -127,7 +127,7 @@ end
 function script.AimWeapon(num, heading, pitch)
 	Signal(SIG_AIM)
 	SetSignalMask(SIG_AIM)
-	Turn(turret, y_axis, heading, rad(89.99))
+	Turn(turret, y_axis, heading, math.rad(50))  -- TA 3.1c aim speed (was rad(89.99))
 	Turn(sleeve1, x_axis, -pitch, rad(49.99))
 	Turn(sleeve2, x_axis, -pitch, rad(49.99))
 	WaitForTurn(turret, y_axis)

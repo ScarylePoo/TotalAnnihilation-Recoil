@@ -246,8 +246,8 @@ function script.AimWeapon1(heading, pitch)
 	while s2 == 0 do
 		Sleep(250)
 	end
-	Turn(turreta, y_axis, heading, rad(49.99))
-	Turn(sleevea, x_axis, -pitch, rad(49.99))
+	Turn(turreta, y_axis, heading, math.rad(10))  -- TA 3.1c aim speed (was rad(49.99))
+	Turn(sleevea, x_axis, -pitch, math.rad(10))  -- TA 3.1c aim speed (was rad(49.99))
 	WaitForTurn(turreta, y_axis)
 	WaitForTurn(sleevea, x_axis)
 	return true
@@ -271,8 +271,8 @@ function script.AimWeapon2(heading, pitch)
 	while s2 == 0 do
 		Sleep(250)
 	end
-	Turn(turretb, y_axis, heading, rad(199.95))
-	Turn(sleeveb, x_axis, -pitch, rad(199.95))
+	Turn(turretb, y_axis, heading, math.rad(300))  -- TA 3.1c aim speed (was rad(199.95))
+	Turn(sleeveb, x_axis, -pitch, math.rad(300))  -- TA 3.1c aim speed (was rad(199.95))
 	WaitForTurn(turretb, y_axis)
 	WaitForTurn(sleeveb, x_axis)
 	return true
@@ -303,8 +303,8 @@ function script.AimWeapon3(heading, pitch)
 	while s2 == 0 do
 		Sleep(250)
 	end
-	Turn(turretc, y_axis, heading, rad(299.93))
-	Turn(sleevec, x_axis, -pitch, rad(299.93))
+	Turn(turretc, y_axis, heading, math.rad(200))  -- TA 3.1c aim speed (was rad(299.93))
+	Turn(sleevec, x_axis, -pitch, math.rad(200))  -- TA 3.1c aim speed (was rad(299.93))
 	WaitForTurn(turretc, y_axis)
 	WaitForTurn(sleevec, x_axis)
 	return true

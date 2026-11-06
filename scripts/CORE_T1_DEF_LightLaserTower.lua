@@ -12,8 +12,8 @@ end
 function script.AimWeapon1(heading, pitch)
 	Signal(SIG_AIM)
 	SetSignalMask(SIG_AIM)
-	Turn(gun, x_axis, -pitch, 5)
-	Turn(stand, y_axis, heading, 5)
+	Turn(gun, x_axis, -pitch, math.rad(200))  -- TA 3.1c aim speed (was 5)
+	Turn(stand, y_axis, heading, math.rad(300))  -- TA 3.1c aim speed (was 5)
 	WaitForTurn(gun, x_axis)
 	WaitForTurn(stand, y_axis)
 	return true

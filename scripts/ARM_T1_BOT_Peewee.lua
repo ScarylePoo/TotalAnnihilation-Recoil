@@ -61,6 +61,12 @@ function script.AimFromWeapon(num)
 end
 
 function script.QueryWeapon(num)
+	-- Idle, the forearms hang down and put rfire/lfire below the ground; a Cannon (the E.M.G. is one since the TA values
+	-- pass) refuses to fire from an underground muzzle, so it would never start aiming. The elbow stands in until the
+	-- arms are up.
+	if not aiming then
+		return (gun == 0) and rloarm or lloarm
+	end
 	return (gun == 0) and rfire or lfire
 end
 

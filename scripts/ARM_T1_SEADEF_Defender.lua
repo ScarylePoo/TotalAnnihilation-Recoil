@@ -13,16 +13,16 @@ end
 function script.AimWeapon1(heading, pitch)
 	Signal(SIG_AIM)
 	SetSignalMask(SIG_AIM)
-	Turn(turret, y_axis, heading, 5)
-	Turn(gun, x_axis, -pitch, 5)
+	Turn(turret, y_axis, heading, math.rad(250))  -- TA 3.1c aim speed (was 5)
+	Turn(gun, x_axis, -pitch, math.rad(250))  -- TA 3.1c aim speed (was 5)
   if monkey == 1 then
-    Turn(barrel, z_axis, 0, 4)
+    Turn(barrel, z_axis, 0, math.rad(400))  -- TA 3.1c aim speed (was 4)
   end
   if monkey == 2 then
-    Turn(barrel, z_axis, 2.0943951, 4)
+    Turn(barrel, z_axis, 2.0943951, math.rad(400))  -- TA 3.1c aim speed (was 4)
   end
   if monkey == 3 then
-    Turn(barrel, z_axis, 4.1887902, 4)
+    Turn(barrel, z_axis, 4.1887902, math.rad(400))  -- TA 3.1c aim speed (was 4)
   end
 	WaitForTurn(barrel, z_axis)
 	WaitForTurn(turret, y_axis)

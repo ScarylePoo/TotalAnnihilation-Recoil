@@ -32,7 +32,7 @@ end
 function script.AimWeapon(num, heading, pitch)
 	Signal(SIG_AIM)
 	SetSignalMask(SIG_AIM)
-	Turn(torso, y_axis, heading, rad(225))
+	Turn(torso, y_axis, heading, math.rad(90))  -- TA 3.1c aim speed (was rad(225))
 	Turn(lshoulder, x_axis, -pitch, rad(75))
 	Turn(rshoulder, x_axis, -pitch, rad(75))
 	WaitForTurn(torso, y_axis)
