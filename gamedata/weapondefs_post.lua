@@ -64,11 +64,48 @@ local inertialessWeapons = {
 
 local modOptions = Spring.GetModOptions()
 
--- Adjustment of terrain damage, area of effect, kinetic force of weapons and cannon trajectory height
-local customGravity = 0.25
-local maxRangeAngle = 30  --in degrees >0 and <=45
-if modOptions and modOptions.gravity then customGravity=modOptions.gravity end
-local velGravFactor = customGravity * 900 / math.sin(math.rad(2 * maxRangeAngle))
+-- Cannon ballistics as in TA 3.1c: the weapon's own weaponvelocity under TA's standard gravity. 85 of the 95 TA maps
+-- set gravity=112 in their .ota (elmos/s^2, i.e. 112/900 per frame^2), and TA's cannons were designed for it: their
+-- v^2/g is ~1.16x their range (median), so they reach it on a ~30-45 degree arc. Fixed per weapon (mygravity) so arcs
+-- do not change with the map. (BOTA instead used gravity 0.25 and recomputed every velocity from the range.)
+local TA_GRAVITY = 112 / 900
+
+-- Plasma ball size by damage per shot (largest of default/planes): ~2.5 for the 8-damage EMG, 16 for the
+-- 2400-damage Intimidator, square-root curve so the mid-weight tank guns stay modest (130 damage -> ~5.5).
+local SIZE_MIN, SIZE_MAX, DMG_MIN, DMG_MAX = 2.5, 16, 8, 2400
+-- Laser bolts (every laser is a LaserCannon: TA had no continuous beams). One look for all of them, scaled by damage:
+-- thin bright bolts for light lasers, heavier ones up to the Annihilator; a white-hot core in a tint of the laser's
+-- colour; colours clamped to 0..1 (BOTA had components of 4).
+local function Clamp01(x) return math.min(math.max(x, 0), 1) end
+local function ParseColor(c)
+	if type(c) == "table" then return { tonumber(c[1]) or 1, tonumber(c[2]) or 1, tonumber(c[3]) or 1 } end
+	local r, g, b = tostring(c or ""):match("([%d%.]+)%s+([%d%.]+)%s+([%d%.]+)")
+	if not r then return nil end
+	return { tonumber(r), tonumber(g), tonumber(b) }
+end
+local function LaserLook(wd)
+	local d = 0
+	for _, v in pairs(wd.damage or {}) do d = math.max(d, tonumber(v) or 0) end
+	local f = math.sqrt(math.min(math.max((d - 8) / (2500 - 8), 0), 1))
+	wd.thickness = 1.5 + 2.5 * f
+	wd.corethickness = 0.4
+	wd.laserflaresize = 5 + 5 * f
+	local c1 = ParseColor(wd.rgbcolor) or { 1, 0, 0 }
+	for i = 1, 3 do c1[i] = Clamp01(c1[i]) end
+	-- the core: the outer colour pushed most of the way to white, so a red laser has a pink-white core
+	local c2 = {}
+	for i = 1, 3 do c2[i] = Clamp01(c1[i] + (1 - c1[i]) * 0.7) end
+	wd.rgbcolor = ("%.3f %.3f %.3f"):format(c1[1], c1[2], c1[3])
+	wd.rgbcolor2 = ("%.3f %.3f %.3f"):format(c2[1], c2[2], c2[3])
+	wd.hardstop = true
+end
+
+local function CannonSize(wd)
+	local d = 0
+	for _, v in pairs(wd.damage or {}) do d = math.max(d, tonumber(v) or 0) end
+	local f = math.min(math.max((d - DMG_MIN) / (DMG_MAX - DMG_MIN), 0), 1)
+	return SIZE_MIN + (SIZE_MAX - SIZE_MIN) * math.sqrt(f)
+end
 local interceptorStyle = 2
 if modOptions and modOptions.nuke and not tobool(modOptions.nuke) then interceptorStyle = 1 end
 
@@ -81,15 +118,13 @@ for id, weaponDef in pairs(WeaponDefs) do
 			weaponDef.avoidfeature = false	-- don't avoid features if short range, explosive or rapid fire weapon
 	end
 	if explosiveWeapons[weaponDef.weapontype] then
-		if weaponDef.edgeeffectiveness and tonumber(weaponDef.edgeeffectiveness)>0 and tonumber(weaponDef.areaofeffect)<145 then
-			weaponDef.areaofeffect = math.min(weaponDef.areaofeffect / (1 - weaponDef.edgeeffectiveness), 160)
-			weaponDef.edgeeffectiveness = 0
+		-- (BOTA widened the area of effect of every explosive weapon with an edgeeffectiveness here; TA's AoE is used as is.)
+		if weaponDef.weapontype == "Cannon" then
+			weaponDef.size = CannonSize(weaponDef)
 		end
 		if weaponDef.weapontype == "Cannon" and weaponDef.range and not weaponDef.mygravity and not weaponDef.cylindertargeting and id:find("armsfig_weapon") == nil then -- exclude arm tornado weapon, because it fires cannon weapon type from the air down on land
-			weaponDef.mygravity = customGravity
-			weaponDef.weaponvelocity = math.sqrt(weaponDef.range * velGravFactor)
+			weaponDef.mygravity = TA_GRAVITY
 			weaponDef.gravityaffected = true
-			weaponDef.heightboostfactor = 0.04
 		elseif weaponDef.interceptor then
 			weaponDef.interceptor = interceptorStyle
 		end
@@ -117,6 +152,9 @@ for id, weaponDef in pairs(WeaponDefs) do
 			end
 		end
 	elseif inertialessWeapons[weaponDef.weapontype] then
+		if weaponDef.weapontype == "LaserCannon" then
+			LaserLook(weaponDef)
+		end
 		weaponDef.impulseboost = 0
 		weaponDef.impulsefactor = 0
 		weaponDef.soundhitwet = "sizzle"		
