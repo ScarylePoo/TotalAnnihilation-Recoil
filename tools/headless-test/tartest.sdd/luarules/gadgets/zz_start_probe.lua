@@ -16,8 +16,14 @@ end
 --   teams  2v2 (0,2 vs 1,3), team 3 AI. Team 2 never picks a faction (timeout:
 --          random), tries team 0's spot (refused), selects another and never
 --          confirms (timeout: keeps it). Team 1 tries an enemy spot (refused).
---   ffa    4 players, one per allyteam, team 3 AI. Every spot open to all;
---          team 2 tries team 1's spot (refused). Both phases end early.
+--   ffa    4 players, one per allyteam, team 3 AI. Every spot open to all.
+--          Team 0 (the real player) tries the AI's spot: refused, told through
+--          its private refusedSpot/refusedCount, and no rules param it can read
+--          shows an opponent's claim. Team 2 tries team 1's spot (refused).
+--          Both phases end early.
+--   lobby  1v1, start positions chosen in the lobby (StartPosType=3), no
+--          boxes: no placement phase, commanders at the script positions.
+--   lobbybox  the same with start boxes: placement still runs.
 --   boxes  1v1 with start boxes (StartPosType=2): the engine's ready step is
 --          taken by slate_placement's GameSetup; team 0 picks a faction but
 --          no spot (timeout: auto-placed); spots and spawns must be in boxes.
@@ -31,7 +37,8 @@ local function log(...) Spring.Echo("[HARNESS] START", ...) end
 
 if gadgetHandler:IsSyncedCode() then
 
-local HUMANS = { duel = {}, teams = {1, 2}, ffa = {1, 2}, boxes = {} }
+local HUMANS = { duel = {}, teams = {1, 2}, ffa = {1, 2}, boxes = {}, lobby = {}, lobbybox = {} }
+local LOBBY_POS = { [0] = {1000, 1000}, [1] = {6000, 6000} }   -- StartPosX/Z in script.txt
 local phaseFrames = {}
 local lastPhase
 local doneFrame
@@ -99,6 +106,10 @@ local function placementActions(f)
       placed[1] = a
       send(2, "\139" .. a)
       check(claimed(2) ~= a, "team 2 refused team 1's spot", claimed(2))
+      check(Spring.GetTeamRulesParam(2, "refusedCount") == 1 and Spring.GetTeamRulesParam(2, "refusedSpot") == a,
+            "team 2 told its try was refused", Spring.GetTeamRulesParam(2, "refusedSpot"))
+      check(Spring.GetTeamRulesParam(1, "refusedCount") == nil, "team 1 told nothing")
+      placed[0] = claimed(0)
       local b = free(ally(2))
       send(2, "\139" .. b); send(2, "\140")
       placed[2] = b
@@ -118,6 +129,12 @@ local function verify()
         x, _, z = Spring.GetUnitPosition(units[1])
       end
       local spot = Spring.GetTeamRulesParam(t, "confirmedSpot")
+      if SCEN == "lobby" then
+        -- no spots: the lobby position stands in for the spot
+        spot = 0
+        Spring.SetGameRulesParam("spot_0_x", LOBBY_POS[t][1]); Spring.SetGameRulesParam("spot_0_z", LOBBY_POS[t][2])
+        Spring.SetGameRulesParam("spot_0_at", ally(t))
+      end
       local sx, sz, sat = spotOf(spot or 0)
       local dist = (x and sx) and math.sqrt((x - sx) ^ 2 + (z - sz) ^ 2) or -1
       local _, ms = Spring.GetTeamResources(t, "metal")
@@ -129,7 +146,7 @@ local function verify()
       check(ms == 1000, "team " .. t .. " start storage 1000", ms)
       if placed[t] then check(spot == placed[t], "team " .. t .. " is at the spot the probe chose", placed[t], spot) end
       coms[#coms + 1] = { t = t, x = x, z = z, name = name }
-      if SCEN == "boxes" and x then
+      if (SCEN == "boxes" or SCEN == "lobbybox") and x then
         local x1, z1, x2, z2 = Spring.GetAllyTeamStartBox(ally(t))
         check(x >= x1 and x <= x2 and z >= z1 and z <= z2, "team " .. t .. " inside its start box", x1, z1, x2, z2)
       end
@@ -148,7 +165,7 @@ local function verify()
     local sx, sz, sat = spotOf(i)
     local synth = Spring.GetGameRulesParam("spot_" .. i .. "_synth")
     log("spot", i, string.format("(%.0f, %.0f)", sx, sz), "owner", sat, synth == 1 and "synthetic" or "map")
-    if SCEN == "boxes" then
+    if SCEN == "boxes" or SCEN == "lobbybox" then
       local x1, z1, x2, z2 = Spring.GetAllyTeamStartBox(sat)
       check(sx >= x1 and sx <= x2 and sz >= z1 and sz <= z2, "spot " .. i .. " inside its owner's box")
     end
@@ -169,6 +186,12 @@ local function verify()
   elseif SCEN == "ffa" then
     check(name(0) == "core_commander" and name(1) == "arm_commander" and name(2) == "core_commander", "chosen factions", name(0), name(1), name(2))
     check(phaseFrames.done and phaseFrames.done < 400, "both phases ended early", phaseFrames.done)
+  elseif SCEN == "lobby" then
+    check(name(0) == "arm_commander", "team 0 got Arm", name(0))
+    check(phaseFrames.placement == nil, "no placement phase", phaseFrames.placement)
+    check((Spring.GetGameRulesParam("spotCount") or 0) == 0, "no spots published", Spring.GetGameRulesParam("spotCount"))
+  elseif SCEN == "lobbybox" then
+    check(phaseFrames.placement ~= nil, "placement phase runs with start boxes", phaseFrames.placement)
   elseif SCEN == "boxes" then
     check(name(0) == "arm_commander", "team 0 got Arm", name(0))
     check(phaseFrames.done and phaseFrames.done - phaseFrames.placement >= 900, "placement waited for team 0 to time out", phaseFrames.done)
@@ -189,7 +212,13 @@ function gadget:GameFrame(n)
     send(2, "\138" .. UnitDefNames.core_commander.id)
     send(2, "\138" .. 99999)   -- not a commander: ignored
   end
-  if p == "placement" then placementActions(n - phaseFrames.placement) end
+  if p == "placement" then
+    placementActions(n - phaseFrames.placement)
+    if SCEN == "ffa" and n == phaseFrames.placement + 1 then
+      -- tell the unsynced half (team 0) which spot the AI holds; it cannot see it
+      Spring.SetGameRulesParam("probe_aispot", claimed(3) or -1)
+    end
+  end
   if p == "done" and not doneFrame then doneFrame = n end
   if doneFrame and n == doneFrame + 5 then verify() end
   if not doneFrame and n == 2400 then log("FAIL", "never reached phase done"); log("RESULT", "FAIL") ; doneFrame = n - 10 end
@@ -197,7 +226,8 @@ end
 
 else -- unsynced: team 0, the real player, as the widgets would
 
-local FACTION = { duel = "core_commander", teams = "arm_commander", ffa = "core_commander", boxes = "arm_commander" }
+local FACTION = { duel = "core_commander", teams = "arm_commander", ffa = "core_commander", boxes = "arm_commander", lobby = "arm_commander", lobbybox = "arm_commander" }
+local function ulog(ok, what, ...) Spring.Echo("[HARNESS] START", ok and "PASS" or "FAIL", what, ...) end
 local placementStart
 
 function gadget:GameFrame(n)
@@ -206,7 +236,25 @@ function gadget:GameFrame(n)
   end
   local p = Spring.GetGameRulesParam("phase")
   if p == "placement" and not placementStart then placementStart = n end
-  if placementStart and SCEN ~= "boxes" then
+  if placementStart and SCEN == "ffa" then
+    -- team 0 tries the AI's spot first
+    local f = n - placementStart
+    local me = Spring.GetMyTeamID()
+    local a = Spring.GetGameRulesParam("probe_aispot")
+    if f == 5 then
+      -- (whether team 0 can see the AI's claim is checked from LuaUI, in
+      -- zz_harness_probe.lua: LuaRules unsynced reads everything)
+      ulog(a and a > 0, "the AI holds a spot", a)
+      Spring.SendLuaRulesMsg("\139" .. a)
+    elseif f == 9 then
+      ulog(Spring.GetTeamRulesParam(me, "refusedCount") == 1 and Spring.GetTeamRulesParam(me, "refusedSpot") == a,
+           "team 0 told the AI's spot is taken", Spring.GetTeamRulesParam(me, "refusedSpot"))
+      ulog(Spring.GetTeamRulesParam(me, "claimedSpot") ~= a, "team 0 did not get the AI's spot", Spring.GetTeamRulesParam(me, "claimedSpot"))
+      Spring.SendLuaRulesMsg("\139" .. (a == 1 and 2 or 1))
+    elseif f == 13 then
+      Spring.SendLuaRulesMsg("\140")
+    end
+  elseif placementStart and SCEN ~= "boxes" and SCEN ~= "lobbybox" then
     local f = n - placementStart
     local myAlly = Spring.GetMyAllyTeamID()
     if f == 5 then
