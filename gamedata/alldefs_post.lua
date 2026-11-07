@@ -52,6 +52,10 @@ function UnitDef_Post(name, ud)
 		ud.customparams = ud.customparams or {}
 		ud.customparams.iscommander = 1
 	end
+	-- Flying debris (pieces thrown by Explode() in the death scripts) trails Splinter Faction's fire and smoke
+	-- (gamedata/explosions/deathceg.lua).
+	ud.sfxtypes = ud.sfxtypes or {}
+	ud.sfxtypes.pieceexplosiongenerators = { "deathceg3", "deathceg4" }
 	-- Air repair pads: the engine ignores isairbase, luarules/gadgets/unit_air_pads.lua reads this.
 	if ud.isairbase then
 		ud.customparams = ud.customparams or {}
