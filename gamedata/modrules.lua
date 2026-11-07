@@ -41,7 +41,7 @@ local modrules  = {
 	construction = {
 		constructionDecay      = true, -- defaults to true
 		constructionDecayTime  = 10,  -- defaults to 6.66
-		constructionDecaySpeed = 1,  -- defaults to 0.03
+		constructionDecaySpeed = 0.3,  -- defaults to 0.03
 	},
 
 	damage = {
