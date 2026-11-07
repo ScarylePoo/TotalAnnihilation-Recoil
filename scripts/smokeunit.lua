@@ -1,17 +1,15 @@
--- Author: Tobi Vollebregt
---[[
-How to use this in your animation script:
-1.  Add to the start of your script: 					include "smokeunit.lua"
-2.  After you define your pieces tell which you want to smoke e.g.: 	local smokePieces = { piece "base" }
-3.  In your 'function script:Create()' add: 				StartThread(SmokeUnit, smokePieces)
-]]
+-- Damage smoke, as Splinter Faction's common SmokeUnit: below 90 % health the unit trails black smoke and small
+-- burning puffs from random pieces (CEGs blacksmokesmall and burnblacksmall, gamedata/explosions), more often the
+-- lower its health.
+-- Use: include "smokeunit.lua", then StartThread(SmokeUnit, { piece "base", ... }) in script.Create().
 
--- effects
-local SMOKEPUFF = 258
-
--- localize
 local random = math.random
+local SpawnCEG = Spring.SpawnCEG
+local GetUnitPiecePosDir = Spring.GetUnitPiecePosDir
 
+local function Emit(p, ceg)
+	SpawnCEG(ceg, GetUnitPiecePosDir(unitID, p))
+end
 
 function SmokeUnit(smokePieces)
 	local n = #smokePieces
@@ -20,9 +18,10 @@ function SmokeUnit(smokePieces)
 	end
 	while true do
 		local health = GetUnitValue(COB.HEALTH)
-		if (health <= 66) then -- only smoke if less then 2/3rd health left
-			EmitSfx(smokePieces[random(1,n)], SMOKEPUFF)
+		if (health <= 90) then
+			Emit(smokePieces[random(1, n)], "blacksmokesmall")
+			Emit(smokePieces[random(1, n)], "burnblacksmall")
 		end
-		Sleep(9*health + random(100,200))
+		Sleep(20 * health + 200)
 	end
 end

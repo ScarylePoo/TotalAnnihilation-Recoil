@@ -1,3 +1,4 @@
+include "smokeunit.lua"
 -- Decoy Commander (CORE_T2_BOT_DecoyCommander): Lua unit script for the remodelled walker (standard biped skeleton).
 -- Ported from TA's CORE_T2_BOT_DecoyCommander.COB (same layout as the Core Commander's): the laser (weapon 4) turns
 -- the chest at 300 deg/s unless the D-gun holds it and raises the left arm (l_sho x -pitch at 180 deg/s; the COB's extra -30 deg aimed this forward-pointing gauntlet 30 deg high),
@@ -66,6 +67,7 @@ local function AmphSpeed()
 end
 
 function script.Create()
+	StartThread(SmokeUnit, { pelvis })  -- damage smoke
 	Hide(ground)
 	StartThread(AmphSpeed)
 end

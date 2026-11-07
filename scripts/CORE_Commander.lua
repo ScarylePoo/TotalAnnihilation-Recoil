@@ -1,3 +1,4 @@
+include "smokeunit.lua"
 -- Core Commander (CORE_Commander, unit key core_commander): Lua unit script for the remodelled walker (standard biped skeleton).
 -- Ported from TA's scripts/core_commander.cob. The unit def names this file with script = "CORE_Commander.lua"; the stock
 -- unit_script gadget lowercases that name and the VFS is case-insensitive.
@@ -58,6 +59,7 @@ local function BigFire()
 end
 
 function script.Create()
+	StartThread(SmokeUnit, { pelvis })  -- damage smoke
 	local wd = UnitDefs[unitDefID].weapons[1]
 	if wd and WeaponDefs[wd.weaponDef] then
 		restoreDelay = math.max(1000, WeaponDefs[wd.weaponDef].reload * 2000)

@@ -1,3 +1,4 @@
+include "smokeunit.lua"
 -- Arm Commander (ARM_Commander, unit key arm_commander): Lua unit script for the remodelled walker (standard biped skeleton).
 -- Ported from TA's scripts/arm_commander.cob. The unit def names this file with script = "ARM_Commander.lua"; the stock
 -- unit_script gadget lowercases that name and the VFS is case-insensitive.
@@ -33,6 +34,7 @@ local restoreDelay = 3000
 local bigGunAimed = false     -- COB static 3
 
 function script.Create()
+	StartThread(SmokeUnit, { pelvis })  -- damage smoke
 	local wd = UnitDefs[unitDefID].weapons[1]
 	if wd and WeaponDefs[wd.weaponDef] then
 		restoreDelay = math.max(1000, WeaponDefs[wd.weaponDef].reload * 2000)

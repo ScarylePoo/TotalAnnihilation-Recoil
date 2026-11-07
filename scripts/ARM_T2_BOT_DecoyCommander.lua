@@ -1,3 +1,4 @@
+include "smokeunit.lua"
 -- Decoy Commander (ARM_T2_BOT_DecoyCommander): Lua unit script for the remodelled walker (standard biped skeleton).
 -- Ported from TA's ARM_T2_BOT_DecoyCommander.COB: the laser (weapon 1) turns the torso at 300 deg/s and raises the
 -- left (lathe/laser) arm to -pitch - 30 deg at 90 deg/s, fires from lfirept; a third weapon slot (the D-gun in the
@@ -23,6 +24,7 @@ local restoreDelay = 3000
 local bigGunAimed = false     -- COB static 3
 
 function script.Create()
+	StartThread(SmokeUnit, { pelvis })  -- damage smoke
 	local wd = UnitDefs[unitDefID].weapons[1]
 	if wd and WeaponDefs[wd.weaponDef] then
 		restoreDelay = math.max(1000, WeaponDefs[wd.weaponDef].reload * 2000)

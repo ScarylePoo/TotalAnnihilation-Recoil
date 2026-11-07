@@ -50,9 +50,9 @@ local function DamageControl()
 	while true do
 		l0 = GetUnitValue(COB.HEALTH)
 		if l0 < 50 then
-			EmitSfx(body, 257)
+			Spring.SpawnCEG("blacksmokesmall", Spring.GetUnitPiecePosDir(unitID, body))  -- damage smoke (SF)
 			if l0 < 25 then
-				EmitSfx(turret1, 258)
+				Spring.SpawnCEG("burnblacksmall", Spring.GetUnitPiecePosDir(unitID, turret1))  -- damage fire (SF)
 			end
 		end
 		Sleep(1000)
