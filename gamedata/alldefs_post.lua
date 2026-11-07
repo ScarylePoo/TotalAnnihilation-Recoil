@@ -98,7 +98,7 @@ local TA_GRAVITY = 112 / 900
 
 -- Plasma ball size by damage per shot (largest of default/planes): ~2.5 for the 8-damage EMG, 16 for the
 -- 2400-damage Intimidator, square-root curve so the mid-weight tank guns stay modest (130 damage -> ~5.5).
-local SIZE_MIN, SIZE_MAX, DMG_MIN, DMG_MAX = 2.5, 16, 8, 2400
+local SIZE_MIN, SIZE_MAX, DMG_MIN, DMG_MAX = 2, 8, 8, 2400
 -- Laser bolts (every laser is a LaserCannon: TA had no continuous beams). One look for all of them, scaled by damage:
 -- thin bright bolts for light lasers, heavier ones up to the Annihilator; a white-hot core in a tint of the laser's
 -- colour; colours clamped to 0..1 (BOTA had components of 4).
