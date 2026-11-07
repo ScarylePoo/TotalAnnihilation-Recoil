@@ -43,7 +43,7 @@ local function cegRow(n)
   local z = Game.mapSizeZ * 0.62 - 150
   for i, name in ipairs(cegs) do
     local x = x0 + (i - 1) * SPACING
-    local ok = Spring.SpawnCEG(name, x, Spring.GetGroundHeight(x, z) + 2, z, 0, 1, 0)
+    local ok = Spring.SpawnCEG(name, x, Spring.GetGroundHeight(x, z) + 12, z, 0.7, 0.15, 0.7)  -- sideways: muzzle flames point along dir
     if n == 60 then Spring.Echo("[VISUAL] spawn " .. name .. " -> " .. tostring(ok)) end
   end
 end

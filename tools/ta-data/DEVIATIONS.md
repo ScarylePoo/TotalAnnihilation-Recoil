@@ -93,6 +93,12 @@ TA's `bitmaps/tracks` and `bitmaps/loadpictures` stay). `gamedata/resources.lua`
   decoys white; buildings: energy blue-EMP (fusion huge white-EMP), metal green, radar/sonar/targeting purple, towers
   red, factories orange, nuke silos white-EMP, Geothermal self-destructs as a nuke (TA). Tables at the top of the
   section, easy to change.
+- **Muzzle flashes** (`MuzzleCEG`; spawned by `luarules/gadgets/fx_muzzle.lua` where each shot is created, so no
+  unit script needs an EmitSfx): plasma cannons SF's `gdhcannon` flame with a spent casing, energy weapons (lasers,
+  lightning, D-Gun) SF's `electricity` flash tinted in the weapon's colour. Both remade in five sizes in
+  `gamedata/explosions/tar-muzzleflashes.lua` (`tar-muzzle-cannon-<size>`, `tar-muzzle-energy-<size>-<colour>`),
+  sized by damage (E.M.G.s and light lasers tiny ... Big Bertha, Intimidator, Annihilators huge); cannons firing
+  faster than once a second one size smaller. Missiles, bombs, torpedoes and flamethrowers have none.
 - **Plasma balls**: every Cannon is the engine-default orange (BOTA had tinted some; the E.M.G. was yellow).
 - **Damage smoke**: SF's (`blacksmokesmall` + `burnblacksmall` below 90 % health) in `scripts/smokeunit.lua` and the
   converted scripts; commanders, decoys, Crock and Triton now smoke too.

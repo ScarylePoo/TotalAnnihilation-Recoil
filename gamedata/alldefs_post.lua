@@ -232,6 +232,33 @@ local function ImpactCEG(name, wd)
 	return "genericshellexplosion-" .. size .. "-orange"
 end
 
+-- Muzzle flash (luarules/gadgets/fx_muzzle.lua spawns it where the shot leaves the barrel;
+-- gamedata/explosions/tar-muzzleflashes.lua): plasma cannons Splinter Faction's gdhcannon flame, energy weapons
+-- (lasers, lightning, D-Gun) its electricity flash with a ring in the weapon's colour; sized by the weapon.
+-- Missiles, bombs, torpedoes and flamethrowers have none.
+local function MuzzleCEG(name, wd)
+	local t = wd.weapontype
+	local d0 = tonumber((wd.damage or {}).default) or MaxDamage(wd)
+	local d = math.max(d0, math.min(MaxDamage(wd), d0 * 4))   -- one-sided weapons (Neutron, Stunner) count a bit more
+	local function sz(cuts)
+		for i = 1, #cuts do if d < cuts[i] then return ({ "tiny", "small", "medium", "large" })[i] end end
+		return "huge"
+	end
+	if t == "DGun" or name == "disintegrator" then
+		return "tar-muzzle-energy-large-orange"
+	elseif t == "Cannon" then
+		local r = sz({ 25, 90, 250, 900 })
+		local down = { huge = "large", large = "medium", medium = "small", small = "tiny", tiny = "tiny" }
+		if Reload(wd) < 1 then r = down[r] end   -- rapid fire (Vulcan, Buzzsaw, flak, Maverick): one size smaller
+		return "tar-muzzle-cannon-" .. r
+	elseif t == "LaserCannon" or t == "BeamLaser" then
+		local colour = (wd.paralyzer and tobool(wd.paralyzer)) and "blue" or LaserColor(wd)
+		return "tar-muzzle-energy-" .. sz({ 25, 100, 250, 1000 }) .. "-" .. colour
+	elseif t == "LightningCannon" then
+		return "tar-muzzle-energy-medium-blue"
+	end
+end
+
 -- Death explosions: TA's explosion weapon (damage, area) stays; the effect is chosen per unit (size from the unit,
 -- colour from what it is). DeathExplosions() clones the weapon per effect ("<weapon>__<effect>") and repoints units.
 local SIZES = { "small", "medium", "large", "huge" }
@@ -399,6 +426,7 @@ function WeaponDef_Post(name, weaponDef)
 	weaponDef.explosiongenerator = "custom:" .. impact
 	weaponDef.customparams = weaponDef.customparams or {}
 	weaponDef.customparams.impactceg = impact   -- readable from Lua (WeaponDefs[id].customParams.impactceg)
+	weaponDef.customparams.muzzleceg = MuzzleCEG(name, weaponDef)   -- spawned by luarules/gadgets/fx_muzzle.lua
 
 	-- Don't collide with friendlies (modoption)
 	if modOptions.nocollide and tobool(modOptions.nocollide) then
