@@ -179,33 +179,47 @@ local function LaserColor(wd)
 	return "red"
 end
 
-local FLAK = { armflak_gun = true, corflak_gun = true, armyork_gun = true, corsent_gun = true,
-	armaas_weapon3 = true, corarch_weapon3 = true }
+-- Anti-air: TA gave these a damage bonus against aircraft (gamedata/ArmorDefs.lua *_aircraft classes), or they cannot
+-- shoot the ground.
+local function IsAntiAir(wd)
+	if wd.canattackground == false or wd.canattackground == 0 then return true end
+	local air, ground = 0, 0
+	for k, v in pairs(wd.damage or {}) do
+		v = tonumber(v) or 0
+		if k:find("aircraft") then air = math.max(air, v) else ground = math.max(ground, v) end
+	end
+	return air > ground * 1.2   -- the Neutron hits Arm aircraft and Arm ground units alike: not AA
+end
 
--- Impact effect for every weapon: by type, size (damage and area of effect) and colour.
+local function Reload(wd) return tonumber(wd.reloadtime) or 1 end
+
+-- Impact effect for every weapon (user's rules, 2026-11-07):
+--   lasers: a black scorch with a small burn (burnblacksmall); only very heavy lasers (>= 1000 damage: Annihilator,
+--     Doomsday, Penetrator, Krogoth, sniper) get a shell explosion in their own colour
+--   light, fast-firing plasma (E.M.G.s of the Flash, Peewee, Warrior...): burnblacksmall
+--   everything else: genericshellexplosion-<size>-<colour>; cannons orange, anti-air purple, ground missiles red
+--   D-Gun: small orange on each hit
 local function ImpactCEG(name, wd)
 	local t, d, aoe = wd.weapontype, MaxDamage(wd), tonumber(wd.areaofeffect) or 0
 	local size = (d < 150 and aoe < 48) and "small" or ((d < 500 and aoe < 120) and "medium" or "large")
-	if wd.interceptor and tobool(wd.interceptor) then return "genericshellexplosion-large-sparks-burn" end
+	if wd.interceptor and tobool(wd.interceptor) then return "genericshellexplosion-large-white" end
 	if wd.paralyzer and tobool(wd.paralyzer) then
 		return aoe >= 200 and "genericbuildingexplosion-huge-blue-emp" or "genericshellexplosion-electric-small"
 	end
-	if t == "Cannon" then
-		if FLAK[name] then return "genericshellexplosion-small-sparks-burn" end
-		if d >= 1000 then return "genericshellexplosion-large-sparks-burn" end   -- Bertha, Intimidator, Vulcan, Buzzsaw
-		if d < 20 then return "genericshellexplosion-small-orange" end          -- E.M.G.
-		return "genericshellexplosion-" .. size
+	if t == "DGun" or name == "disintegrator" then   -- the D-Gun def has no weapontype (the engine finds it by name)
+		return "genericshellexplosion-small-orange"
 	elseif t == "LaserCannon" or t == "BeamLaser" then
 		if d >= 1000 then return "genericshellexplosion-large-" .. LaserColor(wd) end
-		if d >= 150 then return "genericshellexplosion-medium-" .. LaserColor(wd) end
-		return "genericshellexplosion-small-" .. LaserColor(wd)
-	elseif t == "MissileLauncher" then
-		local c = Faction(name) == "core" and "red" or "blue"
-		return "genericshellexplosion-" .. (size == "large" and "medium" or size) .. "-" .. c
-	elseif t == "StarburstLauncher" then
-		if d >= 2500 then return aoe >= 700 and "nukedatbewm" or "nukedatbewmsmall" end
-		local c = Faction(name) == "core" and "red" or "blue"
-		return "genericshellexplosion-" .. (size == "small" and "medium" or "large") .. "-" .. c
+		return "burnblacksmall"
+	elseif t == "Cannon" then
+		local d0 = tonumber((wd.damage or {}).default) or d   -- default damage: the Immolator's 200 vs Flash is a bonus
+		if d0 < 25 and Reload(wd) <= 1 then return "burnblacksmall" end            -- E.M.G.s, Immolator
+		if IsAntiAir(wd) then return "genericshellexplosion-" .. (size == "large" and "medium" or size) .. "-purple" end   -- flak
+		return "genericshellexplosion-" .. size .. "-orange"
+	elseif t == "MissileLauncher" or t == "StarburstLauncher" then
+		if t == "StarburstLauncher" and d >= 2500 then return aoe >= 700 and "nukedatbewm" or "nukedatbewmsmall" end
+		if IsAntiAir(wd) then return "genericshellexplosion-" .. (size == "large" and "medium" or size) .. "-purple" end
+		return "genericshellexplosion-" .. size .. "-red"
 	elseif t == "TorpedoLauncher" then
 		return "torpedoexplosion"
 	elseif t == "AircraftBomb" then
@@ -214,10 +228,8 @@ local function ImpactCEG(name, wd)
 		return "genericshellexplosion-electric-small"
 	elseif t == "Flame" then
 		return "burnblacksmall"
-	elseif t == "DGun" then
-		return "genericshellexplosion-large-sparks-burn"
 	end
-	return "genericshellexplosion-" .. size
+	return "genericshellexplosion-" .. size .. "-orange"
 end
 
 -- Death explosions: TA's explosion weapon (damage, area) stays; the effect is chosen per unit (size from the unit,
@@ -383,7 +395,10 @@ function WeaponDef_Post(name, weaponDef)
 	end
 
 	-- an impact effect on every weapon (TA-era effect names are gone with the old effect library)
-	weaponDef.explosiongenerator = "custom:" .. ImpactCEG(name, weaponDef)
+	local impact = ImpactCEG(name, weaponDef)
+	weaponDef.explosiongenerator = "custom:" .. impact
+	weaponDef.customparams = weaponDef.customparams or {}
+	weaponDef.customparams.impactceg = impact   -- readable from Lua (WeaponDefs[id].customParams.impactceg)
 
 	-- Don't collide with friendlies (modoption)
 	if modOptions.nocollide and tobool(modOptions.nocollide) then

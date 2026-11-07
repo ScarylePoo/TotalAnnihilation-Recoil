@@ -78,12 +78,15 @@ All of TA:Recoil's old CEGs and effect bitmaps are gone; Splinter Faction's effe
 TA's `bitmaps/tracks` and `bitmaps/loadpictures` stay). `gamedata/resources.lua` is SF's. Wiring, all in
 `gamedata/alldefs_post.lua` and only with effects SF itself uses:
 
-- **Weapon impacts** (`ImpactCEG`, every weapon): plasma cannons `genericshellexplosion-small/medium/large`
-  (by damage and area), heavy artillery (>= 1000 damage) `-large-sparks-burn`, flak `-small-sparks-burn`, E.M.G.
-  `-small-orange`; lasers in their own colour (`-small/medium/large-<red|green|blue|purple|orange>` by damage);
-  missiles and rockets Arm blue / Core red; nukes `nukedatbewm(small)`; torpedoes `torpedoexplosion`; bombs
-  `genericshellexplosion-bomb(-huge)`; lightning and paralyzers `-electric-small` (Stunner: EMP building blast);
-  flamethrowers `burnblacksmall`; anti-nukes and the D-Gun `-large-sparks-burn`.
+- **Weapon impacts** (`ImpactCEG`, every weapon; user's rules): lasers `burnblacksmall` (a black scorch), except
+  very heavy ones (>= 1000 damage: Annihilator, Doomsday, Penetrator, Krogoth, sniper) `genericshellexplosion-large-
+  <laser colour>`; light fast-firing plasma (E.M.G.s, Immolator: default damage < 25, reload <= 1 s)
+  `burnblacksmall`; other cannons `genericshellexplosion-small/medium/large-orange` by damage and area; anti-air
+  (flak and AA missiles: more damage to aircraft than to anything else, or no ground fire) `-small/medium-purple`;
+  ground missiles and rockets `-<size>-red`; D-Gun `-small-orange` on each hit; nukes `nukedatbewm(small)`; torpedoes
+  `torpedoexplosion`; bombs `genericshellexplosion-bomb(-huge)`; lightning and paralyzers `-electric-small` (Stunner:
+  EMP building blast); flamethrowers `burnblacksmall`; anti-nukes `-large-white`. The choice is kept per weapon in
+  `customparams.impactceg`.
 - **Death explosions** (`DeathExplosions`): TA's explosion weapon (damage, area) is kept and cloned per effect
   (`<weapon>__<effect>`). Size from the unit (cost, footprint; self-destruct one size up). Colour: Arm units blue,
   Core red, aircraft white, ships orange, Krogoth huge purple, commanders and the nuclear mine SF's commander nuke,
