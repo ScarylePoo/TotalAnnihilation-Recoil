@@ -12,6 +12,9 @@ TA and why) and BALANCE_NOTES.md (suggestions, none applied) first. New tools si
 BOTA's weapon merges), `armor.py` (TA per-unit damage -> armor classes, writes gamedata/ArmorDefs.lua), `defdump.py`
 (runtime def dumps from `DUMP=<file> tools/headless-test/run.sh`, `--diff` before/after). Rerun order after a data
 change: run_all.sh, then split_weapons.py, compare.py + finalize.py, apply.py, armor.py.
+Def post-processing is laid out like Splinter Faction's: every unit/weapon tweak lives in `gamedata/alldefs_post.lua`
+(`UnitDef_Post`, `WeaponDef_Post`); `unitdefs_post.lua`/`weapondefs_post.lua` only run the engine's base pass and call
+those. Cannons carry SF's trail (`plasmacannontrail` CEG + 20-stage fading tail).
 The graphical check: `VISUAL=unit1,unit2 [VISUALZOOM= VISUALDIST= VISUALOUT=] tools/headless-test/run.sh <engine>`
 (screenshots of the units firing at the ground). On this WSL machine the graphical engine needs SDL2/SDL3/OpenAL
 and audio libs that are not installed system-wide: they are unpacked (apt-get download + dpkg-deb -x, no root) into

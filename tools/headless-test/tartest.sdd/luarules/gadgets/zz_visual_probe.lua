@@ -117,7 +117,7 @@ function gadget:GameFrame(n)
   if n == 20 then
     Spring.SendCommands("luaui disable", "console 0")
   end
-  if n >= 20 and n < 60 then
+  if n >= 20 and taken < NSHOTS then  -- held every frame: a mouse at the window edge scrolls the view away
     Spring.SetCameraState({ name = "spring", mode = 2, px = cx, py = Spring.GetGroundHeight(cx, cz), pz = cz,
       dist = far, rx = 2.35, ry = math.pi, rz = 0, fov = 45 }, 0)
   end
