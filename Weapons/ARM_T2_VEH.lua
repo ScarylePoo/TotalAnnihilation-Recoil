@@ -15,7 +15,6 @@ return {
 		areaofeffect = 48,
 		soundstart = "cannon3",
 		soundhit = "xplomed2",
-		explosiongenerator = "custom:LITTLEBANG_Expl",
 		startsmoke = 1,
 		damage = {
 			default = 147,  -- TA 3.1c (was 127)  -- 110 7-10-97//147
@@ -36,7 +35,6 @@ return {
 		soundstart = "cannhvy2",
 		soundhit = "xplomed4",
 		accuracy = 2000,  -- TA 3.1c (was 500)  -- 2000
-		explosiongenerator = "custom:PLASMA_Expl",
 		cratermult = .5,
 		craterboost = .5,
 		impulsefactor = .7,
@@ -118,7 +116,6 @@ return {
 		areaofeffect = 48,
 		soundstart = "cannon2",
 		soundhit = "xplomed4",
-		explosiongenerator = "custom:LITTLEPLASMA_Expl",
 		startsmoke = 1,
 		damage = {
 			default = 112,  -- TA 3.1c (was 160)  -- 112//140

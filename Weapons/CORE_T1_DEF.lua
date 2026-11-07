@@ -22,7 +22,6 @@ return {
 		lavaexplosiongaf = "fx",
 		lavaexplosionart = "lavasplash",
 		startsmoke = 1,
-		explosiongenerator = "custom:PLASMA_Expl",
 		damage = {
 			default = 10,  -- TA 3.1c (was 40)
 			arm_t1_bot_peewee_armor = 80,
@@ -52,7 +51,6 @@ return {
 		lavaexplosiongaf = "fx",
 		lavaexplosionart = "lavasplash",
 		startsmoke = 1,
-		explosiongenerator = "custom:PLASMA_Expl",
 		damage = {
 			default = 320,
 		},

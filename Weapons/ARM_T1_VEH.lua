@@ -24,7 +24,6 @@ return {
 		soundhit = "lasrhit1",
 		soundtrigger = 1,
 		tolerance = 6000,
-		explosiongenerator = "custom:FLASH1white",
 		startsmoke = 1,
 		damage = {
 			default = 8,  -- TA 3.1c (was 14)
@@ -44,7 +43,6 @@ return {
 		areaofeffect = 32,
 		soundstart = "canlite3",
 		soundhit = "xplosml3",
-		explosiongenerator = "custom:TANKSHOT_Expl",
 		startsmoke = 1,
 		damage = {
 			default = 50,  -- TA 3.1c (was 70)  -- 50//75

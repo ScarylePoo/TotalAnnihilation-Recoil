@@ -104,7 +104,6 @@ return {
 		ballistic = 1,
 		turret = 1,
 		-- visuals
-		explosiongenerator = "custom:ARGHNUKE_FX",
 		-- sounds
 		soundstart = "largegun",
 		soundhit = "xplonuk4",

@@ -8,7 +8,6 @@ return {
 		weapontype = "AircraftBomb",
 		-- visuals
 		model = "BOTA_Bomb-ARM_Shadow",
-		explosiongenerator = "custom:ARMBOMB_Expl",
 		-- sounds
 		soundstart = "bombrel",
 		soundhit = "xplomed2",
@@ -30,7 +29,6 @@ return {
 		weapontype = "AircraftBomb",
 		-- visuals
 		model = "BOTA_Bomb-ARM_Phoenix",
-		explosiongenerator = "custom:ARMBOMB_Expl",
 		-- sounds
 		soundstart = "bombrel",
 		soundhit = "xplomed2",

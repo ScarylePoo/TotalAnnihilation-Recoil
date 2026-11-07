@@ -23,7 +23,6 @@ return {
 		lavaexplosiongaf = "fx",
 		lavaexplosionart = "lavasplash",
 		startsmoke = 1,
-		explosiongenerator = "custom:PLASMA_Expl",
 		damage = {
 			default = 180,  -- TA 3.1c (was 280)  -- 180
 		},
@@ -42,7 +41,6 @@ return {
 		areaofeffect = 32,
 		soundstart = "canlite3",
 		soundhit = "xplosml3",
-		explosiongenerator = "custom:TANKSHOT_Expl",
 		startsmoke = 1,
 		damage = {
 			default = 50,  -- TA 3.1c (was 70)  -- 50//75

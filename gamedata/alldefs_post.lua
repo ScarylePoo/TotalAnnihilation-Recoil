@@ -10,6 +10,14 @@
 -- defs to extract. Armor classes: gamedata/ArmorDefs.lua; movement classes: gamedata/movedefs.lua.
 --------------------------------------------------------------------------------
 
+if not table.copy then
+	function table.copy(t)
+		local c = {}
+		for k, v in pairs(t) do c[k] = (type(v) == "table") and table.copy(v) or v end
+		return c
+	end
+end
+
 function tobool(val)
 	local t = type(val)
 	if (t == 'nil') then
@@ -142,6 +150,156 @@ local function CannonTrail(wd)
 	end
 end
 
+--------------------------------------------------------------------------------
+-- EFFECTS (all from Splinter Faction's effect library, gamedata/explosions; only effects SF itself uses)
+--------------------------------------------------------------------------------
+
+-- Plasma balls: every Cannon is the engine's default orange (BOTA had tinted some).
+local PLASMA_ORANGE = "1.0 0.5 0.0"
+
+local function MaxDamage(wd)
+	local d = 0
+	for _, v in pairs(wd.damage or {}) do d = math.max(d, tonumber(v) or 0) end
+	return d
+end
+
+local function Faction(name)
+	if name:sub(1, 3) == "arm" then return "arm" end
+	if name:sub(1, 3) == "cor" then return "core" end
+end
+
+-- dominant colour of a laser, for a matching impact
+local function LaserColor(wd)
+	local r, g, b = tostring(wd.rgbcolor or ""):match("([%d%.]+)%s+([%d%.]+)%s+([%d%.]+)")
+	r, g, b = tonumber(r) or 1, tonumber(g) or 0, tonumber(b) or 0
+	if r > 0.4 and b > 0.4 and g < 0.4 then return "purple" end
+	if g >= r and g >= b then return "green" end
+	if b >= r and b >= g then return "blue" end
+	if g > 0.35 then return "orange" end
+	return "red"
+end
+
+local FLAK = { armflak_gun = true, corflak_gun = true, armyork_gun = true, corsent_gun = true,
+	armaas_weapon3 = true, corarch_weapon3 = true }
+
+-- Impact effect for every weapon: by type, size (damage and area of effect) and colour.
+local function ImpactCEG(name, wd)
+	local t, d, aoe = wd.weapontype, MaxDamage(wd), tonumber(wd.areaofeffect) or 0
+	local size = (d < 150 and aoe < 48) and "small" or ((d < 500 and aoe < 120) and "medium" or "large")
+	if wd.interceptor and tobool(wd.interceptor) then return "genericshellexplosion-large-sparks-burn" end
+	if wd.paralyzer and tobool(wd.paralyzer) then
+		return aoe >= 200 and "genericbuildingexplosion-huge-blue-emp" or "genericshellexplosion-electric-small"
+	end
+	if t == "Cannon" then
+		if FLAK[name] then return "genericshellexplosion-small-sparks-burn" end
+		if d >= 1000 then return "genericshellexplosion-large-sparks-burn" end   -- Bertha, Intimidator, Vulcan, Buzzsaw
+		if d < 20 then return "genericshellexplosion-small-orange" end          -- E.M.G.
+		return "genericshellexplosion-" .. size
+	elseif t == "LaserCannon" or t == "BeamLaser" then
+		if d >= 1000 then return "genericshellexplosion-large-" .. LaserColor(wd) end
+		if d >= 150 then return "genericshellexplosion-medium-" .. LaserColor(wd) end
+		return "genericshellexplosion-small-" .. LaserColor(wd)
+	elseif t == "MissileLauncher" then
+		local c = Faction(name) == "core" and "red" or "blue"
+		return "genericshellexplosion-" .. (size == "large" and "medium" or size) .. "-" .. c
+	elseif t == "StarburstLauncher" then
+		if d >= 2500 then return aoe >= 700 and "nukedatbewm" or "nukedatbewmsmall" end
+		local c = Faction(name) == "core" and "red" or "blue"
+		return "genericshellexplosion-" .. (size == "small" and "medium" or "large") .. "-" .. c
+	elseif t == "TorpedoLauncher" then
+		return "torpedoexplosion"
+	elseif t == "AircraftBomb" then
+		return (d >= 500 or aoe >= 150) and "genericshellexplosion-bomb-huge" or "genericshellexplosion-bomb"
+	elseif t == "LightningCannon" then
+		return "genericshellexplosion-electric-small"
+	elseif t == "Flame" then
+		return "burnblacksmall"
+	elseif t == "DGun" then
+		return "genericshellexplosion-large-sparks-burn"
+	end
+	return "genericshellexplosion-" .. size
+end
+
+-- Death explosions: TA's explosion weapon (damage, area) stays; the effect is chosen per unit (size from the unit,
+-- colour from what it is). DeathExplosions() clones the weapon per effect ("<weapon>__<effect>") and repoints units.
+local SIZES = { "small", "medium", "large", "huge" }
+local function UnitSizeLevel(ud, mobile)
+	local fp = math.max(tonumber(ud.footprintx) or 1, tonumber(ud.footprintz) or 1)
+	local cost = tonumber(ud.buildcostmetal) or 0
+	local lvl
+	if mobile then
+		lvl = cost < 150 and 1 or cost < 600 and 2 or cost < 4000 and 3 or 4
+		if fp >= 4 then lvl = math.max(lvl, 3) end
+	else
+		lvl = fp <= 2 and 1 or fp <= 4 and 2 or fp <= 6 and 3 or 4
+		if cost >= 8000 then lvl = 4 end
+	end
+	return lvl
+end
+
+-- name keyword -> building explosion colour (first match wins); "-emp" adds the electric shockwave
+local BUILDING_COLORS = {
+	{ "fusion", "white-emp", 4 }, { "geothermal", "orange-emp" },
+	{ "energystorage", "blue-emp" }, { "solar", "blue-emp" }, { "wind", "blue-emp" }, { "tidal", "blue-emp" },
+	{ "metal", "green" }, { "moho", "green" },
+	{ "radar", "purple" }, { "sonar", "purple" }, { "targeting", "purple" },
+	{ "retaliator", "white-emp" }, { "silencer", "white-emp" }, { "neutron", "white-emp" }, { "stunner", "blue-emp" },
+	{ "protector", "white" }, { "fortitude", "white" },
+	{ "_lab_", "orange" }, { "plant", "orange" }, { "shipyard", "orange" }, { "gantry", "orange" }, { "repairpad", "orange" },
+	{ "_def_", "red" }, { "_seadef_", "red" },
+}
+
+local function DeathCEG(uname, ud, selfd)
+	local mobile = (tonumber(ud.maxvelocity) or 0) > 0 or tobool(ud.canfly)
+	local lvl = UnitSizeLevel(ud, mobile)
+	if selfd then lvl = math.min(lvl + 1, 4) end
+	if uname:find("decoycommander") then return "genericunitexplosion-large-white" end
+	if uname:find("commander") then return "nukedatbewmsmall" end
+	if uname:find("krogoth") and mobile then return "genericunitexplosion-huge-purple" end
+	if uname:find("_mine6") then return "nukedatbewmsmall" end
+	if uname:find("_mine%d") then return "genericbuildingexplosion-" .. SIZES[math.min(lvl + 1, 4)] .. "-red-emp" end
+	if uname:find("geothermal") and selfd then return "nukedatbewmsmall" end   -- TA: a geothermal self-destructs like a nuke
+	if not mobile then
+		for _, rule in ipairs(BUILDING_COLORS) do
+			if uname:find(rule[1], 1, true) then
+				return "genericbuildingexplosion-" .. SIZES[math.max(lvl, rule[3] or 1)] .. "-" .. rule[2]
+			end
+		end
+		return "genericbuildingexplosion-" .. SIZES[lvl] .. "-orange"
+	end
+	local color
+	if uname:find("_air_") or uname:find("_seapl_") then
+		color = "white"                                   -- aircraft: bright air bursts
+	elseif uname:find("_sea_") then
+		color = "orange"                                  -- ships burn
+	else
+		color = (Faction(uname) == "core") and "red" or "blue"
+	end
+	return "genericunitexplosion-" .. SIZES[lvl] .. "-" .. color
+end
+
+function DeathExplosions(UnitDefs, WeaponDefs)
+	local made = {}
+	for uname, ud in pairs(UnitDefs) do
+		for _, slot in ipairs({ "explodeas", "selfdestructas" }) do
+			local base = ud[slot] and tostring(ud[slot]):lower()
+			if base and WeaponDefs[base] then
+				local ceg = DeathCEG(uname, ud, slot == "selfdestructas")
+				local variant = base .. "__" .. ceg
+				if not made[variant] then
+					local wd = table.copy(WeaponDefs[base])
+					wd.explosiongenerator = "custom:" .. ceg
+					wd.customparams = wd.customparams or {}
+					wd.customparams.deathexplosion = ceg
+					WeaponDefs[variant] = wd
+					made[variant] = true
+				end
+				ud[slot] = variant
+			end
+		end
+	end
+end
+
 function WeaponDef_Post(name, weaponDef)
 	for i = 1, #TA_ONLY_TAGS do weaponDef[TA_ONLY_TAGS[i]] = nil end
 
@@ -221,7 +379,11 @@ function WeaponDef_Post(name, weaponDef)
 
 	if weaponDef.weapontype == "Cannon" then
 		CannonTrail(weaponDef)
+		weaponDef.rgbcolor = PLASMA_ORANGE
 	end
+
+	-- an impact effect on every weapon (TA-era effect names are gone with the old effect library)
+	weaponDef.explosiongenerator = "custom:" .. ImpactCEG(name, weaponDef)
 
 	-- Don't collide with friendlies (modoption)
 	if modOptions.nocollide and tobool(modOptions.nocollide) then

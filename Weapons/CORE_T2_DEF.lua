@@ -24,7 +24,6 @@ return {
 		lavaexplosiongaf = "fx",
 		lavaexplosionart = "lavasplash",
 		startsmoke = 1,
-		explosiongenerator = "custom:PLASMA_Expl",
 		damage = {
 			default = 295,
 		},

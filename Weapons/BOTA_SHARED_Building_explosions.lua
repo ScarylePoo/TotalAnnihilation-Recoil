@@ -18,7 +18,6 @@ return {
 		areaofeffect = 205,
 		soundstart = "largegun",
 		soundhit = "xplosml3",
-		explosiongenerator = "custom:SMALL_SUICIDE_Expl",
 		damage = {
 			default = 40,
 		},
@@ -40,7 +39,6 @@ return {
 		areaofeffect = 105,
 		soundstart = "largegun",
 		soundhit = "xplomed1",
-		explosiongenerator = "custom:MED_SUICIDE_Expl",
 		shakemagnitude = 0,
 		shakeduration = 0,
 		damage = {
@@ -64,7 +62,6 @@ return {
 		areaofeffect = 120,
 		soundstart = "largegun",
 		soundhit = "xplolrg4",
-		explosiongenerator = "custom:FACTORY_Expl",
 		shakemagnitude = 8,
 		shakeduration = .3,
 		damage = {
@@ -88,7 +85,6 @@ return {
 		areaofeffect = 150,
 		soundstart = "largegun",
 		soundhit = "xplonuk1",
-		explosiongenerator = "custom:ESTORBUILDING_Expl",
 		shakemagnitude = 8,
 		shakeduration = .5,
 		damage = {

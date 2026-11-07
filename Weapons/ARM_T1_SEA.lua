@@ -19,7 +19,6 @@ return {
 		accuracy = 300,
 		startsmoke = 1,
 		targetmoveerror = .15,
-		explosiongenerator = "custom:PLASMA_Expl",
 		damage = {
 			default = 165,
 		},

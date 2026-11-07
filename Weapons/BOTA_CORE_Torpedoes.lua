@@ -12,7 +12,6 @@ return {
 		waterweapon = 1,
 		-- visuals
 		model = "BOTA_Torpedo",
-		explosiongenerator = "custom:KERSPLUNK",
 		-- sounds
 		soundstart = "torpedo2",
 		soundhit = "xplodep3",
@@ -45,7 +44,6 @@ return {
 		waterweapon = 1,
 		-- visuals
 		model = "BOTA_Torpedo",
-		explosiongenerator = "custom:KERSPLUNK",
 		-- sounds
 		soundstart = "torpedo1",
 		soundhit = "xplodep2",
@@ -76,7 +74,6 @@ return {
 		waterweapon = 1,
 		-- visuals
 		model = "BOTA_Torpedo",
-		explosiongenerator = "custom:KERSPLUNK",
 		-- sounds
 		soundstart = "bombrel",
 		soundhit = "xplodep2",
@@ -109,7 +106,6 @@ return {
 		waterweapon = 1,
 		-- visuals
 		model = "BOTA_Torpedo",
-		explosiongenerator = "custom:KERSPLUNK",
 		-- sounds
 		soundstart = "bombrel",
 		soundhit = "xplodep2",
@@ -140,7 +136,6 @@ return {
 		waterweapon = 1,
 		-- visuals
 		model = "BOTA_Torpedo",
-		explosiongenerator = "custom:KERSPLUNK",
 		-- sounds
 		soundstart = "bombrel",
 		soundhit = "xplodep2",
@@ -171,7 +166,6 @@ return {
 		waterweapon = 1,
 		-- visuals
 		model = "BOTA_Torpedo",
-		explosiongenerator = "custom:KERSPLUNK",
 		-- sounds
 		soundstart = "torpedo2",
 		soundhit = "xplodep3",
@@ -208,7 +202,6 @@ return {
 		waterweapon = 1,
 		-- visuals
 		model = "BOTA_Torpedo",
-		explosiongenerator = "custom:KERSPLUNK",
 		-- sounds
 		soundstart = "torpedo2",
 		soundhit = "xplodep3",
@@ -241,7 +234,6 @@ return {
 		waterweapon = 1,
 		-- visuals
 		model = "BOTA_AdvancedTorpedo",
-		explosiongenerator = "custom:KERSPLUNK",
 		-- sounds
 		soundstart = "torpedo1",
 		soundhit = "xplodep1",

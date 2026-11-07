@@ -13,7 +13,6 @@ return {
 		waterweapon = 1,
 		-- visuals
 		model = "BOTA_DepthCharge",
-		explosiongenerator = "custom:LITTLESPLUNK",
 		-- sounds
 		soundstart = "torpedo1",
 		soundhit = "xplodep2",

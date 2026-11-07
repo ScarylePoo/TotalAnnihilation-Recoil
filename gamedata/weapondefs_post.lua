@@ -16,3 +16,6 @@ for name, wd in pairs(WeaponDefs) do
 		WeaponDef_Post(name, wd)
 	end
 end
+
+-- death explosion effects per unit (needs the unit defs, loaded before the weapon defs)
+DeathExplosions(DEFS.unitDefs, WeaponDefs)

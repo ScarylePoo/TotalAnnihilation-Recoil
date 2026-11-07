@@ -12,7 +12,6 @@ return {
 		size = 40,
 		rgbcolor = "1.0 0.5 0",
 		intensity = 0.2,
-		explosiongenerator = "custom:LRPC_Expl",
 		-- sounds
 		soundstart = "xplonuk3",
 		soundhit = "xplonuk1",
@@ -44,7 +43,6 @@ return {
 		size = 20,
 		rgbcolor = "1.0 0.5 0",
 		intensity = 0.2,
-		explosiongenerator = "custom:LRPC_Expl",
 		-- sounds
 		soundstart = "xplonuk4",
 		soundhit = "xplonuk1",

@@ -24,7 +24,6 @@ return {
 		waterexplosionart = "h2o",
 		shakemagnitude = 0,
 		shakeduration = 0,
-		explosiongenerator = "custom:SMALL_UNIT_Expl",
 		damage = {
 			default = 30,
 		},
@@ -52,7 +51,6 @@ return {
 		waterexplosionart = "h2oboom2",
 		shakemagnitude = 8,
 		shakeduration = .3,
-		explosiongenerator = "custom:BIG_UNIT_Expl",
 		damage = {
 			default = 50,
 		},
@@ -80,7 +78,6 @@ return {
 		waterexplosionart = "h2oboom2",
 		shakemagnitude = 0,
 		shakeduration = 0,
-		explosiongenerator = "custom:PYRO_UNIT_Expl",
 		damage = {
 			default = 60,
 			core_t2_bot_pyro_armor = 15,
@@ -114,7 +111,6 @@ return {
 		shakeduration = 2,
 		areaofeffect = 950,
 		edgeeffectiveness = 0.15,
-		explosiongenerator = "custom:LRPC_Expl",
 		damage = {
 			default = 100,
 		},

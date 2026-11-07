@@ -38,7 +38,6 @@ return {
 		lavaexplosionart = "lavasplash",
 		color = 1,
 		startsmoke = 1,
-		explosiongenerator = "custom:FLAK_BURST_Expl",
 		damage = {
 			default = 146,  -- TA 3.1c (was 186)
 		},
@@ -79,7 +78,6 @@ return {
 		lavaexplosionart = "lavasplash",
 		color = 1,
 		startsmoke = 1,
-		explosiongenerator = "custom:FLAK_BURST_Expl",
 		damage = {
 			default = 146,  -- TA 3.1c (was 186)  -- 146
 		},
@@ -121,7 +119,6 @@ return {
 		lavaexplosionart = "lavasplash",
 		color = 1,
 		startsmoke = 1,
-		explosiongenerator = "custom:FLAK_BURST_Expl",
 		damage = {
 			default = 130,  -- TA 3.1c (was 170)  -- 130
 		},

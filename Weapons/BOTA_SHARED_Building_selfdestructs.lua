@@ -18,7 +18,6 @@ return {
 		areaofeffect = 205,
 		soundstart = "largegun",
 		soundhit = "xplosml3",
-		explosiongenerator = "custom:SMALL_UNIT_Expl",
 		damage = {
 			default = 900,
 		},
@@ -40,7 +39,6 @@ return {
 		areaofeffect = 325,
 		soundstart = "largegun",
 		soundhit = "xplomed1",
-		explosiongenerator = "custom:BIG_UNIT_Expl",
 		damage = {
 			default = 1400,
 		},
@@ -62,7 +60,6 @@ return {
 		areaofeffect = 400,
 		soundstart = "largegun",
 		soundhit = "xplolrg4",
-		explosiongenerator = "custom:FACTORY_Expl",
 		damage = {
 			default = 1800,
 		},
@@ -84,7 +81,6 @@ return {
 		areaofeffect = 420,
 		soundstart = "largegun",
 		soundhit = "xplonuk1",
-		explosiongenerator = "custom:ATOMIC_BLASTSML",
 		damage = {
 			default = 1900,
 		},

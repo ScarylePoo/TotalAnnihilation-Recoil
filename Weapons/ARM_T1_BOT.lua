@@ -16,7 +16,6 @@ return {
 		areaofeffect = 48,
 		soundstart = "cannon1",
 		soundhit = "xplomed3",
-		explosiongenerator = "custom:MARY_SUE",
 		startsmoke = 1,
 		damage = {
 			default = 85,  -- TA 3.1c (was 105)
@@ -45,7 +44,6 @@ return {
 		soundhit = "lasrhit1",
 		soundtrigger = 1,
 		tolerance = 6000,
-		explosiongenerator = "custom:FLASH1white",
 		startsmoke = 1,
 		damage = {
 			default = 8,  -- TA 3.1c (was 14)  -- 10 16

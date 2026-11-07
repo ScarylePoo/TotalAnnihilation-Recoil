@@ -162,7 +162,6 @@ return {
 		-- visuals
 		model = "BOTA_Stunner_Missile",
 		smoketrail = 1,
-		explosiongenerator = "custom:STUNNER_Expl",
 		-- sounds
 		soundstart = "misicbm1",
 		soundhit = "xplomed4",
@@ -218,7 +217,6 @@ return {
 		-- visuals
 		model = "BOTA_Neutron_Missile",
 		smoketrail = 1,
-		explosiongenerator = "custom:NEUTRON_Expl",
 		-- sounds
 		soundstart = "misicbm1",
 		soundhit = "xplomed4",

@@ -13,7 +13,6 @@ return {
 		rgbcolor = "0.1 0.1 0.9",  -- blueish
 		corethickness = 0.4,
 		rgbcolor2 = "0.7 0.7 0.9",  -- white with a touch of blue
-		explosiongenerator = "custom:FLASH1blue_LONG",
 		-- sounds
 		soundstart = "annigun1",
 		soundhit = "xplosml3",
@@ -46,7 +45,6 @@ return {
 		rgbcolor = "0.1 0.1 0.9",  -- blueish
 		corethickness = 0.4,
 		rgbcolor2 = "0.7 0.7 0.9",  -- white with a touch of blue
-		explosiongenerator = "custom:FLASH1blue_LONG",
 		-- sounds
 		soundstart = "annigun1",
 		soundhit = "xplolrg1",

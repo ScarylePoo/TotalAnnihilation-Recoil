@@ -15,7 +15,6 @@ return {
 		areaofeffect = 48,
 		soundstart = "cannon2",
 		soundhit = "xplomed4",
-		explosiongenerator = "custom:MEDTANKSHOT_Expl",
 		startsmoke = 1,
 		damage = {
 			default = 127,  -- TA 3.1c (was 88)  -- 117//147
@@ -36,7 +35,6 @@ return {
 		soundstart = "cannhvy2",
 		soundhit = "xplomed4",
 		startsmoke = 1,
-		explosiongenerator = "custom:PLASMA_Expl",
 		damage = {
 			default = 196,  -- TA 3.1c (was 206)
 		},
@@ -56,7 +54,6 @@ return {
 		soundstart = "cannhvy2",
 		soundhit = "xplomed4",
 		accuracy = 2000,  -- TA 3.1c (was 500)  -- 2000
-		explosiongenerator = "custom:PLASMA_Expl",
 		startsmoke = 1,
 		damage = {
 			default = 140,  -- TA 3.1c (was 180)
@@ -76,7 +73,6 @@ return {
 		areaofeffect = 48,
 		soundstart = "cannon3",
 		soundhit = "xplomed2",
-		explosiongenerator = "custom:LITTLEBANG_Expl",
 		startsmoke = 1,
 		damage = {
 			default = 143,  -- TA 3.1c (was 110)  -- 130 7-10-97//143

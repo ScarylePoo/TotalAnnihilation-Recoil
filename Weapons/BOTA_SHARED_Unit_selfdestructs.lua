@@ -24,7 +24,6 @@ return {
 		waterexplosionart = "h2o",
 		shakemagnitude = 0,
 		shakeduration = 0,
-		explosiongenerator = "custom:SMALL_SUICIDE_Expl",
 		damage = {
 			default = 200,
 		},
@@ -52,7 +51,6 @@ return {
 		waterexplosionart = "h2oboom2",
 		shakemagnitude = 0,
 		shakeduration = 0,
-		explosiongenerator = "custom:MED_SUICIDE_Expl",
 		damage = {
 			default = 250,
 		},
@@ -80,7 +78,6 @@ return {
 		waterexplosionart = "h2oboom2",
 		shakemagnitude = 8,
 		shakeduration = .3,
-		explosiongenerator = "custom:BIG_SUICIDE_Expl",
 		damage = {
 			default = 350,
 		},
@@ -109,7 +106,6 @@ return {
 		waterexplosionart = "h2oboom2",
 		shakemagnitude = 8,
 		shakeduration = .3,
-		explosiongenerator = "custom:BIG_SUICIDE_Expl",
 		damage = {
 			default = 1200,  -- TA 3.1c (was 350)
 		},
@@ -137,7 +133,6 @@ return {
 		waterexplosionart = "h2oboom2",
 		shakemagnitude = 24,
 		shakeduration = 1.5,
-		explosiongenerator = "custom:CRAWL_SUICIDE_Expl",
 		damage = {
 			default = 2500,
 		},
@@ -164,7 +159,6 @@ return {
 		waterexplosionart = "h2o",
 		shakemagnitude = 0,
 		shakeduration = 0,
-		explosiongenerator = "custom:PYRO_SUICIDE_Expl",
 		damage = {
 			default = 1400,
 		},

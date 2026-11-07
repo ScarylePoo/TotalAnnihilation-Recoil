@@ -25,7 +25,6 @@ return {
 		lavaexplosionart = "lavasplash",
 		startsmoke = 1,
 		targetmoveerror = .05,
-		explosiongenerator = "custom:PLASMA_Expl",
 		damage = {
 			default = 208,  -- TA 3.1c (was 308)
 		},
@@ -54,7 +53,6 @@ return {
 		lavaexplosionart = "lavasplash",
 		startsmoke = 1,
 		targetmoveerror = .05,
-		explosiongenerator = "custom:PLASMA_Expl",
 		damage = {
 			default = 260,  -- TA 3.1c (was 380)
 		},

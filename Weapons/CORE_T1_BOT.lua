@@ -50,7 +50,6 @@ return {
 		areaofeffect = 48,
 		soundstart = "cannon1",
 		soundhit = "xplomed3",
-		explosiongenerator = "custom:MARY_SUE",
 		startsmoke = 1,
 		damage = {
 			default = 80,  -- TA 3.1c (was 100)  -- 105//80//95

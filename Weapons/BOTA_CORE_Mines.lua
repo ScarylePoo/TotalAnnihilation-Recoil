@@ -164,7 +164,6 @@ return {
 		explosionart = "explode2",
 		waterexplosiongaf = "fx",
 		waterexplosionart = "h2o",
-		explosiongenerator = "custom:MINI_NUCLEAR_Expl",
 		damage = {
 			default = 4300,  -- TA 3.1c (was 8000)
 			arm_commander_armor = 2900,

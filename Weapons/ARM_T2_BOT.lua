@@ -16,7 +16,6 @@ return {
 		areaofeffect = 8,  -- TA 3.1c (was 12)
 		soundstart = "cannhvy1",
 		soundhit = "xplomed2",
-		explosiongenerator = "custom:GAUSS_Expl",
 		startsmoke = 1,
 		damage = {
 			default = 120,
@@ -38,7 +37,6 @@ return {
 		soundstart = "Mavgun2",
 		soundhit = "xplomed2",
 		tolerance = 300,
-		explosiongenerator = "custom:GAUSS_Expl",     -- had none (only TA's legacy gaf tags): shots landed with no visible impact
 		explosiongaf = "fx",
 		explosionart = "explode5",
 		waterexplosiongaf = "fx",
@@ -113,7 +111,6 @@ return {
 		color = 118,
 		-- Yellow
 		color2 = 240,  -- 196
-		explosiongenerator = "custom:LIGHTNING",
 		startsmoke = 1,
 		damage = {
 			default = 180,  -- TA 3.1c (was 240)  -- 180//320

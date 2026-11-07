@@ -27,7 +27,6 @@ return {
 		soundtrigger = 1,
 		tolerance = 6000,
 		pitchtolerance = 12000,
-		explosiongenerator = "custom:FLASH1white",
 		startsmoke = 1,
 		damage = {
 			default = 11,
