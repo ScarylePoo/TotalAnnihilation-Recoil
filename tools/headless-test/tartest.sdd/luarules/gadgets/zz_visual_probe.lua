@@ -6,7 +6,7 @@ end
 -- gives team 0 unlimited energy/metal, makes them attack the ground in front of them over and over, points the camera
 -- at the line from game height, takes screenshots (writedir/screenshots), quits. VISUALZOOM sets the camera height.
 local opt = Spring.GetModOptions() or {}
-if not opt.visualunits then return end
+if not opt.visualunits and not opt.visualceg then return end
 
 local SPACING = 150
 
@@ -28,6 +28,25 @@ end
 if gadgetHandler:IsSyncedCode() then
 
 local units = {}
+
+-- an enemy far away, so the game does not offer a surrender vote over the view
+function gadget:GameStart()
+  Spring.CreateUnit("core_commander", Game.mapSizeX - 300, Spring.GetGroundHeight(Game.mapSizeX - 300, 300), 300, "south", 1)
+end
+
+-- VISUALCEG: effects in a row on the ground, re-spawned every 20 frames
+local cegs = {}
+for name in tostring(opt.visualceg or ""):gmatch("[^,]+") do cegs[#cegs + 1] = name end
+local function cegRow(n)
+  if #cegs == 0 or n < 60 or n % 20 ~= 0 then return end
+  local x0 = Game.mapSizeX / 2 - (#cegs - 1) * SPACING / 2
+  local z = Game.mapSizeZ * 0.62 - 150
+  for i, name in ipairs(cegs) do
+    local x = x0 + (i - 1) * SPACING
+    local ok = Spring.SpawnCEG(name, x, Spring.GetGroundHeight(x, z) + 2, z, 0, 1, 0)
+    if n == 60 then Spring.Echo("[VISUAL] spawn " .. name .. " -> " .. tostring(ok)) end
+  end
+end
 local shots = {}
 function gadget:Initialize()
   for id = 1, #WeaponDefs do Script.SetWatchProjectile(id, true) end
@@ -37,14 +56,13 @@ function gadget:ProjectileCreated(proID, ownerID, weaponDefID)
 end
 
 function gadget:GameFrame(n)
+  cegRow(n)
   if n == 2 then
-    Spring.SendCommands("cheat 1", "godmode 1")
+    Spring.SendCommands("cheat 1", "godmode 1", "globallos")  -- effects only draw where the viewer has line of sight
     for _, t in ipairs(Spring.GetTeamList()) do
       Spring.SetTeamResource(t, "es", 1e7) Spring.SetTeamResource(t, "e", 1e7)
       Spring.SetTeamResource(t, "ms", 1e7) Spring.SetTeamResource(t, "m", 1e7)
     end
-    -- an enemy far away, so the game does not offer a surrender vote over the view
-    Spring.CreateUnit("core_commander", Game.mapSizeX - 200, 0, 200, "south", 1)
     local list = lineup()
     local x0 = Game.mapSizeX / 2 - (#list - 1) * SPACING / 2
     local z = Game.mapSizeZ * 0.62
@@ -75,11 +93,23 @@ function gadget:GameFrame(n)
     end
     Spring.Echo("[VISUAL] frame " .. n .. " projectiles " .. #p .. " " .. table.concat(cmds, " "))
   end
+  if opt.visualkill and opt.visualkill ~= "" and n == 198 then  -- death explosions: VISUALKILL=1 (explode) or 2 (self-destruct)
+    for _, u in ipairs(units) do Spring.DestroyUnit(u.id, tonumber(opt.visualkill) == 2) end
+    units = {}
+  end
   if n >= 30 then
     for _, u in ipairs(units) do
       Spring.SetTeamResource(0, "e", 1e7)
       if n % 90 == 30 then
-        Spring.GiveOrderToUnit(u.id, CMD.ATTACK, { u.x, Spring.GetGroundHeight(u.x, u.z), u.z }, {})
+        local ud = UnitDefs[Spring.GetUnitDefID(u.id)]
+        if ud.buildOptions and ud.buildOptions[1] and not ud.isFactory then
+          -- builders: build their first build option in front of them (nano effect check)
+          if n == 30 then
+            Spring.GiveOrderToUnit(u.id, -ud.buildOptions[1], { u.x, Spring.GetGroundHeight(u.x, u.z), u.z + 60 }, {})
+          end
+        else
+          Spring.GiveOrderToUnit(u.id, CMD.ATTACK, { u.x, Spring.GetGroundHeight(u.x, u.z), u.z }, {})
+        end
       end
     end
   end
@@ -102,6 +132,7 @@ function gadget:Initialize()
   cx = Game.mapSizeX / 2
   cz = Game.mapSizeZ * 0.62 - dmax * 0.45
   far = tonumber(opt.visualzoom) or 700
+  if opt.visualceg and opt.visualceg ~= "" then cz = Game.mapSizeZ * 0.62 - 150 + 0.25 * far end  -- the CEG row, below the vote dialog
 end
 function gadget:DrawScreenPost()  -- last draw call-in of the frame: projectiles are drawn by then
   draws = draws + 1

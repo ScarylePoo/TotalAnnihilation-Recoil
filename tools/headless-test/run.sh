@@ -13,6 +13,7 @@
 #   TORP=<depth> tools/headless-test/run.sh ... instead runs only zz_torpedo_probe (every torpedo weapon in water that deep; TORPKIND=ship,sub,moving,shore,land,air picks targets)
 #   VISUAL=unit1,unit2 [VISUALZOOM=700 VISUALDIST=420 VISUALOUT=dir] tools/headless-test/run.sh ...  GRAPHICAL engine: lines the units up firing
 #                                             at the ground and saves screenshots (weapon visuals check, zz_visual_probe)
+#   VISUALCEG=ceg1,ceg2 [VISUALZOOM=...] tools/headless-test/run.sh ...  GRAPHICAL engine: those CEGs in a row on the ground, repeated
 #   DUMP=<file> tools/headless-test/run.sh ... instead runs only zz_def_dump: every runtime UnitDef/WeaponDef to <file> (tools/ta-data/defdump.py -> JSON)
 #   GAP=1 tools/headless-test/run.sh ...      instead runs only zz_piece_gap_probe (piece matrices of every unit def in action); it prints the path of
 #                                             gapdata.txt, which tools/s3okit/kit/piece_gaps.py turns into a report of pieces floating off the unit
@@ -45,7 +46,8 @@ sed -i "s/IsHost=1;/IsHost=1;\n\tHostPort=$((20000 + RANDOM % 30000));/" "$WD/sc
 [ -n "$TORP" ] && sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\ttorpprobe=$TORP;\n\t\ttorpkind=${TORPKIND:-ship,sub,moving,shore};/; s/blank_map_x=24/blank_map_x=32/; s/blank_map_y=24/blank_map_y=32/" "$WD/script.txt"
 [ -n "$GAP" ] && sed -i 's/debugmode=1;/debugmode=1;\n\t\tgaponly=1;/' "$WD/script.txt"
 [ -n "$DUMP" ] && sed -i 's/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tdumponly=1;/' "$WD/script.txt"
-[ -n "$VISUAL" ] && sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tvisualunits=$VISUAL;\n\t\tvisualzoom=${VISUALZOOM:-700};\n\t\tvisualdist=${VISUALDIST:-420};/" "$WD/script.txt"
+[ -n "$VISUALCEG" ] && VISUAL=${VISUAL:-none}
+[ -n "$VISUAL" ] && sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tvisualceg=$VISUALCEG;\n\t\tvisualunits=$VISUAL;\n\t\tvisualzoom=${VISUALZOOM:-700};\n\t\tvisualdist=${VISUALDIST:-420};\n\t\tvisualkill=${VISUALKILL:-};/" "$WD/script.txt"
 [ -n "$PADS" ] && sed -i 's/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tpadonly=1;/' "$WD/script.txt" && sed -i 's/\[ALLYTEAM0\]/[TEAM2] { TeamLeader=0; AllyTeam=1; Side=ARM; StartPosX=300; StartPosZ=11800; }\n\t[TEAM3] { TeamLeader=0; AllyTeam=2; Side=ARM; StartPosX=1000; StartPosZ=11800; }\n\t[TEAM4] { TeamLeader=0; AllyTeam=3; Side=ARM; StartPosX=2000; StartPosZ=11800; }\n\t[TEAM5] { TeamLeader=0; AllyTeam=4; Side=ARM; StartPosX=3000; StartPosZ=11800; }\n\t[ALLYTEAM2] { NumAllies=0; }\n\t[ALLYTEAM3] { NumAllies=0; }\n\t[ALLYTEAM4] { NumAllies=0; }\n\t&/' "$WD/script.txt"
 if [ -n "$STARTP" ]; then
   sed -i '/skippregame=1;/d' "$WD/script.txt"

@@ -70,3 +70,41 @@ planes), the EMP/Tron one-sidedness above.
   every weapon still fires; the Freedom Fighter's missile and the Albatross torpedo hit less in the probe (TA ranges
   300 and 510 vs BOTA's 480 and 630).
 - Visuals: `VISUAL=` mode (graphical engine on the GPU), cannons/EMGs/lasers/artillery side by side with main.
+
+## Effects (user decision, 2026-11-07: pretty over TA-accurate)
+
+All of TA:Recoil's old CEGs and effect bitmaps are gone; Splinter Faction's effect library replaces them
+(`gamedata/explosions/**` 172 files / 784 effects, `bitmaps/` minus SF's loading pictures, UI art, icons and logo;
+TA's `bitmaps/tracks` and `bitmaps/loadpictures` stay). `gamedata/resources.lua` is SF's. Wiring, all in
+`gamedata/alldefs_post.lua` and only with effects SF itself uses:
+
+- **Weapon impacts** (`ImpactCEG`, every weapon): plasma cannons `genericshellexplosion-small/medium/large`
+  (by damage and area), heavy artillery (>= 1000 damage) `-large-sparks-burn`, flak `-small-sparks-burn`, E.M.G.
+  `-small-orange`; lasers in their own colour (`-small/medium/large-<red|green|blue|purple|orange>` by damage);
+  missiles and rockets Arm blue / Core red; nukes `nukedatbewm(small)`; torpedoes `torpedoexplosion`; bombs
+  `genericshellexplosion-bomb(-huge)`; lightning and paralyzers `-electric-small` (Stunner: EMP building blast);
+  flamethrowers `burnblacksmall`; anti-nukes and the D-Gun `-large-sparks-burn`.
+- **Death explosions** (`DeathExplosions`): TA's explosion weapon (damage, area) is kept and cloned per effect
+  (`<weapon>__<effect>`). Size from the unit (cost, footprint; self-destruct one size up). Colour: Arm units blue,
+  Core red, aircraft white, ships orange, Krogoth huge purple, commanders and the nuclear mine SF's commander nuke,
+  decoys white; buildings: energy blue-EMP (fusion huge white-EMP), metal green, radar/sonar/targeting purple, towers
+  red, factories orange, nuke silos white-EMP, Geothermal self-destructs as a nuke (TA). Tables at the top of the
+  section, easy to change.
+- **Plasma balls**: every Cannon is the engine-default orange (BOTA had tinted some; the E.M.G. was yellow).
+- **Damage smoke**: SF's (`blacksmokesmall` + `burnblacksmall` below 90 % health) in `scripts/smokeunit.lua` and the
+  converted scripts; commanders, decoys, Crock and Triton now smoke too.
+- **Nano**: `luarules/gadgets/fx_nano.lua` puts SF's `nano-animated` on every nano piece while a builder or factory
+  sprays (build, repair, reclaim...), next to the engine's own nanospray.
+
+Engine 2026.09.01 issues found and fixed on our side (SF has the same files):
+- `CBitmapMuzzleFlame` reads `animParams1`/`animParams2`, not `animParams`: 11 SF muzzle flames drew their whole sprite
+  sheet as one flat quad. Fixed in the copied files (both slots set).
+- With the default 4096 atlas pages, SF's 41 megapixels of effect textures need several pages, and effects that mix
+  pages draw flat garbled rectangles. SF's fix is ported: `LuaIntro/Addons/initial_settings.lua` sets
+  `MaxTextureAtlasSizeX/Y = 8192` on a first run while loading, `luaui/widgets/gui_initial_settings.lua` reloads a
+  single-player match once if needed (`luaui/configs/initial_settings.lua`: only the atlas keys).
+- `bitmaps/default/circles.tga` (seismic ring) was 260x260; non-power-of-two broke the groundFX atlas. Now 256x256.
+
+How to look at effects: `VISUALCEG=name1,name2` / `VISUAL=units [VISUALKILL=1]` with
+`tools/headless-test/run_win_visual.sh` (Windows engine from WSL: real GPU colours; the WSL D3D12 bridge blends
+particles wrongly).
