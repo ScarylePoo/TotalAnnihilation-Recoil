@@ -97,7 +97,7 @@ function gadget:GameFrame(n)
     for _, u in ipairs(units) do Spring.DestroyUnit(u.id, tonumber(opt.visualkill) == 2) end
     units = {}
   end
-  if n >= 30 then
+  if n >= 30 and not (opt.visualhold and opt.visualhold ~= "") then  -- VISUALHOLD=1: units only stand there (scale reference)
     for _, u in ipairs(units) do
       Spring.SetTeamResource(0, "e", 1e7)
       if n % 90 == 30 then
