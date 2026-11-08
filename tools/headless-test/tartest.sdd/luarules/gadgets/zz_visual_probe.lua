@@ -136,6 +136,14 @@ function gadget:Initialize()
 end
 function gadget:DrawScreenPost()  -- last draw call-in of the frame: projectiles are drawn by then
   draws = draws + 1
+  if draws == 1 and opt.visualtex and opt.visualtex ~= "" then  -- VISUALTEX=path,...: can the engine load these textures?
+    for path in opt.visualtex:gmatch("[^,]+") do
+      local ok = gl.Texture(0, path)
+      local info = gl.TextureInfo(path) or {}
+      Spring.Echo(("[VISUAL] texture %s loaded=%s size=%sx%s"):format(path, tostring(ok), tostring(info.xsize), tostring(info.ysize)))
+      gl.Texture(0, false)
+    end
+  end
   local n = Spring.GetGameFrame()
   if n >= SLOW + 5 and taken < NSHOTS and n - lastShot >= STEP then
     Spring.SendCommands("screenshot png")

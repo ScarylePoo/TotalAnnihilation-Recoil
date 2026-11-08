@@ -319,3 +319,13 @@ Input: the workbook's Decision/Notes columns (Units, Weapons, Turret Speeds shee
   TA's nonexistent explosions (data bugs above).
 - The workbook's "Median change" column on the Read Me sheet is static (computed at build time).
 - Generated at: cloud session 2026-11-06, repo main @ d06fed81.
+
+## Normal maps (for CUS GL4)
+
+`unittextures/<tex1 stem>_normals.dds`, one per S3O texture (541: units, wrecks, heaps), generated from the diffuse
+by `tools/textures/normalmaps.py` (numpy + Pillow; its own DXT5 encoder: Pillow's tilted flat areas ~3 degrees).
+Layout as BAR's CUS GL4 reads it: RGB tangent-space normal (red = image right, green = image down, measured on BAR's
+own Arm textures), alpha = height. Capped at 1024. Units point at theirs with `customparams.normaltex`
+(`UnitDef_Post`); features need nothing (CUS finds `<tex1>_normals.dds` itself). Re-run the script after changing a
+diffuse texture (it skips up-to-date ones; `--force` redoes all, `--preview DIR` writes lit before/after images).
+
