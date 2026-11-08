@@ -329,3 +329,16 @@ own Arm textures), alpha = height. Capped at 1024. Units point at theirs with `c
 (`UnitDef_Post`); features need nothing (CUS finds `<tex1>_normals.dds` itself). Re-run the script after changing a
 diffuse texture (it skips up-to-date ones; `--force` redoes all, `--preview DIR` writes lit before/after images).
 
+## Custom Unit Shaders GL4
+
+Installed from https://github.com/Spring-Helper-Projects/Custom-Unit-Shaders-GL4 (see
+`modelmaterials_gl4/README-TAR.txt`; our changes are marked "TA:Recoil"). Settings in `luarules/configs/cus_defs.lua`:
+- Units and wrecks use our own option `OPTION_TEX2_SPECULAR`: our texture2s are classic Recoil ones (red = glow,
+  green = specular, blue unused; read as PBR, blue 0 would make every unit a mirror). Glow stays; green sets
+  metalness (x 0.6) and roughness (0.9 - 1.4 x green), in `cus_gl4.frag.glsl`.
+- `brightnessFactor` 1.6 for units and wrecks (was 1.1 / 1.3): the PBR path darkens our older textures.
+- Without GL4 (headless, servers) the gadget removes itself (was ~2300 errors per test run).
+- Features get `customParams.normaltex` in `gamedata/featuredefs_post.lua` (which keeps the base content's own
+  processing); this CUS has no naming fallback.
+In game: `/luarules disablecusgl4`, `/luarules reloadcusgl4`; config `cus2 = 0` turns it off.
+
