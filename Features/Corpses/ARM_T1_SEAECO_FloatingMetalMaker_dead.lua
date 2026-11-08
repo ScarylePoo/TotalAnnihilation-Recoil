@@ -13,7 +13,7 @@ return {
 		blocking = 0,
 		hitdensity = 100,
 		metal = 0,
-		damage = 28,  -- 115
+		damage = 88,  -- TA rule: 0.8 x unit HP 110 (was 28)
 		reclaimable = 1,
 		seqnamereclamate = "tree1reclamate",
 		featuredead = "ARM_T1_SEAECO_FloatingMetalMaker_heap",
@@ -29,7 +29,7 @@ return {
 		blocking = 0,
 		hitdensity = 100,
 		metal = 0,
-		damage = 28,
+		damage = 88,  -- TA rule: = its wreck (was 28)
 		reclaimable = 1,
 		featurereclamate = "smudge01",
 		seqnamereclamate = "tree1reclamate",

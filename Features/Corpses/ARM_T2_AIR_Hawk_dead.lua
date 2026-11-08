@@ -13,7 +13,7 @@ return {
 		blocking = 1,
 		hitdensity = 100,
 		metal = 174,
-		damage = 100,  -- 400
+		damage = 400,  -- TA 3.1c (armhawk_dead) (was 100)
 		reclaimable = 1,
 		featurereclamate = "smudge01",
 		seqnamereclamate = "tree1reclamate",
@@ -29,7 +29,7 @@ return {
 		blocking = 0,
 		hitdensity = 100,
 		metal = 87,
-		damage = 600,
+		damage = 400,  -- TA 3.1c (armhawk_heap) (was 600)
 		reclaimable = 1,
 		featurereclamate = "smudge01",
 		seqnamereclamate = "tree1reclamate",

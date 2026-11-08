@@ -13,7 +13,7 @@ return {
 		blocking = 1,
 		hitdensity = 100,
 		metal = 95,
-		damage = 30,  -- 120
+		damage = 120,  -- TA 3.1c (armatlas_dead) (was 30)
 		reclaimable = 1,
 		featurereclamate = "smudge01",
 		seqnamereclamate = "tree1reclamate",
@@ -29,7 +29,7 @@ return {
 		blocking = 0,
 		hitdensity = 100,
 		metal = 48,
-		damage = 180,  -- 120
+		damage = 120,  -- TA 3.1c (armatlas_heap) (was 180)
 		reclaimable = 1,
 		featurereclamate = "smudge01",
 		seqnamereclamate = "tree1reclamate",

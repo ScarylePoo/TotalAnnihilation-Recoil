@@ -31,6 +31,11 @@ Every changed line in `units/*.lua`, `Weapons/*.lua`, `gamedata/movedefs.lua` an
 - **Turret aim speeds**: all 56 that differed now match TA (Lua scripts, `math.rad(<TA deg/s>)`), e.g. towers that the
   Lua ports had given one generic 286 deg/s, Penetrator 8/4 deg/s, Doomsday main gun 10 deg/s.
 - **Movement water depth**: kbots and tanks wade 12 deep again, Spider 16, Krogoth 12; small ships need 3, big 15.
+- **Wreck and heap health** (`Features/**`, 491 values; user report: wrecks turned into heaps far too easily): BOTA
+  had most at a quarter of TA's (factories and some buildings raised instead, sunken heaps 36000). Now TA's own
+  feature values (391, `-- TA 3.1c (was ...)`); where TA has none (aircraft and ship heaps, a few units without a
+  TA corpse) TA's pattern (`-- TA rule`): wreck = 0.8 x the unit's TA HP (TA: 0.80-0.84 for 222 units), heap = its
+  wreck. Typical wreck now ~4x tougher than before. Wreck metal still differs from TA on 77 features (not changed).
 - **No idle regeneration** (TA had none; the engine default is 10 HP/s): `idleautoheal = 0` on every unit.
 
 ## Deviations (deliberate, with the reason)

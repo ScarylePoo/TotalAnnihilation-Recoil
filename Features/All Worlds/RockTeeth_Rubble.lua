@@ -21,6 +21,6 @@ return {
 		reclaimable = 1,
 		blocking = 1,
 		hitdensity = 100,
-		damage = 600,  -- 2000
+		damage = 2000,  -- TA 3.1c (was 600)
 	},
 }

@@ -13,7 +13,7 @@ return {
 		blocking = 1,
 		hitdensity = 100,
 		metal = 356,
-		damage = 300,  -- 120
+		damage = 136,  -- TA rule: 0.8 x unit HP 170 (was 300)
 		reclaimable = 1,
 		featurereclamate = "smudge01",
 		seqnamereclamate = "tree1reclamate",
@@ -29,7 +29,7 @@ return {
 		blocking = 0,
 		hitdensity = 100,
 		metal = 177,
-		damage = 150,  -- 120
+		damage = 136,  -- TA rule: = its wreck (was 150)
 		reclaimable = 1,
 		featurereclamate = "smudge01",
 		seqnamereclamate = "tree1reclamate",

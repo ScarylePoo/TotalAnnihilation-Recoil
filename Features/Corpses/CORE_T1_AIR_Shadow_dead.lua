@@ -13,7 +13,7 @@ return {
 		blocking = 1,
 		hitdensity = 100,
 		metal = 111,
-		damage = 60,  -- 240
+		damage = 240,  -- TA 3.1c (corshad_dead) (was 60)
 		reclaimable = 1,
 		featurereclamate = "smudge01",
 		seqnamereclamate = "tree1reclamate",
@@ -29,7 +29,7 @@ return {
 		blocking = 0,
 		hitdensity = 100,
 		metal = 63,
-		damage = 60,  -- 240
+		damage = 240,  -- TA 3.1c (corshad_heap) (was 60)
 		reclaimable = 1,
 		featurereclamate = "smudge01",
 		seqnamereclamate = "tree1reclamate",

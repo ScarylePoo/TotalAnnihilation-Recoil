@@ -13,7 +13,7 @@ return {
 		blocking = 1,
 		hitdensity = 100,
 		metal = 23591,
-		damage = 5989,  -- 23934
+		damage = 23934,  -- TA 3.1c (was 5989)
 		reclaimable = 1,
 		featurereclamate = "smudge01",
 		seqnamereclamate = "tree1reclamate",
@@ -29,7 +29,7 @@ return {
 		blocking = 0,
 		hitdensity = 100,
 		metal = 11795,
-		damage = 2994,  -- 11967
+		damage = 11967,  -- TA 3.1c (was 2994)
 		reclaimable = 1,
 		featurereclamate = "smudge01",
 		seqnamereclamate = "tree1reclamate",

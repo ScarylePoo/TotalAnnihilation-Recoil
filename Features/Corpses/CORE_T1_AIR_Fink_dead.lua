@@ -13,7 +13,7 @@ return {
 		blocking = 1,
 		hitdensity = 100,
 		metal = 42,
-		damage = 36,  -- 72
+		damage = 72,  -- TA 3.1c (corfink_dead) (was 36)
 		reclaimable = 1,
 		featurereclamate = "smudge01",
 		seqnamereclamate = "tree1reclamate",
@@ -29,7 +29,7 @@ return {
 		blocking = 0,
 		hitdensity = 100,
 		metal = 21,
-		damage = 19,  -- 72
+		damage = 72,  -- TA 3.1c (corfink_heap) (was 19)
 		reclaimable = 1,
 		featurereclamate = "smudge01",
 		seqnamereclamate = "tree1reclamate",

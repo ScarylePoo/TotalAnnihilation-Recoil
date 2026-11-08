@@ -12,7 +12,7 @@ return {
 		blocking = 1,
 		hitdensity = 100,
 		metal = 14,
-		damage = 300,  -- 3500
+		damage = 3500,  -- TA 3.1c (was 300)
 		reclaimable = 1,
 		autoreclaimable = 0,
 		nodrawundergray = 1,
