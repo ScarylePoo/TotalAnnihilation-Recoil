@@ -170,6 +170,9 @@ function gadget:GameFrame(n)
       Spring.SendCommands("luaui disable", "console 0")
     end
   end
+  if n == 40 and opt.visualcmd and opt.visualcmd ~= "" then  -- VISUALCMD="luaui headlights on|...": console commands
+    for c in opt.visualcmd:gmatch("[^|]+") do Spring.SendCommands(c) end
+  end
   if select and n == 60 then
     local mine = {}
     for _, u in ipairs(Spring.GetAllUnits()) do
