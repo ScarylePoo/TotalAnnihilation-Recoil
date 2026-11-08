@@ -537,3 +537,17 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
   priority button, nanoframe reclaim, factory blocking, stockpile cap, splitter, preserved orders on share, team colour
   params readable by LuaUI. PORTCOLORS=1 also switches Auto team colours on (Red vs Blue). LuaUI orders reach the
   simulation ~30 frames later on headless; the probe steps are 40 frames apart.
+
+## Commander box art (tools/boxart)
+- run_boxart.sh renders 4K in-engine "box art" of a commander with the Windows engine (run_win_visual.sh setup),
+  staged by tartest.sdd/luarules/gadgets/zz_boxart_probe.lua: a flat spot, a base behind, the scene turned toward
+  the sun, a lighting preset (LIGHT=arm|core: sun angle, key/ambient colours, haze), then either the D-Gun fired
+  toward a camera (AIMCAM) or a nanoframe built (BUILD=<unit>), paused, one screenshot per camera preset
+  (CAMS="name:dist:height:side:look/..."), interface hidden, LuaUI graphics widgets kept.
+- Useful config: CFG=$'HardwareCursor = 1\nMaxNanoParticles = 0\nWindowBorderless = 1\nWindowPosX = 0\nWindowPosY = 0\n'
+  with W=3840 H=2160 (the borderless window gives the full 2160 rows; the engine's square nano particles are huge up
+  close). The Initial Settings widget restarts a fresh-config match: the probe turns it off.
+- The red tint on close-up commanders was their own glow lights (DeferredLightsGL4unitLights): DeferredLightsGL4config
+  drops them when the boxart modoption is set. Gameplay is unaffected.
+- grade.py arm|core in out: contrast, faction split tone, sky gradient, bloom, vignette, grain.
+- Results of 2026-11-08: I:\Claude Space\Commander Box Art (Arm on Painted Badlands, Core on Incandescence).

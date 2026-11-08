@@ -91,6 +91,10 @@ do
 		end
 	end
 end
+-- tools/boxart renders: seen from a few metres, the commanders' own glow lights tint the whole model red
+if (Spring.GetModOptions() or {}).boxart then
+	unitLights.arm_commander, unitLights.core_commander = nil, nil
+end
 
 --------------------------------------------------------------------------------
 -- Unit event lights
