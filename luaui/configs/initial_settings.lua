@@ -14,7 +14,7 @@
 
 local M = {}
 
-M.VERSION     = 1
+M.VERSION     = 2   -- 2: TeamNanoSpray
 M.MARKER_KEY  = "TARInitialSettingsVersion"   -- VERSION, once the list has been written
 M.PENDING_KEY = "TARInitialSettingsReload"    -- 1: the loading screen changed a RELOAD_FIXES setting
 
@@ -32,6 +32,10 @@ local settings = {
 	-- rectangles (engine 2026.09.01).
 	{ "MaxTextureAtlasSizeX",        8192 },
 	{ "MaxTextureAtlasSizeY",        8192 },
+	-- Nanospray and the frames of units being built in the unit's nano colour, not team colour. The modrule
+	-- (nanospray.allow_team_colors) is no longer read by the engine; this player setting is what decides now.
+	-- Takes effect at once; a player who turns it back on keeps their choice (applied once per VERSION).
+	{ "TeamNanoSpray",               0 },
 }
 
 --------------------------------------------------------------------------------

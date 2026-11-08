@@ -123,7 +123,8 @@ local modrules  = {
 
 
 	nanospray = {
-		allow_team_colors = false,  -- defaults to true
+		allow_team_colors = false,  -- NOT READ by this engine (Recoil removed it); the player setting TeamNanoSpray
+		                            -- decides, set to 0 on first run by luaui/configs/initial_settings.lua
 	},
 
 	featureLOS = {

@@ -1208,7 +1208,13 @@ void main(void){
 			// The entire model will always get the 8 elmo buildgrid:
 			//outColor.rgb = mix(outColor.rgb, vec3(1.0, 0.0, 1.0), buildGridFactor);
 			//outColor.rgb = vec3(buildGridFactor); 
-			vec3 pulseTeamColor = mix(teamCol.rgb, teamCol.rgb * 1.78, sintimefast );
+			// TA:Recoil: NANOFRAME_COLOR is defined by cus_gl4.lua when the TeamNanoSpray setting is off
+			#ifdef NANOFRAME_COLOR
+				vec3 frameColor = NANOFRAME_COLOR;
+			#else
+				vec3 frameColor = teamCol.rgb;
+			#endif
+			vec3 pulseTeamColor = mix(frameColor, frameColor * 1.78, sintimefast );
 
 			// Second to bottom level, ensure that we dont emit light
 			if (height > progressLevels.x){

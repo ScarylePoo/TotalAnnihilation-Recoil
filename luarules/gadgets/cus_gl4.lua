@@ -496,6 +496,16 @@ end
 local itsXmas = false
 local function initMaterials()
 	defaultMaterialTemplate = VFS.Include("modelmaterials_gl4/templates/defaultMaterialTemplate.lua")
+	-- TA:Recoil: the build effect (grid and rising band on units under construction) follows the engine's
+	-- TeamNanoSpray setting like the nanospray and engine nanoframes: off -> the engine's default nano colour
+	-- (UnitDef nanoColor, 0.2 0.7 0.2) instead of team colour. /luarules reloadcusgl4 after changing it.
+	if Spring.GetConfigInt("TeamNanoSpray", 1) == 0 then
+		local def = "#define NANOFRAME_COLOR vec3(0.2, 0.7, 0.2)"
+		for _, key in ipairs({"shaderDefinitions", "deferredDefinitions", "reflectionDefinitions"}) do
+			defaultMaterialTemplate[key] = defaultMaterialTemplate[key] or {}
+			table.insert(defaultMaterialTemplate[key], def)
+		end
+	end
 	if itsXmas then
 		Spring.Echo("CUS GL4 enabled XMAS mode")
 	end
