@@ -27,7 +27,6 @@ return {
 		selfdestructas = "NUCLEAR_MISSILE",
 		-- properties
 		maxdamage = 1231,
-		hidedamage = 1,
 		idletime = 2200,
 		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
 		sightdistance = 110,  -- TA 3.1c (was 190)

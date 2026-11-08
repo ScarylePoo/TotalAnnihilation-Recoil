@@ -28,7 +28,6 @@ return {
 		selfdestructas = "MEDIUM_BUILDING",
 		-- properties
 		maxdamage = 1230,  -- TA 3.1c (was 930)
-		hidedamage = 1,
 		idletime = 2200,
 		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
 		sightdistance = 380,  -- TA 3.1c (was 635)

@@ -27,7 +27,6 @@ return {
 		selfdestructas = "CRAWL_BLASTSML",
 		-- properties
 		maxdamage = 780,  -- TA 3.1c (was 1180)
-		hidedamage = 1,
 		idletime = 2200,
 		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
 		sightdistance = 150,  -- TA 3.1c (was 162)

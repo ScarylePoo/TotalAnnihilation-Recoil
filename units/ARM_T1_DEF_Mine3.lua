@@ -27,7 +27,6 @@ return {
 		selfdestructas = "ARMMINE3",
 		-- properties
 		maxdamage = 100,  -- TA 3.1c (was 32)
-		hidedamage = 1,
 		idletime = 2200,
 		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
 		sightdistance = 55,

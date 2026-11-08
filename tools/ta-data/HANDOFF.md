@@ -560,3 +560,8 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
 - moveturninplace (degrees, default 90) -> turnInPlaceAngleLimit. The engine's default 0 cuts a ground unit's target
   speed for ANY turn (to turnRate/angle of top speed, at least 10 %); with the braking floor that was a dead stop
   before every turn. TURNPROBE=1 run.sh measures it: 60 degree turn 100 % speed at 90, 10 % at 0.
+
+## hideDamage
+- Only the commanders hide their health from enemies (TA: HideDamage=1 in armcom.fbi / corcom.fbi only). The FBI ->
+  Lua conversion had put hidedamage = 1 on every unit, so enemy health bars never showed and Slate saw no enemy
+  damage. Decoy commanders show theirs, as in TA. Check: DUMP=1 run.sh, grep "hideDamage=true".

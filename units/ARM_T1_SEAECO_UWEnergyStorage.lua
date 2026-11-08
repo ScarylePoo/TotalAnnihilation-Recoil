@@ -26,7 +26,6 @@ return {
 		selfdestructas = "ESTOR_BUILDING",
 		-- properties
 		maxdamage = 1447,
-		hidedamage = 1,
 		idletime = 2200,
 		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
 		sightdistance = 140,  -- TA 3.1c (was 245)

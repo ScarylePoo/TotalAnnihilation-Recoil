@@ -27,7 +27,6 @@ return {
 		selfdestructas = "CORMINE3",
 		-- properties
 		maxdamage = 200,  -- TA 3.1c (was 45)
-		hidedamage = 1,
 		idletime = 2200,
 		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
 		sightdistance = 55,

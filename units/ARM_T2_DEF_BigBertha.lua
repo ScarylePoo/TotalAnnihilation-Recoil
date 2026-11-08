@@ -32,7 +32,6 @@ return {
 		defaultmissiontype = "GUARD_NOMOVE",
 		-- properties
 		maxdamage = 1800,
-		hidedamage = 1,
 		idletime = 2200,
 		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
 		sightdistance = 210,  -- TA 3.1c (was 367)

@@ -40,7 +40,6 @@ return {
 		-- properties
 		showplayername = 1,
 		maxdamage = 1580,
-		hidedamage = 1,
 		idletime = 2200,
 		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
 		sightdistance = 290,  -- TA 3.1c (was 515)

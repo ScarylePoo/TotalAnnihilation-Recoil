@@ -44,7 +44,6 @@ return {
 		selfdestructas = "BIG_UNIT",
 		-- properties
 		maxdamage = 870,
-		hidedamage = 1,
 		idletime = 2200,
 		idleautoheal = 0,  -- TA 3.1c: no idle regeneration (was .5)
 		sightdistance = 195,  -- TA 3.1c (was 341)
