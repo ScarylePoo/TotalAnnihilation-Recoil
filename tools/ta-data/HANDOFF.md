@@ -565,3 +565,17 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
 - Only the commanders hide their health from enemies (TA: HideDamage=1 in armcom.fbi / corcom.fbi only). The FBI ->
   Lua conversion had put hidedamage = 1 on every unit, so enemy health bars never showed and Slate saw no enemy
   damage. Decoy commanders show theirs, as in TA. Check: DUMP=1 run.sh, grep "hideDamage=true".
+
+## Damage audit and slow projectiles (2026-11-08)
+- `tools/ta-data/audit_damage.py DUMP.json TA_OUT CMP` checks the runtime defs (from a `DUMP=` run + `defdump.py`) against
+  TA 3.1c: for every weapon and every unit, the damage the game deals that unit (`damages[armorType]`) vs TA's per-unit
+  list or default; plus range, reload, area of effect (runtime stores the radius), projectile speed, burst.
+  Result on ta-values @ 5e78d3a2: all 173 paired weapons match TA. The only damage rows are the deliberate aircraft
+  deviation (10 aircraft TA's AA lists predate take the side's aircraft bonus), the only stat rows the speeds below.
+  The Crasher and the Core decoy commander fire from slot 3/4 (NOWEAPON before): the audit's PAIRING row for
+  `noweapon` is that, not a missing weapon.
+- Slow projectiles: `WeaponDef_Post` multiplies `weaponvelocity` (and `startvelocity`, `weaponacceleration`) by
+  `SLOW_SHOT_MULT` = 1.25 for every weapon under `SLOW_SHOT` = 250 elmos/s except bombs: all torpedoes and depth
+  charges, light cannons (170), medium cannons (210/220: Hammer, Thud, Bulldog, Reaper, Triton, Gimp, Crock), the Pyro's
+  flamethrower (188) and the D-Gun (200). Damage, range and gravity unchanged; cannon arcs are flatter. AIM=1 probe:
+  all still fire and hit.
