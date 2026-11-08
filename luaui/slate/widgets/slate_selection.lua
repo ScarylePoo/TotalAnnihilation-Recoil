@@ -48,6 +48,8 @@ local spGetTeamUnitsByDefs     = Spring.GetTeamUnitsByDefs
 local spGetMyTeamID            = Spring.GetMyTeamID
 local spSelectUnitArray        = Spring.SelectUnitArray
 local spGetModKeyState         = Spring.GetModKeyState
+local spGetFeatureDefID        = Spring.GetFeatureDefID
+local spGetFeatureResources    = Spring.GetFeatureResources
 
 local min, max, floor = math.min, math.max, math.floor
 local format = string.format
@@ -138,8 +140,19 @@ local function Decide()
 		local defID = spGetUnitDefID(id)
 		if defID then return UnitView(id, defID) end
 	end
+	if what == "feature" then
+		local fd = FeatureDefs[spGetFeatureDefID(id) or -1]
+		local metal, _, energy = spGetFeatureResources(id)
+		if fd and metal then
+			local title = (fd.tooltip and fd.tooltip ~= "" and fd.tooltip) or fd.description or fd.name
+			return { kind = "text", title = title,
+				text = "Metal: " .. hud.Number(metal) .. "    Energy: " .. hud.Number(energy or 0) }
+		end
+	end
 	if what == "unit" or what == "feature" then
+		-- the engine's tooltip carries colour codes (\255 + three colour bytes, \b to reset): escaped, they showed as junk
 		local tip = spGetCurrentTooltip()
+		tip = tip and tip:gsub("\255...", ""):gsub("\b", "")
 		if tip and tip ~= "" then
 			local title, rest = tip:match("^([^\r\n]*)[\r\n]*(.*)$")
 			return { kind = "text", title = title or "", text = rest or "" }
