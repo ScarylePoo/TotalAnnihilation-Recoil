@@ -489,7 +489,8 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
 ## Loading screen (LuaIntro, from Splinter Faction)
 - LuaIntro/main.lua + config.lua (SF; the handler is the engine's base content LuaHandler). Addons:
   loadprogress.lua (SF: per-map load timing), bg_texture.lua (a random picture from bitmaps/loadpictures/, cropped to
-  fill the screen; start1.jpg for now), main.lua (SF's panel in Slate colours: one card + load message + bar),
+  fill the screen; start1.jpg for now), main.lua (SF's panel drawn as a Slate window: rounded glass, a head with the card kind and map, the card sized to
+  its text, a LOADING label / percentage / rounded bar; follows the player's Slate tint and opacity config),
   music.lua (plays LuaIntro/Configs/loadscreen.lua's music, TA's Intro.ogg, at snd_volmusic; names it in config
   music_loadscreen_track), bg_logo.lua (a disabled stub shadowing the engine's spinning logo), initial_settings.lua.
 - Cards (tips, unit notes with pictures, quotes) and the track are data in LuaIntro/Configs/loadscreen.lua.
