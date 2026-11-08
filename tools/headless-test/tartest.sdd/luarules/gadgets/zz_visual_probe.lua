@@ -156,8 +156,20 @@ function gadget:DrawScreenPost()  -- last draw call-in of the frame: projectiles
 end
 
 function gadget:GameFrame(n)
+  local select = opt.visualselect and opt.visualselect ~= ""
   if n == 20 then
-    Spring.SendCommands("luaui disable", "console 0")
+    if select then
+      Spring.SendCommands("console 0")   -- VISUALSELECT: keep LuaUI (selection widgets) on
+    else
+      Spring.SendCommands("luaui disable", "console 0")
+    end
+  end
+  if select and n == 60 then
+    local mine = {}
+    for _, u in ipairs(Spring.GetAllUnits()) do
+      if Spring.GetUnitTeam(u) == 0 then mine[#mine + 1] = u end
+    end
+    Spring.SelectUnitArray(mine)
   end
   if n >= 20 and taken < NSHOTS then  -- held every frame: a mouse at the window edge scrolls the view away
     Spring.SetCameraState({ name = "spring", mode = 2, px = cx, py = Spring.GetGroundHeight(cx, cz), pz = cz,
