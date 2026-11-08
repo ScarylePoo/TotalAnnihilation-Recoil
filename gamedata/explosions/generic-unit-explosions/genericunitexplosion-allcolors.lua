@@ -37,68 +37,90 @@ local colors = {
 }
 
 -- Per-size scaling values. Everything that changes between small/medium/large/huge lives here.
+-- TA:Recoil: resized to TA's units (Splinter Faction's values in the comments). Target: the fireball ends at about
+-- the size of the unit (radius ~25 / 40 / 65 / 100 elmos: Peewee / Bulldog / Goliath / Krogoth), ring and wave
+-- ~1.5x that, ground glow ~1.4x (it lingers). SF's sizes, with their fixed growth over 30-100 frames, reached 65-165 (fireball)
+-- and 150-400 (ring) and lit the ground out to 200-800.
 local sizes = {
   small = {
-    -- centerflare
-    centerSizegrowth    = 5,
-    -- explosionwave / groundflash
-    circlegrowth        = 1.5,
-    flashsize           = 200,
-    -- outerflash
-    outerSizegrowth     = 10,
-    -- orangeexplosionspikes
-    spikeSpeed          = 12,
-    -- kickedupdirt / kickedupwater
-    dirtParticles       = 8,
-    dirtSize            = 6,
-    dirtSizeSpread      = 3,
-    dirtSpeed           = 5,
-    dirtSpeedSpread     = 3,
-    dirtSizegrowth      = 1.5,
-    -- fireball
-    fireballSize        = 20,
+    centerSizegrowth    = 2.5,  -- 5
+    circlegrowth        = 0.4,  -- 1.5 (x 100 frames)
+    waveSize            = 3,    -- 8
+    waveSpeed           = 2,    -- 8
+    flashsize           = 35,   -- 200
+    outerSizegrowth     = 5,    -- 10
+    spikeSpeed          = 5,    -- 12
+    sparkSize           = 5,    -- 20
+    sparkSpeed          = 12,   -- 48
+    dirtParticles       = 6,    -- 8
+    dirtSize            = 3,    -- 6
+    dirtSizeSpread      = 1.5,  -- 3
+    dirtSpeed           = 2.5,  -- 5
+    dirtSpeedSpread     = 1.5,  -- 3
+    dirtSizegrowth      = 0.6,  -- 1.5
+    fireballSize        = 12,   -- 20
+    fireballGrowth      = 0.4,  -- 1.5 (x 30 frames)
+    flareLength         = 15,   -- 40
   },
   medium = {
-    centerSizegrowth    = 8,
-    circlegrowth        = 2,
-    flashsize           = 400,
-    outerSizegrowth     = 15,
-    spikeSpeed          = 16,
-    dirtParticles       = 10,
-    dirtSize            = 8,
-    dirtSizeSpread      = 4,
-    dirtSpeed           = 7,
-    dirtSpeedSpread     = 3,
-    dirtSizegrowth      = 1.5,
-    fireballSize        = 40,
+    centerSizegrowth    = 4,    -- 8
+    circlegrowth        = 0.6,  -- 2
+    waveSize            = 4,
+    waveSpeed           = 2.5,
+    flashsize           = 55,   -- 400
+    outerSizegrowth     = 7.5,  -- 15
+    spikeSpeed          = 7,    -- 16
+    sparkSize           = 7,
+    sparkSpeed          = 18,
+    dirtParticles       = 8,    -- 10
+    dirtSize            = 4,    -- 8
+    dirtSizeSpread      = 2,    -- 4
+    dirtSpeed           = 3.5,  -- 7
+    dirtSpeedSpread     = 1.5,  -- 3
+    dirtSizegrowth      = 0.8,  -- 1.5
+    fireballSize        = 20,   -- 40
+    fireballGrowth      = 0.6,
+    flareLength         = 24,
   },
   large = {
-    centerSizegrowth    = 12,
-    circlegrowth        = 3,
-    flashsize           = 600,
-    outerSizegrowth     = 30,
-    spikeSpeed          = 20,
-    dirtParticles       = 12,
-    dirtSize            = 10,
-    dirtSizeSpread      = 5,
-    dirtSpeed           = 10,
-    dirtSpeedSpread     = 4,
-    dirtSizegrowth      = 1.5,
-    fireballSize        = 80,
+    centerSizegrowth    = 6,    -- 12
+    circlegrowth        = 1.0,  -- 3
+    waveSize            = 6,
+    waveSpeed           = 3,
+    flashsize           = 90,  -- 600
+    outerSizegrowth     = 15,   -- 30
+    spikeSpeed          = 10,   -- 20
+    sparkSize           = 11,
+    sparkSpeed          = 28,
+    dirtParticles       = 10,   -- 12
+    dirtSize            = 5,    -- 10
+    dirtSizeSpread      = 2.5,  -- 5
+    dirtSpeed           = 5,    -- 10
+    dirtSpeedSpread     = 2,    -- 4
+    dirtSizegrowth      = 1.0,  -- 1.5
+    fireballSize        = 32,   -- 80
+    fireballGrowth      = 1.0,
+    flareLength         = 38,
   },
   huge = {
-    centerSizegrowth    = 18,
-    circlegrowth        = 4,
-    flashsize           = 800,
-    outerSizegrowth     = 40,
-    spikeSpeed          = 26,
-    dirtParticles       = 14,
-    dirtSize            = 12,
-    dirtSizeSpread      = 6,
-    dirtSpeed           = 14,
-    dirtSpeedSpread     = 4,
-    dirtSizegrowth      = 1.5,
-    fireballSize        = 120,
+    centerSizegrowth    = 9,    -- 18
+    circlegrowth        = 1.5,  -- 4
+    waveSize            = 8,
+    waveSpeed           = 4,
+    flashsize           = 140,  -- 800
+    outerSizegrowth     = 20,   -- 40
+    spikeSpeed          = 14,   -- 26
+    sparkSize           = 16,
+    sparkSpeed          = 40,
+    dirtParticles       = 12,   -- 14
+    dirtSize            = 7,    -- 12
+    dirtSizeSpread      = 3,    -- 6
+    dirtSpeed           = 7,    -- 14
+    dirtSpeedSpread     = 2,    -- 4
+    dirtSizegrowth      = 1.2,  -- 1.5
+    fireballSize        = 50,   -- 120
+    fireballGrowth      = 1.6,
+    flareLength         = 60,
   },
 }
 
@@ -145,10 +167,10 @@ local function makeExplosion(s, c)
         numparticles        = 1,
         particlelife        = 100, -- same as groundflash ttl
         particlelifespread  = 0,
-        particlesize        = 8,   -- groundflash flashsize 25 = 1, so if flashsize is 200, particlesize here would be 8
+        particlesize        = s.waveSize,
         particlesizespread  = 1,
-        particlespeed       = 8,
-        particlespeedspread = 6,
+        particlespeed       = s.waveSpeed,
+        particlespeedspread = s.waveSpeed * 0.75,
         pos                 = [[0, 1, 0]],
         sizegrowth          = s.circlegrowth, -- same as groundflash circlegrowth
         sizemod             = 1.0,
@@ -300,9 +322,9 @@ local function makeExplosion(s, c)
         numparticles        = 8,
         particlelife        = 5,
         particlelifespread  = 16,
-        particlesize        = 20,
+        particlesize        = s.sparkSize,
         particlesizespread  = 0,
-        particlespeed       = 48,
+        particlespeed       = s.sparkSpeed,
         particlespeedspread = 1,
         pos                 = [[0, 2, 0]],
         sizegrowth          = 0.8,
@@ -337,7 +359,7 @@ local function makeExplosion(s, c)
         rotParams           = [[-24 r48, -60 r120, -180 r360]],
         animParams          = [[6,6,40]], --[xTiles, yTiles, animLength in game frames]
         pos                 = [[0,0,0]],
-        sizegrowth          = 1.5,
+        sizegrowth          = s.fireballGrowth,
         sizemod             = 1,
         texture             = [[generated-unitexplosion-static]],
         drawOrder           = 0,
@@ -360,7 +382,7 @@ local function makeExplosion(s, c)
         animParams1          = [[6,6,40]],  -- front texture (engine 2026.09: muzzle flames read animParams1/2, not animParams)
         animParams2          = [[6,6,40]],  -- side texture --[xTiles, yTiles, animLength in game frames]
         fronttexture       = [[generated-furnace]],
-        length             = 40,
+        length             = s.flareLength,
         sidetexture        = [[none]],
         size               = s.fireballSize,
         sizegrowth         = 0,

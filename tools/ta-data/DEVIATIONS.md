@@ -102,6 +102,13 @@ TA's `bitmaps/tracks` and `bitmaps/loadpictures` stay). `gamedata/resources.lua`
   `gamedata/explosions/tar-muzzleflashes.lua` (`tar-muzzle-cannon-<size>`, `tar-muzzle-energy-<size>-<colour>`),
   sized by damage (E.M.G.s and light lasers tiny ... Big Bertha, Intimidator, Annihilators huge); cannons firing
   faster than once a second one size smaller. Missiles, bombs, torpedoes and flamethrowers have none.
+- **Effect sizes** (user request: SF's were far too big for TA's units): shell impacts half of SF's (shock wave and
+  ground ring 40 %); unit and building death explosions, bombs and the electric hit resized so the fireball ends
+  at about the unit's or building's size (unit radius ~25/40/65/100, building ~35/60/90/140 for small..huge), the
+  ground glow ~1.4x that. Checked next to Peewee/Bulldog/Goliath/Krogoth and LLT/energy storage/kbot lab/fusion
+  (`VISUALHOLD=1`, `VISUALSPACING=`, `VISUALKILL=1` with `run_win_visual.sh`). SF's values are in the comments.
+  Death explosion size: wide mobile hulls (4x4) are at least medium (was large), buildings under 200 metal at most
+  medium (solar collectors).
 - **Plasma balls**: every Cannon is the engine-default orange (BOTA had tinted some; the E.M.G. was yellow).
 - **Damage smoke**: SF's (`blacksmokesmall` + `burnblacksmall` below 90 % health) in `scripts/smokeunit.lua` and the
   converted scripts; commanders, decoys, Crock and Triton now smoke too.

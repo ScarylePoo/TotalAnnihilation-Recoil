@@ -19,7 +19,7 @@ return {
         numparticles        = 1,
         particlelife        = 15,
         particlelifespread  = 9,
-        particlesize        = 35,
+        particlesize        = 24,   -- TA:Recoil: SF 35
         particlesizespread  = 0,
         particlespeed       = 0,
         particlespeedspread = 0,
@@ -41,9 +41,9 @@ return {
       water              = true,
       underwater         = true,
       properties = {
-        delay              = [[10 r200]],
+        delay              = [[2 r20]],   -- TA:Recoil: SF 10 r200 (bolts up to 7 s after the hit)
         explosiongenerator = [[custom:lightning_stormbolt]],
-        pos                = [[-100 r200, 1, -100 r200]],
+        pos                = [[-30 r60, 1, -30 r60]],   -- TA:Recoil: SF +-100
       },
     },
   },

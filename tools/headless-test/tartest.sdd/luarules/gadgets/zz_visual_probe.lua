@@ -8,7 +8,7 @@ end
 local opt = Spring.GetModOptions() or {}
 if not opt.visualunits and not opt.visualceg then return end
 
-local SPACING = 150
+local SPACING = tonumber(opt.visualspacing) or 150  -- VISUALSPACING
 
 local function lineup()
   local list = {}

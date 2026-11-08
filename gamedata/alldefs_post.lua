@@ -284,9 +284,11 @@ local function UnitSizeLevel(ud, mobile)
 	local lvl
 	if mobile then
 		lvl = cost < 150 and 1 or cost < 600 and 2 or cost < 4000 and 3 or 4
-		if fp >= 4 then lvl = math.max(lvl, 3) end
+		-- wide hulls (ships, hovers) at least medium / large; a 4x4 patrol boat is not a large blast
+		if fp >= 6 then lvl = math.max(lvl, 3) elseif fp >= 4 then lvl = math.max(lvl, 2) end
 	else
 		lvl = fp <= 2 and 1 or fp <= 4 and 2 or fp <= 6 and 3 or 4
+		if cost < 200 then lvl = math.min(lvl, 2) end   -- cheap but wide (solar collectors): at most medium
 		if cost >= 8000 then lvl = 4 end
 	end
 	return lvl

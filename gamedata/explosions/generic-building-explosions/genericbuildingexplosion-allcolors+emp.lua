@@ -43,73 +43,113 @@ local colors = {
 }
 
 -- Per-size scaling values. Everything that changes between small/medium/large/huge lives here.
+-- TA:Recoil: resized to TA's buildings (Splinter Faction's values in the comments). Target: the fireball ends at
+-- about the building's size (radius ~35 / 60 / 90 / 140 elmos for 2x2 / 4x4 / 6x6 / 8x8+ footprints), ring ~1.5x
+-- ground glow ~1.4x (it lingers). SF's reached 85-285 (fireball), 100-600 (ring) and lit the ground out to 200-800.
 local sizes = {
   small = {
-    -- centerflare
-    centerSizegrowth    = 5,
-    -- explosionwave / groundflash
-    circlegrowth        = 0.5,
-    flashsize           = 200,
-    -- outerflash
-    outerSizegrowth     = 10,
-    -- orangeexplosionspikes
-    spikeSpeed          = 12,
-    -- smoke speed spread (r-X rX pattern)
-    smokeSpread         = 0.5,
-    -- kickedupdirt / kickedupwater
-    dirtParticles       = 8,
-    dirtSize            = 8,
-    dirtSizeSpread      = 4,
-    dirtSpeed           = 5,
-    dirtSpeedSpread     = 3,
-    dirtSizegrowth      = 1.5,
-    -- fireball
-    fireballSize        = 40,
+    centerSizegrowth    = 2.5,  -- 5
+    circlegrowth        = 0.25,  -- 0.5 (x 200 frames)
+    waveSize            = 3,  -- 8
+    waveSpeed           = 2,  -- 8
+    flashsize           = 40,  -- 200
+    outerSizegrowth     = 5,  -- 10
+    spikeSpeed          = 6,  -- 12
+    sparkSize           = 6,  -- 20
+    sparkSpeed          = 14,  -- 48
+    smokeSpread         = 0.3,  -- 0.5
+    smokeArea           = 15,  -- 60 (puffs scattered +-)
+    smokeSize           = 5,  -- 10
+    smokeExpansion      = 0.2,  -- 0.6
+    dirtParticles       = 6,  -- 8
+    dirtSize            = 4,  -- 8
+    dirtSizeSpread      = 2,  -- 4
+    dirtSpeed           = 2.5,  -- 5
+    dirtSpeedSpread     = 1.5,  -- 3
+    dirtSizegrowth      = 0.6,  -- 1.5
+    fireballSize        = 18,  -- 40
+    fireballGrowth      = 0.5,  -- 1.5 (x 30 frames)
+    flareLength         = 18,  -- 40
+    stormBolts          = 8,  -- 30 (emp)
+    stormRadius         = 40,  -- -100..200
   },
   medium = {
-    centerSizegrowth    = 8,
-    circlegrowth        = 1,
-    flashsize           = 400,
-    outerSizegrowth     = 15,
-    spikeSpeed          = 16,
-    smokeSpread         = 1,
-    dirtParticles       = 10,
-    dirtSize            = 10,
-    dirtSizeSpread      = 5,
-    dirtSpeed           = 7,
-    dirtSpeedSpread     = 3,
-    dirtSizegrowth      = 1.5,
-    fireballSize        = 80,
+    centerSizegrowth    = 4,  -- 8
+    circlegrowth        = 0.45,  -- 1
+    waveSize            = 4,  -- 8
+    waveSpeed           = 2.5,  -- 8
+    flashsize           = 65,  -- 400
+    outerSizegrowth     = 7.5,  -- 15
+    spikeSpeed          = 8,  -- 16
+    sparkSize           = 9,  -- 20
+    sparkSpeed          = 22,  -- 48
+    smokeSpread         = 0.5,  -- 1
+    smokeArea           = 30,  -- 60
+    smokeSize           = 7,  -- 10
+    smokeExpansion      = 0.3,  -- 0.6
+    dirtParticles       = 8,  -- 10
+    dirtSize            = 5,  -- 10
+    dirtSizeSpread      = 2.5,  -- 5
+    dirtSpeed           = 3.5,  -- 7
+    dirtSpeedSpread     = 1.5,  -- 3
+    dirtSizegrowth      = 0.8,  -- 1.5
+    fireballSize        = 30,  -- 80
+    fireballGrowth      = 1.0,  -- 1.5
+    flareLength         = 30,  -- 40
+    stormBolts          = 14,  -- 30
+    stormRadius         = 70,  -- -100..200
   },
   large = {
-    centerSizegrowth    = 12,
-    circlegrowth        = 2,
-    flashsize           = 600,
-    outerSizegrowth     = 30,
-    spikeSpeed          = 20,
-    smokeSpread         = 2,
-    dirtParticles       = 12,
-    dirtSize            = 12,
-    dirtSizeSpread      = 6,
-    dirtSpeed           = 10,
-    dirtSpeedSpread     = 4,
-    dirtSizegrowth      = 1.5,
-    fireballSize        = 160,
+    centerSizegrowth    = 6,  -- 12
+    circlegrowth        = 0.68,  -- 2
+    waveSize            = 6,  -- 8
+    waveSpeed           = 3,  -- 8
+    flashsize           = 95,  -- 600
+    outerSizegrowth     = 15,  -- 30
+    spikeSpeed          = 10,  -- 20
+    sparkSize           = 12,  -- 20
+    sparkSpeed          = 30,  -- 48
+    smokeSpread         = 1,  -- 2
+    smokeArea           = 45,  -- 60
+    smokeSize           = 9,  -- 10
+    smokeExpansion      = 0.45,  -- 0.6
+    dirtParticles       = 10,  -- 12
+    dirtSize            = 6,  -- 12
+    dirtSizeSpread      = 3,  -- 6
+    dirtSpeed           = 5,  -- 10
+    dirtSpeedSpread     = 2,  -- 4
+    dirtSizegrowth      = 1.0,  -- 1.5
+    fireballSize        = 50,  -- 160
+    fireballGrowth      = 1.3,  -- 1.5
+    flareLength         = 45,  -- 40
+    stormBolts          = 20,  -- 30
+    stormRadius         = 100,  -- -100..200
   },
   huge = {
-    centerSizegrowth    = 18,
-    circlegrowth        = 3,
-    flashsize           = 800,
-    outerSizegrowth     = 40,
-    spikeSpeed          = 26,
-    smokeSpread         = 3,
-    dirtParticles       = 14,
-    dirtSize            = 14,
-    dirtSizeSpread      = 7,
-    dirtSpeed           = 14,
-    dirtSpeedSpread     = 4,
-    dirtSizegrowth      = 1.5,
-    fireballSize        = 240,
+    centerSizegrowth    = 9,  -- 18
+    circlegrowth        = 1.05,  -- 3
+    waveSize            = 8,  -- 8
+    waveSpeed           = 4,  -- 8
+    flashsize           = 145,  -- 800
+    outerSizegrowth     = 20,  -- 40
+    spikeSpeed          = 14,  -- 26
+    sparkSize           = 16,  -- 20
+    sparkSpeed          = 42,  -- 48
+    smokeSpread         = 1.5,  -- 3
+    smokeArea           = 70,  -- 60
+    smokeSize           = 10,  -- 10
+    smokeExpansion      = 0.6,  -- 0.6
+    dirtParticles       = 12,  -- 14
+    dirtSize            = 8,  -- 14
+    dirtSizeSpread      = 4,  -- 7
+    dirtSpeed           = 7,  -- 14
+    dirtSpeedSpread     = 2,  -- 4
+    dirtSizegrowth      = 1.2,  -- 1.5
+    fireballSize        = 80,  -- 240
+    fireballGrowth      = 2.0,  -- 1.5
+    flareLength         = 70,  -- 40
+    stormBolts          = 30,  -- 30
+    stormRadius         = 150,  -- -100..200
   },
 }
 
@@ -160,10 +200,10 @@ local function makeExplosion(s, c, isEmp)
         numparticles        = 1,
         particlelife        = 200, -- same as groundflash ttl
         particlelifespread  = 0,
-        particlesize        = 8,   -- groundflash flashsize 25 = 1, so if flashsize is 200, particlesize here would be 8
+        particlesize        = s.waveSize,
         particlesizespread  = 1,
-        particlespeed       = 8,
-        particlespeedspread = 6,
+        particlespeed       = s.waveSpeed,
+        particlespeedspread = s.waveSpeed * 0.75,
         pos                 = [[0, 1, 0]],
         sizegrowth          = s.circlegrowth, -- same as groundflash circlegrowth
         sizemod             = 1.0,
@@ -199,11 +239,12 @@ local function makeExplosion(s, c, isEmp)
         agespeed      = 0.01,
         alwaysvisible = true,
         color         = 0.1,
-        pos           = [[r-60 r60, 24, r-60 r60]],
-        size          = 10,
-        sizeexpansion = 0.6,
-        speed         = [[r-3 r]] .. s.smokeSpread .. [[, 0.1 r1, r-3 r]] .. s.smokeSpread,
-        startsize     = 10,
+        pos           = [[r-]] .. s.smokeArea .. [[ r]] .. s.smokeArea .. [[, 24, r-]] .. s.smokeArea .. [[ r]] .. s.smokeArea .. [[]],
+        size          = s.smokeSize,
+        sizeexpansion = s.smokeExpansion,
+        -- SF: [[r-3 r<spread>]] drifted every puff one way; even spread around the blast instead
+        speed         = [[-]] .. s.smokeSpread .. [[ r]] .. (2 * s.smokeSpread) .. [[, 0.1 r1, -]] .. s.smokeSpread .. [[ r]] .. (2 * s.smokeSpread),
+        startsize     = s.smokeSize,
       },
     },
 
@@ -307,9 +348,9 @@ local function makeExplosion(s, c, isEmp)
         numparticles        = 8,
         particlelife        = 5,
         particlelifespread  = 16,
-        particlesize        = 20,
+        particlesize        = s.sparkSize,
         particlesizespread  = 0,
-        particlespeed       = 48,
+        particlespeed       = s.sparkSpeed,
         particlespeedspread = 1,
         pos                 = [[0, 2, 0]],
         sizegrowth          = 0.8,
@@ -344,7 +385,7 @@ local function makeExplosion(s, c, isEmp)
         rotParams           = [[-24 r48, -60 r120, -180 r360]],
         animParams          = [[7,7,40]], --[xTiles, yTiles, animLength in game frames]
         pos                 = [[0,0,0]],
-        sizegrowth          = 1.5,
+        sizegrowth          = s.fireballGrowth,
         sizemod             = 1,
         texture             = [[generated-buildingexplosion-static]],
         drawOrder           = 0,
@@ -366,7 +407,7 @@ local function makeExplosion(s, c, isEmp)
         animParams1          = [[6,6,40]],  -- front texture (engine 2026.09: muzzle flames read animParams1/2, not animParams)
         animParams2          = [[6,6,40]],  -- side texture --[xTiles, yTiles, animLength in game frames]
         fronttexture       = [[generated-furnace]],
-        length             = 40,
+        length             = s.flareLength,
         sidetexture        = [[none]],
         size               = s.fireballSize,
         sizegrowth         = 0,
@@ -383,14 +424,14 @@ local function makeExplosion(s, c, isEmp)
     t.electricstorm = {
       air        = true,
       class      = [[CExpGenSpawner]],
-      count      = 30,
+      count      = s.stormBolts,
       ground     = true,
       water      = true,
       underwater = true,
       properties = {
         delay              = [[10 r200]],
         explosiongenerator = [[custom:lightning_stormbolt]],
-        pos                = [[-100 r300, 1, -100 r300]],
+        pos                = [[-]] .. s.stormRadius .. [[ r]] .. (2 * s.stormRadius) .. [[, 1, -]] .. s.stormRadius .. [[ r]] .. (2 * s.stormRadius),
       },
     }
   else

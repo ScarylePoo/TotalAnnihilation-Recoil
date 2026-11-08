@@ -132,7 +132,7 @@ return {
         numparticles        = 1,
         particlelife        = 60,
         particlelifespread  = 9,
-        particlesize        = 110,
+        particlesize        = 55,   -- TA:Recoil: half of SF's 110 (TA bomb blasts ~50-75 radius)
         particlesizespread  = 0,
         particlespeed       = 0,
         particlespeedspread = 0,
@@ -168,7 +168,7 @@ return {
         numparticles        = 1,
         particlelife        = 60,
         particlelifespread  = 9,
-        particlesize        = 150,
+        particlesize        = 75,   -- TA:Recoil: half of SF's 150
         particlesizespread  = 0,
         particlespeed       = 0,
         particlespeedspread = 0,

@@ -48,7 +48,7 @@ sed -i "s/IsHost=1;/IsHost=1;\n\tHostPort=$((20000 + RANDOM % 30000));/" "$WD/sc
 [ -n "$FLIGHT" ] && sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tflightprobe=$FLIGHT;/" "$WD/script.txt"
 [ -n "$DUMP" ] && sed -i 's/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tdumponly=1;/' "$WD/script.txt"
 [ -n "$VISUALCEG" ] && VISUAL=${VISUAL:-none}
-[ -n "$VISUAL" ] && sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tvisualceg=$VISUALCEG;\n\t\tvisualunits=$VISUAL;\n\t\tvisualzoom=${VISUALZOOM:-700};\n\t\tvisualdist=${VISUALDIST:-420};\n\t\tvisualkill=${VISUALKILL:-};\n\t\tvisualhold=${VISUALHOLD:-};/" "$WD/script.txt"
+[ -n "$VISUAL" ] && sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tvisualceg=$VISUALCEG;\n\t\tvisualunits=$VISUAL;\n\t\tvisualzoom=${VISUALZOOM:-700};\n\t\tvisualdist=${VISUALDIST:-420};\n\t\tvisualkill=${VISUALKILL:-};\n\t\tvisualhold=${VISUALHOLD:-};\n\t\tvisualspacing=${VISUALSPACING:-};/" "$WD/script.txt"
 [ -n "$PADS" ] && sed -i 's/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tpadonly=1;/' "$WD/script.txt" && sed -i 's/\[ALLYTEAM0\]/[TEAM2] { TeamLeader=0; AllyTeam=1; Side=ARM; StartPosX=300; StartPosZ=11800; }\n\t[TEAM3] { TeamLeader=0; AllyTeam=2; Side=ARM; StartPosX=1000; StartPosZ=11800; }\n\t[TEAM4] { TeamLeader=0; AllyTeam=3; Side=ARM; StartPosX=2000; StartPosZ=11800; }\n\t[TEAM5] { TeamLeader=0; AllyTeam=4; Side=ARM; StartPosX=3000; StartPosZ=11800; }\n\t[ALLYTEAM2] { NumAllies=0; }\n\t[ALLYTEAM3] { NumAllies=0; }\n\t[ALLYTEAM4] { NumAllies=0; }\n\t&/' "$WD/script.txt"
 if [ -n "$STARTP" ]; then
   sed -i '/skippregame=1;/d' "$WD/script.txt"
