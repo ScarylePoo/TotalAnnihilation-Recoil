@@ -79,6 +79,19 @@ local unitLights = {
 	-- },
 }
 
+-- TA:Recoil: generated lights where each unit's texture2 glows (tools/textures/unitlights.py); a unit listed in
+-- unitLights above keeps its hand-made lights instead.
+do
+	local ok, generated = pcall(VFS.Include, "luaui/configs/DeferredLightsGL4unitLights.lua")
+	if ok and type(generated) == "table" then
+		for unitName, lights in pairs(generated) do
+			if unitLights[unitName] == nil then
+				unitLights[unitName] = lights
+			end
+		end
+	end
+end
+
 --------------------------------------------------------------------------------
 -- Unit event lights
 --
