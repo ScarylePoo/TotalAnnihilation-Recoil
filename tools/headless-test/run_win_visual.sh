@@ -18,7 +18,7 @@ rsync -a --delete "$HERE/tartest.sdd/" "$RUN/games/tartest.sdd/"
 rm -rf "$RUN/screenshots" "$RUN/infolog.txt"
 cp "$HERE/script.txt" "$RUN/script.txt"
 [ -n "$VISUALCEG" ] && VISUAL=${VISUAL:-none}
-sed -i "s|debugmode=1;|debugmode=1;\n\t\taimonly=1;\n\t\tvisualceg=$VISUALCEG;\n\t\tvisualunits=$VISUAL;\n\t\tvisualzoom=${VISUALZOOM:-700};\n\t\tvisualdist=${VISUALDIST:-420};\n\t\tvisualkill=${VISUALKILL:-};\n\t\tvisualhold=${VISUALHOLD:-};\n\t\tvisualspacing=${VISUALSPACING:-};\n\t\tvisualtex=${VISUALTEX:-};\n\t\tvisualselect=${VISUALSELECT:-};|" "$RUN/script.txt"
+sed -i "s|debugmode=1;|debugmode=1;\n\t\taimonly=1;\n\t\tvisualceg=$VISUALCEG;\n\t\tvisualunits=$VISUAL;\n\t\tvisualzoom=${VISUALZOOM:-700};\n\t\tvisualdist=${VISUALDIST:-420};\n\t\tvisualkill=${VISUALKILL:-};\n\t\tvisualhold=${VISUALHOLD:-};\n\t\tvisualspacing=${VISUALSPACING:-};\n\t\tvisualtex=${VISUALTEX:-};\n\t\tvisualselect=${VISUALSELECT:-};\n\t\tvisualhurt=${VISUALHURT:-};|" "$RUN/script.txt"
 printf 'XResolutionWindowed = %s\nYResolutionWindowed = %s\nFullscreen = 0\nsnd_volmaster = 0\nMaxSounds = 0\n%s' "${VISUALW:-1600}" "${VISUALH:-900}" "${VISUALCFG:-}" > "$RUN/vis.cfg"
 set +e
 timeout "${1:-600}" "$ENGINE/spring.exe" --window --config "$(wslpath -w "$RUN/vis.cfg")" --isolation \

@@ -93,6 +93,12 @@ function gadget:GameFrame(n)
     end
     Spring.Echo("[VISUAL] frame " .. n .. " projectiles " .. #p .. " " .. table.concat(cmds, " "))
   end
+  if opt.visualhurt and opt.visualhurt ~= "" and n == 40 then  -- VISUALHURT=1: half health (health bars)
+    for _, u in ipairs(units) do
+      local h, mh = Spring.GetUnitHealth(u.id)
+      if h then Spring.SetUnitHealth(u.id, mh * 0.5) end
+    end
+  end
   if opt.visualkill and opt.visualkill ~= "" and n == 198 then  -- death explosions: VISUALKILL=1 (explode) or 2 (self-destruct)
     for _, u in ipairs(units) do Spring.DestroyUnit(u.id, tonumber(opt.visualkill) == 2) end
     units = {}
