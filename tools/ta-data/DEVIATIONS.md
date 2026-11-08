@@ -173,7 +173,7 @@ particles wrongly).
 ## Movement modoptions (2026-11-08; lobby sliders, defaults below; aircraft unchanged)
 - Ground unit speed (movespeed, 1-2, default 1.25): land, sea and hover units' top speed x this.
 - Ground unit turn rate (moveturn, 1-2, default 1.25): turn rate x this (equal to the speed keeps TA's turning circles).
-- Minimum acceleration (moveaccel, 0-1, default 0.25) and minimum braking (movebrake, 0-1, default 0.1): floors on
+- Minimum acceleration (moveaccel, 0-1, default 0) and minimum braking (movebrake, 0-1, default 0): floors on
   TA's values (0.003-0.2 and 0.002-1). 1 / 1 / 0 / 0 is TA.
 - Turn in place above (moveturninplace, 0-180 degrees, default 90): turns up to this are taken at speed in a curve;
   wider ones slow the unit to pivot. 0 is the engine default (every turn slows the unit, down to 10 % of its speed).

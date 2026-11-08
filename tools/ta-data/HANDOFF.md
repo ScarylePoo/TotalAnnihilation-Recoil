@@ -554,7 +554,7 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
 
 ## Movement modoptions
 - modoptions.lua section "Movement": movespeed, moveturn (multipliers, default 1.25), moveaccel, movebrake (floors in
-  elmos/frame^2, default 0.25 and 0.1, play-tested; 0 keeps TA's). Applied in gamedata/alldefs_post.lua UnitDef_Post to every def
+  elmos/frame^2, default 0 = TA's, play-tested; 0 keeps TA's). Applied in gamedata/alldefs_post.lua UnitDef_Post to every def
   with a speed that can't fly. Walk cadence follows UnitDefs speed (scripts/headers/walk.lua), so legs keep pace.
   Checked with DUMP=1 run.sh at the defaults and at TA values (movespeed=1 moveturn=1 moveaccel=0 movebrake=0).
 - moveturninplace (degrees, default 90) -> turnInPlaceAngleLimit. The engine's default 0 cuts a ground unit's target
