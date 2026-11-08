@@ -383,3 +383,11 @@ the deferred lights widget; `/luaui headlights on|off|auto`). Unchanged SF files
 it drives are in too: `gfx_timecyclesweathereffects_fog.lua` (ground fog), `_rain.lua` (rain streaks, splashes, falling
 ash), `_heat.lua` (heat-haze shimmer).
 
+## Distortion GL4 (from Splinter Faction)
+
+`luaui/widgets/gfx_distortion_gl4.lua`: screen-space shockwaves and heat ripples at weapon impacts, explosions and
+muzzles (needs the deferred G-buffers, like the lights). Distortions are assigned to every weapon by type and size in
+`luaui/configs/DistortionGL4WeaponsConfig.lua`; `DistortionGL4Config.lua` has SF's per-unit table (SF unit names,
+matches nothing here). Shaders in `luaui/shaders/`. The unit tracker is now at layer -2000000000 so it loads before
+both this and the lights widget.
+

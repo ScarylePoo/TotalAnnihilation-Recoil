@@ -56,7 +56,7 @@ function widget:GetInfo()
 		author = "Beherith (SF port)",
 		date = "2026",
 		license = "GNU GPL, v2 or later",
-		layer = -999999999,  -- TA:Recoil: SF -828888, i.e. after Deferred Lights GL4 (-99999990), which then found no tracker and never drew unit lights
+		layer = -2000000000,  -- TA:Recoil: SF -828888, i.e. after Deferred Lights GL4 (-99999990) and Distortion GL4 (-999999999), which then found no tracker (no unit lights)
 		enabled = true,
 	}
 end
