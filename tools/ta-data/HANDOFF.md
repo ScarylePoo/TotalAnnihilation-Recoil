@@ -457,7 +457,7 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
   unit_auto_group.lua (Alt+0-9 sets an autogroup for the selected unit types; new units of that type join it;
   Alt+` removes), unit_auto_group_com.lua (commander into group 1 at game start), gui_select_and_center.lua
   (selects and centres on the commander at game start; TA:Recoil uses SetCameraTarget so any camera mode works).
-  Not ported: gui_group_recall_fix.
+  gui_group_recall_fix.lua (pressing a group number again only centres the camera on a quick double press).
 
 ## HD cursors
 - tools/cursors/cursors.py redraws TA's cursor set (plus fight, manual fire and wait) as anti-aliased vector art
