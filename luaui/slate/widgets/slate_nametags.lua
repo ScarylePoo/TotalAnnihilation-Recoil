@@ -29,6 +29,9 @@ local spIsUnitVisible       = Spring.IsUnitVisible
 local spWorldToScreenCoords = Spring.WorldToScreenCoords
 local spGetTeamColor        = Spring.GetTeamColor
 local spGetCameraVectors    = Spring.GetCameraVectors
+local spGetUnitLosState     = Spring.GetUnitLosState
+local spGetMyAllyTeamID     = Spring.GetMyAllyTeamID
+local spGetSpectatingState  = Spring.GetSpectatingState
 
 local hud, document, view
 local tags = {}            -- pool: { element, nameElement, pipElement, unitID }
@@ -76,12 +79,24 @@ function widget:UnitGiven(unitID, unitDefID)          Track(unitID, unitDefID) e
 function widget:PlayerChanged()                       nameCache = {} end
 function widget:TeamChanged()                         nameCache = {} end
 
+-- Only commanders in line of sight get a tag. IsUnitVisible also counts radar blips, and a radar blip's position is
+-- deliberately off (radar error), so an enemy commander that left sight left its tag floating near it, and a cloaked
+-- one kept its tag. Checked every frame: the scan only runs twice a second.
+local function InSight(unitID)
+	local _, fullView = spGetSpectatingState()
+	if fullView then
+		return true
+	end
+	local los = spGetUnitLosState(unitID, spGetMyAllyTeamID())   -- a table (raw bits need full read)
+	return los and los.los
+end
+
 local function Rescan()
 	visible = {}
 	for unitID in pairs(commanders) do
 		if not spGetUnitDefID(unitID) then
 			commanders[unitID] = nil
-		elseif spIsUnitVisible(unitID, 60, false) then
+		elseif spIsUnitVisible(unitID, 60, false) and InSight(unitID) then
 			visible[#visible + 1] = unitID
 		end
 	end
@@ -112,7 +127,7 @@ function widget:Update(dt)
 		local x, y, z = spGetUnitViewPosition(unitID)
 		local unitDefID = spGetUnitDefID(unitID)
 		local teamID = spGetUnitTeam(unitID)
-		if x and unitDefID and teamID and used < POOL_SIZE then
+		if x and unitDefID and teamID and used < POOL_SIZE and InSight(unitID) then
 			-- anchor just below the unit: its base, pushed down the screen by a third of its radius (in world units along
 			-- the camera's up vector, so the gap stays right at any zoom and tilt)
 			local r = (radiusOfDef[unitDefID] or 20) * 0.35   -- the view position is already the unit's base
