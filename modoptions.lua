@@ -191,6 +191,31 @@ local options =
   },
 
   {
+    key    = 'movement',
+    name   = 'Movement',
+    desc   = 'How fast and how nimbly units move',
+    type   = 'section',
+  },
+
+  {
+    key    = 'fastunits', -- read by gamedata/alldefs_post.lua
+    name   = 'Faster ground units',
+    desc   = "Land, sea and hover units move 50% faster than in TA (aircraft unchanged). Walk animations keep pace.\nkey: fastunits",
+    type   = 'bool',
+    section= 'movement',
+    def    = true,
+  },
+
+  {
+    key    = 'quickacceleration', -- read by gamedata/alldefs_post.lua
+    name   = 'Quick acceleration',
+    desc   = "Land, sea and hover units accelerate at least at 1 (TA's are 0.003 to 0.2), so they reach top speed almost at once and respond quickly to orders. Braking is unchanged.\nkey: quickacceleration",
+    type   = 'bool',
+    section= 'movement',
+    def    = true,
+  },
+
+  {
     key    = 'DisableMapDamage',
     name   = 'Undeformable map',
     desc   = 'Prevents the map shape from being changed by weapons',

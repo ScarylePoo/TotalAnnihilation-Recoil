@@ -551,3 +551,9 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
   drops them when the boxart modoption is set. Gameplay is unaffected.
 - grade.py arm|core in out: contrast, faction split tone, sky gradient, bloom, vignette, grain.
 - Results of 2026-11-08: I:\Claude Space\Commander Box Art (Arm on Painted Badlands, Core on Incandescence).
+
+## Movement modoptions
+- modoptions.lua section "Movement": fastunits, quickacceleration (bool, default on; "0" turns off). Applied in
+  gamedata/alldefs_post.lua UnitDef_Post to every def with a speed that can't fly: maxvelocity (or speed) x1.5,
+  acceleration = max(acceleration, 1). brakeRate, turnRate untouched. Walk cadence follows UnitDefs speed
+  (scripts/headers/walk.lua), so legs keep pace. Checked with DUMP=1 run.sh, options on and off.
