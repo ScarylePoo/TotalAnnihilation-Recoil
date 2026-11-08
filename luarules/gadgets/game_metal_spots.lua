@@ -79,8 +79,13 @@ local function FindSpots()
 						end
 					end
 				end
-				spots[#spots + 1] = { sx = bx, sz = bz }
+				-- a patch wider than CLUSTER_RADIUS is found from more than one edge, and each find moves to the same
+				-- richest centre: compare final centres too, and claim both the find and its centre
+				if not isClaimed(bx, bz) then
+					spots[#spots + 1] = { sx = bx, sz = bz }
+				end
 				claimed[#claimed + 1] = { cx, cz }
+				claimed[#claimed + 1] = { bx, bz }
 			end
 		end
 	end

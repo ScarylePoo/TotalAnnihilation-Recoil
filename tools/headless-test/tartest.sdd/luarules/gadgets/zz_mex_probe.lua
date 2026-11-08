@@ -16,6 +16,15 @@ function gadget:GameFrame(n)
     local count = Spring.GetGameRulesParam("metalSpot_count") or 0
     E("spots %d value %.3f players %s geovents %s", count, Spring.GetGameRulesParam("metalSpot_value") or -1,
       tostring(Spring.GetGameRulesParam("metalSpot_players")), tostring(Spring.GetGameRulesParam("customGeovent_count")))
+    local pts = {}
+    for i = 1, count do pts[i] = { Spring.GetGameRulesParam("metalSpot_" .. i .. "_x"), Spring.GetGameRulesParam("metalSpot_" .. i .. "_z") } end
+    for i = 1, count do
+      local best = 1e9
+      for j = 1, count do
+        if i ~= j then best = math.min(best, math.sqrt((pts[i][1] - pts[j][1]) ^ 2 + (pts[i][2] - pts[j][2]) ^ 2)) end
+      end
+      E("spot %d at %d,%d nearest other %d", i, pts[i][1], pts[i][2], best)
+    end
     -- a spot on dry land
     for i = 1, count do
       local x, z = Spring.GetGameRulesParam("metalSpot_" .. i .. "_x"), Spring.GetGameRulesParam("metalSpot_" .. i .. "_z")
