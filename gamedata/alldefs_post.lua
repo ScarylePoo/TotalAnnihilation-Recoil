@@ -52,6 +52,11 @@ function UnitDef_Post(name, ud)
 		ud.customparams = ud.customparams or {}
 		ud.customparams.iscommander = 1
 	end
+	-- Sight modoption (sightrange): multiplies every unit's TA sight radius (air sight follows: the engine makes it 1.5x
+	-- sight). Radar, sonar and jammers are unchanged.
+	local sightMult = tonumber((Spring.GetModOptions and Spring.GetModOptions() or {}).sightrange) or 1
+	if sightMult ~= 1 and tonumber(ud.sightdistance) then ud.sightdistance = tonumber(ud.sightdistance) * sightMult end
+
 	-- Movement modoptions (modoptions.lua, section "Movement"), for ground units (land, sea, hover; not aircraft,
 	-- whose flight model reads these differently): movespeed and moveturn multiply TA's top speed and turn rate
 	-- (equal values keep TA's turning circles); moveaccel and movebrake are floors for acceleration and brake rate
@@ -171,6 +176,8 @@ local TA_GRAVITY = 112 / 900
 -- slow projectiles fly faster than TA's (WeaponDef_Post; modoptions shotspeed, shotspeedcutoff)
 local SLOW_SHOT = tonumber(modOptions.shotspeedcutoff) or 300
 local SLOW_SHOT_MULT = tonumber(modOptions.shotspeed) or 1.25
+-- every weapon's range (WeaponDef_Post; modoption weaponrange)
+local WEAPON_RANGE_MULT = tonumber(modOptions.weaponrange) or 1
 
 -- Plasma ball size by damage per shot (largest of default/planes): ~2.5 for the 8-damage EMG, 16 for the
 -- 2400-damage Intimidator, square-root curve so the mid-weight tank guns stay modest (130 damage -> ~5.5).
@@ -428,6 +435,18 @@ function WeaponDef_Post(name, weaponDef)
 		weaponDef.weaponvelocity = v * SLOW_SHOT_MULT
 		if tonumber(weaponDef.startvelocity) then weaponDef.startvelocity = tonumber(weaponDef.startvelocity) * SLOW_SHOT_MULT end
 		if tonumber(weaponDef.weaponacceleration) then weaponDef.weaponacceleration = tonumber(weaponDef.weaponacceleration) * SLOW_SHOT_MULT end
+	end
+
+	-- Weapon range modoption (weaponrange): multiplies every weapon's range. Missile flight time scales with it so
+	-- missiles still reach; cannons fly sqrt(mult) faster so their ballistic reach (v^2/g) keeps the same margin over
+	-- the range (TA's median 1.16x; a cannon whose v^2/g is below its range cannot reach it). After the slow-shot boost,
+	-- whose cutoff is read against TA's speed. Anti-nuke coverage is unchanged.
+	if WEAPON_RANGE_MULT ~= 1 and tonumber(weaponDef.range) then
+		weaponDef.range = tonumber(weaponDef.range) * WEAPON_RANGE_MULT
+		if tonumber(weaponDef.flighttime) then weaponDef.flighttime = tonumber(weaponDef.flighttime) * WEAPON_RANGE_MULT end
+		if weaponDef.weapontype == "Cannon" and tonumber(weaponDef.weaponvelocity) then
+			weaponDef.weaponvelocity = tonumber(weaponDef.weaponvelocity) * math.sqrt(WEAPON_RANGE_MULT)
+		end
 	end
 
 	

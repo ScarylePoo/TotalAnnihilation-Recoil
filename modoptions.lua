@@ -282,6 +282,37 @@ local options =
   },
 
   {
+    key    = 'ranges',
+    name   = 'Ranges',
+    desc   = 'Weapon and sight ranges',
+    type   = 'section',
+  },
+
+  {
+    key    = 'weaponrange', -- read by gamedata/alldefs_post.lua (WeaponDef_Post)
+    name   = 'Weapon range',
+    desc   = "Every weapon's range, as a multiple of TA's. Longer ranges let more of a group fire without crowding forward. Missile flight times and cannon speeds scale so they still reach. Raise sight with it, or units outrange what they can see.\nkey: weaponrange",
+    type   = 'number',
+    section= 'ranges',
+    def    = 1,
+    min    = 1,
+    max    = 2,
+    step   = 0.05,
+  },
+
+  {
+    key    = 'sightrange', -- read by gamedata/alldefs_post.lua (UnitDef_Post)
+    name   = 'Sight range',
+    desc   = "Every unit's sight radius, as a multiple of TA's (air sight follows). Radar and sonar are unchanged.\nkey: sightrange",
+    type   = 'number',
+    section= 'ranges',
+    def    = 1,
+    min    = 1,
+    max    = 2,
+    step   = 0.05,
+  },
+
+  {
     key    = 'DisableMapDamage',
     name   = 'Undeformable map',
     desc   = 'Prevents the map shape from being changed by weapons',

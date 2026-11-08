@@ -583,3 +583,13 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
   and mines carry a dummy 250 that also scales (never fired; no effect). Damage, range and gravity unchanged; cannon
   arcs are flatter. AIM=1 probe: all still fire and hit as before. Checked with def dumps: defaults = the hard-coded
   version, `shotspeed=1` = TA exactly. `MODOPTS='\\n\\t\\tkey=value;' run.sh` passes modoptions to any probe.
+
+## Range modoptions (2026-11-08)
+- `weaponrange` (1-2, default 1): every weapon's range x mult (`WeaponDef_Post`). Set missile `flighttime` scales too
+  (others derive lifetime from range); Cannons get `weaponvelocity` x sqrt(mult) so v^2/g keeps its margin over the
+  range (applied after the slow-shot boost, whose cutoff reads TA's speed). Anti-nuke `coverage` unchanged.
+- `sightrange` (1-2, default 1): `sightdistance` x mult (`UnitDef_Post`); air sight follows (engine 1.5x sight).
+  Radar/sonar/jammers unchanged.
+- User's reason: short TA ranges make fights clump (only the front ranks are in range, the rest crowd forward).
+- Checked: defaults give identical def dumps; at 1.25/1.25 only range/sight (+ derived maxWeaponRange, LOS radii,
+  cannon speeds, set flight times) change; AIM=1 probe at 1.25 has no new NOFIRE/NOHIT.
