@@ -379,6 +379,7 @@ lightning on big explosions; drives sun and atmosphere, publishes WG.weather) wi
 `luarules/gadgets/weather_seed.lua` (per-match seed so every player sees the same weather), and
 `luaui/widgets/gfx_unit_headlights.lua` (mobile units switch on cone headlights at dusk or in heavy storms, through
 the deferred lights widget; `/luaui headlights on|off|auto`). Unchanged SF files. Per-unit options: customparams
-`headlights = "0"` (none) or `headlight_pieces = "a,b"` (default: an automatic front-centre spot). SF's fog, rain
-and heat-shimmer effect widgets (driven by WG.weather) are not ported yet.
+`headlights = "0"` (none) or `headlight_pieces = "a,b"` (default: an automatic front-centre spot). The effect widgets
+it drives are in too: `gfx_timecyclesweathereffects_fog.lua` (ground fog), `_rain.lua` (rain streaks, splashes, falling
+ash), `_heat.lua` (heat-haze shimmer).
 
