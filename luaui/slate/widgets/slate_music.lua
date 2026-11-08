@@ -326,12 +326,32 @@ function widget:Initialize()
 	end
 	Refill()
 
-	-- The loading screen may have left a stream running: let it finish at the
-	-- user's volume. Its file is not known here, so it is not put in the
-	-- history (Previous cannot go back to it) and the playlist starts after it.
+	-- The loading screen may have left a stream running (LuaIntro/Addons/music.lua, which names the file in the
+	-- config value music_loadscreen_track): let it finish at the user's volume, shown and remembered as that track,
+	-- and carry on with the playlist after it (without drawing the same track again first).
 	local played, total = spGetStreamTime()
 	if total and total > 0 and played and played < total - END_SLACK then
-		current = { artist = "", title = "Loading screen music" }
+		local path = spGetConfigString("music_loadscreen_track", "")
+		current = nil
+		if path ~= "" then
+			local want = path:lower():gsub("\\", "/")
+			for _, t in ipairs(Pool()) do
+				if t.path:lower():gsub("\\", "/") == want then
+					current = { path = t.path, artist = t.artist.name, title = TitleOf(t.path, t.artist.name) }
+					break
+				end
+			end
+			for i = #bag, 1, -1 do
+				if bag[i].path:lower():gsub("\\", "/") == want then
+					table.remove(bag, i)
+				end
+			end
+		end
+		if current then
+			PushHistory(current)
+		else
+			current = { artist = "", title = "Loading screen music" }
+		end
 		playing = true
 		paused = false
 		volumeScale = 1

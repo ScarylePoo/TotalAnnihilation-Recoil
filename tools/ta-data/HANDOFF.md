@@ -485,3 +485,19 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
 - The Keybinds window reads its action vocabulary from the archive only (VFS.ZIP) as SF does.
 - Test: KEYPROBE=1 run.sh writes a stale uikeys.txt and logs "[PROBE] keys ..." for a few keys. The test mod's
   short name is TART, so tartest.sdd/luaui/configs/tart_keys.txt links to tar_keys.txt.
+
+## Loading screen (LuaIntro, from Splinter Faction)
+- LuaIntro/main.lua + config.lua (SF; the handler is the engine's base content LuaHandler). Addons:
+  loadprogress.lua (SF: per-map load timing), bg_texture.lua (a random picture from bitmaps/loadpictures/, cropped to
+  fill the screen; start1.jpg for now), main.lua (SF's panel in Slate colours: one card + load message + bar),
+  music.lua (plays LuaIntro/Configs/loadscreen.lua's music, TA's Intro.ogg, at snd_volmusic; names it in config
+  music_loadscreen_track), bg_logo.lua (a disabled stub shadowing the engine's spinning logo), initial_settings.lua.
+- Cards (tips, unit notes with pictures, quotes) and the track are data in LuaIntro/Configs/loadscreen.lua.
+- Slate Music picks up the running stream, shows/remembers it as that track, then plays on through the playlist.
+  music/Total Annihilation OST/artist.txt gives the folder its display name (VFS lower-cases folder names).
+- To see the loading screen in a test, gl.SaveImage(0, 0, vsx, vsy, "x.png") inside DrawLoadScreen works (the
+  screenshot command doesn't run while loading).
+
+## Unit outline
+- luaui/widgets/gfx_outline_shader.lua (SF's, unchanged) is on in every Slate graphics preset but Lowest (was High
+  and Ultra only). It pauses itself below 15 fps.

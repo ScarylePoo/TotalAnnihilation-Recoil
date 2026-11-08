@@ -19,14 +19,14 @@ local PRESETS = {
 		msaa = 2, shadows = true, shadowmapsize = 1024, water = 2, decals = 1, grounddetail = 64,
 		particles = 10000, nanoparticles = 400, softparticles = true,
 		bloom = false, tonemap = true, cas = false, ssao = false,
-		lighteffects = true, distortion = false, outline = false, lups = true,
+		lighteffects = true, distortion = false, outline = true, lups = true,
 		aircrafttrails = true, snow = false, weather = false, guishader = false,
 	}},
 	{ name = "Medium", values = {
 		msaa = 4, shadows = true, shadowmapsize = 2048, water = 4, decals = 2, grounddetail = 128,
 		particles = 15000, nanoparticles = 800, softparticles = true,
 		bloom = true, tonemap = true, cas = true, ssao = false,
-		lighteffects = true, distortion = true, outline = false, lups = true,
+		lighteffects = true, distortion = true, outline = true, lups = true,
 		aircrafttrails = true, snow = true, weather = true, guishader = false,
 	}},
 	{ name = "High", values = {

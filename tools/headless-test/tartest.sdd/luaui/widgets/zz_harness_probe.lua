@@ -1,6 +1,12 @@
 function widget:GetInfo() return { name = "Harness Probe", layer = 99999, enabled = true, handler = true } end
 local placementSeen, doneSeen
 function widget:GameFrame(f)
+  if f == 25 then   -- the loading screen's music carried into the game (LuaIntro music addon -> Slate Music)
+    local played, total = Spring.GetSoundStreamTime()
+    local st = WG.SlateMusic and WG.SlateMusic.GetStatus and WG.SlateMusic.GetStatus() or {}
+    Spring.Echo(string.format("[PROBE] music stream %.1f / %.1f s, loadscreen track %s, Slate Music: %s - %s",
+      played or -1, total or -1, Spring.GetConfigString("music_loadscreen_track", "?"), tostring(st.artist), tostring(st.title)))
+  end
   if f == 20 then   -- KEYPROBE / any run: what a few keys are bound to
     for _, k in ipairs({ "y", "Ctrl+y", "Alt+s", "q", "esc", "f11" }) do
       local acts = {}
