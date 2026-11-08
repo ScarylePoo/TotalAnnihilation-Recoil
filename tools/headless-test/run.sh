@@ -17,6 +17,7 @@
 #   DUMP=<file> tools/headless-test/run.sh ... instead runs only zz_def_dump: every runtime UnitDef/WeaponDef to <file> (tools/ta-data/defdump.py -> JSON)
 #   PORTPROBE=1 tools/headless-test/run.sh ... instead runs only zz_port_probe (the Splinter Faction ports of Nov 2026)
 #   TURNPROBE=1 [TURNOPTS='\\n\\t\\tmoveturninplace=0;'] run.sh ... instead runs only zz_turn_probe (speed through a 60 and a 150 degree turn)
+#   MODOPTS='\\n\\t\\tshotspeed=1;' run.sh ...   adds modoptions to the start script (any mode)
 #   GAP=1 tools/headless-test/run.sh ...      instead runs only zz_piece_gap_probe (piece matrices of every unit def in action); it prints the path of
 #                                             gapdata.txt, which tools/s3okit/kit/piece_gaps.py turns into a report of pieces floating off the unit
 #
@@ -55,6 +56,7 @@ sed -i "s/IsHost=1;/IsHost=1;\n\tHostPort=$((20000 + RANDOM % 30000));/" "$WD/sc
 [ -n "$PORTCOLORS" ] && printf 'AutoTeamColors = 1\nAutoTeamColorsPalette = 2\n' > "$WD/springsettings.cfg"
 [ -n "$PORTPROBE" ] && sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tportprobe=1;/; s/\\[ALLYTEAM0\\]/[TEAM2] { TeamLeader=0; AllyTeam=0; Side=ARM; StartPosX=2000; StartPosZ=1000; }\n\t&/" "$WD/script.txt"
 [ -n "$TURNPROBE" ] && sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tturnprobe=1;${TURNOPTS:-}/" "$WD/script.txt"
+[ -n "$MODOPTS" ] && sed -i "s/debugmode=1;/debugmode=1;$MODOPTS/" "$WD/script.txt"
 [ -n "$FFPROBE" ] && sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tffprobe=1;/" "$WD/script.txt"
 [ -n "$FLIGHT" ] && sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tflightprobe=$FLIGHT;/" "$WD/script.txt"
 [ -n "$DUMP" ] && sed -i 's/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tdumponly=1;/' "$WD/script.txt"

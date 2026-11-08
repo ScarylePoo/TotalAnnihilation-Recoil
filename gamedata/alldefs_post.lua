@@ -168,8 +168,9 @@ local modOptions = Spring.GetModOptions and Spring.GetModOptions() or {}
 -- do not change with the map. (BOTA instead used gravity 0.25 and recomputed every velocity from the range.)
 local TA_GRAVITY = 112 / 900
 
--- slow projectiles fly faster than TA's (WeaponDef_Post)
-local SLOW_SHOT, SLOW_SHOT_MULT = 300, 1.25
+-- slow projectiles fly faster than TA's (WeaponDef_Post; modoptions shotspeed, shotspeedcutoff)
+local SLOW_SHOT = tonumber(modOptions.shotspeedcutoff) or 300
+local SLOW_SHOT_MULT = tonumber(modOptions.shotspeed) or 1.25
 
 -- Plasma ball size by damage per shot (largest of default/planes): ~2.5 for the 8-damage EMG, 16 for the
 -- 2400-damage Intimidator, square-root curve so the mid-weight tank guns stay modest (130 damage -> ~5.5).
@@ -419,11 +420,11 @@ end
 function WeaponDef_Post(name, weaponDef)
 	for i = 1, #TA_ONLY_TAGS do weaponDef[TA_ONLY_TAGS[i]] = nil end
 
-	-- The slowest projectiles (SLOW_SHOT elmos/s or less: torpedoes, light and medium cannons, E.M.G.s, the flamethrower, the D-Gun)
-	-- fly 25 % faster than TA's. Ground units move 1.25x TA's by default (movespeed modoption), which made these easy to
+	-- The slowest projectiles (SLOW_SHOT elmos/s or less, default 300: torpedoes, light and medium cannons, E.M.G.s, the
+	-- flamethrower, the D-Gun) fly SLOW_SHOT_MULT x TA's speed (default 1.25). Ground units move 1.25x TA's by default (movespeed modoption), which made these easy to
 	-- outrun and dodge. Start speed and acceleration scale with it, so torpedoes keep their shape; cannon arcs get flatter.
 	local v = tonumber(weaponDef.weaponvelocity)
-	if v and v > 0 and v <= SLOW_SHOT and weaponDef.weapontype ~= "AircraftBomb" then
+	if v and v > 0 and v <= SLOW_SHOT and SLOW_SHOT_MULT ~= 1 and weaponDef.weapontype ~= "AircraftBomb" then
 		weaponDef.weaponvelocity = v * SLOW_SHOT_MULT
 		if tonumber(weaponDef.startvelocity) then weaponDef.startvelocity = tonumber(weaponDef.startvelocity) * SLOW_SHOT_MULT end
 		if tonumber(weaponDef.weaponacceleration) then weaponDef.weaponacceleration = tonumber(weaponDef.weaponacceleration) * SLOW_SHOT_MULT end

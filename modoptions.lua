@@ -258,6 +258,30 @@ local options =
   },
 
   {
+    key    = 'shotspeed', -- read by gamedata/alldefs_post.lua (WeaponDef_Post)
+    name   = 'Slow projectile speed',
+    desc   = "Projectiles at or under the cutoff below (torpedoes, light and medium cannons, E.M.G.s, flamethrower, D-Gun...) fly this many times TA's speed, so faster units cannot simply outrun them. Damage and range are unchanged; cannon arcs get flatter. 1 keeps TA's.\nkey: shotspeed",
+    type   = 'number',
+    section= 'movement',
+    def    = 1.25,
+    min    = 1,
+    max    = 2,
+    step   = 0.05,
+  },
+
+  {
+    key    = 'shotspeedcutoff',
+    name   = 'Slow projectile cutoff',
+    desc   = "Elmos per second: weapons whose TA projectile speed is this or less get the speed multiplier above (300 takes in everything up to the E.M.G.; the next fastest are the Luger, Pillager and Immolator at 310).\nkey: shotspeedcutoff",
+    type   = 'number',
+    section= 'movement',
+    def    = 300,
+    min    = 0,
+    max    = 1000,
+    step   = 10,
+  },
+
+  {
     key    = 'DisableMapDamage',
     name   = 'Undeformable map',
     desc   = 'Prevents the map shape from being changed by weapons',
