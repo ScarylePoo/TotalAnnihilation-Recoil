@@ -372,3 +372,13 @@ after changing a model or its textures. Hand-made lights go in `DeferredLightsGL
 listed there keeps those instead). `api_unit_tracker_gl4` is moved to layer -999999999 so it loads before the
 lights widget (SF's order left unit lights off).
 
+## Weather and unit headlights (from Splinter Faction)
+
+`luaui/widgets/gfx_timecyclesweathereffects_weather.lua` (day/night cycle, war-weariness tint, rain fog, heat waves,
+lightning on big explosions; drives sun and atmosphere, publishes WG.weather) with the synced gadget
+`luarules/gadgets/weather_seed.lua` (per-match seed so every player sees the same weather), and
+`luaui/widgets/gfx_unit_headlights.lua` (mobile units switch on cone headlights at dusk or in heavy storms, through
+the deferred lights widget; `/luaui headlights on|off|auto`). Unchanged SF files. Per-unit options: customparams
+`headlights = "0"` (none) or `headlight_pieces = "a,b"` (default: an automatic front-centre spot). SF's fog, rain
+and heat-shimmer effect widgets (driven by WG.weather) are not ported yet.
+
