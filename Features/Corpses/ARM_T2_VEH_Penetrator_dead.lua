@@ -12,7 +12,7 @@ return {
 		height = 20,
 		blocking = 1,
 		hitdensity = 100,
-		metal = 1643,
+		metal = 2083,  -- TA 3.1c (was 1643)
 		damage = 520,  -- TA 3.1c (was 544)
 		reclaimable = 1,
 		featurereclamate = "smudge01",
@@ -28,7 +28,7 @@ return {
 		height = 4,
 		blocking = 0,
 		hitdensity = 100,
-		metal = 741,
+		metal = 1041,  -- TA 3.1c (was 741)
 		damage = 260,  -- TA 3.1c (was 262)
 		reclaimable = 1,
 		featurereclamate = "smudge01",

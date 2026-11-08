@@ -12,7 +12,7 @@ return {
 		blocking = 1,
 		hitdensity = 95,
 		metal = 21,
-		damage = 1400,  -- TA rule: 0.8 x unit HP 1750 (was 1500)
+		damage = 1500,  -- TA 3.1c (fortification_core; was 1400)
 		reclaimable = 1,
 		autoreclaimable = 0,
 		featurereclamate = "smudge01",

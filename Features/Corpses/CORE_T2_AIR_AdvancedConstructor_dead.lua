@@ -12,7 +12,7 @@ return {
 		height = 20,
 		blocking = 1,
 		hitdensity = 100,
-		metal = 685,
+		metal = 185,  -- TA 3.1c (was 685)
 		damage = 296,  -- TA 3.1c (coraca_dead) (was 373)
 		reclaimable = 1,
 		featurereclamate = "smudge01",
@@ -28,7 +28,7 @@ return {
 		height = 4,
 		blocking = 0,
 		hitdensity = 100,
-		metal = 292,
+		metal = 92,  -- TA 3.1c (was 292)
 		damage = 296,  -- TA 3.1c (coraca_heap) (was 375)
 		reclaimable = 1,
 		featurereclamate = "smudge01",

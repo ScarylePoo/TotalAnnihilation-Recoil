@@ -35,7 +35,10 @@ Every changed line in `units/*.lua`, `Weapons/*.lua`, `gamedata/movedefs.lua` an
   had most at a quarter of TA's (factories and some buildings raised instead, sunken heaps 36000). Now TA's own
   feature values (391, `-- TA 3.1c (was ...)`); where TA has none (aircraft and ship heaps, a few units without a
   TA corpse) TA's pattern (`-- TA rule`): wreck = 0.8 x the unit's TA HP (TA: 0.80-0.84 for 222 units), heap = its
-  wreck. Typical wreck now ~4x tougher than before. Wreck metal still differs from TA on 77 features (not changed).
+  wreck. Typical wreck now ~4x tougher than before. Wreck metal is TA's too (80 changed): TA's own value, else TA's
+  rule (wreck = 0.8 x the unit's metal cost, heap = half its wreck: exact for 231 / 170 TA units; 49 changed).
+  Where TA points a unit at another unit's wreck (Goliath -> the Diplomat's, Informer -> the Arm jammer's) the
+  unit's own unused TA feature is used (corgol_dead: 2276 HP, 558 metal; was 482 from the Diplomat's).
 - **No idle regeneration** (TA had none; the engine default is 10 HP/s): `idleautoheal = 0` on every unit.
 
 ## Deviations (deliberate, with the reason)

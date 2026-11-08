@@ -45,7 +45,7 @@ return {
 		height = 4,
 		blocking = 0,
 		hitdensity = 100,
-		metal = 496,
+		metal = 400,  -- TA rule: half of its wreck (was 496)
 		damage = 663,  -- TA rule: = its wreck (was 160)
 		reclaimable = 1,
 		featurereclamate = "smudge01",

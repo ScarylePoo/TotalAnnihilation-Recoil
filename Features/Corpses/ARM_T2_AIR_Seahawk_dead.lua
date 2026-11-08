@@ -12,7 +12,7 @@ return {
 		height = 20,
 		blocking = 1,
 		hitdensity = 100,
-		metal = 121,
+		metal = 111,  -- TA rule: 0.8 x unit metal 139 (was 121)
 		damage = 376,  -- TA rule: 0.8 x unit HP 470 (was 360)
 		reclaimable = 1,
 		featurereclamate = "smudge01",
@@ -28,7 +28,7 @@ return {
 		height = 4,
 		blocking = 0,
 		hitdensity = 100,
-		metal = 59,
+		metal = 56,  -- TA rule: half of its wreck (was 59)
 		damage = 376,  -- TA rule: = its wreck (was 360)
 		reclaimable = 1,
 		featurereclamate = "smudge01",

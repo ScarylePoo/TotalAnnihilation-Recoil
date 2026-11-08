@@ -12,7 +12,7 @@ return {
 		height = 20,
 		blocking = 1,
 		hitdensity = 100,
-		metal = 111,
+		metal = 161,  -- TA 3.1c (was 111)
 		damage = 240,  -- TA 3.1c (corshad_dead) (was 60)
 		reclaimable = 1,
 		featurereclamate = "smudge01",
@@ -28,7 +28,7 @@ return {
 		height = 4,
 		blocking = 0,
 		hitdensity = 100,
-		metal = 63,
+		metal = 80,  -- TA 3.1c (was 63)
 		damage = 240,  -- TA 3.1c (corshad_heap) (was 60)
 		reclaimable = 1,
 		featurereclamate = "smudge01",
