@@ -391,3 +391,12 @@ muzzles (needs the deferred G-buffers, like the lights). Distortions are assigne
 matches nothing here). Shaders in `luaui/shaders/`. The unit tracker is now at layer -2000000000 so it loads before
 both this and the lights widget.
 
+## Map Grass GL4 (from Splinter Faction)
+
+`luaui/widgets/map_grass_gl4.lua`: instanced 3D grass blades, swaying in the wind, coloured from the map, burnt down
+by explosions. Grows where the map's own grass map says (or a map's `mapinfo.custom.grassconfig` /
+`[map]_grassDist.tga`; `/editgrass`, `/savegrass` to paint one). Blade textures (0 A.D., CC-BY-SA 3.0) in
+`luaui/images/luagrass/`, shaders in `luaui/shaders/`, `luaui/include/grassPatches.lua`. Initial settings v4:
+`GrassDetail = 0` (engine grass off, or both would draw). Off by default on weak GPUs (Intel, under 1.8 GB).
+Test on a real map: `VISUALMAP=/mnt/e/EvoDev/xxxmaps/altair_crossing_v3.sd7 VISUALMAPNAME=Altair_Crossing_v3`.
+

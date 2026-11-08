@@ -14,7 +14,7 @@
 
 local M = {}
 
-M.VERSION     = 3   -- 2: TeamNanoSpray, 3: deferred rendering
+M.VERSION     = 4   -- 2: TeamNanoSpray, 3: deferred rendering, 4: GrassDetail
 M.MARKER_KEY  = "TARInitialSettingsVersion"   -- VERSION, once the list has been written
 M.PENDING_KEY = "TARInitialSettingsReload"    -- 1: the loading screen changed a RELOAD_FIXES setting
 
@@ -40,6 +40,8 @@ local settings = {
 	-- Deferred G-buffers for maps and models: the dynamic lights (gfx_deferred_rendering_gl4) and bloom need them.
 	{ "AllowDeferredMapRendering",   1 },
 	{ "AllowDeferredModelRendering", 1 },
+	-- Engine grass off: the Map Grass GL4 widget draws the grass (both at once would double it).
+	{ "GrassDetail",                 0 },
 }
 
 --------------------------------------------------------------------------------
