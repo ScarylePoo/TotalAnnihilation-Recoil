@@ -437,7 +437,8 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
 
 
 ## Mexes and geovents (SF-style metal spots)
-- luarules/gadgets/game_metal_spots.lua: scans the metal map (SF map_defined algorithm), stamps building mask 4,
+- luarules/gadgets/game_metal_spots.lua: one spot per metal patch (peaks of the box-blurred metal map, refined to the
+  patch's metal-weighted centre, snapped to a square centre where odd-footprint buildings sit), stamps building mask 4,
   publishes GG.metalMakerSpots and GameRulesParams metalSpot_count / _<i>_x / _z / metalSpot_value / metalSpot_players.
 - game_metal_spot_output.lua: SetUnitResourcing cmm/cue on finished mexes (value x customparams.metal_spot_mult,
   customparams.mex_energy), off when switched off; calls the script's ExtractionRateChanged so the arms spin.
@@ -464,3 +465,11 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
   (per-frame lengths, hotspot). anims/<cursor>.txt = the 48 px set (the engine reads spec files first).
   `--preview DIR` writes an animated GIF of the whole set. The old TA .bmp frames were removed (in git history).
 - luaui/widgets/gui_cursor_size.lua swaps in the set nearest 48 px per 1080 lines (or config TARCursorSize).
+
+## Set Target (from Splinter Faction)
+- luarules/gadgets/unit_target_on_the_move.lua: Set Target / Cancel Target commands (Zero-K IDs 34922-34925, as in
+  luarules/configs/customcmds.h.lua, so orders GL4 and CustomFormations2 know them). A unit keeps its target while
+  moving and fires at it whenever it is in range. Cursor "settarget" = cursorsettarget (tools/cursors/cursors.py,
+  assigned by gui_cursor_size.lua). luaui/widgets/cmd_set_target_key.lua binds Y (SF's key) unless Y is taken.
+- Probe: MEXPROBE also checks a set-target order locks on (units must be on dry land: weapons can't test
+  underwater targets).

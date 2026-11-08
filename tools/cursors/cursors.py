@@ -524,6 +524,21 @@ def c_wait(c, t):
             c.shape(line((32, 32), (32, 48), 1.0), YELLOW, outline=0)
 
 
+def c_settarget(c, t):
+    # Set Target: amber lock-on brackets close onto the crosshair, hold, blink, and reset
+    ticks = [((32, 16), (32, 25)), ((32, 39), (32, 48)), ((16, 32), (25, 32)), ((39, 32), (48, 32))]
+    c.shape(union(lines(ticks, 2.4), ring(32, 32, 9, 1.8)), SILVER, outline=1.6)
+    close = ease(min(1, t / 0.4))
+    r = lerp(25, 14, close)
+    lock = t >= 0.4
+    blink = 1.0 if not lock else 0.6 + 0.4 * math.cos(2 * math.pi * (t - 0.4) / 0.3)
+    amber = ((255, 235, 140), (235, 120, 0))
+    c.shape(brackets(r, 6.5, 2.6), amber, outline=1.8, glow=((255, 160, 20), 3.0, (0.3 + 0.6 * close) * blink),
+            alpha=0.5 + 0.5 * close)
+    c.shape(poly([(32, 28.2), (35.8, 32), (32, 35.8), (28.2, 32)]), amber if lock else SILVER, outline=1.3,
+            glow=((255, 170, 30), 2.0, 0.8 * blink) if lock else None)
+
+
 CURSORS = {
     # name:          (frames, length, fn, topleft)
     "cursornormal":    (30, 0.04, c_normal, True),
@@ -549,6 +564,7 @@ CURSORS = {
     "cursorsurfaced":  (30, 0.05, c_surfaced, False),
     "cursorupgrade":   (24, 0.045, c_upgrade, False),
     "cursorwait":      (40, 0.05, c_wait, False),
+    "cursorsettarget": (30, 0.04, c_settarget, False),
 }
 
 

@@ -25,6 +25,10 @@ local CURSORS = {
 	"cursorcapture", "cursorpickup", "cursorpickupbad", "cursorunload", "cursorunloadbad", "cursorairstrike",
 	"cursorsubmerged", "cursorsurfaced", "cursorupgrade", "cursorwait",
 }
+-- command cursors the engine doesn't know: cursor name -> file (unit_target_on_the_move.lua's Set Target)
+local CUSTOM = {
+	settarget = "cursorsettarget",
+}
 local current
 
 local function WantedSize()
@@ -51,6 +55,9 @@ local function Apply()
 		if Spring.ReplaceMouseCursor(name, "hd/" .. size .. "/" .. name, name == "cursornormal") then
 			ok = ok + 1
 		end
+	end
+	for cursorName, file in pairs(CUSTOM) do
+		Spring.AssignMouseCursor(cursorName, "hd/" .. size .. "/" .. file, true, false)
 	end
 	Spring.Echo(string.format("[Cursor Size] %d px cursors (%d of %d in use by the engine swapped)", size, ok, #CURSORS))
 end

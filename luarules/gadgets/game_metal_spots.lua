@@ -12,9 +12,8 @@ end
 
 --------------------------------------------------------------------------------
 -- TA:Recoil mexes are metal makers on fixed spots (no metal extraction):
---  * spots come from the map's metal map, as the map maker placed them (Splinter Faction's map-defined scan:
---    3x3 average metal >= METAL_THRESHOLD, centre moved to the richest 3x3 nearby, near-duplicates merged); none
---    are moved, dropped or randomised
+--  * spots come from the map's metal map, as the map maker placed them: one per metal patch, at the patch's
+--    metal-weighted centre (FindSpots); none are moved, dropped or randomised
 --  * each spot gets building mask 4 over a moho-sized block (+1 square margin, as SF does: the engine's rounding of
 --    build positions can otherwise leave a row off the mask). Mexes have buildingMask 4, so they can only be built on
 --    spots, and nothing else can be built there (other units keep the default mask 1)
@@ -30,66 +29,121 @@ if not gadgetHandler:IsSyncedCode() then
 	return
 end
 
-local METAL_THRESHOLD      = 0.10   -- average metal (0-1) over a 3x3 of map squares for a spot
-local CLUSTER_RADIUS       = 6      -- map squares (96 elmos): candidates closer than this are one spot
-local CENTER_SEARCH_RADIUS = 2      -- map squares: move the centre to the richest 3x3 within this
-local FOOTPRINT            = 5      -- the largest mex (moho mine, 5x5); a 3x3 mex fits the same mask
-local MASK                 = 4
-local BASE_VALUE           = 2      -- metal per spot at 1v1
+local METAL_THRESHOLD = 0.10   -- a map square counts as metal from this amount
+local BLUR_RADIUS     = 3      -- map squares: box blur (twice) that turns each patch into one peak at its middle
+local MIN_SEPARATION  = 5      -- map squares (80 elmos, a moho's width): closer peaks are one spot
+local CENTRE_RADIUS   = 5      -- map squares: the weighted centre of the metal within this of a peak is the spot
+local FOOTPRINT       = 5      -- the largest mex (moho mine, 5x5); a 3x3 mex fits the same mask
+local MASK            = 4
+local BASE_VALUE      = 2      -- metal per spot at 1v1
 
 local GetMetalAmount = Spring.GetMetalAmount
 local SetSquareBuildingMask = Spring.SetSquareBuildingMask
 
-local function MetalAvg3x3(cx, cz)
-	local sum = 0
-	for dx = -1, 1 do
-		for dz = -1, 1 do
-			sum = sum + (GetMetalAmount(cx + dx, cz + dz) or 0)
+-- separable box blur of a flat grid (index x + z * w), clamped at the edges
+local function BoxBlur(src, w, h, r)
+	local tmp, out = {}, {}
+	for z = 0, h - 1 do
+		local row = z * w
+		for x = 0, w - 1 do
+			local sum = 0
+			for dx = -r, r do
+				local xx = math.min(w - 1, math.max(0, x + dx))
+				sum = sum + src[row + xx]
+			end
+			tmp[row + x] = sum / (2 * r + 1)
 		end
 	end
-	return sum / 9
+	for z = 0, h - 1 do
+		for x = 0, w - 1 do
+			local sum = 0
+			for dz = -r, r do
+				local zz = math.min(h - 1, math.max(0, z + dz))
+				sum = sum + tmp[zz * w + x]
+			end
+			out[z * w + x] = sum / (2 * r + 1)
+		end
+	end
+	return out
 end
 
+-- Spots are the peaks of the blurred metal map (a patch of any size or shape blurs to one peak near its middle),
+-- strongest first, merged within MIN_SEPARATION, then each moved to the metal-weighted centre of the patch around it
+-- (a few mean-shift steps) and snapped to a square centre, where an odd-footprint building's centre lands.
 local function FindSpots()
-	local sqX, sqZ = math.floor(Game.mapSizeX / 16), math.floor(Game.mapSizeZ / 16)
-	local claimed, spots = {}, {}
-	local r2 = CLUSTER_RADIUS * CLUSTER_RADIUS
-	local function isClaimed(cx, cz)
-		for i = 1, #claimed do
-			local dx, dz = cx - claimed[i][1], cz - claimed[i][2]
-			if dx * dx + dz * dz < r2 then
-				return true
-			end
+	local w, h = math.floor(Game.mapSizeX / 16), math.floor(Game.mapSizeZ / 16)
+	local metal = {}
+	for z = 0, h - 1 do
+		for x = 0, w - 1 do
+			local m = GetMetalAmount(x, z) or 0
+			metal[z * w + x] = m >= METAL_THRESHOLD and m or 0
 		end
-		return false
 	end
-	for x = 1, sqX - 2 do
-		for z = 1, sqZ - 2 do
-			local cx, cz = x + 1, z + 1
-			if not isClaimed(cx, cz) and MetalAvg3x3(cx, cz) >= METAL_THRESHOLD then
-				local bx, bz, best = cx, cz, MetalAvg3x3(cx, cz)
-				for ox = -CENTER_SEARCH_RADIUS, CENTER_SEARCH_RADIUS do
-					for oz = -CENTER_SEARCH_RADIUS, CENTER_SEARCH_RADIUS do
-						local tx, tz = cx + ox, cz + oz
-						if tx >= 1 and tx <= sqX - 2 and tz >= 1 and tz <= sqZ - 2 then
-							local avg = MetalAvg3x3(tx, tz)
-							if avg > best then
-								bx, bz, best = tx, tz, avg
-							end
+	local blur = BoxBlur(BoxBlur(metal, w, h, BLUR_RADIUS), w, h, BLUR_RADIUS)
+
+	local peaks = {}
+	local minPeak = METAL_THRESHOLD * 0.05
+	for z = 1, h - 2 do
+		for x = 1, w - 2 do
+			local v = blur[z * w + x]
+			if v > minPeak then
+				local isMax = true
+				for dz = -1, 1 do
+					for dx = -1, 1 do
+						local n = blur[(z + dz) * w + x + dx]
+						-- ties (flat tops) go to the first square in scan order
+						if n > v or (n == v and (dz < 0 or (dz == 0 and dx < 0))) then
+							isMax = false
 						end
 					end
 				end
-				-- a patch wider than CLUSTER_RADIUS is found from more than one edge, and each find moves to the same
-				-- richest centre: compare final centres too, and claim both the find and its centre
-				if not isClaimed(bx, bz) then
-					spots[#spots + 1] = { sx = bx, sz = bz }
+				if isMax then
+					peaks[#peaks + 1] = { x = x, z = z, v = v }
 				end
-				claimed[#claimed + 1] = { cx, cz }
-				claimed[#claimed + 1] = { bx, bz }
 			end
 		end
 	end
-	return spots, sqX, sqZ
+	table.sort(peaks, function(a, b) return a.v > b.v end)
+
+	local spots = {}
+	local sep2 = MIN_SEPARATION * MIN_SEPARATION
+	local cr2 = CENTRE_RADIUS * CENTRE_RADIUS
+	for _, p in ipairs(peaks) do
+		-- weighted centre of the metal around the peak (squares are 0..1 wide; +0.5 = the square's middle)
+		local cx, cz = p.x + 0.5, p.z + 0.5
+		for _ = 1, 4 do
+			local sw, sx, sz = 0, 0, 0
+			local x0, z0 = math.floor(cx), math.floor(cz)
+			for dz = -CENTRE_RADIUS, CENTRE_RADIUS do
+				for dx = -CENTRE_RADIUS, CENTRE_RADIUS do
+					local x, z = x0 + dx, z0 + dz
+					if x >= 0 and x < w and z >= 0 and z < h and dx * dx + dz * dz <= cr2 then
+						local m = metal[z * w + x]
+						if m > 0 then
+							sw, sx, sz = sw + m, sx + m * (x + 0.5), sz + m * (z + 0.5)
+						end
+					end
+				end
+			end
+			if sw <= 0 then
+				break
+			end
+			cx, cz = sx / sw, sz / sw
+		end
+		local fx, fz = math.floor(cx), math.floor(cz)
+		local taken = false
+		for _, s in ipairs(spots) do
+			local dx, dz = s.sx - fx, s.sz - fz
+			if dx * dx + dz * dz < sep2 then
+				taken = true
+				break
+			end
+		end
+		if not taken then
+			spots[#spots + 1] = { sx = fx, sz = fz }
+		end
+	end
+	return spots, w, h
 end
 
 local function MaskSpot(sx, sz, sqX, sqZ)
@@ -120,7 +174,7 @@ function gadget:Initialize()
 	local published = {}
 	for i, s in ipairs(spots) do
 		MaskSpot(s.sx, s.sz, sqX, sqZ)
-		local x, z = s.sx * 16, s.sz * 16
+		local x, z = s.sx * 16 + 8, s.sz * 16 + 8   -- the square's centre
 		published[i] = { x = x, y = Spring.GetGroundHeight(x, z), z = z }
 		Spring.SetGameRulesParam("metalSpot_" .. i .. "_x", x)
 		Spring.SetGameRulesParam("metalSpot_" .. i .. "_z", z)

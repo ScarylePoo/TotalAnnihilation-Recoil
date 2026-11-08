@@ -154,3 +154,7 @@ particles wrongly).
 ## Cursors (2026-11-08)
 - TA's cursors redrawn in HD (same symbols and colours, smoother animation), sized to the screen. New cursors for
   Fight (orange blades spinning), Manual fire / D-Gun (blue energy core) and Wait (hourglass), which TA didn't have.
+
+## Set Target (2026-11-08)
+- Set Target (Y) from Splinter Faction: units keep a priority target while moving and shoot it when in range. Not in TA.
+- Mex spots now sit at the centre of each metal patch (were up to ~36 elmos off toward the patch's top-left edge).

@@ -8,7 +8,7 @@ if not gadgetHandler:IsSyncedCode() or not (Spring.GetModOptions() or {}).mexpro
 
 local E = function(...) Spring.Echo("[PROBE] mex " .. string.format(...)) end
 local mex, moho, llt = UnitDefNames["arm_t1_eco_metalextractor"].id, UnitDefNames["arm_t2_eco_mohomine"].id, UnitDefNames["arm_t1_def_llt"].id
-local spot, mexID, mohoID, metal0
+local spot, mexID, mohoID, metal0, settarget
 
 function gadget:GameFrame(n)
   if n == 30 then
@@ -23,7 +23,15 @@ function gadget:GameFrame(n)
       for j = 1, count do
         if i ~= j then best = math.min(best, math.sqrt((pts[i][1] - pts[j][1]) ^ 2 + (pts[i][2] - pts[j][2]) ^ 2)) end
       end
-      E("spot %d at %d,%d nearest other %d", i, pts[i][1], pts[i][2], best)
+      -- how far the spot is from the metal-weighted centre of the patch within 8 squares
+      local sw, sx, sz = 0, 0, 0
+      local qx, qz = math.floor(pts[i][1] / 16), math.floor(pts[i][2] / 16)
+      for dz = -8, 8 do for dx = -8, 8 do
+        local m = Spring.GetMetalAmount(qx + dx, qz + dz) or 0
+        if m >= 0.1 then sw, sx, sz = sw + m, sx + m * ((qx + dx) * 16 + 8), sz + m * ((qz + dz) * 16 + 8) end
+      end end
+      local off = sw > 0 and math.sqrt((sx / sw - pts[i][1]) ^ 2 + (sz / sw - pts[i][2]) ^ 2) or -1
+      E("spot %d at %d,%d nearest other %d off-centre %.1f", i, pts[i][1], pts[i][2], best, off)
     end
     -- a spot on dry land
     for i = 1, count do
@@ -54,6 +62,20 @@ function gadget:GameFrame(n)
     E("moho finished: mex alive %s, moho metal %.3f, features near the spot %d",
       tostring(Spring.ValidUnitID(mexID)), Spring.GetUnitRulesParam(mohoID, "mex_metal") or -1,
       #Spring.GetFeaturesInCylinder(spot.x, spot.z, 60))
+    -- Set Target: a Flash told to target an enemy Peewee in range locks onto it (targetID rules param)
+    local flash = Spring.CreateUnit("arm_t1_veh_flash", spot.x + 80, 0, spot.z + 40, 0, 0)   -- dry land by the spot
+    local enemy = Spring.CreateUnit("arm_t1_bot_peewee", spot.x + 80, 0, spot.z + 180, 0, 1)
+    settarget = { flash, enemy }
+    Spring.SetGlobalLos(0, true)   -- the harness's teams don't get LOS updates; a player only targets what it sees
+  elseif n == 190 and settarget then
+    Spring.GiveOrderToUnit(settarget[1], 34923, { settarget[2] }, {})   -- once the enemy is in its LOS
+  elseif n == 215 and settarget then
+    local idx = -1
+    for _, d in ipairs(Spring.GetUnitCmdDescs(settarget[1]) or {}) do
+      if d.id == 34923 then idx = 1 end
+    end
+    E("set target: command on flash %s, targetID rules param %s (want %d)", idx == 1 and "yes" or "no",
+      tostring((Spring.GetUnitRulesParam(settarget[1], "targetID"))), settarget[2])
     E("done")
   end
 end
