@@ -1,4 +1,4 @@
--- From Splinter Faction (LuaUI/Widgets/gui_reclaim_field_highlight.lua).
+-- From Splinter Faction (LuaUI/Widgets/gui_reclaim_field_highlight.lua). TA:Recoil changes marked.
 function widget:GetInfo()
 	return {
 		name      = "Reclaim Field Highlight",
@@ -841,7 +841,14 @@ end
 
 function widget:Initialize()
 	screenx, screeny = widgetHandler:GetViewSizes()
-	font = gl.LoadFont("fonts/Saira_SemiCondensed-SemiBold.ttf", 60, 2, 2)
+	-- TA:Recoil: SF keeps this font in fonts/; ours ships with the Slate UI. Without it the font was nil and every
+	-- reclaim field label errored.
+	for _, path in ipairs({ "LuaUI/slate/fonts/Saira_SemiCondensed-SemiBold.ttf", "fonts/Saira_SemiCondensed-SemiBold.ttf" }) do
+		if VFS.FileExists(path) then
+			font = gl.LoadFont(path, 60, 2, 2)
+			break
+		end
+	end
 	widgetHandler:AddAction("reclaim_highlight", enableHighlight, nil, "p")
 	widgetHandler:AddAction("reclaim_highlight", disableHighlight, nil, "r")
 end

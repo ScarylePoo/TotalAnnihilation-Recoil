@@ -38,6 +38,7 @@ local DEBUG         = true          -- verbose decision trace to infolog
 --------------------------------------------------------------------------------
 
 local FONT_CANDIDATES = {
+	"LuaUI/slate/fonts/Saira_SemiCondensed-SemiBold.ttf",   -- TA:Recoil: ours ships with the Slate UI
 	"fonts/Saira_SemiCondensed-SemiBold.ttf",
 	"fonts/SairaSemiCondensed-SemiBold.ttf",
 	"fonts/Saira-SemiBold.ttf",
