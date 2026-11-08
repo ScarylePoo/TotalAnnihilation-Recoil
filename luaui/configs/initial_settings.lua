@@ -34,7 +34,8 @@ local settings = {
 	{ "MaxTextureAtlasSizeY",        8192 },
 	-- Nanospray and the frames of units being built in the unit's nano colour, not team colour. The modrule
 	-- (nanospray.allow_team_colors) is no longer read by the engine; this player setting is what decides now.
-	-- Takes effect at once; a player who turns it back on keeps their choice (applied once per VERSION).
+	-- The engine (2026.09) reads it at process start, so the spray turns green from the next launch; the CUS GL4
+	-- build effect reads it when the match starts, so that one is green at once. Applied once per VERSION.
 	{ "TeamNanoSpray",               0 },
 }
 
@@ -64,6 +65,7 @@ local RELOAD_FIXES = {
 local PROCESS_ONLY = {
 	LoadingMT = true,
 	MSAALevel = true,
+	TeamNanoSpray = true,   -- engine 2026.09: read once at start (later engines apply it live)
 }
 
 M.settings     = settings
