@@ -162,3 +162,10 @@ particles wrongly).
 ## Loading screen (2026-11-08)
 - A loading screen with a background picture, a tip / unit note / quote card and a progress bar; TA's Intro track
   plays while loading and the in-game music carries on from it.
+
+## Quality-of-life additions (2026-11-08)
+- From Splinter Faction, none in TA: construction priority button (Low / Normal / High), stockpile caps (10 nukes,
+  20 anti-nukes, 10 EMP missiles), command insert (Space+click), shift-queued buildings shared out between the
+  selected builders, queue copy/paste, builder queue ghosts, reclaim amount read-out, ally cursors and selections,
+  spectator Player-TV, camera shake, units given to an ally keep their orders, new units don't block a factory exit
+  for 12 s, other teams' nanoframes can't be reclaimed, optional generated team colours (off by default).

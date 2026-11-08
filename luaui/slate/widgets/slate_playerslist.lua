@@ -791,6 +791,19 @@ function widget:Initialize()
 		GetLockPlayerID = function() return lockPlayerID end,
 		SetLockPlayerID = LockCamera,
 	}
+	-- the same under AdvPlayersList's name, for Player-TV and Ally Selected Units (from Splinter Faction). GetPosition
+	-- gives {anchor, left, bottom, right, scale}; those widgets grow upward from [1], so it is the panel's top
+	WG['advplayerlist_api'] = {
+		GetPosition = function()
+			return {panelRect.y2, panelRect.x1, panelRect.y1, panelRect.x2, (S and S.Get("scale")) or 1}
+		end,
+		GetLockPlayerID = function() return lockPlayerID end,
+		SetLockPlayerID = LockCamera,
+		GetLockHideEnemies = function() return lockcameraHideEnemies end,
+		SetLockHideEnemies = function(v) lockcameraHideEnemies = v end,
+		GetLockLos = function() return lockcameraLos end,
+		SetLockLos = function(v) lockcameraLos = v end,
+	}
 
 	hud.RegisterPanel(LAYOUT_NAME, "Players List", Refresh)
 	hud.OnChange(LAYOUT_NAME, Refresh)
@@ -808,6 +821,7 @@ function widget:Shutdown()
 		document = nil
 
 		WG.SlatePlayersList = nil
+		WG['advplayerlist_api'] = nil
 
 		spSendCommands("info 1")
 		spSendCommands("fps 1")

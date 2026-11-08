@@ -501,3 +501,38 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
 ## Unit outline
 - luaui/widgets/gfx_outline_shader.lua (SF's, unchanged) is on in every Slate graphics preset but Lowest (was High
   and Ultra only). It pauses itself below 15 fps.
+
+## Quality-of-life widgets and gadgets from Splinter Faction (batch of 2026-11-08)
+- Orders: gui_commandinsert (Space+click puts an order at the front of the queue, Space+Shift+click where it fits
+  best), cmd_split_buildorders (rewritten: each shift-queued building goes to the selected builder that can build it
+  with the fewest buildings queued, counting orders still on their way; clicks only, orders a widget gives through
+  Spring.GiveOrder don't reach CommandNotify), cmd_queue_copypasta (Space+Alt+N copies queues, Space+N pastes; no
+  longer saved between games), cmd_stop_selfd, cmd_state_reverse_toggle (right-click steps 3+ state buttons back; the
+  engine sends state+1 with the right flag), unit_load_own_moving, unit_immobile_buider (on; TA has no immobile
+  builders today, so idle).
+- Building: unit_showbuilderqueue (on: ghosts of every queued building), cmd_persistent_build_spacing,
+  gui_buildspacing (mouse side buttons, only while placing), autofirstbuildfacing, gui_reclaiminfo (own font; SF used
+  its font API), gui_con_locater (hold Space).
+- Team / spectators: gui_ally_cursors + luarules/gadgets/cmd_mouse_pos_broadcast.lua, gui_allySelectedUnits +
+  cmd_selected_units.lua, gui_spectate_selected, camera_player_tv, cmd_stall_assist (off by default: it gives energy
+  away). Player-TV and Ally Selected Units talk to WG['advplayerlist_api'], which slate_playerslist.lua now publishes
+  (as SF's Bastion list does) next to WG.SlatePlayersList.
+- camera_shake (big explosions shake the camera).
+- Gadgets: unit_priority (Low / Normal / High construction priority button on builders and factories, CMD 34220),
+  unit_stockpile_limit (caps only: 10 nukes, 20 anti-nukes, 10 EMP missiles, by weapon name; a silo starts empty and a
+  fired missile is not replaced, as in TA; BAR's version fills silos to the cap), game_prevent_excessive_share,
+  game_block_nanoframe_reclaim, factory_anti_slacker (new units are non-blocking for 12 s), unit_shared_preserve_orders
+  (units given to an ally keep their queues; slate_share.lua sends each queue first, as SF's Bastion share does;
+  checks the sender owns the unit; options sent as options.coded), cmd_luaui_reload (/luarules reloadluaui).
+- game_auto_teamcolors (SF's, Interface > "Auto team colours" + palette, off by default, config AutoTeamColors /
+  AutoTeamColorsPalette): the synced half makes every palette with synced random, so everyone on the same palette sees
+  the same colours. Fixed: the params are now public (SF's were ally-only, so enemies kept lobby colours).
+- Not brought over: unit_plane_stop (SF's is unfinished: no units tracked, MoveCtrl freeze), unit_transportee_hider
+  (TA's ship/hover transports lift cargo onto the deck with a crane; UnitLoaded fires when the crane grabs it, so the
+  unit would vanish mid-lift).
+- Also: KEYSYMS -> Spring.GetKeyCode in gui_group_recall_fix / gui_con_locater / copypasta; unit_target_on_the_move
+  uses GetUnitCommandCount (GetCommandQueue(id, 0) is deprecated).
+- Test: PORTPROBE=1 run.sh (zz_port_probe + luaui zz_port_widget_probe; team 2 is an ally) logs "[PROBE] port ...":
+  priority button, nanoframe reclaim, factory blocking, stockpile cap, splitter, preserved orders on share, team colour
+  params readable by LuaUI. PORTCOLORS=1 also switches Auto team colours on (Red vs Blue). LuaUI orders reach the
+  simulation ~30 frames later on headless; the probe steps are 40 frames apart.

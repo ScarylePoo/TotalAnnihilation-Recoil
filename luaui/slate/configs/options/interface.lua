@@ -57,6 +57,17 @@ return {
 		{ id = "pausescreen", name = "Pause overlay", type = "bool", widget = "Slate Pause Screen", requires = "Slate Pause Screen" },
 		{ id = "simpleminimapcolors", name = "Simple minimap colours", type = "bool", config = "SimpleMiniMapColors", cmd = "minimap simplecolors %d",
 		  desc = "Green is you, blue is allied, red is enemy." },
+		-- read by the Auto TeamColor Picker gadget (luarules/gadgets/game_auto_teamcolors.lua), which makes the colours
+		-- in synced code: everyone who picks the same palette sees the same colours
+		{ id = "autoteamcolors", name = "Auto team colours", type = "bool", config = "AutoTeamColors", default = false,
+		  desc = "Replace lobby colours with a generated palette, with teammates in related shades. Reloads the interface.",
+		  children = {
+			  { id = "autoteamcolorspalette", name = "Palette", type = "select",
+			    options = { "Purple vs Orange", "Red vs Blue", "Green vs Brown", "Teal vs Pink", "Gold vs Blue", "Green vs Magenta" },
+			    get = function() return Spring.GetConfigInt("AutoTeamColorsPalette", 1) end,
+			    set = function(idx) Spring.SetConfigInt("AutoTeamColorsPalette", idx) end,
+			    desc = "Main colours for the first two teams. Other teams and teammates are generated around them. Reloads the interface." },
+		  } },
 
 		{ type = "separator", name = "Camera" },
 		{ id = "edgescroll", name = "Scroll at the screen edge", type = "bool", config = "WindowedEdgeMove", cmd = "edgemove %d" },

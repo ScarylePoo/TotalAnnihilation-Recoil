@@ -237,6 +237,24 @@ local function DoApply()
 		local targetTeam = targets[1]
 		local unitIDs = Spring.GetSelectedUnits() or {}
 		if #unitIDs > 0 then
+			-- an ally gets the units with their orders: send each queue to Unit Sharing Preserve Orders before the
+			-- transfer (it clears them), while the units are still ours.
+			-- "ShareOrders:<unitID>:<team>:<id>,<p1>,..,OPTS:<bits>|<id>,..."
+			for _, unitID in ipairs(unitIDs) do
+				local tokens = {}
+				for _, cmd in ipairs(Spring.GetUnitCommands(unitID, -1) or {}) do
+					local fields = { tostring(cmd.id) }
+					for _, p in ipairs(cmd.params or {}) do
+						fields[#fields + 1] = tostring(p)
+					end
+					local opts = cmd.options
+					fields[#fields + 1] = "OPTS:" .. tostring(type(opts) == "table" and (opts.coded or 0) or opts or 0)
+					tokens[#tokens + 1] = table.concat(fields, ",")
+				end
+				if #tokens > 0 then
+					Spring.SendLuaRulesMsg("ShareOrders:" .. unitID .. ":" .. targetTeam .. ":" .. table.concat(tokens, "|"))
+				end
+			end
 			-- "units" transfers the whole selection in one call
 			Spring.ShareResources(targetTeam, "units")
 			sharedUnits = #unitIDs

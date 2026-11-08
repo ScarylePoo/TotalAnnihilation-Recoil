@@ -15,7 +15,6 @@ function widget:GetInfo()
   }
 end
 
-include("keysym.h.lua")
 
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
@@ -51,16 +50,16 @@ local currentIteration = 1
 local previousKey = 99
 local previousTime = spGetTimer()
 local groupNumber = {
-	[KEYSYMS.N_1] = 1,
-	[KEYSYMS.N_2] = 2,
-	[KEYSYMS.N_3] = 3,
-	[KEYSYMS.N_4] = 4,
-	[KEYSYMS.N_5] = 5,
-	[KEYSYMS.N_6] = 6,
-	[KEYSYMS.N_7] = 7,
-	[KEYSYMS.N_8] = 8,
-	[KEYSYMS.N_9] = 9,
-	[KEYSYMS.N_0] = 0,
+	[Spring.GetKeyCode("1")] = 1,
+	[Spring.GetKeyCode("2")] = 2,
+	[Spring.GetKeyCode("3")] = 3,
+	[Spring.GetKeyCode("4")] = 4,
+	[Spring.GetKeyCode("5")] = 5,
+	[Spring.GetKeyCode("6")] = 6,
+	[Spring.GetKeyCode("7")] = 7,
+	[Spring.GetKeyCode("8")] = 8,
+	[Spring.GetKeyCode("9")] = 9,
+	[Spring.GetKeyCode("0")] = 0,
 }
 
 local function GroupRecallFix(key, modifier, isRepeat)
