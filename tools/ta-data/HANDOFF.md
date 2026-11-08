@@ -419,3 +419,19 @@ Commander name tags: `luaui/slate/widgets/slate_nametags.lua` + `luaui/slate/rml
 the player's opacity and tint) with a team-colour dot and the owner's name under every visible commander; decoy
 commanders get their owner's tag too (a tag-less commander would give a decoy away).
 
+## Shields (for modders; TA has none)
+
+From Splinter Faction, inert unless a unit has a shield: `luaui/widgets/gfx_shields_gl4.lua` (instanced bubbles,
+impact ripples, intersection glow, charge state), `luarules/gadgets/lups_shield.lua` (+ `luarules/configs/
+lups_shield_fxs.lua`, `luarules/gadgets/include/IterableMap.lua`), `unit_shield_onoffable.lua` (the unit's on/off
+switches its shield), `unit_protoss_style_shields.lua` and `unit_deflect_aoe_damage_to_shield.lua`.
+To give a unit a shield: a weapon with `weapontype = "Shield"` and a `shield = { power, powerregen, radius, ... }`
+table, and `customparams.shield_radius = <radius>` (the bubble visuals key on it). Optional:
+`customparams.isshieldedunit = "1"` (+ `shield_max_strength`, `shield_regeneration_delay`,
+`shield_regeneration_rate`) for a personal Protoss-style shield, `customparams.shield_deflect_damage = 1` to route all
+damage to the shield first (TA:Recoil made this opt-in; the gadget unloads if no unit uses it). Test unit:
+`tools/headless-test/tartest.sdd/units/zz_test_shield.lua` (probe mod only).
+
+LuaRules now loads `init.lua` (Common/: table.copy, Spring.Utilities...) and SF's `luarules/utilities/`
+tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadgets, configs and LUPS expect them.
+
