@@ -473,3 +473,15 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
   assigned by gui_cursor_size.lua). luaui/widgets/cmd_set_target_key.lua binds Y (SF's key) unless Y is taken.
 - Probe: MEXPROBE also checks a set-target order locks on (units must be on dry land: weapons can't test
   underwater targets).
+
+## Key bindings (SF's overhaul, in Slate)
+- luaui/slate/widgets/slate_api_keybindings.lua rebuilds the binds from scratch: unbindall, then
+  luaui/configs/tar_keys.txt (game binds, archive only), then luaui/slate/configs/engine_default_keys.txt (the
+  engine's built-in binds, generated from KeyBindings.cpp, identical to 2026.09.02; archive only), then the
+  player's tar_uikeys.txt from the Keybinds window. The shared uikeys.txt is never used (other games' binds).
+- tar_keys.txt: Alt+S/D/X split / swap / recombine selection (luaui/widgets/gui_split_selection.lua), Y / Ctrl+Y set /
+  cancel target, Ctrl+P pause, F11 / Ctrl+F11 widget selector / tweak mode. Runtime binds belong in a reapply hook
+  (WG.SlateKeybindings.AddReapplyHook) or, better, in tar_keys.txt.
+- The Keybinds window reads its action vocabulary from the archive only (VFS.ZIP) as SF does.
+- Test: KEYPROBE=1 run.sh writes a stale uikeys.txt and logs "[PROBE] keys ..." for a few keys. The test mod's
+  short name is TART, so tartest.sdd/luaui/configs/tart_keys.txt links to tar_keys.txt.

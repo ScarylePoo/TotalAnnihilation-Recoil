@@ -5,7 +5,7 @@
 function widget:GetInfo()
 	return {
 		name      = "Slate Keybindings",
-		desc      = "Owns the per-game key binding files: applies <game>_keys.txt from the game archive and the player's in-game rebinds (<game>_uikeys.txt) on top of the engine's bindings.",
+		desc      = "Owns the key bindings: discards the engine-loaded uikeys.txt, then applies the game's <game>_keys.txt, the engine defaults behind them, and the player's in-game rebinds (<game>_uikeys.txt) on top.",
 		author    = "Scary le Poo",
 		date      = "2026-10-24",
 		license   = "GNU GPL, v2 or later",
@@ -15,28 +15,45 @@ function widget:GetInfo()
 end
 
 --------------------------------------------------------------------------------
--- WHERE BINDINGS LIVE
+-- WHY THIS REPLACES uikeys.txt INSTEAD OF LAYERING ON IT
 --
---   1. the engine's defaults and the player's own uikeys.txt   - never touched
---   2. luaui/configs/<game>_keys.txt inside the game archive   - the game's
---      defaults (optional)
---   3. <game>_uikeys.txt in the player's Recoil folder         - changes made
---      in the Keybinds window, as plain bind / unbind lines
+-- Many players run one Recoil install for several games, and uikeys.txt in the
+-- write dir is shared between them. Whatever another game left there (or an
+-- "unbindall" at its top) used to win, because per keyset the engine runs the
+-- first-bound action that is available, and uikeys.txt is bound at startup
+-- before LuaUI exists.
 --
--- Each later file is loaded on top of the earlier ones. Because file 3 is
--- named after the game, several games on one install each keep their own
--- changes and never see each other's. <game> is the game's short name in
--- lower case.
+-- So the bind table is rebuilt from scratch, in priority order:
+--
+--   1. unbindall                         drops everything, including uikeys.txt
+--   2. luaui/configs/<game>_keys.txt     the game's binds, from the game archive
+--                                        only (optional)
+--   3. slate/configs/engine_default_keys.txt
+--                                        the engine's built-in binds (generated
+--                                        from the engine source), as fallbacks
+--   4. <game>_uikeys.txt (write dir)     the player's rebinds from the Keybinds
+--                                        window; its unbind lines remove what it
+--                                        replaces, so it wins conflicts
+--
+-- <game> is the game's short name in lower case, so several games on one
+-- install each keep their own rebinds. The engine's "keydefaults" is not a
+-- registered console action, so it cannot be sent from Lua; that is why the
+-- defaults are shipped as a file. uikeys.txt is never read or written; a
+-- player who runs /keyreload gets it back until the next /slatekeys.
 --
 -- Widgets that bind keys at runtime (the settings window's F10, say) do so
 -- in their own Initialize, after this one. A later re-apply (/slatekeys)
--- would put the files' binds in front of those again, so they register with
+-- would wipe those binds, so they register with
 -- WG.SlateKeybindings.AddReapplyHook and are re-run after every re-apply.
+--
+-- (From Splinter Faction's gui_sf_keybindings.lua.)
 --------------------------------------------------------------------------------
 
 local shortName = (Game.gameShortName or Game.modShortName or "game"):lower():gsub("[^%w_]", "")
 local GAME_KEYS_FILE = "luaui/configs/" .. shortName .. "_keys.txt"
 local USER_KEYS_FILE = shortName .. "_uikeys.txt"
+-- the engine's defaults, shipped with Slate; archive only as well
+local ENGINE_KEYS_FILE = LUAUI_DIRNAME .. "slate/configs/engine_default_keys.txt"
 
 -- "/slatekeys" re-applies the files (e.g. after a /keyreload)
 local ACTION_NAME = "slatekeys"
@@ -71,14 +88,20 @@ local function ReadKeyLines(text, out)
 	return out
 end
 
-local function BuildCommands()
-	local cmds = {}
-	-- the game's own defaults, read from the archive only so a loose copy in
-	-- the write dir can never stand in for them
-	local text = VFS.FileExists(GAME_KEYS_FILE, VFS.ZIP) and VFS.LoadFile(GAME_KEYS_FILE, VFS.ZIP)
+local function AppendArchiveKeyFile(path, cmds, what, required)
+	-- read from the archive only, so a loose copy in the write dir can never stand in for it
+	local text = VFS.FileExists(path, VFS.ZIP) and VFS.LoadFile(path, VFS.ZIP)
 	if text then
 		ReadKeyLines(text, cmds)
+	elseif required then
+		spEcho("[Slate Keybindings] missing " .. path .. " -- no " .. what .. " applied")
 	end
+end
+
+local function BuildCommands()
+	local cmds = { "unbindall" }
+	AppendArchiveKeyFile(GAME_KEYS_FILE, cmds, "game binds", false)   -- a game may have none
+	AppendArchiveKeyFile(ENGINE_KEYS_FILE, cmds, "engine default binds", true)
 	if RawFileExists(USER_KEYS_FILE) then
 		-- raw on purpose: this file lives in the write dir
 		cmds[#cmds + 1] = "keyload " .. USER_KEYS_FILE
@@ -87,10 +110,7 @@ local function BuildCommands()
 end
 
 local function ApplyKeys(verbose)
-	local cmds = BuildCommands()
-	if #cmds > 0 then
-		spSendCommands(cmds)
-	end
+	spSendCommands(BuildCommands())
 	for i = 1, #reapplyHooks do
 		local hook = reapplyHooks[i]
 		local ok, err = pcall(hook.fn)
@@ -142,6 +162,7 @@ function widget:Initialize()
 		RemoveReapplyHook = RemoveReapplyHook,
 		gameFile          = GAME_KEYS_FILE,
 		userFile          = USER_KEYS_FILE,
+		engineFile        = ENGINE_KEYS_FILE,
 		shortName         = shortName,
 	}
 

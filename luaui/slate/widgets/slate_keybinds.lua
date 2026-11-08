@@ -1586,7 +1586,7 @@ local function AskReset()
 		return
 	end
 	OpenConfirm("Clear all " .. #edits .. " rebinds from " .. USER_KEYS_FILE .. "?", {
-		"Keys return to the game's defaults plus your uikeys.txt.",
+		"Keys return to the game's defaults and the engine's.",
 	}, ResetAll)
 	confirm.note = "This cannot be undone."
 end
@@ -1618,7 +1618,7 @@ function widget:Initialize()
 	end
 
 	-- RAW_FIRST: a game's edited copy in the write dir wins over the archive's
-	actions = VFS.Include(ACTIONS_FILE, nil, VFS.RAW_FIRST)
+	actions = VFS.Include(ACTIONS_FILE, nil, VFS.ZIP) -- archive only, as in SF: a stale loose copy never wins
 	if type(actions) ~= "table" or not actions.Parse then
 		Spring.Echo("[Slate Keybinds] could not load " .. ACTIONS_FILE)
 		widgetHandler:RemoveWidget()

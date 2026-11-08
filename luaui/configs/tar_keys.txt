@@ -1,0 +1,33 @@
+//
+// Total Annihilation: Recoil default keybindings
+//
+// Applied by luaui/slate/widgets/slate_api_keybindings.lua, which reads this file from the game archive only (a
+// loose copy in the write dir is ignored). The bindings are rebuilt from scratch at game start, in this order:
+//   unbindall, then this file, then the engine's built-in defaults (luaui/slate/configs/engine_default_keys.txt),
+//   then the player's rebinds in tar_uikeys.txt (write dir, written by the Keybinds window).
+// The player's uikeys.txt is NOT used: in installs shared between several games it is full of other games' binds.
+//
+// Per keyset the engine runs the first-bound action that is available, so a bind here wins over an engine default
+// on the same key, and the defaults still fill every key this file does not mention. Headings (//  Name, then a
+// dashed line) become sections in the Keybinds window's Game tab.
+//
+//
+//  Selection Splitting
+//  -----------------------------
+bind alt+s splitselection
+bind alt+d swapselectionhalf
+bind alt+x recombineselection
+//
+//  Set Unit Target
+//  -----------------------------
+bind y settarget
+bind Ctrl+y canceltarget
+//
+//  Pause
+//  -----------------------------
+bind ctrl+p pause
+//
+//  Widget Selector and Tweak Mode
+//  -----------------------------
+bind f11 luaui selector
+bind C+f11 luaui tweakgui

@@ -38,6 +38,8 @@ mkdir -p "$WD/games"
 ln -s "$GAME" "$WD/games/tar.sdd"
 ln -s "$HERE/tartest.sdd" "$WD/games/tartest.sdd"
 cp "$HERE/script.txt" "$WD/script.txt"
+# KEYPROBE: a shared uikeys.txt left by another game, which the keybindings widget must not let through
+[ -n "$KEYPROBE" ] && printf 'bind y otherGameAction\nbind q otherGameAction\n' > "$WD/uikeys.txt"
 # several runs at once (other worktrees too) need their own UDP port
 sed -i "s/IsHost=1;/IsHost=1;\n\tHostPort=$((20000 + RANDOM % 30000));/" "$WD/script.txt"
 [ -n "$AIM" ] && sed -i 's/debugmode=1;/debugmode=1;\n\t\taimonly=1;/' "$WD/script.txt"

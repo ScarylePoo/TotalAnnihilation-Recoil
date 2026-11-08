@@ -73,6 +73,11 @@ local M = {}
 M.verbs = {
 	{ key = "select",            label = "Select units",     builder = true },
 	{ key = "slateselect",       label = "Select (Slate)",   builder = true, hidden = true }, -- chosen automatically
+	{ key = "settarget",         label = "Set target" },
+	{ key = "canceltarget",      label = "Cancel target" },
+	{ key = "splitselection",    label = "Split selection" },
+	{ key = "swapselectionhalf", label = "Swap half" },
+	{ key = "recombineselection",label = "Recombine" },
 	{ key = "buildunit_",        label = "Build unit",       arg = "unit", joined = true },
 	{ key = "pause",             label = "Pause" },
 	{ key = "luaui",             label = "luaui ...",        arg = "text" },

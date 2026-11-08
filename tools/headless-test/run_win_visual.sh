@@ -15,7 +15,7 @@ ENGINE="$WINROOT/engine-2026.09.01"
 RUN="$WINROOT/run"
 mkdir -p "$RUN/games"
 rsync -a --delete --exclude=.git --exclude=tools "$GAME/" "$RUN/games/tar.sdd/"
-rsync -a --delete "$HERE/tartest.sdd/" "$RUN/games/tartest.sdd/"
+rsync -aL --delete "$HERE/tartest.sdd/" "$RUN/games/tartest.sdd/"   # -L: tart_keys.txt links to the real key file
 rm -rf "$RUN/screenshots" "$RUN/infolog.txt"
 cp "$HERE/script.txt" "$RUN/script.txt"
 [ -n "$VISUALCEG" ] && VISUAL=${VISUAL:-none}

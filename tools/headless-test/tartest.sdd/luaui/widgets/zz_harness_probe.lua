@@ -1,6 +1,13 @@
 function widget:GetInfo() return { name = "Harness Probe", layer = 99999, enabled = true, handler = true } end
 local placementSeen, doneSeen
 function widget:GameFrame(f)
+  if f == 20 then   -- KEYPROBE / any run: what a few keys are bound to
+    for _, k in ipairs({ "y", "Ctrl+y", "Alt+s", "q", "esc", "f11" }) do
+      local acts = {}
+      for _, b in ipairs(Spring.GetKeyBindings(k) or {}) do acts[#acts + 1] = b.command or b[1] or "?" end
+      Spring.Echo("[PROBE] keys " .. k .. " = " .. table.concat(acts, ", "))
+    end
+  end
   if not placementSeen and Spring.GetGameRulesParam("phase") == "placement" then
     -- run.sh STARTP: which widgets are up once start placement begins
     placementSeen = f
