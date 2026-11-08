@@ -575,7 +575,9 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
   The Crasher and the Core decoy commander fire from slot 3/4 (NOWEAPON before): the audit's PAIRING row for
   `noweapon` is that, not a missing weapon.
 - Slow projectiles: `WeaponDef_Post` multiplies `weaponvelocity` (and `startvelocity`, `weaponacceleration`) by
-  `SLOW_SHOT_MULT` = 1.25 for every weapon under `SLOW_SHOT` = 250 elmos/s except bombs: all torpedoes and depth
-  charges, light cannons (170), medium cannons (210/220: Hammer, Thud, Bulldog, Reaper, Triton, Gimp, Crock), the Pyro's
-  flamethrower (188) and the D-Gun (200). Damage, range and gravity unchanged; cannon arcs are flatter. AIM=1 probe:
-  all still fire and hit.
+  `SLOW_SHOT_MULT` = 1.25 for every weapon at or under `SLOW_SHOT` = 300 elmos/s except bombs: all torpedoes and depth
+  charges, light cannons (170), medium cannons (210/220: Hammer, Thud, Bulldog, Reaper, Triton, Gimp, Crock), Pyro
+  flamethrower (188), D-Gun (200), Goliath (250), Rocko/Storm rockets (250), Snapper (260), Leveler (280), Morty (290),
+  E.M.G.s and the Crusader/Enforcer guns (300). Fastest untouched: Luger/Pillager/Immolator at 310. Death explosions
+  and mines carry a dummy 250 that also scales (never fired; no effect). Damage, range and gravity unchanged; cannon
+  arcs are flatter. AIM=1 probe: all still fire and hit as before.

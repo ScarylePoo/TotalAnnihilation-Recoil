@@ -169,7 +169,7 @@ local modOptions = Spring.GetModOptions and Spring.GetModOptions() or {}
 local TA_GRAVITY = 112 / 900
 
 -- slow projectiles fly faster than TA's (WeaponDef_Post)
-local SLOW_SHOT, SLOW_SHOT_MULT = 250, 1.25
+local SLOW_SHOT, SLOW_SHOT_MULT = 300, 1.25
 
 -- Plasma ball size by damage per shot (largest of default/planes): ~2.5 for the 8-damage EMG, 16 for the
 -- 2400-damage Intimidator, square-root curve so the mid-weight tank guns stay modest (130 damage -> ~5.5).
@@ -419,11 +419,11 @@ end
 function WeaponDef_Post(name, weaponDef)
 	for i = 1, #TA_ONLY_TAGS do weaponDef[TA_ONLY_TAGS[i]] = nil end
 
-	-- The slowest projectiles (under SLOW_SHOT elmos/s: torpedoes, light and medium cannons, the flamethrower, the D-Gun)
+	-- The slowest projectiles (SLOW_SHOT elmos/s or less: torpedoes, light and medium cannons, E.M.G.s, the flamethrower, the D-Gun)
 	-- fly 25 % faster than TA's. Ground units move 1.25x TA's by default (movespeed modoption), which made these easy to
 	-- outrun and dodge. Start speed and acceleration scale with it, so torpedoes keep their shape; cannon arcs get flatter.
 	local v = tonumber(weaponDef.weaponvelocity)
-	if v and v > 0 and v < SLOW_SHOT and weaponDef.weapontype ~= "AircraftBomb" then
+	if v and v > 0 and v <= SLOW_SHOT and weaponDef.weapontype ~= "AircraftBomb" then
 		weaponDef.weaponvelocity = v * SLOW_SHOT_MULT
 		if tonumber(weaponDef.startvelocity) then weaponDef.startvelocity = tonumber(weaponDef.startvelocity) * SLOW_SHOT_MULT end
 		if tonumber(weaponDef.weaponacceleration) then weaponDef.weaponacceleration = tonumber(weaponDef.weaponacceleration) * SLOW_SHOT_MULT end
