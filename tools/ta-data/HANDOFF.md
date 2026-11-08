@@ -342,3 +342,12 @@ Installed from https://github.com/Spring-Helper-Projects/Custom-Unit-Shaders-GL4
   processing); this CUS has no naming fallback.
 In game: `/luarules disablecusgl4`, `/luarules reloadcusgl4`; config `cus2 = 0` turns it off.
 
+## LuaUI widget handler (from Splinter Faction)
+
+`luaui/widgets.lua` is SF's `LuaUI/widgets_custom.lua` and `luaui/main.lua` its `main_custom.lua` (replacing the
+XTA/stock handler), plus `luaui/cache.lua`. Our one addition (marked "TA:Recoil"): it also loads the Slate UI suite
+from `LuaUI/Slate/Widgets/`. What SF's brings: the `SelectionChanged` call-in (Slate's commands widget and the fancy
+selection widget use it; the old handler never called it), game files always before loose ones, and loose user
+widgets only with the `allowuserwidgets` modoption (off). Saved widget settings: `LuaUI/Config/TART_data.lua`.
+`luaui/widgets/gui_fancy_selected_units.lua`: SF's selection rings, unchanged.
+

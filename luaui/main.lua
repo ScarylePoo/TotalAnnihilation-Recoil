@@ -1,3 +1,4 @@
+-- TA:Recoil: Splinter Faction's LuaUI/main_custom.lua (goes with its widget handler, luaui/widgets.lua).
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 --
@@ -12,9 +13,31 @@
 --------------------------------------------------------------------------------
 
 Spring.SendCommands({"ctrlpanel " .. LUAUI_DIRNAME .. "ctrlpanel.txt"})
+VFS.Include("init.lua", nil, VFS.ZIP)
 
-VFS.Include(LUAUI_DIRNAME .. "rml_setup.lua",  nil, VFS.ZIP)
-VFS.Include(LUAUI_DIRNAME .. 'utils.lua', nil, VFS.ZIP)
+-- RmlUi: fonts, cursors and the shared context for the HUD documents.
+-- VFS.ZIP: always take the game's rml_setup.lua, never a loose local copy.
+VFS.Include(LUAUI_DIRNAME .. "rml_setup.lua", nil, VFS.ZIP)
+
+local LUAUI_VFSMODE = LUAUI_VFSMODE or VFS.ZIP_FIRST
+
+-- utils.lua is shipped raw by the engine, so it has to stay reachable; the
+-- archive still wins if the game ever ships its own.
+VFS.Include(LUAUI_DIRNAME .. 'utils.lua', utilFile, LUAUI_VFSMODE)
+
+-- The engine's include() (from utils.lua) calls VFS.Include with no mode,
+-- which is raw-first: a loose LuaUI/widgets_custom.lua from another game in a
+-- shared install would replace the game's widget handler. Same behavior, explicit mode.
+function include(filename, envTable)
+  if (string.find(filename, '.h.lua', 1, true)) then
+    filename = 'Headers/' .. filename
+  end
+  return VFS.Include(LUAUI_DIRNAME .. filename, envTable, LUAUI_VFSMODE)
+end
+
+WG = {}
+VFS.Include("init.lua", nil, VFS.ZIP)
+VFS.Include("common/luautilities/glvolumes.lua", nil, LUAUI_VFSMODE)
 
 include("setupdefs.lua")
 include("savetable.lua")
@@ -22,9 +45,7 @@ include("savetable.lua")
 include("debug.lua")
 include("fonts.lua")
 include("layout.lua")   -- contains a simple LayoutButtons()
--- the widget handler: always the game's own copy, never a loose one in the
--- engine folder, because ours also loads the widgets in LuaUI/Slate/Widgets/
-VFS.Include(LUAUI_DIRNAME .. "widgets.lua", nil, VFS.ZIP_FIRST)
+include("widgets.lua")  -- the widget handler (TA:Recoil: SF's widgets_custom.lua, as luaui/widgets.lua)
 
 
 --------------------------------------------------------------------------------
@@ -69,9 +90,7 @@ activePage = 0
 forceLayout = true
 
 
-function Update(dt)
-  dt = dt or Spring.GetLastUpdateSeconds()
-
+function Update()
   local currentPage = Spring.GetActivePage()
   if (forceLayout or (currentPage ~= activePage)) then
     Spring.ForceLayoutUpdate()  --  for the page number indicator
@@ -79,9 +98,9 @@ function Update(dt)
   end
   activePage = currentPage
 
-  fontHandler.Update(dt)
+  fontHandler.Update()
 
-  widgetHandler:Update(dt)
+  widgetHandler:Update()
 
   return
 end
@@ -101,30 +120,6 @@ function ConfigureLayout(command)
   return widgetHandler:ConfigureLayout(command)
 end
 
-function ActiveCommandChanged(id, cmdType)
-  return widgetHandler:ActiveCommandChanged(id, cmdType)
-end
-
-function CameraRotationChanged(rotx, roty, rotz)
-  return widgetHandler:CameraRotationChanged(rotx, roty, rotz)
-end
-
-function CameraPositionChanged(posx, posy, posz)
-  return widgetHandler:CameraPositionChanged(posx, posy, posz)
-end
-
-function MiniMapRotationChanged(newRot, oldRot)
-  return widgetHandler:MiniMapRotationChanged(newRot, oldRot)
-end
-
-function MiniMapStateChanged(isMinimized, isMaximized, isSlaved)
-  return widgetHandler:MiniMapStateChanged(isMinimized, isMaximized, isSlaved)
-end
-
-function MiniMapGeometryChanged(newPosX, newPosY, newDimX, newDimY, oldPosX, oldPosY, oldDimX, oldDimY)
-  return widgetHandler:MiniMapGeometryChanged(newPosX, newPosY, newDimX, newDimY, oldPosX, oldPosY, oldDimX, oldDimY)
-end
-
 function CommandNotify(id, params, options)
   return widgetHandler:CommandNotify(id, params, options)
 end
@@ -134,16 +129,12 @@ function DrawScreen(vsx, vsy)
   return widgetHandler:DrawScreen()
 end
 
-function KeyMapChanged()
-  return widgetHandler:KeyMapChanged()
+function KeyPress(key, mods, isRepeat, label, unicode)
+  return widgetHandler:KeyPress(key, mods, isRepeat, label, unicode)
 end
 
-function KeyPress(key, mods, isRepeat, label, unicode, scanCode, actions)
-  return widgetHandler:KeyPress(key, mods, isRepeat, label, unicode, scanCode, actions)
-end
-
-function KeyRelease(key, mods, label, unicode, scanCode, actions)
-  return widgetHandler:KeyRelease(key, mods, label, unicode, scanCode, actions)
+function KeyRelease(key, mods, label, unicode)
+  return widgetHandler:KeyRelease(key, mods, label, unicode)
 end
 
 function MouseMove(x, y, dx, dy, button)

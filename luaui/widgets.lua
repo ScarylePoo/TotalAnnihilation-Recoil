@@ -1,3 +1,5 @@
+-- TA:Recoil: Splinter Faction's widget handler (LuaUI/widgets_custom.lua), replacing the XTA/stock one. Our one
+-- addition, marked "TA:Recoil": the widgets of self-contained UI suites (LuaUI/Slate/Widgets/) are loaded too.
 --------------------------------------------------------------------------------
 --------------------------------------------------------------------------------
 --
@@ -21,25 +23,49 @@ end
 include("keysym.h.lua")
 include("utils.lua")
 include("system.lua")
+include("cache.lua") --contain cached override for Spring.GetVisibleUnit (performance optimization). All overrides that are placed here have global reach
 include("callins.lua")
 include("savetable.lua")
 
 
 local gl = gl
 
-local CONFIG_FILENAME    = LUAUI_DIRNAME .. 'Config/' .. Game.modShortName .. '.lua'
-local WIDGET_DIRNAME     = LUAUI_DIRNAME .. 'Widgets/'
--- Self-contained UI suites shipped in their own folder. Delete the folder (and
+local modShortUpper = Game.modShortName:upper()
+local ORDER_FILENAME     = LUAUI_DIRNAME .. 'Config/' .. modShortUpper .. '_order.lua'
+local CONFIG_FILENAME    = LUAUI_DIRNAME .. 'Config/' .. modShortUpper .. '_data.lua'
+local WIDGET_DIRNAME     = LUAUI_DIRNAME .. 'widgets/'
+-- TA:Recoil: self-contained UI suites shipped in their own folder (game archive only). Delete the folder (and
 -- its line here) to remove the suite.
 local SUITE_WIDGET_DIRS  = {
   LUAUI_DIRNAME .. 'Slate/Widgets/',
 }
 
+-- Loose widgets in the player's data directory are only loaded when the
+-- "allowuserwidgets" modoption is on. Players who share one Recoil install
+-- between several games otherwise get other games' widgets loaded into SF,
+-- where they shadow or knock out SF's own (same-name widgets collide).
+local function IsTruthy(v)
+  return v == true or v == 1 or v == "1" or v == "true" or v == "yes"
+end
+local ALLOW_USER_WIDGETS = IsTruthy((Spring.GetModOptions() or {}).allowuserwidgets)
+
+-- VFS mode for reading a widget file. fromZip == nil means "not known"
+-- (the selector, which the engine ships raw), so the archive wins but a raw
+-- file is still found.
+local function WidgetVFSMode(fromZip)
+  if fromZip == true then
+    return VFS.ZIP
+  elseif fromZip == false then
+    return VFS.RAW_ONLY
+  end
+  return VFS.ZIP_FIRST
+end
+
 local SELECTOR_BASENAME = 'selector.lua'
 
 local SAFEWRAP = 1
 -- 0: disabled
--- 1: enabled, but can be overridden by widget.GetInfo().unsafe
+-- 1: enabled, but can be overriden by widget.GetInfo().unsafe
 -- 2: always enabled
 
 local SAFEDRAW = false  -- requires SAFEWRAP to work
@@ -103,12 +129,6 @@ widgetHandler = {
   yViewSizeOld = 1,
 }
 
--- The shared table is also a LuaUI global, as it is in the BAR and Splinter
--- Faction handlers. Recoil's RmlUi binding runs every Lua event listener in
--- the document's environment (built from LuaUI's globals, not the widget's
--- sandbox), so a listener that reads WG only finds it here.
-WG = widgetHandler.WG
-
 
 -- these call-ins are set to 'nil' if not used
 -- they are setup in UpdateCallIns()
@@ -118,8 +138,6 @@ local flexCallIns = {
   'GameOver',
   'GamePaused',
   'GameFrame',
-  'GameFramePost',
-  'GameProgress',
   'GameSetup',
   'TeamDied',
   'TeamChanged',
@@ -134,7 +152,6 @@ local flexCallIns = {
   'UnitFinished',
   'UnitFromFactory',
   'UnitReverseBuilt',
-  'UnitConstructionDecayed',
   'UnitDestroyed',
   'RenderUnitDestroyed',
   'UnitTaken',
@@ -148,10 +165,8 @@ local flexCallIns = {
   'UnitEnteredLos',
   'UnitLeftRadar',
   'UnitLeftLos',
-  'UnitEnteredUnderwater',
   'UnitEnteredWater',
   'UnitEnteredAir',
-  'UnitLeftUnderwater',
   'UnitLeftWater',
   'UnitLeftAir',
   'UnitSeismicPing',
@@ -160,28 +175,22 @@ local flexCallIns = {
   'UnitCloaked',
   'UnitDecloaked',
   'UnitMoveFailed',
-  'UnitHarvestStorageFull',
   'RecvLuaMsg',
+  'SelectionChanged',
   'StockpileChanged',
   'DrawGenesis',
   'DrawWorld',
   'DrawWorldPreUnit',
-  'DrawWorldPreParticles',
+  'DrawPreDecals',
+  'DrawGroundPostForward',
   'DrawWorldShadow',
   'DrawWorldReflection',
   'DrawWorldRefraction',
-  'DrawGroundPreForward',
-  'DrawGroundPostForward',
-  'DrawGroundPreDeferred',
-  'DrawGroundDeferred',
-  'DrawGroundPostDeferred',
   'DrawUnitsPostDeferred',
   'DrawFeaturesPostDeferred',
   'DrawScreenEffects',
-  'DrawScreenPost',
   'DrawInMiniMap',
   'DrawBuildSquare',
-  'FontsChanged',
   'SunChanged',
   'RecvSkirmishAIMessage',
 }
@@ -196,18 +205,10 @@ local callInLists = {
   'Shutdown',
   'Update',
   'TextCommand',
-  'ActiveCommandChanged',
-  'CameraRotationChanged',
-  'CameraPositionChanged',
-  'MiniMapRotationChanged',
-  'MiniMapStateChanged',
-  'MiniMapGeometryChanged',
   'CommandNotify',
   'AddConsoleLine',
   'ViewResize',
   'DrawScreen',
-  'KeyBindingsChanged',
-  'KeyMapChanged',
   'KeyPress',
   'KeyRelease',
   'MousePress',
@@ -226,7 +227,6 @@ local callInLists = {
   'TweakGetTooltip',
   'RecvFromSynced',
   'TextInput',
-  "TextEditing",
   'DownloadQueued',
   'DownloadStarted',
   'DownloadFinished',
@@ -331,6 +331,44 @@ end
 --------------------------------------------------------------------------------
 
 
+local function GetWidgetInfo(name, mode)
+
+  do return end -- FIXME
+
+  local lines = VFS.LoadFile(name, mode)
+
+  local infoLines = {}
+
+  for line in lines:gmatch('([^\n]*)\n') do
+    if (not line:find('^%s*%-%-')) then
+      if (line:find('[^\r]')) then
+        break -- not commented, not a blank line
+      end
+    end
+    local s, e, source = line:find('^%s*%-%-%>%>(.*)')
+    if (source) then
+      table.insert(infoLines, source)
+    end
+  end
+
+  local info = {}
+  local chunk, err = loadstring(table.concat(infoLines, '\n'))
+  if (not chunk) then
+    Spring.Log(section, LOG.INFO, 'not loading ' .. name .. ': ' .. err)
+  else
+    setfenv(chunk, info)
+    local success, err = pcall(chunk)
+    if (not success) then
+      Spring.Log(section, LOG.INFO, 'not loading ' .. name .. ': ' .. err)
+    end
+  end
+
+  for k,v in pairs(info) do
+    Spring.Log(section, LOG.INFO, name, k, 'type: ' .. type(v), '<'..tostring(v)..'>')
+  end
+end
+
+
 function widgetHandler:Initialize()
   self:LoadConfigData()
 
@@ -342,31 +380,42 @@ function widgetHandler:Initialize()
 
   local unsortedWidgets = {}
 
-  -- stuff the raw widgets into unsortedWidgets
-  local widgetFiles = VFS.DirList(WIDGET_DIRNAME, "*.lua", VFS.RAW_ONLY)
-  for k,wf in ipairs(widgetFiles) do
-    local widget = self:LoadWidget(wf, false)
-    if (widget) then
-      table.insert(unsortedWidgets, widget)
-    end
-  end
-
-  -- stuff the zip widgets into unsortedWidgets
+  -- Zip widgets first, so that when user widgets are allowed a same-name
+  -- user widget is the one rejected, never the game's.
   local widgetFiles = VFS.DirList(WIDGET_DIRNAME, "*.lua", VFS.ZIP_ONLY)
   for k,wf in ipairs(widgetFiles) do
+    GetWidgetInfo(wf, VFS.ZIP_ONLY)
     local widget = self:LoadWidget(wf, true)
     if (widget) then
       table.insert(unsortedWidgets, widget)
     end
   end
 
-  -- and the widgets of any bundled suites
+  -- TA:Recoil: and the widgets of the bundled UI suites
   for _,dir in ipairs(SUITE_WIDGET_DIRS) do
     for k,wf in ipairs(VFS.DirList(dir, "*.lua", VFS.ZIP_ONLY)) do
+      GetWidgetInfo(wf, VFS.ZIP_ONLY)
       local widget = self:LoadWidget(wf, true)
       if (widget) then
         table.insert(unsortedWidgets, widget)
       end
+    end
+  end
+
+  -- then the raw (user) widgets, only if the modoption allows them
+  if ALLOW_USER_WIDGETS then
+    local widgetFiles = VFS.DirList(WIDGET_DIRNAME, "*.lua", VFS.RAW_ONLY)
+    for k,wf in ipairs(widgetFiles) do
+      GetWidgetInfo(wf, VFS.RAW_ONLY)
+      local widget = self:LoadWidget(wf, false)
+      if (widget) then
+        table.insert(unsortedWidgets, widget)
+      end
+    end
+  else
+    local skipped = #VFS.DirList(WIDGET_DIRNAME, "*.lua", VFS.RAW_ONLY)
+    if skipped > 0 then
+      Spring.Log(section, LOG.INFO, string.format("Skipping %d user widget file(s) in %s (modoption allowuserwidgets is off)", skipped, WIDGET_DIRNAME))
     end
   end
 
@@ -405,7 +454,12 @@ end
 
 function widgetHandler:LoadWidget(filename, fromZip)
   local basename = Basename(filename)
-  local text = VFS.LoadFile(filename)
+  if (fromZip == false) and (not ALLOW_USER_WIDGETS) then
+    return nil
+  end
+  -- explicit mode: a loose file with the same path must never stand in for
+  -- the game's copy (VFS.LoadFile defaults to raw-first)
+  local text = VFS.LoadFile(filename, WidgetVFSMode(fromZip))
   if (text == nil) then
     Spring.Log(section, LOG.ERROR, 'Failed to load: ' .. basename .. '  (missing file: ' .. filename ..')')
     return nil
@@ -446,6 +500,11 @@ function widgetHandler:LoadWidget(filename, fromZip)
 
   local knownInfo = self.knownWidgets[name]
   if (knownInfo) then
+    if knownInfo.fromZip and (fromZip == false) then
+      -- even a disabled game widget keeps its name
+      Spring.Log(section, LOG.ERROR, 'Failed to load: ' .. basename .. '  (user widget has the same name as a game widget)')
+      return nil
+    end
     if (knownInfo.active) then
       Spring.Log(section, LOG.ERROR, 'Failed to load: ' .. basename .. '  (duplicate name)')
       return nil
@@ -471,6 +530,21 @@ function widgetHandler:LoadWidget(filename, fromZip)
   end
 
   local info  = widget:GetInfo()
+
+  -- A renamed widget keeps its saved state: GetInfo().previousNames lists
+  -- the names it had before, and the first of those with saved order or
+  -- config data stands in for the new name when the new name has none.
+  if (type(info.previousNames) == "table") then
+    for _, old in ipairs(info.previousNames) do
+      if (self.orderList[name] == nil and self.orderList[old] ~= nil) then
+        self.orderList[name] = self.orderList[old]
+      end
+      if (self.configData[name] == nil and self.configData[old] ~= nil) then
+        self.configData[name] = self.configData[old]
+      end
+    end
+  end
+
   local order = self.orderList[name]
   if (((order ~= nil) and (order > 0)) or
       ((order == nil) and  -- unknown widget
@@ -512,7 +586,6 @@ function widgetHandler:NewWidget()
       __metatable = true,
     })
   end
-  widget._G = _G         -- the global table
   widget.WG = self.WG    -- the shared table
   widget.widget = widget -- easy self referencing
 
@@ -535,6 +608,18 @@ function widgetHandler:NewWidget()
       self.mouseOwner = nil
     end
   end
+
+  -- Keyboard ownership: while a widget owns the keyboard, every key press,
+  -- release and text input goes to it first, and nothing else sees them --
+  -- not bound actions (which otherwise run before any widget's KeyPress)
+  -- and not the engine. For windows that take typed text or capture keys.
+  wh.TakeKeyboard    = function (_) self.keyboardOwner = widget end
+  wh.ReleaseKeyboard = function (_)
+    if (self.keyboardOwner == widget) then
+      self.keyboardOwner = nil
+    end
+  end
+  wh.OwnsKeyboard    = function (_) return (self.keyboardOwner == widget) end
 
   wh.UpdateCallIn = function (_, name)
     self:UpdateWidgetCallIn(name, widget)
@@ -712,10 +797,9 @@ local function SafeWrapWidget(widget)
     if (widget[ciName]) then
       widget[ciName] = SafeWrapFunc(widget[ciName], ciName)
     end
-  end
-
-  if (widget.Initialize) then
-    widget.Initialize = SafeWrapFunc(widget.Initialize, 'Initialize')
+    if (widget.Initialize) then
+      widget.Initialize = SafeWrapFunc(widget.Initialize, 'Initialize')
+    end
   end
 end
 
@@ -785,6 +869,9 @@ function widgetHandler:RemoveWidget(widget)
     widget:Shutdown()
   end
   ArrayRemove(self.widgets, widget)
+  if (self.keyboardOwner == widget) then
+    self.keyboardOwner = nil
+  end
   self:RemoveWidgetGlobals(widget)
   self.actionHandler:RemoveWidgetActions(widget)
   for _,listname in ipairs(callInLists) do
@@ -881,7 +968,7 @@ function widgetHandler:EnableWidget(name)
     if (not order or (order <= 0)) then
       self.orderList[name] = 1
     end
-    local w = self:LoadWidget(ki.filename)
+    local w = self:LoadWidget(ki.filename, ki.fromZip)
     if (not w) then return false end
     self:InsertWidget(w)
     self:SaveConfigData()
@@ -1119,13 +1206,12 @@ function widgetHandler:Shutdown()
   return
 end
 
-function widgetHandler:Update(dt)
-  dt = dt or Spring.GetLastUpdateSeconds()
-
+function widgetHandler:Update()
+  local deltaTime = Spring.GetLastUpdateSeconds()
   -- update the hour timer
-  hourTimer = (hourTimer + dt) % 3600.0
+  hourTimer = (hourTimer + deltaTime) % 3600.0
   for _,w in ipairs(self.UpdateList) do
-    w:Update(dt)
+    w:Update(deltaTime)
   end
   return
 end
@@ -1172,42 +1258,6 @@ function widgetHandler:ConfigureLayout(command)
 end
 
 
-function widgetHandler:ActiveCommandChanged(id, cmdType)
-  for _,w in ipairs(self.ActiveCommandChangedList) do
-    w:ActiveCommandChanged(id, cmdType)
-  end
-end
-
-function widgetHandler:CameraRotationChanged(rotx, roty, rotz)
-  for _,w in ipairs(self.CameraRotationChangedList) do
-    w:CameraRotationChanged(rotx, roty, rotz)
-  end
-end
-
-function widgetHandler:CameraPositionChanged(posx, posy, posz)
-  for _,w in ipairs(self.CameraPositionChangedList) do
-    w:CameraPositionChanged(posx, posy, posz)
-  end
-end
-
-function widgetHandler:MiniMapRotationChanged(newRot, oldRot)
-  for _,w in ipairs(self.MiniMapRotationChangedList) do
-    w:MiniMapRotationChanged(newRot, oldRot)
-  end
-end
-
-function widgetHandler:MiniMapStateChanged(isMinimized, isMaximized, isSlaved)
-  for _,w in ipairs(self.MiniMapStateChangedList) do
-    w:MiniMapStateChanged(isMinimized, isMaximized, isSlaved)
-  end
-end
-
-function widgetHandler:MiniMapGeometryChanged(newPosX, newPosY, newDimX, newDimY, oldPosX, oldPosY, oldDimX, oldDimY)
-  for _,w in ipairs(self.MiniMapGeometryChangedList) do
-    w:MiniMapGeometryChanged(newPosX, newPosY, newDimX, newDimY, oldPosX, oldPosY, oldDimX, oldDimY)
-  end
-end
-
 function widgetHandler:CommandNotify(id, params, options)
   for _,w in ipairs(self.CommandNotifyList) do
     if (w:CommandNotify(id, params, options)) then
@@ -1235,6 +1285,9 @@ end
 
 
 function widgetHandler:CommandsChanged()
+  if widgetHandler:UpdateSelection() then -- for selectionchanged
+    return -- selection updated, don't call commands changed.
+  end
   self.inCommandsChanged = true
   self.customCommands = {}
   for _,w in ipairs(self.CommandsChangedList) do
@@ -1320,11 +1373,16 @@ function widgetHandler:DrawWorldPreUnit()
   return
 end
 
-function widgetHandler:DrawWorldPreParticles()
-  for _,w in ripairs(self.DrawWorldPreParticlesList) do
-    w:DrawWorldPreParticles()
+function widgetHandler:DrawPreDecals()
+  for _,w in ripairs(self.DrawPreDecalsList) do
+    w:DrawPreDecals()
   end
-  return
+end
+
+function widgetHandler:DrawGroundPostForward()
+  for _,w in ripairs(self.DrawGroundPostForwardList) do
+    w:DrawGroundPostForward()
+  end
 end
 
 
@@ -1351,60 +1409,26 @@ function widgetHandler:DrawWorldRefraction()
   return
 end
 
-function widgetHandler:DrawGroundPreForward()
-  for _,w in ripairs(self.DrawGroundPreForwardList) do
-    w:DrawGroundPreForward()
-  end
-end
-
-function widgetHandler:DrawGroundPostForward()
-  for _,w in ripairs(self.DrawGroundPostForwardList) do
-    w:DrawGroundPostForward()
-  end
-end
-
-
-function widgetHandler:DrawGroundPreDeferred()
-  for _,w in ripairs(self.DrawGroundPreDeferredList) do
-    w:DrawGroundPreDeferred()
-  end
-end
-
-function widgetHandler:DrawGroundDeferred()
-  for _,w in ripairs(self.DrawGroundDeferredList) do
-    w:DrawGroundDeferred()
-  end
-end
-
-function widgetHandler:DrawGroundPostDeferred()
-  for _,w in ripairs(self.DrawGroundPostDeferredList) do
-    w:DrawGroundPostDeferred()
-  end
-end
 
 function widgetHandler:DrawUnitsPostDeferred()
   for _,w in ripairs(self.DrawUnitsPostDeferredList) do
     w:DrawUnitsPostDeferred()
   end
+  return
 end
+
 
 function widgetHandler:DrawFeaturesPostDeferred()
   for _,w in ripairs(self.DrawFeaturesPostDeferredList) do
     w:DrawFeaturesPostDeferred()
   end
-end
-
-function widgetHandler:DrawScreenEffects(vsx, vsy)
-  for _,w in ripairs(self.DrawScreenEffectsList) do
-    w:DrawScreenEffects(vsx, vsy)
-  end
   return
 end
 
 
-function widgetHandler:DrawScreenPost(vsx, vsy)
-  for _,w in ripairs(self.DrawScreenPostList) do
-    w:DrawScreenPost(vsx, vsy)
+function widgetHandler:DrawScreenEffects(vsx, vsy)
+  for _,w in ripairs(self.DrawScreenEffectsList) do
+    w:DrawScreenEffects(vsx, vsy)
   end
   return
 end
@@ -1418,13 +1442,15 @@ function widgetHandler:DrawInMiniMap(xSize, ySize)
 end
 
 
+-- Engine callin fired once per pending build footprint from
+-- CUnitDrawerGLSL::ShowUnitBuildSquare (may also fire for the minimap pass).
+-- statuses: flat row-major table, 0 blocked / 1 occupied / 2 reclaimable / 3 open.
 function widgetHandler:DrawBuildSquare(unitDefID, x, z, facing, statuses)
   for _,w in ripairs(self.DrawBuildSquareList) do
     w:DrawBuildSquare(unitDefID, x, z, facing, statuses)
   end
   return
 end
-
 
 function widgetHandler:SunChanged()
   for _,w in ripairs(self.SunChangedList) do
@@ -1433,41 +1459,36 @@ function widgetHandler:SunChanged()
   return
 end
 
+
 --------------------------------------------------------------------------------
 --
 --  Keyboard call-ins
 --
 
-function widgetHandler:KeyBindingsChanged()
-  for _,w in ipairs(self.KeyBindingsChangedList) do
-    w:KeyBindingsChanged()
-  end
-end
-
-function widgetHandler:KeyMapChanged()
-  for _,w in ipairs(self.KeyMapChangedList) do
-    w:KeyMapChanged()
-  end
-
-  return false
-end
-
-function widgetHandler:KeyPress(key, mods, isRepeat, label, unicode, scanCode, actions)
+function widgetHandler:KeyPress(key, mods, isRepeat, label, unicode)
   if (self.tweakMode) then
     self.tweakKeys[key] = true
     local mo = self.mouseOwner
     if (mo and mo.TweakKeyPress) then
-      mo:TweakKeyPress(key, mods, isRepeat, label, unicode, scanCode, actions)
+      mo:TweakKeyPress(key, mods, isRepeat, label, unicode)
     end
     return true
   end
 
-  if (self.actionHandler:KeyAction(true, key, mods, isRepeat, scanCode, actions)) then
+  local ko = self.keyboardOwner
+  if (ko) then
+    if (ko.KeyPress) then
+      ko:KeyPress(key, mods, isRepeat, label, unicode)
+    end
+    return true
+  end
+
+  if (self.actionHandler:KeyAction(true, key, mods, isRepeat)) then
     return true
   end
 
   for _,w in ipairs(self.KeyPressList) do
-    if (w:KeyPress(key, mods, isRepeat, label, unicode, scanCode, actions)) then
+    if (w:KeyPress(key, mods, isRepeat, label, unicode)) then
       return true
     end
   end
@@ -1475,11 +1496,11 @@ function widgetHandler:KeyPress(key, mods, isRepeat, label, unicode, scanCode, a
 end
 
 
-function widgetHandler:KeyRelease(key, mods, label, unicode, scanCode, actions)
+function widgetHandler:KeyRelease(key, mods, label, unicode)
   if (self.tweakMode and self.tweakKeys[key] ~= nil) then
     local mo = self.mouseOwner
     if (mo and mo.TweakKeyRelease) then
-      mo:TweakKeyRelease(key, mods, label, unicode, scanCode, actions)
+      mo:TweakKeyRelease(key, mods, label, unicode)
     elseif (key == KEYSYMS.ESCAPE) then
       Spring.Log(section, LOG.INFO, "LuaUI TweakMode: OFF")
       self.tweakMode = false
@@ -1487,12 +1508,20 @@ function widgetHandler:KeyRelease(key, mods, label, unicode, scanCode, actions)
     return true
   end
 
-  if (self.actionHandler:KeyAction(false, key, mods, false, scanCode, actions)) then
+  local ko = self.keyboardOwner
+  if (ko) then
+    if (ko.KeyRelease) then
+      ko:KeyRelease(key, mods, label, unicode)
+    end
+    return true
+  end
+
+  if (self.actionHandler:KeyAction(false, key, mods, false)) then
     return true
   end
 
   for _,w in ipairs(self.KeyReleaseList) do
-    if (w:KeyRelease(key, mods, label, unicode, scanCode, actions)) then
+    if (w:KeyRelease(key, mods, label, unicode)) then
       return true
     end
   end
@@ -1504,21 +1533,16 @@ function widgetHandler:TextInput(utf8, ...)
     return true
   end
 
-  for _,w in ipairs(self.TextInputList) do
-    if (w:TextInput(utf8, ...)) then
-      return true
+  local ko = self.keyboardOwner
+  if (ko) then
+    if (ko.TextInput) then
+      ko:TextInput(utf8, ...)
     end
-  end
-  return false
-end
-
-function widgetHandler:TextEditing(utf8, ...)
-  if (self.tweakMode) then
     return true
   end
 
-  for _,w in ipairs(self.TextEditingList) do
-    if (w:TextEditing(utf8, ...)) then
+  for _,w in ipairs(self.TextInputList) do
+    if (w:TextInput(utf8, ...)) then
       return true
     end
   end
@@ -1786,14 +1810,58 @@ function widgetHandler:GameFrame(frameNum)
   return
 end
 
-
-function widgetHandler:GameFramePost(frameNum)
-  for _,w in ipairs(self.GameFramePostList) do
-    w:GameFramePost(frameNum)
+-- local helper (not a real call-in)
+local oldSelection = {}
+function widgetHandler:UpdateSelection()
+  local changed
+  local newSelection = Spring.GetSelectedUnits()
+  if (#newSelection == #oldSelection) then
+    for i = 1, #oldSelection do
+      if (newSelection[i] ~= oldSelection[i]) then -- it seems the order stays
+        changed = true
+        break
+      end
+    end
+  else
+    changed = true
   end
-  return
+  if (changed) then
+    local subselection = true
+    if #newSelection > #oldSelection then
+      subselection = false
+    else
+      local newSeen = 0
+      local oldSelectionMap = {}
+      for i = 1, #oldSelection do
+        oldSelectionMap[oldSelection[i]] = true
+      end
+      for i = 1, #newSelection do
+        if not oldSelectionMap[newSelection[i]] then
+          subselection = false
+          break
+        end
+      end
+    end
+    if widgetHandler:SelectionChanged(newSelection, subselection) then
+      -- selection changed, don't set old selection to new selection as it is soon to change.
+      return true
+    end
+  end
+  oldSelection = newSelection
+  return false
 end
 
+function widgetHandler:SelectionChanged(selectedUnits, subselection)
+  for _,w in ipairs(self.SelectionChangedList) do
+    if widgetHandler.WG['smartselect'] and not widgetHandler.WG['smartselect'].updateSelection then return end
+    local unitArray = w:SelectionChanged(selectedUnits, subselection)
+    if (unitArray) then
+      Spring.SelectUnitArray(unitArray)
+      return true
+    end
+  end
+  return false
+end
 
 function widgetHandler:ShockFront(power, dx, dy, dz)
   for _,w in ipairs(self.ShockFrontList) do
@@ -1895,14 +1963,6 @@ function widgetHandler:UnitReverseBuilt(unitID, unitDefID, unitTeam)
 end
 
 
-function widgetHandler:UnitConstructionDecayed(unitID, unitDefID, unitTeam, timeSinceLastBuild, iterationPeriod, part)
-  for _,w in ipairs(self.UnitConstructionDecayedList) do
-    w:UnitConstructionDecayed(unitID, unitDefID, unitTeam, timeSinceLastBuild, iterationPeriod, part)
-  end
-  return
-end
-
-
 function widgetHandler:UnitDestroyed(unitID, unitDefID, unitTeam)
   for _,w in ipairs(self.UnitDestroyedList) do
     w:UnitDestroyed(unitID, unitDefID, unitTeam)
@@ -1942,17 +2002,9 @@ function widgetHandler:UnitIdle(unitID, unitDefID, unitTeam)
 end
 
 
-function widgetHandler:UnitCommand(
-	unitID, unitDefID, unitTeam,
-	cmdId, cmdParams, cmdOpts, cmdTag,
-	playerID, fromSynced, fromLua
-)
+function widgetHandler:UnitCommand(unitID, unitDefID, unitTeam, cmdId, cmdParams, cmdOpts, cmdTag)
   for _,w in ipairs(self.UnitCommandList) do
-    w:UnitCommand(
-      unitID, unitDefID, unitTeam,
-      cmdID, cmdParams, cmdOpts, cmdTag,
-      playerID, fromSynced, fromLua
-    )
+    w:UnitCommand(unitID, unitDefID, unitTeam, cmdId, cmdParams, cmdOpts, cmdTag)
   end
   return
 end
@@ -1966,9 +2018,10 @@ function widgetHandler:UnitCmdDone(unitID, unitDefID, unitTeam, cmdID, cmdParams
 end
 
 
-function widgetHandler:UnitDamaged(unitID, unitDefID, unitTeam, damage, paralyzer, weaponDefID, projectileID)
+function widgetHandler:UnitDamaged(unitID, unitDefID, unitTeam,
+                                   damage, paralyzer)
   for _,w in ipairs(self.UnitDamagedList) do
-    w:UnitDamaged(unitID, unitDefID, unitTeam, damage, paralyzer, weaponDefID, projectileID)
+    w:UnitDamaged(unitID, unitDefID, unitTeam, damage, paralyzer)
   end
   return
 end
@@ -2013,13 +2066,6 @@ function widgetHandler:UnitLeftLos(unitID, unitTeam)
 end
 
 
-function widgetHandler:UnitEnteredUnderwater(unitID, unitDefID, unitTeam)
-  for _,w in ipairs(self.UnitEnteredUnderwaterList) do
-    w:UnitEnteredUnderwater(unitID, unitDefID, unitTeam)
-  end
-  return
-end
-
 function widgetHandler:UnitEnteredWater(unitID, unitDefID, unitTeam)
   for _,w in ipairs(self.UnitEnteredWaterList) do
     w:UnitEnteredWater(unitID, unitDefID, unitTeam)
@@ -2035,13 +2081,6 @@ function widgetHandler:UnitEnteredAir(unitID, unitDefID, unitTeam)
   return
 end
 
-
-function widgetHandler:UnitLeftUnderwater(unitID, unitDefID, unitTeam)
-  for _,w in ipairs(self.UnitLeftUnderwaterList) do
-    w:UnitLeftUnderwater(unitID, unitDefID, unitTeam)
-  end
-  return
-end
 
 function widgetHandler:UnitLeftWater(unitID, unitDefID, unitTeam)
   for _,w in ipairs(self.UnitLeftWaterList) do
@@ -2110,13 +2149,6 @@ function widgetHandler:UnitMoveFailed(unitID, unitDefID, unitTeam)
   return
 end
 
-function widgetHandler:UnitHarvestStorageFull(unitID, unitDefID, unitTeam)
-  for _,w in ipairs(self.UnitHarvestStorageFullList) do
-    w:UnitHarvestStorageFull(unitID, unitDefID, unitTeam)
-  end
-  return
-end
-
 
 function widgetHandler:RecvLuaMsg(msg, playerID)
   local retval = false
@@ -2152,27 +2184,6 @@ function widgetHandler:StockpileChanged(unitID, unitDefID, unitTeam,
   return
 end
 
-
-
-
---------------------------------------------------------------------------------
---
---  Timing call-ins
---
-
-function widgetHandler:GameProgress(frameNum)
-  for _,w in ipairs(self.GameProgressList) do
-    w:GameProgress(frameNum)
-  end
-end
-
-function widgetHandler:Pong(pingTag, pktSendTime, pktRecvTime)
-  for _,w in ipairs(self.PongList) do
-    w:Pong(pingTag, pktSendTime, pktRecvTime)
-  end
-end
-
-
 --------------------------------------------------------------------------------
 --
 --  Download call-ins
@@ -2205,18 +2216,6 @@ end
 function widgetHandler:DownloadProgress(id, downloaded, total)
   for _,w in ipairs(self.DownloadProgressList) do
     w:DownloadProgress(id, downloaded, total)
-  end
-end
-
-
---------------------------------------------------------------------------------
---
---  Font call-ins
---
-
-function widgetHandler:FontsChanged()
-  for _,w in ripairs(self.FontsChangedList) do
-    w:FontsChanged()
   end
 end
 

@@ -197,6 +197,13 @@ local options =
     type   = 'bool',
     def    = false,
   },
+  {
+    key    = 'allowuserwidgets',
+    name   = 'Allow User Widgets',
+    desc   = "Load loose widgets from LuaUI/Widgets in each player's data directory (the widget handler, from Splinter Faction, ignores them otherwise: in an install shared with other games their widgets would load into TA:Recoil and break its interface).",
+    type   = 'bool',
+    def    = false,
+  },
 
 }
 
