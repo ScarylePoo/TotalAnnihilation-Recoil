@@ -1,0 +1,25 @@
+hotspot center
+frame anims/hd/64/cursorunloadbad_0.png 0.040
+frame anims/hd/64/cursorunloadbad_1.png 0.040
+frame anims/hd/64/cursorunloadbad_2.png 0.040
+frame anims/hd/64/cursorunloadbad_3.png 0.040
+frame anims/hd/64/cursorunloadbad_4.png 0.040
+frame anims/hd/64/cursorunloadbad_5.png 0.040
+frame anims/hd/64/cursorunloadbad_6.png 0.040
+frame anims/hd/64/cursorunloadbad_7.png 0.040
+frame anims/hd/64/cursorunloadbad_8.png 0.040
+frame anims/hd/64/cursorunloadbad_9.png 0.040
+frame anims/hd/64/cursorunloadbad_10.png 0.040
+frame anims/hd/64/cursorunloadbad_11.png 0.040
+frame anims/hd/64/cursorunloadbad_12.png 0.040
+frame anims/hd/64/cursorunloadbad_13.png 0.040
+frame anims/hd/64/cursorunloadbad_14.png 0.040
+frame anims/hd/64/cursorunloadbad_15.png 0.040
+frame anims/hd/64/cursorunloadbad_16.png 0.040
+frame anims/hd/64/cursorunloadbad_17.png 0.040
+frame anims/hd/64/cursorunloadbad_18.png 0.040
+frame anims/hd/64/cursorunloadbad_19.png 0.040
+frame anims/hd/64/cursorunloadbad_20.png 0.040
+frame anims/hd/64/cursorunloadbad_21.png 0.040
+frame anims/hd/64/cursorunloadbad_22.png 0.040
+frame anims/hd/64/cursorunloadbad_23.png 0.040

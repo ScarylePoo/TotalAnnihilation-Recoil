@@ -455,3 +455,10 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
   cmd_line_move_spread.lua (a single-click move spreads the group into a line abreast facing the travel direction),
   unit_auto_group.lua (Alt+0-9 sets an autogroup for the selected unit types; new units of that type join it;
   Alt+` removes). Not ported: unit_auto_group_com (commander into a group), gui_group_recall_fix.
+
+## HD cursors
+- tools/cursors/cursors.py redraws TA's cursor set (plus fight, manual fire and wait) as anti-aliased vector art
+  with smooth animation, in 32/48/64/96 px sets: anims/hd/<size>/<cursor>_<i>.png + <cursor>.txt spec files
+  (per-frame lengths, hotspot). anims/<cursor>.txt = the 48 px set (the engine reads spec files first).
+  `--preview DIR` writes an animated GIF of the whole set. The old TA .bmp frames were removed (in git history).
+- luaui/widgets/gui_cursor_size.lua swaps in the set nearest 48 px per 1080 lines (or config TARCursorSize).

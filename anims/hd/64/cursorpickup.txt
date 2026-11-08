@@ -1,0 +1,25 @@
+hotspot center
+frame anims/hd/64/cursorpickup_0.png 0.040
+frame anims/hd/64/cursorpickup_1.png 0.040
+frame anims/hd/64/cursorpickup_2.png 0.040
+frame anims/hd/64/cursorpickup_3.png 0.040
+frame anims/hd/64/cursorpickup_4.png 0.040
+frame anims/hd/64/cursorpickup_5.png 0.040
+frame anims/hd/64/cursorpickup_6.png 0.040
+frame anims/hd/64/cursorpickup_7.png 0.040
+frame anims/hd/64/cursorpickup_8.png 0.040
+frame anims/hd/64/cursorpickup_9.png 0.040
+frame anims/hd/64/cursorpickup_10.png 0.040
+frame anims/hd/64/cursorpickup_11.png 0.040
+frame anims/hd/64/cursorpickup_12.png 0.040
+frame anims/hd/64/cursorpickup_13.png 0.040
+frame anims/hd/64/cursorpickup_14.png 0.040
+frame anims/hd/64/cursorpickup_15.png 0.040
+frame anims/hd/64/cursorpickup_16.png 0.040
+frame anims/hd/64/cursorpickup_17.png 0.040
+frame anims/hd/64/cursorpickup_18.png 0.040
+frame anims/hd/64/cursorpickup_19.png 0.040
+frame anims/hd/64/cursorpickup_20.png 0.040
+frame anims/hd/64/cursorpickup_21.png 0.040
+frame anims/hd/64/cursorpickup_22.png 0.040
+frame anims/hd/64/cursorpickup_23.png 0.040

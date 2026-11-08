@@ -1,0 +1,25 @@
+hotspot center
+frame anims/hd/96/cursorupgrade_0.png 0.045
+frame anims/hd/96/cursorupgrade_1.png 0.045
+frame anims/hd/96/cursorupgrade_2.png 0.045
+frame anims/hd/96/cursorupgrade_3.png 0.045
+frame anims/hd/96/cursorupgrade_4.png 0.045
+frame anims/hd/96/cursorupgrade_5.png 0.045
+frame anims/hd/96/cursorupgrade_6.png 0.045
+frame anims/hd/96/cursorupgrade_7.png 0.045
+frame anims/hd/96/cursorupgrade_8.png 0.045
+frame anims/hd/96/cursorupgrade_9.png 0.045
+frame anims/hd/96/cursorupgrade_10.png 0.045
+frame anims/hd/96/cursorupgrade_11.png 0.045
+frame anims/hd/96/cursorupgrade_12.png 0.045
+frame anims/hd/96/cursorupgrade_13.png 0.045
+frame anims/hd/96/cursorupgrade_14.png 0.045
+frame anims/hd/96/cursorupgrade_15.png 0.045
+frame anims/hd/96/cursorupgrade_16.png 0.045
+frame anims/hd/96/cursorupgrade_17.png 0.045
+frame anims/hd/96/cursorupgrade_18.png 0.045
+frame anims/hd/96/cursorupgrade_19.png 0.045
+frame anims/hd/96/cursorupgrade_20.png 0.045
+frame anims/hd/96/cursorupgrade_21.png 0.045
+frame anims/hd/96/cursorupgrade_22.png 0.045
+frame anims/hd/96/cursorupgrade_23.png 0.045

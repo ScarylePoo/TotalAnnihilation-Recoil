@@ -1,0 +1,25 @@
+hotspot center
+frame anims/hd/96/cursorprotect_0.png 0.050
+frame anims/hd/96/cursorprotect_1.png 0.050
+frame anims/hd/96/cursorprotect_2.png 0.050
+frame anims/hd/96/cursorprotect_3.png 0.050
+frame anims/hd/96/cursorprotect_4.png 0.050
+frame anims/hd/96/cursorprotect_5.png 0.050
+frame anims/hd/96/cursorprotect_6.png 0.050
+frame anims/hd/96/cursorprotect_7.png 0.050
+frame anims/hd/96/cursorprotect_8.png 0.050
+frame anims/hd/96/cursorprotect_9.png 0.050
+frame anims/hd/96/cursorprotect_10.png 0.050
+frame anims/hd/96/cursorprotect_11.png 0.050
+frame anims/hd/96/cursorprotect_12.png 0.050
+frame anims/hd/96/cursorprotect_13.png 0.050
+frame anims/hd/96/cursorprotect_14.png 0.050
+frame anims/hd/96/cursorprotect_15.png 0.050
+frame anims/hd/96/cursorprotect_16.png 0.050
+frame anims/hd/96/cursorprotect_17.png 0.050
+frame anims/hd/96/cursorprotect_18.png 0.050
+frame anims/hd/96/cursorprotect_19.png 0.050
+frame anims/hd/96/cursorprotect_20.png 0.050
+frame anims/hd/96/cursorprotect_21.png 0.050
+frame anims/hd/96/cursorprotect_22.png 0.050
+frame anims/hd/96/cursorprotect_23.png 0.050

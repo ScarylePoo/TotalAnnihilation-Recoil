@@ -150,3 +150,7 @@ particles wrongly).
   which also appear while a mex is the active build. Spots and geovents are on the minimap.
 - Right-click a spot with builders selected queues their best mex (moho if they can); drag to paint a line of spots.
   Right-click a geovent queues a geothermal plant. Geovents are the map's own, marked with a yellow column.
+
+## Cursors (2026-11-08)
+- TA's cursors redrawn in HD (same symbols and colours, smoother animation), sized to the screen. New cursors for
+  Fight (orange blades spinning), Manual fire / D-Gun (blue energy core) and Wait (hourglass), which TA didn't have.
