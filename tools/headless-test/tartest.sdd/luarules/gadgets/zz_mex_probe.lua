@@ -41,6 +41,10 @@ function gadget:GameFrame(n)
     if not spot then E("no dry spot"); return end
     local y = Spring.GetGroundHeight(spot.x, spot.z)
     E("spot at %d,%d", spot.x, spot.z)
+    for _, d in ipairs({ mex, moho }) do
+      local bx, _, bz = Spring.Pos2BuildPos(d, spot.x, y, spot.z, 0)
+      E("build pos of %s on the spot: %+d,%+d from the spot (want +0,+0)", UnitDefs[d].name, bx - spot.x, bz - spot.z)
+    end
     E("test mex on spot %d (want 2)", Spring.TestBuildOrder(mex, spot.x, y, spot.z, 0))
     E("test moho on spot %d (want 2)", Spring.TestBuildOrder(moho, spot.x, y, spot.z, 0))
     E("test mex 200 elmos off the spot %d (want 0)", Spring.TestBuildOrder(mex, spot.x + 200, y, spot.z, 0))

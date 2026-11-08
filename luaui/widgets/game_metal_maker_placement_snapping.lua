@@ -46,8 +46,12 @@ local GHOST_YOFF      = 1.0    -- small lift so it doesn't z-fight
 local SKIP_ALPHA      = 0.55   -- alpha for skipped/occupied spot markers
 local SKIP_MARK_SIZE  = 24     -- half-size of the red X on skipped spots
 
-local XOFFSET = 8
-local ZOFFSET = 8
+-- TA:Recoil: the ghost goes where the engine would really place the building (Spring.Pos2BuildPos snaps by the
+-- def's footprint). SF added a fixed +8,+8 because its spots sat on a square's corner; ours are on its centre.
+local function GhostPos(unitDefID, x, y, z)
+	local gx, gy, gz = Spring.Pos2BuildPos(unitDefID, x, y, z, 0)
+	return gx or x, gz or z
+end
 
 local KEYSYM_ESC = 27
 
@@ -349,7 +353,8 @@ local function DrawPaintPath(cursorX, cursorY, cursorZ)
 		else
 			glColor(1, 1, 1, GHOST_ALPHA)
 			glPushMatrix()
-			glTranslate(s.x + XOFFSET, sy + GHOST_YOFF, s.z + ZOFFSET)
+			local gx, gz = GhostPos(paint.mexDefID, s.x, sy, s.z)
+			glTranslate(gx, sy + GHOST_YOFF, gz)
 			glRotate(0, 0, 1, 0)
 			glUnitShape(paint.mexDefID, myTeamID, false, true, true)
 			glPopMatrix()
@@ -425,7 +430,8 @@ function widget:DrawWorldPreUnit()
 	-- ghost building on the spot
 	glColor(1, 1, 1, GHOST_ALPHA)
 	glPushMatrix()
-	glTranslate(spot.x + XOFFSET, sy + GHOST_YOFF, spot.z + ZOFFSET)
+	local gx, gz = GhostPos(mexDefID, spot.x, sy, spot.z)
+	glTranslate(gx, sy + GHOST_YOFF, gz)
 	-- facing = 0 (south) by default; rotate if you later want spot.facing
 	glRotate(0, 0, 1, 0)
 	-- draw as translucent "shape"
