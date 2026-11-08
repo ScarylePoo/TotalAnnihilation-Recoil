@@ -553,7 +553,7 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
 - Results of 2026-11-08: I:\Claude Space\Commander Box Art (Arm on Painted Badlands, Core on Incandescence).
 
 ## Movement modoptions
-- modoptions.lua section "Movement": fastunits, quickacceleration (bool, default on; "0" turns off). Applied in
-  gamedata/alldefs_post.lua UnitDef_Post to every def with a speed that can't fly: maxvelocity (or speed) x1.5,
-  acceleration = max(acceleration, 1). brakeRate, turnRate untouched. Walk cadence follows UnitDefs speed
-  (scripts/headers/walk.lua), so legs keep pace. Checked with DUMP=1 run.sh, options on and off.
+- modoptions.lua section "Movement": movespeed, moveturn (multipliers, default 1.5), moveaccel, movebrake (floors in
+  elmos/frame^2, default 1 and 0.5; 0 keeps TA's). Applied in gamedata/alldefs_post.lua UnitDef_Post to every def
+  with a speed that can't fly. Walk cadence follows UnitDefs speed (scripts/headers/walk.lua), so legs keep pace.
+  Checked with DUMP=1 run.sh at the defaults and at TA values (movespeed=1 moveturn=1 moveaccel=0 movebrake=0).

@@ -170,7 +170,8 @@ particles wrongly).
   spectator Player-TV, camera shake, units given to an ally keep their orders, new units don't block a factory exit
   for 12 s, other teams' nanoframes can't be reclaimed, optional generated team colours (off by default).
 
-## Movement modoptions (2026-11-08, both on by default)
-- "Faster ground units" (fastunits): land, sea and hover units 1.5x TA's top speed. Aircraft unchanged.
-- "Quick acceleration" (quickacceleration): the same units accelerate at least at 1 (TA: 0.003-0.2), i.e. reach top
-  speed within a few frames. brakeRate and turnRate stay TA's.
+## Movement modoptions (2026-11-08; lobby sliders, defaults below; aircraft unchanged)
+- Ground unit speed (movespeed, 1-2, default 1.5): land, sea and hover units' top speed x this.
+- Ground unit turn rate (moveturn, 1-2, default 1.5): turn rate x this (equal to the speed keeps TA's turning circles).
+- Minimum acceleration (moveaccel, 0-1, default 1) and minimum braking (movebrake, 0-1, default 0.5): floors on
+  TA's values (0.003-0.2 and 0.002-1). 1 / 1 / 0 / 0 is TA.

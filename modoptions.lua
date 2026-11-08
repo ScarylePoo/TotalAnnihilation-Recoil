@@ -198,21 +198,51 @@ local options =
   },
 
   {
-    key    = 'fastunits', -- read by gamedata/alldefs_post.lua
-    name   = 'Faster ground units',
-    desc   = "Land, sea and hover units move 50% faster than in TA (aircraft unchanged). Walk animations keep pace.\nkey: fastunits",
-    type   = 'bool',
+    key    = 'movespeed', -- read by gamedata/alldefs_post.lua (land, sea and hover units; aircraft unchanged)
+    name   = 'Ground unit speed',
+    desc   = "Top speed of land, sea and hover units, as a multiple of TA's. Aircraft are unchanged. Walk animations keep pace.\nkey: movespeed",
+    type   = 'number',
     section= 'movement',
-    def    = true,
+    def    = 1.5,
+    min    = 1,
+    max    = 2,
+    step   = 0.05,
   },
 
   {
-    key    = 'quickacceleration', -- read by gamedata/alldefs_post.lua
-    name   = 'Quick acceleration',
-    desc   = "Land, sea and hover units accelerate at least at 1 (TA's are 0.003 to 0.2), so they reach top speed almost at once and respond quickly to orders. Braking is unchanged.\nkey: quickacceleration",
-    type   = 'bool',
+    key    = 'moveturn',
+    name   = 'Ground unit turn rate',
+    desc   = "Turn rate of land, sea and hover units, as a multiple of TA's. Keep it level with the speed so turning circles stay TA's size.\nkey: moveturn",
+    type   = 'number',
     section= 'movement',
-    def    = true,
+    def    = 1.5,
+    min    = 1,
+    max    = 2,
+    step   = 0.05,
+  },
+
+  {
+    key    = 'moveaccel',
+    name   = 'Minimum acceleration',
+    desc   = "Land, sea and hover units accelerate at least this fast (TA's are 0.003 to 0.2; 1 reaches top speed in a few frames). 0 keeps TA's.\nkey: moveaccel",
+    type   = 'number',
+    section= 'movement',
+    def    = 1,
+    min    = 0,
+    max    = 1,
+    step   = 0.05,
+  },
+
+  {
+    key    = 'movebrake',
+    name   = 'Minimum braking',
+    desc   = "Land, sea and hover units brake at least this fast (TA's are 0.002 to 1, most under 0.1). Quick stops are what make dodging work. 0 keeps TA's.\nkey: movebrake",
+    type   = 'number',
+    section= 'movement',
+    def    = 0.5,
+    min    = 0,
+    max    = 1,
+    step   = 0.05,
   },
 
   {

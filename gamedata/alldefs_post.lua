@@ -52,22 +52,22 @@ function UnitDef_Post(name, ud)
 		ud.customparams = ud.customparams or {}
 		ud.customparams.iscommander = 1
 	end
-	-- Movement modoptions (modoptions.lua, both on unless set to 0): ground units (land, sea, hover; not aircraft,
-	-- whose flight model reads speed and acceleration differently) get 1.5x TA's top speed, and accelerate at least
-	-- at 1 elmo/frame^2. brakeRate and turnRate stay TA's. The walk animations (scripts/headers/walk.lua) step at
-	-- UnitDefs speed, so legs keep pace.
+	-- Movement modoptions (modoptions.lua, section "Movement"), for ground units (land, sea, hover; not aircraft,
+	-- whose flight model reads these differently): movespeed and moveturn multiply TA's top speed and turn rate
+	-- (equal values keep TA's turning circles); moveaccel and movebrake are floors for acceleration and brake rate
+	-- (elmos/frame^2; 0 keeps TA's). The walk animations (scripts/headers/walk.lua) step at UnitDefs speed, so legs
+	-- keep pace.
 	local mo = Spring.GetModOptions and Spring.GetModOptions() or {}
-	local function optOn(key) return mo[key] == nil or tobool(mo[key]) end
+	local function num(key, def) return tonumber(mo[key]) or def end
 	local speed = tonumber(ud.maxvelocity or ud.speed)
 	if speed and speed > 0 and not tobool(ud.canfly) then
-		if optOn("fastunits") then
-			-- whichever the def gives: maxvelocity (elmos/frame) or speed (elmos/s)
-			if ud.maxvelocity then ud.maxvelocity = tonumber(ud.maxvelocity) * 1.5 end
-			if ud.speed then ud.speed = tonumber(ud.speed) * 1.5 end
-		end
-		if optOn("quickacceleration") then
-			ud.acceleration = math.max(tonumber(ud.acceleration) or 0, 1)
-		end
+		local sm, tm = num("movespeed", 1.5), num("moveturn", 1.5)
+		-- whichever the def gives: maxvelocity (elmos/frame) or speed (elmos/s)
+		if ud.maxvelocity then ud.maxvelocity = tonumber(ud.maxvelocity) * sm end
+		if ud.speed then ud.speed = tonumber(ud.speed) * sm end
+		if ud.turnrate then ud.turnrate = tonumber(ud.turnrate) * tm end
+		ud.acceleration = math.max(tonumber(ud.acceleration) or 0, num("moveaccel", 1))
+		ud.brakerate = math.max(tonumber(ud.brakerate) or 0, num("movebrake", 0.5))
 	end
 	-- Armed planes (fighters, bombers: Recoil's "strafing" aircraft) ignore "acceleration" and read only "maxAcc",
 	-- defaulting to 0.065 for all of them (engine UnitDef.cpp). And their thrust works against a drag that grows with
