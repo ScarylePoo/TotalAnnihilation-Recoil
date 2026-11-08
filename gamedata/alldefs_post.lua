@@ -61,12 +61,12 @@ function UnitDef_Post(name, ud)
 	local function num(key, def) return tonumber(mo[key]) or def end
 	local speed = tonumber(ud.maxvelocity or ud.speed)
 	if speed and speed > 0 and not tobool(ud.canfly) then
-		local sm, tm = num("movespeed", 1.5), num("moveturn", 1.5)
+		local sm, tm = num("movespeed", 1.25), num("moveturn", 1.25)
 		-- whichever the def gives: maxvelocity (elmos/frame) or speed (elmos/s)
 		if ud.maxvelocity then ud.maxvelocity = tonumber(ud.maxvelocity) * sm end
 		if ud.speed then ud.speed = tonumber(ud.speed) * sm end
 		if ud.turnrate then ud.turnrate = tonumber(ud.turnrate) * tm end
-		ud.acceleration = math.max(tonumber(ud.acceleration) or 0, num("moveaccel", 0.5))
+		ud.acceleration = math.max(tonumber(ud.acceleration) or 0, num("moveaccel", 0.25))
 		ud.brakerate = math.max(tonumber(ud.brakerate) or 0, num("movebrake", 0.1))
 		-- the engine slows a turn-in-place unit for any turn wider than turnInPlaceAngleLimit (default 0: every turn),
 		-- down to 10 % of its speed for a sharp one; with a high brake rate that is a dead stop before each turn
