@@ -1,0 +1,42 @@
+<rml>
+<head>
+	<title>Slate name tags</title>
+	<link type="text/rcss" href="theme.rcss"/>
+	<style>
+		/* Commander name tags: a small Slate pill under each visible commander, positioned every frame from
+		   Lua (slate_nametags.lua). The pill uses .panel, so the player's opacity and colour tint apply. The
+		   document never takes clicks. */
+		body {
+			pointer-events: none;
+		}
+		.tag {
+			position: absolute;
+			left: 0px;
+			top: 0px;
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+			height: 20dp;
+			box-sizing: border-box;
+			padding: 0dp 8dp 0dp 6dp;
+			border-radius: 10dp;
+			white-space: nowrap;
+			pointer-events: none;
+		}
+		.pip {
+			width: 8dp;
+			height: 8dp;
+			border-radius: 4dp;
+			margin-right: 5dp;
+		}
+		.name {
+			font-size: 12dp;
+			line-height: 20dp;
+			color: #eceef0;
+		}
+	</style>
+</head>
+<body>
+	<div id="tags"></div>
+</body>
+</rml>
