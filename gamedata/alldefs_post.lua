@@ -52,6 +52,18 @@ function UnitDef_Post(name, ud)
 		ud.customparams = ud.customparams or {}
 		ud.customparams.iscommander = 1
 	end
+	-- Armed planes (fighters, bombers: Recoil's "strafing" aircraft) ignore "acceleration" and read only "maxAcc",
+	-- defaulting to 0.065 for all of them (engine UnitDef.cpp). And their thrust works against a drag that grows with
+	-- speed (StrafeAirMoveType: drag = maxAcc / (1.1 x maxSpeed)), so they approach top speed instead of reaching it:
+	-- 90 % takes ~1.9 x speed/maxAcc in theory, where TA's linear acceleration takes 0.9 x speed/acceleration; they
+	-- also fly part-throttle. Measured (tools/headless-test FLIGHT=1, from the move order, takeoff included), 3 x TA's
+	-- value gives TA's time to 90 % of top speed: bombers within a few frames, fighters ~0.4 s over (the takeoff).
+	-- Unarmed planes (Peeper, Fink, Eagle...) read "acceleration" but fly the same drag model, so they get it too.
+	-- Their brakeRate is used only when landing.
+	if ud.canfly and ud.maxacc == nil and ud.acceleration and not (ud.hoverattack or (tonumber(ud.workertime) or 0) > 0
+			or (tonumber(ud.transportcapacity) or 0) > 0) then
+		ud.maxacc = 3 * ud.acceleration
+	end
 	-- Flying debris (pieces thrown by Explode() in the death scripts) trails Splinter Faction's fire and smoke
 	-- (gamedata/explosions/deathceg.lua).
 	ud.sfxtypes = ud.sfxtypes or {}

@@ -55,6 +55,8 @@ Every changed line in `units/*.lua`, `Weapons/*.lua`, `gamedata/movedefs.lua` an
 | Repair / resurrect cost | ? | free / 0.5 x energy (engine defaults) | not checked against TA |
 | `firestarter` (Viper laser 80 vs 90) | 80 | 90 | cosmetic (chance to set trees on fire) |
 | Peewee script | — | aims from the elbow until the arms are up | its idle forearms put the muzzles under ground; a Cannon will not fire from there (the old EmgCannon did not check) |
+| Plane acceleration (fighters, bombers, scouts) | `Acceleration` | `maxAcc` = 3 x TA acceleration | Recoil's planes ignore `acceleration` (armed ones used a flat 0.065) and approach top speed against drag; 3 x gives TA's time to 90 % of top speed (`FLIGHT=1` probe) |
+| Acceleration / brake rate below 0.01 (18 ground and sea units: Turtle, Bear, Warlord, Millennium, Crock...) | TA value | 0.01 | engine floor (GroundMoveType); they start and stop faster than in TA |
 | `gamedata/modrules.lua` | — | `airmiplevel = 4` | the old `airlosmiplevel` key was not read by Recoil; `losmul`/`airlosmul` removed (not read either) |
 
 Things TA data does that look odd but were kept because they are TA: the Thunder bomber explodes with the Zeus's
