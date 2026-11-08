@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T1_HOV_Swatter.png",
 		script = "ARM_T1_HOV_Swatter.lua",
 		corpse = "ARM_T1_HOV_Swatter_dead",
-		icontype = "hover",
 		category = "ARM HOVER LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 1444,

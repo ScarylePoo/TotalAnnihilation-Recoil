@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T2_DEF_Toaster.png",
 		script = "CORE_T2_DEF_Toaster.lua",
 		corpse = "CORE_T2_DEF_Toaster_dead",
-		icontype = "turret",
 		category = "CORE LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 12687,

@@ -12,7 +12,6 @@ return {
 		buildpic = "CORE_T2_VEH_AdvancedConstructor.png",
 		script = "CORE_T2_VEH_AdvancedConstructor.lua",
 		corpse = "CORE_T2_VEH_AdvancedConstructor_dead",
-		icontype = "tank",
 		category = "CORE TANK LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 4504,  -- TA 3.1c (was 8504)

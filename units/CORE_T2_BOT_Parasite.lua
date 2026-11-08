@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T2_BOT_Parasite.png",
 		script = "CORE_T2_BOT_Parasite.lua",
 		corpse = "CORE_T2_BOT_Parasite_dead",
-		icontype = "kbot",
 		category = "CORE KBOT LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 13452,

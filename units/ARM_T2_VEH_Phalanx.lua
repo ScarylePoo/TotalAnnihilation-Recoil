@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_VEH_Phalanx.png",
 		script = "ARM_T2_VEH_Phalanx.lua",
 		corpse = "ARM_T2_VEH_Phalanx_dead",
-		icontype = "tank",
 		category = "ARM TANK LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 10500,

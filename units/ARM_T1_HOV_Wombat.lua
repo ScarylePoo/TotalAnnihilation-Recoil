@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T1_HOV_Wombat.png",
 		script = "ARM_T1_HOV_Wombat.lua",
 		corpse = "ARM_T1_HOV_Wombat_dead",
-		icontype = "hover",
 		category = "ARM HOVER LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 3131,

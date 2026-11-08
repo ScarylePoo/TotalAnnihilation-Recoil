@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T1_HOV_Scrubber.png",
 		script = "CORE_T1_HOV_Scrubber.lua",
 		corpse = "CORE_T1_HOV_Scrubber_dead",
-		icontype = "hover",
 		category = "CORE HOVER LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 1252,

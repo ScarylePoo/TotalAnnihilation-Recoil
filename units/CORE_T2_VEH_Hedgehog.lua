@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T2_VEH_Hedgehog.png",
 		script = "CORE_T2_VEH_Hedgehog.lua",
 		corpse = "CORE_T2_VEH_Hedgehog_dead",
-		icontype = "nuke",
 		category = "CORE SPECIAL LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 92321,  -- TA 3.1c (was 62320)

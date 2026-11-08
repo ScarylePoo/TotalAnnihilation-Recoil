@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_ECO_FusionPowerplant.png",
 		script = "ARM_T2_ECO_FusionPowerplant.lua",
 		corpse = "ARM_T2_ECO_FusionPowerplant_dead",
-		icontype = "building_energy_source_big",
 		category = "ARM LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 36058,

@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T1_SEADEF_TorpedoLauncher.png",
 		script = "ARM_T1_SEADEF_TorpedoLauncher.lua",
 		corpse = "ARM_T1_SEADEF_TorpedoLauncher_dead",
-		icontype = "turret",
 		category = "ARM SPECIAL LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 2658,

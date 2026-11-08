@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_DEF_BigBertha.png",
 		script = "ARM_T2_DEF_BigBertha.lua",
 		corpse = "ARM_T2_DEF_BigBertha_dead",
-		icontype = "turret",
 		category = "ARM LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 64680,  -- TA 3.1c (was 124680)

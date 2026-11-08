@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_BOT_Fido.png",
 		script = "ARM_T2_BOT_Fido.lua",
 		corpse = "ARM_T2_BOT_Fido_dead",
-		icontype = "kbot",
 		category = "ARM KBOT LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 3556,  -- TA 3.1c (was 2556)

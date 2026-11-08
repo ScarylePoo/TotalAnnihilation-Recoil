@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T2_DEF_TargetingFacility.png",
 		script = "CORE_T2_DEF_TargetingFacility.lua",
 		corpse = "CORE_T2_DEF_TargetingFacility_dead",
-		icontype = "building",
 		category = "CORE SPECIAL LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 141148,  -- TA 3.1c (was 90000)

@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T1_ECO_MetalMaker.png",
 		script = "ARM_T1_ECO_MetalMaker.lua",
 		corpse = "ARM_T1_ECO_MetalMaker_dead",
-		icontype = "building",
 		category = "ARM LEVEL1 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 687,  -- TA 3.1c (was 1497)

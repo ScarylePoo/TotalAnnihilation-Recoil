@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T2_DEF_Cobra.png",
 		script = "CORE_T2_DEF_Cobra.lua",
 		corpse = "CORE_T2_DEF_Cobra_dead",
-		icontype = "turret",
 		category = "CORE LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 18995,

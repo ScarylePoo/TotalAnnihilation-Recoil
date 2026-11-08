@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T1_SEADEF_Thunderbolt.png",
 		script = "CORE_T1_SEADEF_Thunderbolt.lua",
 		corpse = "CORE_T1_SEADEF_Thunderbolt_dead",
-		icontype = "turret",
 		category = "CORE SPECIAL LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 5812,

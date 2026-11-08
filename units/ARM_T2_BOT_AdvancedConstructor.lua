@@ -12,7 +12,6 @@ return {
 		buildpic = "ARM_T2_BOT_AdvancedConstructor.png",
 		script = "ARM_T2_BOT_AdvancedConstructor.lua",
 		corpse = "ARM_T2_BOT_AdvancedConstructor_dead",
-		icontype = "kbot",
 		category = "ARM KBOT LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 5784,  -- TA 3.1c (was 7784)

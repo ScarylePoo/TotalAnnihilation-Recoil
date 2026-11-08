@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T1_SEA_Searcher.png",
 		script = "CORE_T1_SEA_Searcher.lua",
 		corpse = "CORE_T1_SEA_Searcher_dead",
-		icontype = "ship",
 		category = "CORE SHIP LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 917,

@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T1_HOV_Turtle.png",
 		script = "CORE_T1_HOV_Turtle.lua",
 		corpse = "CORE_T1_HOV_Turtle_dead",
-		icontype = "hover",
 		category = "CORE HOVER LEVEL1 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 7541,

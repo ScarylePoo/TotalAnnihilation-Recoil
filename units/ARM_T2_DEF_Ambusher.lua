@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_DEF_Ambusher.png",
 		script = "ARM_T2_DEF_Ambusher.lua",
 		corpse = "ARM_T2_DEF_Ambusher_dead",
-		icontype = "turret",
 		category = "ARM LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 16821,

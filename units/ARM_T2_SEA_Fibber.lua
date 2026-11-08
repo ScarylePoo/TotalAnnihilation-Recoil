@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_SEA_Fibber.png",
 		script = "ARM_T2_SEA_Fibber.lua",
 		corpse = "ARM_T2_SEA_Fibber_dead",
-		icontype = "ship",
 		category = "ARM UNDERWATER LEVEL2 NOWEAPON NOTAIR",
 		-- costs, makes, uses, storage
 		buildcostenergy = 2897,

@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T1_SEADEF_Stingray.png",
 		script = "ARM_T1_SEADEF_Stingray.lua",
 		corpse = "ARM_T1_SEADEF_Stingray_dead",
-		icontype = "turret",
 		category = "ARM SPECIAL LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 5796,

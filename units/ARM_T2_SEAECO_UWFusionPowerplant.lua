@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_SEAECO_UWFusionPowerplant.png",
 		script = "ARM_T2_SEAECO_UWFusionPowerplant.lua",
 		corpse = "ARM_T2_SEAECO_UWFusionPowerplant_dead",
-		icontype = "building_energy_source_big",
 		category = "ARM LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 54287,

@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T1_SEA_Lurker.png",
 		script = "ARM_T1_SEA_Lurker.lua",
 		corpse = "ARM_T1_SEA_Lurker_dead",
-		icontype = "ship",
 		category = "ARM UNDERWATER LEVEL1 WEAPON NOTAIR",
 		-- costs, makes, uses, storage
 		buildcostenergy = 3724,

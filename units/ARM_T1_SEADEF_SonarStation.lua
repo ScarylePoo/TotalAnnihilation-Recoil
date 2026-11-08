@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T1_SEADEF_SonarStation.png",
 		script = "ARM_T1_SEADEF_SonarStation.lua",
 		corpse = "ARM_T1_SEADEF_SonarStation_dead",
-		icontype = "building_radar_sonar",
 		category = "ARM SPECIAL LEVEL1 NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 403,

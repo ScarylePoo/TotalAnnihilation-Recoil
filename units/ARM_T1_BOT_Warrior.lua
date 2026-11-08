@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T1_BOT_Warrior.png",
 		script = "ARM_T1_BOT_Warrior.lua",          -- walker: Lua script on the standard skeleton (was the COB)
 		corpse = "ARM_T1_BOT_Warrior_dead",
-		icontype = "kbot",
 		category = "ARM KBOT LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 2236,  -- TA 3.1c (was 3236)

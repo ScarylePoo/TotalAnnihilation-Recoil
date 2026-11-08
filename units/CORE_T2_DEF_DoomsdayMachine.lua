@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T2_DEF_DoomsdayMachine.png",
 		script = "CORE_T2_DEF_DoomsdayMachine.lua",
 		corpse = "CORE_T2_DEF_DoomsdayMachine_dead",
-		icontype = "turret",
 		category = "CORE SPECIAL LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 14245,

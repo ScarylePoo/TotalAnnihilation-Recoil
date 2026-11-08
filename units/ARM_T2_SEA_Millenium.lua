@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_SEA_Millenium.png",
 		script = "ARM_T2_SEA_Millenium.lua",
 		corpse = "ARM_T2_SEA_Millenium_dead",
-		icontype = "ship",
 		category = "ARM SHIP LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 20731,  -- TA 3.1c (was 25914)

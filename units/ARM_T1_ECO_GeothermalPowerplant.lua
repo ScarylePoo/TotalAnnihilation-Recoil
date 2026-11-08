@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T1_ECO_GeothermalPowerplant.png",
 		script = "ARM_T1_ECO_GeothermalPowerplant.lua",
 		corpse = "ARM_T1_ECO_GeothermalPowerplant_dead",
-		icontype = "building",
 		category = "ARM LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 9568,

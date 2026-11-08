@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T1_HOV_Bear.png",
 		script = "ARM_T1_HOV_Bear.lua",
 		corpse = "ARM_T1_HOV_Bear_dead",
-		icontype = "hover",
 		category = "ARM HOVER LEVEL1 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 7938,

@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T2_DEF_Neutron.png",
 		script = "CORE_T2_DEF_Neutron.lua",
 		corpse = "CORE_T2_DEF_Neutron_dead",
-		icontype = "nuke",
 		category = "CORE SPECIAL LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 52134,  -- TA 3.1c (was 44720)

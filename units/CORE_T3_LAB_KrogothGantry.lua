@@ -12,7 +12,6 @@ return {
 		buildpic = "CORE_T3_LAB_KrogothGantry.png",
 		script = "CORE_T3_LAB_KrogothGantry.lua",
 		corpse = "CORE_T3_LAB_KrogothGantry_dead",
-		icontype = "factory",
 		category = "CORE PLANT LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 9574,  -- TA 3.1c (was 29574)

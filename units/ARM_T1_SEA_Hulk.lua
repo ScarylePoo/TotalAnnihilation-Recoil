@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T1_SEA_Hulk.png",
 		script = "ARM_T1_SEA_Hulk.lua",
 		corpse = "ARM_T1_SEA_Hulk_dead",
-		icontype = "ship",
 		category = "ARM SHIP LEVEL1 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 4639,  -- TA 3.1c (was 6639)

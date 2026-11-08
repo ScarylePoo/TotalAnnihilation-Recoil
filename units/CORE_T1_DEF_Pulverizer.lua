@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T1_DEF_Pulverizer.png",
 		script = "CORE_T1_DEF_Pulverizer.lua",
 		corpse = "CORE_T1_DEF_Pulverizer_dead",
-		icontype = "turret",
 		category = "CORE SPECIAL LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 805,

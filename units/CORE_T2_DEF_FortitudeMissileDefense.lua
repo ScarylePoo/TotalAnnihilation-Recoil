@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T2_DEF_FortitudeMissileDefense.png",
 		script = "CORE_T2_DEF_FortitudeMissileDefense.lua",
 		corpse = "CORE_T2_DEF_FortitudeMissileDefense_dead",
-		icontype = "nuke",
 		category = "CORE SPECIAL LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 92321,

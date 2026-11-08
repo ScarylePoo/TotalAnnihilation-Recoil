@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_VEH_Scarab.png",
 		script = "ARM_T2_VEH_Scarab.lua",
 		corpse = "ARM_T2_VEH_Scarab_dead",
-		icontype = "nuke",
 		category = "ARM SPECIAL LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 88000,  -- TA 3.1c (was 58800)

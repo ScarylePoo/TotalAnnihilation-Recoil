@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_DEF_AdvancedRadar.png",
 		script = "ARM_T2_DEF_AdvancedRadar.lua",
 		corpse = "ARM_T2_DEF_AdvancedRadar_dead",
-		icontype = "building_radar_sonar",
 		category = "ARM SPECIAL LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 1830,

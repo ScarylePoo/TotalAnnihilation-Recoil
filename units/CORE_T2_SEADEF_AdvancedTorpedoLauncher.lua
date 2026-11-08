@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T2_SEADEF_AdvancedTorpedoLauncher.png",
 		script = "CORE_T2_SEADEF_AdvancedTorpedoLauncher.lua",
 		corpse = "CORE_T2_SEADEF_AdvancedTorpedoLauncher_dead",
-		icontype = "turret",
 		category = "CORE SPECIAL LEVEL2 WEAPON NOTAIR",
 		-- costs, makes, uses, storage
 		buildcostenergy = 5389,

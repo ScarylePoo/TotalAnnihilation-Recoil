@@ -12,7 +12,6 @@ return {
 		buildpic = "CORE_T2_SEA_AdvancedConstructor.png",
 		script = "CORE_T2_SEA_AdvancedConstructor.lua",
 		corpse = "CORE_T2_SEA_AdvancedConstructor_dead",
-		icontype = "ship",
 		category = "CORE UNDERWATER LEVEL2 NOWEAPON NOTAIR",
 		-- costs, makes, uses, storage
 		buildcostenergy = 7911,

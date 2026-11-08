@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T1_ECO_MetalExtractor.png",
 		script = "ARM_T1_ECO_MetalExtractor.lua",
 		corpse = "ARM_T1_ECO_MetalExtractor_dead",
-		icontype = "building",
 		category = "ARM LEVEL1 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 521,

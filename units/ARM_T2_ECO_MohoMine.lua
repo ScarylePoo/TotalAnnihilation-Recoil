@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_ECO_MohoMine.png",
 		script = "ARM_T2_ECO_MohoMine.lua",
 		corpse = "ARM_T2_ECO_MohoMine_dead",
-		icontype = "building_metal_source_big",
 		category = "ARM LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 8700,

@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_DEF_Stunner.png",
 		script = "ARM_T2_DEF_Stunner.lua",
 		corpse = "ARM_T2_DEF_Stunner_dead",
-		icontype = "nuke",
 		category = "ARM SPECIAL LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 52134,  -- TA 3.1c (was 45134)

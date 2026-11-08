@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_DEF_Protector.png",
 		script = "ARM_T2_DEF_Protector.lua",          -- Lua port: the COB queried its weapon pieces with an uninitialised counter
 		corpse = "ARM_T2_DEF_Protector_dead",
-		icontype = "nuke",
 		category = "ARM SPECIAL LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 88000,  -- TA 3.1c (was 88124)

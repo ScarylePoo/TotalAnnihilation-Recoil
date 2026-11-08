@@ -12,7 +12,6 @@ return {
 		buildpic = "ARM_T1_SEA_Constructor.png",
 		script = "ARM_T1_SEA_Constructor.lua",
 		corpse = "ARM_T1_SEA_Constructor_dead",
-		icontype = "ship",
 		category = "ARM SHIP LEVEL1 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 2130,

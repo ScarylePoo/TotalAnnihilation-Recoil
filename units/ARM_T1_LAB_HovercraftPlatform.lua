@@ -12,7 +12,6 @@ return {
 		buildpic = "ARM_T1_LAB_HovercraftPlatform.png",
 		script = "ARM_T1_LAB_HovercraftPlatform.lua",
 		corpse = "ARM_T1_LAB_HovercraftPlatform_dead",
-		icontype = "factory",
 		category = "ARM PLANT LEVEL1 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 5277,  -- TA 3.1c (was 3277)

@@ -12,7 +12,6 @@ return {
 		buildpic = "ARM_T2_AIR_AdvancedConstructor.png",
 		script = "ARM_T2_AIR_AdvancedConstructor.lua",
 		corpse = "ARM_T2_AIR_AdvancedConstructor_dead",
-		icontype = "aircraft",
 		category = "ARM VTOL LEVEL2 NOWEAPON NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 12096,

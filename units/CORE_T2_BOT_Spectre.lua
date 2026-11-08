@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T2_BOT_Spectre.png",
 		script = "CORE_T2_BOT_Spectre.lua",
 		corpse = "CORE_T2_BOT_Spectre_dead",
-		icontype = "kbot",
 		category = "CORE KBOT LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 1453,

@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_BOT_Infiltrator.png",
 		script = "ARM_T2_BOT_Infiltrator.lua",
 		corpse = "ARM_T2_BOT_Infiltrator_dead",
-		icontype = "kbot",
 		category = "ARM KBOT LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 9219,

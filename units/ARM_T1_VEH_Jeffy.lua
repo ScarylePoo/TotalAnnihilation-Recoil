@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T1_VEH_Jeffy.png",
 		script = "ARM_T1_VEH_Jeffy.lua",
 		corpse = "ARM_T1_VEH_Jeffy_dead",
-		icontype = "tank",
 		category = "ARM TANK LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 564,

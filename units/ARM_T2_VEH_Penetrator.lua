@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_VEH_Penetrator.png",
 		script = "ARM_T2_VEH_Penetrator.lua",
 		corpse = "ARM_T2_VEH_Penetrator_dead",
-		icontype = "tank",
 		category = "ARM TANK LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 17477,  -- TA 3.1c (was 14477)

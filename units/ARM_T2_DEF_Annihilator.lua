@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_DEF_Annihilator.png",
 		script = "ARM_T2_DEF_Annihilator.lua",
 		corpse = "ARM_T2_DEF_Annihilator_dead",
-		icontype = "turret",
 		category = "ARM SPECIAL WEAPON LEVEL2 NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 25025,

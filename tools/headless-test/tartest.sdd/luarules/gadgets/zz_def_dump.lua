@@ -7,7 +7,14 @@ end
 -- for before/after diffs and for the TA comparison (synced Lua has no io).
 -- Line format: "DEFDUMP U|W <name> <key>=<value>" one per scalar field; nested tables are flattened with dots.
 local opt = Spring.GetModOptions() or {}
-if not opt.dumponly or not gadgetHandler:IsSyncedCode() then return end
+if not opt.dumponly then return end
+if not gadgetHandler:IsSyncedCode() then
+  -- iconType is unsynced only (LuaUI can change it)
+  function gadget:Initialize()
+    for id = 1, #UnitDefs do Spring.Echo(("DEFDUMP U %s iconType=%s"):format(UnitDefs[id].name, tostring(UnitDefs[id].iconType))) end
+  end
+  return
+end
 
 local echo = Spring.Echo
 local function out(kind, name, key, v)

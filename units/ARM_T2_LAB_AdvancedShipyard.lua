@@ -12,7 +12,6 @@ return {
 		buildpic = "ARM_T2_LAB_AdvancedShipyard.png",
 		script = "ARM_T2_LAB_AdvancedShipyard.lua",
 		corpse = "ARM_T2_LAB_AdvancedShipyard_dead",
-		icontype = "factory",
 		category = "ARM PLANT LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 2402,  -- TA 3.1c (was 12402)

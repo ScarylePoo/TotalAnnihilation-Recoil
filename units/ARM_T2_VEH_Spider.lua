@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_VEH_Spider.png",
 		script = "ARM_T2_VEH_Spider.lua",
 		corpse = "ARM_T2_VEH_Spider_dead",
-		icontype = "tank",
 		category = "ARM TANK LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 2200,  -- TA 3.1c (was 2000)

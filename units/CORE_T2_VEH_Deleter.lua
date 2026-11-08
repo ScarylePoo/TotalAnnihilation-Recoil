@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T2_VEH_Deleter.png",
 		script = "CORE_T2_VEH_Deleter.lua",
 		corpse = "CORE_T2_VEH_Deleter_dead",
-		icontype = "tank",
 		category = "CORE TANK LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 1757,

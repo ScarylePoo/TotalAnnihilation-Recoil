@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T2_DEF_Silencer.png",
 		script = "CORE_T2_DEF_Silencer.lua",
 		corpse = "CORE_T2_DEF_Silencer_dead",
-		icontype = "nuke",
 		category = "CORE SPECIAL LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 48768,  -- TA 3.1c (was 136068)

@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T1_SEAPL_Typhoon.png",
 		script = "CORE_T1_SEAPL_Typhoon.lua",
 		corpse = "CORE_T1_SEAPL_Typhoon_dead",
-		icontype = "aircraft",
 		category = "CORE VTOL LEVEL1 WEAPON NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 9785,  -- TA 3.1c (was 7785)

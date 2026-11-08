@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T2_DEF_Buzzsaw.png",
 		script = "CORE_T2_DEF_Buzzsaw.lua",
 		corpse = "CORE_T2_DEF_Buzzsaw_dead",
-		icontype = "turret",
 		category = "CORE LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 462648,

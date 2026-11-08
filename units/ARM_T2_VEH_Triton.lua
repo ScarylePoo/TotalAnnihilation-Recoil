@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_VEH_Triton.png",
 		script = "ARM_T2_VEH_Triton.lua",
 		corpse = "ARM_T2_VEH_Triton_dead",
-		icontype = "tank",
 		category = "ARM TANK LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 2300,  -- TA 3.1c (was 2900)

@@ -10,7 +10,6 @@ return {
 		objectname = "ARM_T2_BOT_DecoyCommander.s3o",
 		buildpic = "ARM_T2_BOT_DecoyCommander.png",
 		script = "ARM_T2_BOT_DecoyCommander.lua",
-		icontype = "kbot",
 		decoyfor = "ARM_Commander",
 		category = "ARM KBOT LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage

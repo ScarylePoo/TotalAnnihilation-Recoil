@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T1_VEH_Raider.png",
 		script = "CORE_T1_VEH_Raider.lua",
 		corpse = "CORE_T1_VEH_Raider_dead",
-		icontype = "tank",
 		category = "CORE TANK LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 1241,

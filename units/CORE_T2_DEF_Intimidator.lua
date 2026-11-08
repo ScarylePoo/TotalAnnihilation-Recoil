@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T2_DEF_Intimidator.png",
 		script = "CORE_T2_DEF_Intimidator.lua",
 		corpse = "CORE_T2_DEF_Intimidator_dead",
-		icontype = "turret",
 		category = "CORE LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 62520,  -- TA 3.1c (was 122520)

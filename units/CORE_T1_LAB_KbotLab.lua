@@ -12,7 +12,6 @@ return {
 		buildpic = "CORE_T1_LAB_KbotLab.png",
 		script = "CORE_T1_LAB_KbotLab.lua",
 		corpse = "CORE_T1_LAB_KbotLab_dead",
-		icontype = "factory",
 		category = "CORE PLANT LEVEL1 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 1250,  -- TA 3.1c (was 650)

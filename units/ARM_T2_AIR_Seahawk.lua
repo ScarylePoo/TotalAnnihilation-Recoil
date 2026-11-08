@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_AIR_Seahawk.png",
 		script = "ARM_T2_AIR_Seahawk.lua",
 		corpse = "ARM_T2_AIR_Seahawk_dead",
-		icontype = "aircraft",
 		category = "ARM VTOL LEVEL2 NOWEAPON NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 7624,

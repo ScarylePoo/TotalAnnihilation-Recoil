@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_VEH_Bulldog.png",
 		script = "ARM_T2_VEH_Bulldog.lua",
 		corpse = "ARM_T2_VEH_Bulldog_dead",
-		icontype = "tank",
 		category = "ARM TANK LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 2994,

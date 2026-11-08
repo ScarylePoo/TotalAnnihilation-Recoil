@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T2_ECO_MohoMetalMaker.png",
 		script = "CORE_T2_ECO_MohoMetalMaker.lua",
 		corpse = "CORE_T2_ECO_MohoMetalMaker_dead",
-		icontype = "building_metal_source_big",
 		category = "CORE LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 10928,

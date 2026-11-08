@@ -12,7 +12,6 @@ return {
 		buildpic = "ARM_T2_LAB_AdvancedKbotLab.png",
 		script = "ARM_T2_LAB_AdvancedKbotLab.lua",
 		corpse = "ARM_T2_LAB_AdvancedKbotLab_dead",
-		icontype = "factory",
 		category = "ARM PLANT LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 3277,  -- TA 3.1c (was 9277)

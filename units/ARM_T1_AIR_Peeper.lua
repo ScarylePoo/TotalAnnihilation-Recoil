@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T1_AIR_Peeper.png",
 		script = "ARM_T1_AIR_Peeper.lua",
 		corpse = "ARM_T1_AIR_Peeper_dead",
-		icontype = "aircraft",
 		category = "ARM VTOL LEVEL1 NOWEAPON NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 1475,

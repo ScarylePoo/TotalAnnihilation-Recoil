@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T2_SEA_Warlord.png",
 		script = "CORE_T2_SEA_Warlord.lua",
 		corpse = "CORE_T2_SEA_Warlord_dead",
-		icontype = "ship",
 		category = "CORE SHIP LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 19741,  -- TA 3.1c (was 24676)

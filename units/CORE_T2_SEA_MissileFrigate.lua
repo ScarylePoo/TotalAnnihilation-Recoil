@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T2_SEA_MissileFrigate.png",
 		script = "CORE_T2_SEA_MissileFrigate.lua",
 		corpse = "CORE_T2_SEA_MissileFrigate_dead",
-		icontype = "ship",
 		category = "CORE SHIP LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 7628,

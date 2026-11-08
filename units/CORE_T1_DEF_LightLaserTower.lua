@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T1_DEF_LightLaserTower.png",
 		script = "CORE_T1_DEF_LightLaserTower.lua",
 		corpse = "CORE_T1_DEF_LightLaserTower_dead",
-		icontype = "turret",
 		category = "CORE LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 2608,  -- TA 3.1c (was 1908)

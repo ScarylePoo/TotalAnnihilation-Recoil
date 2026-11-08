@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_AIR_Brawler.png",
 		script = "ARM_T2_AIR_Brawler.lua",
 		corpse = "ARM_T2_AIR_Brawler_dead",
-		icontype = "aircraft",
 		category = "ARM VTOL LEVEL2 WEAPON NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 6249,

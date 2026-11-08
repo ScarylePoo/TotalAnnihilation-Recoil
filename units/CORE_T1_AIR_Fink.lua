@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T1_AIR_Fink.png",
 		script = "CORE_T1_AIR_Fink.lua",
 		corpse = "CORE_T1_AIR_Fink_dead",
-		icontype = "aircraft",
 		category = "CORE VTOL LEVEL1 NOWEAPON NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 1369,

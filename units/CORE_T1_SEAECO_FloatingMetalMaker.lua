@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T1_SEAECO_FloatingMetalMaker.png",
 		script = "CORE_T1_SEAECO_FloatingMetalMaker.lua",
 		corpse = "CORE_T1_SEAECO_FloatingMetalMaker_dead",
-		icontype = "building",
 		category = "CORE LEVEL1 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 1530,

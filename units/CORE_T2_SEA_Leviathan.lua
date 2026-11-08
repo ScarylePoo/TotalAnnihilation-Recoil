@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T2_SEA_Leviathan.png",
 		script = "CORE_T2_SEA_Leviathan.lua",
 		corpse = "CORE_T2_SEA_Leviathan_dead",
-		icontype = "ship",
 		category = "CORE UNDERWATER LEVEL2 WEAPON NOTAIR",
 		-- costs, makes, uses, storage
 		buildcostenergy = 19940,

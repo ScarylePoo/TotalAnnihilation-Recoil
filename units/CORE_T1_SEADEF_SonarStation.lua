@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T1_SEADEF_SonarStation.png",
 		script = "CORE_T1_SEADEF_SonarStation.lua",
 		corpse = "CORE_T1_SEADEF_SonarStation_dead",
-		icontype = "building_radar_sonar",
 		category = "CORE SPECIAL LEVEL1 NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 399,

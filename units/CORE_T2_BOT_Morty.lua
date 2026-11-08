@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T2_BOT_Morty.png",
 		script = "CORE_T2_BOT_Morty.lua",
 		corpse = "CORE_T2_BOT_Morty_dead",
-		icontype = "kbot",
 		category = "CORE KBOT LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 2865,

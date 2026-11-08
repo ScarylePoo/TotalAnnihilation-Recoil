@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_BOT_FARK.png",
 		script = "ARM_T2_BOT_FARK.lua",
 		corpse = "ARM_T2_BOT_FARK_dead",
-		icontype = "kbot",
 		category = "ARM KBOT LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 3219,  -- TA 3.1c (was 7019)

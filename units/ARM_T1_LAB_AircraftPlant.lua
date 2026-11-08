@@ -12,7 +12,6 @@ return {
 		buildpic = "ARM_T1_LAB_AircraftPlant.png",
 		script = "ARM_T1_LAB_AircraftPlant.lua",
 		corpse = "ARM_T1_LAB_AircraftPlant_dead",
-		icontype = "factory",
 		category = "ARM PLANT LEVEL1 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 1370,

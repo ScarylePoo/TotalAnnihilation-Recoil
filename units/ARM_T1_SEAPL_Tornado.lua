@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T1_SEAPL_Tornado.png",
 		script = "ARM_T1_SEAPL_Tornado.lua",
 		corpse = "ARM_T1_SEAPL_Tornado_dead",
-		icontype = "aircraft",
 		category = "ARM VTOL LEVEL1 WEAPON NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 6307,

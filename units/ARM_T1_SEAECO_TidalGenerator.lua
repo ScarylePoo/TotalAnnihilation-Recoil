@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T1_SEAECO_TidalGenerator.png",
 		script = "ARM_T1_SEAECO_TidalGenerator.lua",
 		corpse = "ARM_T1_SEAECO_TidalGenerator_dead",
-		icontype = "building",
 		category = "ARM LEVEL1 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 768,  -- TA 3.1c (was 468)

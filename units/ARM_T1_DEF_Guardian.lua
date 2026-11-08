@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T1_DEF_Guardian.png",
 		script = "ARM_T1_DEF_Guardian.lua",
 		corpse = "ARM_T1_DEF_Guardian_dead",
-		icontype = "turret",
 		category = "ARM LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 7687,

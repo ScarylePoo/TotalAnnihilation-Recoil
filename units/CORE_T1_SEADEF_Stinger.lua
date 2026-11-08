@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T1_SEADEF_Stinger.png",
 		script = "CORE_T1_SEADEF_Stinger.lua",
 		corpse = "CORE_T1_SEADEF_Stinger_dead",
-		icontype = "turret",
 		category = "CORE SPECIAL LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 1054,

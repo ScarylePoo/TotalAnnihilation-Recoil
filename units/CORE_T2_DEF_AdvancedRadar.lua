@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T2_DEF_AdvancedRadar.png",
 		script = "CORE_T2_DEF_AdvancedRadar.lua",
 		corpse = "CORE_T2_DEF_AdvancedRadar_dead",
-		icontype = "building_radar_sonar",
 		category = "CORE SPECIAL LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 1920,

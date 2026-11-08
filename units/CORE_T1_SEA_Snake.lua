@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T1_SEA_Snake.png",
 		script = "CORE_T1_SEA_Snake.lua",
 		corpse = "CORE_T1_SEA_Snake_dead",
-		icontype = "ship",
 		category = "CORE UNDERWATER LEVEL1 WEAPON NOTAIR",
 		-- costs, makes, uses, storage
 		buildcostenergy = 3902,

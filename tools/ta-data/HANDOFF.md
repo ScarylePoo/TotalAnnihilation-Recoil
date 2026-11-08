@@ -593,3 +593,24 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
 - User's reason: short TA ranges make fights clump (only the front ranks are in range, the rest crowd forward).
 - Checked: defaults give identical def dumps; at 1.25/1.25 only range/sight (+ derived maxWeaponRange, LOS radii,
   cannon speeds, set flight times) change; AIM=1 probe at 1.25 has no new NOFIRE/NOHIT.
+
+## Radar icons (tools/icons, 2026-11-08)
+- `tools/icons/make_icons.py [REPO] [--sheet out.png]` draws every icon (Pillow, 4x supersampled, 128 px), writes
+  `Icons/*.png` (replaces the folder's PNGs), `gamedata/icontypes.lua` and `gamedata/unit_icons.lua` (unit -> icon type);
+  `UnitDef_Post` applies the map, the unit files carry no `icontype` any more. Edit the `UNITS` table and rerun; the
+  script refuses to run if a unit is missing from it.
+- Design: frame = domain (kbot circle, vehicle box, hover lens, ship hull, sub dome, aircraft delta, seaplane delta +
+  wave, amphibious = frame + wave, building square, defence shield, factory double box with the domain it builds,
+  commander star, mine, wall), black glyph = role (chevrons 1/2/3 = light/assault/heavy, dot = artillery, ringed dot =
+  long range, arrow = rockets, arc = anti-air, gantry = builder, ring = scout, arcs = radar/sonar, zigzag = jammer,
+  cradle = transport, triangle = bomber, torpedo, starburst = crawling bomb, half disc = spy, bolt = EMP/energy,
+  M/E = metal/energy (ring = maker, bar = storage), trefoil = nuke, rings = anti-nuke, crosshair = sniper/targeting,
+  cross = repair pad), pips = tech level. White takes the team colour. Decoy commanders use the commander icon.
+- Runtime check: `DUMP=` now also lists `iconType` (unsynced-only in UnitDefs) from zz_def_dump's unsynced half.
+
+## Slate fixes (2026-11-08)
+- Name tags (`slate_nametags.lua`) only for commanders in line of sight: IsUnitVisible also counted radar blips,
+  whose positions carry radar error, so a tag floated near an enemy commander that had left sight (and showed on
+  cloaked ones). `GetUnitLosState` returns a table for widgets (raw bits need full read).
+- Hover info (`slate_selection.lua`): features get their own view (name, metal, energy); the engine tooltip's colour
+  codes (\255 r g b, \b) are stripped before escaping (they showed as junk characters).

@@ -12,7 +12,6 @@ return {
 		buildpic = "CORE_T2_AIR_AdvancedConstructor.png",
 		script = "CORE_T2_AIR_AdvancedConstructor.lua",
 		corpse = "CORE_T2_AIR_AdvancedConstructor_dead",
-		icontype = "aircraft",
 		category = "CORE VTOL LEVEL2 NOWEAPON NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 12824,  -- TA 3.1c (was 14824)

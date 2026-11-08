@@ -43,7 +43,11 @@ local COMMANDERS = {
 	core_commander = true,
 }
 
+-- Radar icons: unit name -> icon type, generated with the icons and gamedata/icontypes.lua by tools/icons/make_icons.py
+local UNIT_ICONS = VFS.Include('gamedata/unit_icons.lua')
+
 function UnitDef_Post(name, ud)
+	ud.icontype = UNIT_ICONS[name] or ud.icontype
 	-- TA units did not regenerate; the engine's default is 10 HP/s after idleTime. Units without the tag get none.
 	if ud.idleautoheal == nil then
 		ud.idleautoheal = 0

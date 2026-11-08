@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T1_ECO_MetalMaker.png",
 		script = "CORE_T1_ECO_MetalMaker.lua",
 		corpse = "CORE_T1_ECO_MetalMaker_dead",
-		icontype = "building",
 		category = "CORE LEVEL1 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 700,  -- TA 3.1c (was 1563)

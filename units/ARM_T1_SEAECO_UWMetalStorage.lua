@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T1_SEAECO_UWMetalStorage.png",
 		script = "ARM_T1_SEAECO_UWMetalStorage.lua",
 		corpse = "ARM_T1_SEAECO_UWMetalStorage_dead",
-		icontype = "building",
 		category = "ARM LEVEL1 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 1255,

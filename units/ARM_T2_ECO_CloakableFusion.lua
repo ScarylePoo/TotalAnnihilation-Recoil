@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_ECO_CloakableFusion.png",
 		script = "ARM_T2_ECO_CloakableFusion.lua",
 		corpse = "ARM_T2_ECO_CloakableFusion_dead",
-		icontype = "building_energy_source_big",
 		category = "ARM LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 42058,  -- TA 3.1c (was 39058)

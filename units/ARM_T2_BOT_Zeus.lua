@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_BOT_Zeus.png",
 		script = "ARM_T2_BOT_Zeus.lua",
 		corpse = "ARM_T2_BOT_Zeus_dead",
-		icontype = "kbot",
 		category = "ARM KBOT LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 2228,  -- TA 3.1c (was 2828)

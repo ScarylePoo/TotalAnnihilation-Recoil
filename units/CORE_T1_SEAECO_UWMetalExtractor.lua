@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T1_SEAECO_UWMetalExtractor.png",
 		script = "CORE_T1_SEAECO_UWMetalExtractor.lua",
 		corpse = "CORE_T1_SEAECO_UWMetalExtractor_dead",
-		icontype = "building",
 		category = "CORE LEVEL1 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 2219,  -- TA 3.1c (was 1419)

@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T2_AIR_Vamp.png",
 		script = "CORE_T2_AIR_Vamp.lua",
 		corpse = "CORE_T2_AIR_Vamp_dead",
-		icontype = "aircraft",
 		category = "CORE VTOL LEVEL2 WEAPON NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 6973,

@@ -12,7 +12,6 @@ return {
 		script = "CORE_T1_BOT_Crasher.lua",          -- walker: Lua script on the standard skeleton (was the COB)
 		-- Script=CORE_T1_BOT_Crasher.lua;
 		corpse = "CORE_T1_BOT_Crasher_dead",
-		icontype = "kbot",
 		category = "CORE KBOT LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 1224,

@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T1_SEAPL_Albatross.png",
 		script = "ARM_T1_SEAPL_Albatross.lua",
 		corpse = "ARM_T1_SEAPL_Albatross_dead",
-		icontype = "aircraft",
 		category = "ARM VTOL LEVEL1 WEAPON NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 9619,

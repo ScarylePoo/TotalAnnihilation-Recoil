@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T2_SEA_Executioner.png",
 		script = "CORE_T2_SEA_Executioner.lua",
 		corpse = "CORE_T2_SEA_Executioner_dead",
-		icontype = "ship",
 		category = "CORE SHIP LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 8551,  -- TA 3.1c (was 10689)

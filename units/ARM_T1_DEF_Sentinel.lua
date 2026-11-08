@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T1_DEF_Sentinel.png",
 		script = "ARM_T1_DEF_Sentinel.lua",
 		corpse = "ARM_T1_DEF_Sentinel_dead",
-		icontype = "turret",
 		category = "ARM LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 5398,

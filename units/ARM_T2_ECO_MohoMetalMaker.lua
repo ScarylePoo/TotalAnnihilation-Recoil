@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_ECO_MohoMetalMaker.png",
 		script = "ARM_T2_ECO_MohoMetalMaker.lua",
 		corpse = "ARM_T2_ECO_MohoMetalMaker_dead",
-		icontype = "building_metal_source_big",
 		category = "ARM LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 9350,  -- TA 3.1c (was 29350)

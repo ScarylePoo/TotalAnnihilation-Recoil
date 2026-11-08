@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T1_AIR_Avenger.png",
 		script = "CORE_T1_AIR_Avenger.lua",
 		corpse = "CORE_T1_AIR_Avenger_dead",
-		icontype = "aircraft",
 		category = "CORE VTOL LEVEL1 WEAPON NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 3181,

@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_SEA_Piranha.png",
 		script = "ARM_T2_SEA_Piranha.lua",
 		corpse = "ARM_T2_SEA_Piranha_dead",
-		icontype = "ship",
 		category = "ARM UNDERWATER LEVEL2 WEAPON NOTAIR",
 		-- costs, makes, uses, storage
 		buildcostenergy = 5481,

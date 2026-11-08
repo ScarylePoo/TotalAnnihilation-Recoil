@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_VEH_Jammer.png",
 		script = "ARM_T2_VEH_Jammer.lua",
 		corpse = "ARM_T2_VEH_Jammer_dead",
-		icontype = "tank",
 		category = "ARM TANK LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 1621,

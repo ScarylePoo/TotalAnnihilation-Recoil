@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T1_SEA_Crusader.png",
 		script = "ARM_T1_SEA_Crusader.lua",
 		corpse = "ARM_T1_SEA_Crusader_dead",
-		icontype = "ship",
 		category = "ARM SHIP LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 4537,  -- TA 3.1c (was 4237)

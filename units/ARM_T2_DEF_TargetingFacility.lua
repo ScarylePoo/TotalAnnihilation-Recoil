@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_DEF_TargetingFacility.png",
 		script = "ARM_T2_DEF_TargetingFacility.lua",
 		corpse = "ARM_T2_DEF_TargetingFacility_dead",
-		icontype = "building",
 		category = "ARM SPECIAL LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 136058,  -- TA 3.1c (was 90000)

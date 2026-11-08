@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_DEF_Vulcan.png",
 		script = "ARM_T2_DEF_Vulcan.lua",
 		corpse = "ARM_T2_DEF_Vulcan_dead",
-		icontype = "turret",
 		category = "ARM LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 479111,

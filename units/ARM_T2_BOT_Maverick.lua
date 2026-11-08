@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_BOT_Maverick.png",
 		script = "ARM_T2_BOT_Maverick.lua",
 		corpse = "ARM_T2_BOT_Maverick_dead",
-		icontype = "kbot",
 		category = "ARM KBOT LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 10914,  -- TA 3.1c (was 8814)

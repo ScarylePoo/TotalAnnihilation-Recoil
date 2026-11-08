@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T2_VEH_Crock.png",
 		script = "CORE_T2_VEH_Crock.lua",
 		corpse = "CORE_T2_VEH_Crock_dead",
-		icontype = "tank",
 		category = "CORE TANK LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 2310,  -- TA 3.1c (was 2910)

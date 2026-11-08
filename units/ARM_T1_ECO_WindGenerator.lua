@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T1_ECO_WindGenerator.png",
 		script = "ARM_T1_ECO_WindGenerator.lua",
 		corpse = "ARM_T1_ECO_WindGenerator_dead",
-		icontype = "building",
 		category = "ARM LEVEL1 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 509,  -- TA 3.1c (was 312)

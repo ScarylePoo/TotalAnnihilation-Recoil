@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T2_VEH_Reaper.png",
 		script = "CORE_T2_VEH_Reaper.lua",
 		corpse = "CORE_T2_VEH_Reaper_dead",
-		icontype = "tank",
 		category = "CORE TANK LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 3048,

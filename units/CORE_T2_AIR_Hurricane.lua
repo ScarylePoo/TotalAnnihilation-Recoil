@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T2_AIR_Hurricane.png",
 		script = "CORE_T2_AIR_Hurricane.lua",
 		corpse = "CORE_T2_AIR_Hurricane_dead",
-		icontype = "aircraft",
 		category = "CORE VTOL LEVEL2 WEAPON NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 8050,

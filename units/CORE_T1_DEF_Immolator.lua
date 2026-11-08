@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T1_DEF_Immolator.png",
 		script = "CORE_T1_DEF_Immolator.lua",
 		corpse = "CORE_T1_DEF_Immolator_dead",
-		icontype = "turret",
 		category = "CORE LEVEL1 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 1790,

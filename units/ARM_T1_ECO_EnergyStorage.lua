@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T1_ECO_EnergyStorage.png",
 		script = "ARM_T1_ECO_EnergyStorage.lua",
 		corpse = "ARM_T1_ECO_EnergyStorage_dead",
-		icontype = "building",
 		category = "ARM LEVEL1 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 2430,  -- TA 3.1c (was 1030)

@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T1_DEF_RadarTower.png",
 		script = "ARM_T1_DEF_RadarTower.lua",
 		corpse = "ARM_T1_DEF_RadarTower_dead",
-		icontype = "building_radar_sonar",
 		category = "ARM SPECIAL LEVEL1 NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 750,

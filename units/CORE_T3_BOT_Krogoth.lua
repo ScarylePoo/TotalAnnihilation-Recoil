@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T3_BOT_Krogoth.png",
 		script = "CORE_T3_BOT_Krogoth.lua",
 		corpse = "CORE_T3_BOT_Krogoth_dead",
-		icontype = "krogoth",
 		category = "CORE KBOT LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 116664,  -- TA 3.1c (was 186664)

@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_AIR_Lancet.png",
 		script = "ARM_T2_AIR_Lancet.lua",
 		corpse = "ARM_T2_AIR_Lancet_dead",
-		icontype = "aircraft",
 		category = "ARM VTOL LEVEL2 WEAPON NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 6438,

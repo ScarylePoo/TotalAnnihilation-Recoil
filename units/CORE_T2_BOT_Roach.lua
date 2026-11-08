@@ -10,7 +10,6 @@ return {
 		objectname = "CORE_T2_BOT_Roach.s3o",
 		buildpic = "CORE_T2_BOT_Roach.png",
 		script = "CORE_T2_BOT_Roach.lua",
-		icontype = "kbot",
 		category = "CORE KBOT LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 5471,

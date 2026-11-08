@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T1_SEAPL_Voodoo.png",
 		script = "CORE_T1_SEAPL_Voodoo.lua",
 		corpse = "CORE_T1_SEAPL_Voodoo_dead",
-		icontype = "aircraft",
 		category = "CORE VTOL LEVEL1 WEAPON NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 6524,

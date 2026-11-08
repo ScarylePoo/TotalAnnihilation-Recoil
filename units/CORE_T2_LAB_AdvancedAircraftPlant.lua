@@ -12,7 +12,6 @@ return {
 		buildpic = "CORE_T2_LAB_AdvancedAircraftPlant.png",
 		script = "CORE_T2_LAB_AdvancedAircraftPlant.lua",
 		corpse = "CORE_T2_LAB_AdvancedAircraftPlant_dead",
-		icontype = "factory",
 		category = "CORE PLANT LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 4422,  -- TA 3.1c (was 15422)

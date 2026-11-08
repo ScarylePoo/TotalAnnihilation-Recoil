@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_BOT_Zipper.png",
 		script = "ARM_T2_BOT_Zipper.lua",
 		corpse = "ARM_T2_BOT_Zipper_dead",
-		icontype = "kbot",
 		category = "ARM KBOT LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 2221,

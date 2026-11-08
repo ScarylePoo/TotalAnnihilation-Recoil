@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_DEF_AirRepairPad.png",
 		script = "ARM_T2_DEF_AirRepairPad.lua",
 		corpse = "ARM_T2_DEF_AirRepairPad_dead",
-		icontype = "building",
 		category = "ARM LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 8510,

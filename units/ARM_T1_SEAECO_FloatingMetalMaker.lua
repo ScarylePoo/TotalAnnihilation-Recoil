@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T1_SEAECO_FloatingMetalMaker.png",
 		script = "ARM_T1_SEAECO_FloatingMetalMaker.lua",
 		corpse = "ARM_T1_SEAECO_FloatingMetalMaker_dead",
-		icontype = "building",
 		category = "ARM LEVEL2 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 1480,

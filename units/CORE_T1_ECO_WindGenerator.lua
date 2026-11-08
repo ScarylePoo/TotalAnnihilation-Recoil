@@ -11,7 +11,6 @@ return {
 		buildpic = "CORE_T1_ECO_WindGenerator.png",
 		script = "CORE_T1_ECO_WindGenerator.lua",
 		corpse = "CORE_T1_ECO_WindGenerator_dead",
-		icontype = "building",
 		category = "CORE LEVEL1 NOWEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 523,  -- TA 3.1c (was 323)

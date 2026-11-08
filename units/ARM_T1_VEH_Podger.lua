@@ -12,7 +12,6 @@ return {
 		buildpic = "ARM_T1_VEH_Podger.png",
 		script = "ARM_T1_VEH_Podger.lua",
 		corpse = "ARM_T1_VEH_Podger_dead",
-		icontype = "tank",
 		category = "ARM TANK LEVEL1 NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 1031,

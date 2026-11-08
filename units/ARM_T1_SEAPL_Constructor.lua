@@ -12,7 +12,6 @@ return {
 		buildpic = "ARM_T1_SEAPL_Constructor.png",
 		script = "ARM_T1_SEAPL_Constructor.lua",
 		corpse = "ARM_T1_SEAPL_Constructor_dead",
-		icontype = "aircraft",
 		category = "ARM VTOL LEVEL1 NOWEAPON NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 5368,

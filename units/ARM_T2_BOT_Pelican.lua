@@ -11,7 +11,6 @@ return {
 		buildpic = "ARM_T2_BOT_Pelican.png",
 		script = "ARM_T2_BOT_Pelican.lua",
 		corpse = "ARM_T2_BOT_Pelican_dead",
-		icontype = "kbot",
 		category = "ARM KBOT LEVEL2 WEAPON NOTAIR NOTSUB",
 		-- costs, makes, uses, storage
 		buildcostenergy = 2468,
