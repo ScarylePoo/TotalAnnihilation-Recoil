@@ -38,6 +38,8 @@ end
 WG = {}
 VFS.Include("init.lua", nil, VFS.ZIP)
 VFS.Include("common/luautilities/glvolumes.lua", nil, LUAUI_VFSMODE)
+-- TA:Recoil: SF's unit type helpers (Spring.Utilities.getMovetype, used by LUPS) here as in LuaRules
+VFS.Include("LuaRules/Utilities/unitTypeChecker.lua", nil, VFS.ZIP)
 
 include("setupdefs.lua")
 include("savetable.lua")
