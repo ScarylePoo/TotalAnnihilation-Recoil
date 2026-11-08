@@ -246,6 +246,18 @@ local options =
   },
 
   {
+    key    = 'moveturninplace',
+    name   = 'Turn in place above',
+    desc   = "Degrees: a land, sea or hover unit turning by more than this slows down to pivot; a smaller turn is taken at speed, in a curve. 0 is the engine's default (every turn slows the unit; with quick braking it stops dead).\nkey: moveturninplace",
+    type   = 'number',
+    section= 'movement',
+    def    = 90,
+    min    = 0,
+    max    = 180,
+    step   = 5,
+  },
+
+  {
     key    = 'DisableMapDamage',
     name   = 'Undeformable map',
     desc   = 'Prevents the map shape from being changed by weapons',

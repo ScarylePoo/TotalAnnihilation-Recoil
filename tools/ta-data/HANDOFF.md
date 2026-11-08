@@ -557,3 +557,6 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
   elmos/frame^2, default 1 and 0.5; 0 keeps TA's). Applied in gamedata/alldefs_post.lua UnitDef_Post to every def
   with a speed that can't fly. Walk cadence follows UnitDefs speed (scripts/headers/walk.lua), so legs keep pace.
   Checked with DUMP=1 run.sh at the defaults and at TA values (movespeed=1 moveturn=1 moveaccel=0 movebrake=0).
+- moveturninplace (degrees, default 90) -> turnInPlaceAngleLimit. The engine's default 0 cuts a ground unit's target
+  speed for ANY turn (to turnRate/angle of top speed, at least 10 %); with the braking floor that was a dead stop
+  before every turn. TURNPROBE=1 run.sh measures it: 60 degree turn 100 % speed at 90, 10 % at 0.

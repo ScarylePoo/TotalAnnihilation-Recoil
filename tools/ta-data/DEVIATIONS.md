@@ -175,3 +175,5 @@ particles wrongly).
 - Ground unit turn rate (moveturn, 1-2, default 1.5): turn rate x this (equal to the speed keeps TA's turning circles).
 - Minimum acceleration (moveaccel, 0-1, default 1) and minimum braking (movebrake, 0-1, default 0.5): floors on
   TA's values (0.003-0.2 and 0.002-1). 1 / 1 / 0 / 0 is TA.
+- Turn in place above (moveturninplace, 0-180 degrees, default 90): turns up to this are taken at speed in a curve;
+  wider ones slow the unit to pivot. 0 is the engine default (every turn slows the unit, down to 10 % of its speed).

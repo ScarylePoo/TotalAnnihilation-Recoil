@@ -55,7 +55,7 @@ function UnitDef_Post(name, ud)
 	-- Movement modoptions (modoptions.lua, section "Movement"), for ground units (land, sea, hover; not aircraft,
 	-- whose flight model reads these differently): movespeed and moveturn multiply TA's top speed and turn rate
 	-- (equal values keep TA's turning circles); moveaccel and movebrake are floors for acceleration and brake rate
-	-- (elmos/frame^2; 0 keeps TA's). The walk animations (scripts/headers/walk.lua) step at UnitDefs speed, so legs
+	-- (elmos/frame^2; 0 keeps TA's); moveturninplace is the turn (degrees) above which a unit pivots. The walk animations (scripts/headers/walk.lua) step at UnitDefs speed, so legs
 	-- keep pace.
 	local mo = Spring.GetModOptions and Spring.GetModOptions() or {}
 	local function num(key, def) return tonumber(mo[key]) or def end
@@ -68,6 +68,11 @@ function UnitDef_Post(name, ud)
 		if ud.turnrate then ud.turnrate = tonumber(ud.turnrate) * tm end
 		ud.acceleration = math.max(tonumber(ud.acceleration) or 0, num("moveaccel", 1))
 		ud.brakerate = math.max(tonumber(ud.brakerate) or 0, num("movebrake", 0.5))
+		-- the engine slows a turn-in-place unit for any turn wider than turnInPlaceAngleLimit (default 0: every turn),
+		-- down to 10 % of its speed for a sharp one; with a high brake rate that is a dead stop before each turn
+		if ud.turninplaceanglelimit == nil then
+			ud.turninplaceanglelimit = num("moveturninplace", 90)
+		end
 	end
 	-- Armed planes (fighters, bombers: Recoil's "strafing" aircraft) ignore "acceleration" and read only "maxAcc",
 	-- defaulting to 0.065 for all of them (engine UnitDef.cpp). And their thrust works against a drag that grows with
