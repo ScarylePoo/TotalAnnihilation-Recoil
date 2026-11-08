@@ -2,8 +2,9 @@ function gadget:GetInfo()
   return { name = "Friendly Fire Probe", layer = 1005, enabled = true }
 end
 
--- FFPROBE=1 run.sh: friendly fire must do nothing, enemy damage must land. A team-0 LLT "shoots" (AddUnitDamage with
--- it as attacker) a team-0 Bulldog and a team-1 Bulldog, then a team-0 fusion plant between them self-destructs.
+-- FFPROBE=1 run.sh: ordinary friendly fire does nothing, enemy damage lands, and the TA exceptions still hurt your own
+-- units: a team-0 LLT "shoots" (AddUnitDamage, its laser) a team-0 and a team-1 Bulldog; then a team-0 D-Gun hit on
+-- both; then a team-0 fusion plant between them self-destructs.
 -- Logs "[PROBE] ff <unit> health a/b" after each step.
 if not gadgetHandler:IsSyncedCode() or not (Spring.GetModOptions() or {}).ffprobe then return end
 
@@ -27,10 +28,16 @@ function gadget:GameFrame(n)
     u.fusion  = Spring.CreateUnit("arm_t2_eco_fusionpowerplant", cx, y, cz + 80, "south", 0)
     Report("start")
   elseif n == 40 then
-    Spring.AddUnitDamage(u.own, 500, 0, u.shooter)
-    Spring.AddUnitDamage(u.enemy, 500, 0, u.shooter)
+    local laser = WeaponDefNames["arm_tower_light_laser"].id
+    Spring.AddUnitDamage(u.own, 500, 0, u.shooter, laser)
+    Spring.AddUnitDamage(u.enemy, 500, 0, u.shooter, laser)
   elseif n == 45 then
-    Report("after-500-damage")
+    Report("after-500-laser")
+    local dgun = WeaponDefNames["disintegrator"].id
+    Spring.AddUnitDamage(u.own, 300, 0, u.shooter, dgun)
+    Spring.AddUnitDamage(u.enemy, 300, 0, u.shooter, dgun)
+  elseif n == 50 then
+    Report("after-300-dgun")
     Spring.DestroyUnit(u.fusion, true)
   elseif n == 120 then
     Report("after-fusion-blast")
