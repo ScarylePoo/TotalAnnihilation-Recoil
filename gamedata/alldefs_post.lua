@@ -78,6 +78,30 @@ function UnitDef_Post(name, ud)
 	-- (gamedata/explosions/deathceg.lua).
 	ud.sfxtypes = ud.sfxtypes or {}
 	ud.sfxtypes.pieceexplosiongenerators = { "deathceg3", "deathceg4" }
+	-- Mexes: metal makers in disguise on fixed metal spots (luarules/gadgets/game_metal_spots.lua and
+	-- game_metal_spot_output.lua). No extraction; building mask 4, so they can only be built on spots (and nothing
+	-- else can); output = the spot value x metal_spot_mult (moho 3x, TA's ratio); TA's energy use as upkeep while on.
+	-- Moho mines stack (yardmap "s") so they can be placed over a basic mex, which vanishes when the moho finishes
+	-- (unit_mex_upgrade.lua). customparams.metal_extractor: Splinter Faction's placement widget looks for it.
+	local mexMult = name:find("_mohomine$") and 3 or (name:find("metalextractor$") and 1 or nil)   -- incl. underwater
+	if mexMult then
+		ud.customparams = ud.customparams or {}
+		ud.customparams.metal_extractor = 1
+		ud.customparams.metal_spot_mult = mexMult
+		ud.customparams.mex_energy = tonumber(ud.energyuse) or 0
+		ud.energyuse = 0
+		ud.extractsmetal = 0
+		ud.buildingmask = 4
+		ud.onoffable = true
+		ud.activatewhenbuilt = true
+		if mexMult > 1 then
+			local fx, fz = tonumber(ud.footprintx) or 5, tonumber(ud.footprintz) or 5
+			local row = string.rep("s", fx)
+			local rows = {}
+			for i = 1, fz do rows[i] = row end
+			ud.yardmap = table.concat(rows, " ")
+		end
+	end
 	-- Air repair pads: the engine ignores isairbase, luarules/gadgets/unit_air_pads.lua reads this.
 	if ud.isairbase then
 		ud.customparams = ud.customparams or {}

@@ -136,3 +136,17 @@ Engine 2026.09.01 issues found and fixed on our side (SF has the same files):
 How to look at effects: `VISUALCEG=name1,name2` / `VISUAL=units [VISUALKILL=1]` with
 `tools/headless-test/run_win_visual.sh` (Windows engine from WSL: real GPU colours; the WSL D3D12 bridge blends
 particles wrongly).
+
+## Mexes and geovents (2026-11-08)
+- Mexes are metal makers on fixed metal spots, as in Splinter Faction (luarules/gadgets/game_metal_spots.lua,
+  game_metal_spot_output.lua). Spots are read from the map's metal map as placed (not randomised); each gets
+  building mask 4 sized for a moho (5x5 + margin), so only mexes build there and nothing else can.
+- Output per spot = 2 x sqrt(players / 2) (1v1 2.0, 4 players 2.83, 8 players 4.0); moho mine 3x (TA ratio).
+  Energy upkeep stays TA's (mex 3, moho 15/12, underwater mex 2), only while switched on. Maps without metal spots
+  give no mex income.
+- Moho mines can be placed over your own basic mex (stackable yardmap); the mex keeps producing until the moho
+  finishes, then vanishes (no explosion or wreck; unit_mex_upgrade.lua).
+- F4 no longer shows the metal map: it toggles bright rings on the spots (luaui/widgets/game_metal_spot_rings.lua),
+  which also appear while a mex is the active build. Spots and geovents are on the minimap.
+- Right-click a spot with builders selected queues their best mex (moho if they can); drag to paint a line of spots.
+  Right-click a geovent queues a geothermal plant. Geovents are the map's own, marked with a yellow column.

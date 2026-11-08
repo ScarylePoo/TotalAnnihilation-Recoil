@@ -435,3 +435,17 @@ damage to the shield first (TA:Recoil made this opt-in; the gadget unloads if no
 LuaRules now loads `init.lua` (Common/: table.copy, Spring.Utilities...) and SF's `luarules/utilities/`
 tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadgets, configs and LUPS expect them.
 
+
+## Mexes and geovents (SF-style metal spots)
+- luarules/gadgets/game_metal_spots.lua: scans the metal map (SF map_defined algorithm), stamps building mask 4,
+  publishes GG.metalMakerSpots and GameRulesParams metalSpot_count / _<i>_x / _z / metalSpot_value / metalSpot_players.
+- game_metal_spot_output.lua: SetUnitResourcing cmm/cue on finished mexes (value x customparams.metal_spot_mult,
+  customparams.mex_energy), off when switched off; calls the script's ExtractionRateChanged so the arms spin.
+- unit_mex_upgrade.lua: a higher-tier mex finishing removes lower ones under it (DestroyUnit reclaimed).
+- game_geovent_spots.lua: map geoThermal features -> GG.customGeoventSpots + customGeovent_* params.
+- gamedata/alldefs_post.lua: names ending metalextractor / _mohomine get extractsmetal 0, buildingmask 4,
+  energyuse 0 (moved to customparams.mex_energy), onoffable, moho yardmap all "s".
+- Widgets from SF: game_metal_spot_loader, game_metal_spot_minimap_drawer, game_metal_maker_placement_snapping
+  (TA:Recoil changes: picks highest tier, allows moho over own mex, right-click geovent), game_geovent_spot_loader,
+  _minimap_drawer, _highlight (all map vents). Own: game_metal_spot_rings.lua (F4 replacement).
+- Test: MEXPROBE=1 MAP=... MAPNAME=... tools/headless-test/run.sh (zz_mex_probe.lua).
