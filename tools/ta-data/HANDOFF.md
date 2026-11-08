@@ -351,3 +351,15 @@ selection widget use it; the old handler never called it), game files always bef
 widgets only with the `allowuserwidgets` modoption (off). Saved widget settings: `LuaUI/Config/TART_data.lua`.
 `luaui/widgets/gui_fancy_selected_units.lua`: SF's selection rings, unchanged.
 
+## Graphics widgets from Splinter Faction (batch 1)
+
+Unchanged SF files ("From Splinter Faction" header), toggles in the Slate graphics options:
+`luaui/widgets/` gfx_deferred_rendering_gl4 (dynamic lights; with api_unit_tracker_gl4 and the gadget
+`luarules/gadgets/gfx_explosion_lights.lua`), gfx_bloom_mipchain, gfx_tonemap, gfx_ground_ao_gl4,
+gui_healthbars_gl4, gui_range_overview_gl4, gfx_orders_gl4, gfx_build_footprint_gl4, gui_reclaim_field_highlight.
+Support: `luaui/widgets/include/` (SF's LuaShader etc.), `luaui/shaders/*.glsl`, `luaui/images/` (health bar atlas,
+noise), `luaui/configs/DeferredLightsGL4*.lua`, `luarules/configs/customcmds.h.lua`. Weapon lights are assigned to
+every weapon by type/colour automatically; the per-unit lamp table in DeferredLightsGL4config.lua is SF's (keyed by
+SF unit names, so it matches nothing here yet). Initial settings v3 turns on AllowDeferredMap/ModelRendering
+(the lights and bloom need the G-buffers).
+

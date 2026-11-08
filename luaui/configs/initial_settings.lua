@@ -14,7 +14,7 @@
 
 local M = {}
 
-M.VERSION     = 2   -- 2: TeamNanoSpray
+M.VERSION     = 3   -- 2: TeamNanoSpray, 3: deferred rendering
 M.MARKER_KEY  = "TARInitialSettingsVersion"   -- VERSION, once the list has been written
 M.PENDING_KEY = "TARInitialSettingsReload"    -- 1: the loading screen changed a RELOAD_FIXES setting
 
@@ -37,6 +37,9 @@ local settings = {
 	-- The engine (2026.09) reads it at process start, so the spray turns green from the next launch; the CUS GL4
 	-- build effect reads it when the match starts, so that one is green at once. Applied once per VERSION.
 	{ "TeamNanoSpray",               0 },
+	-- Deferred G-buffers for maps and models: the dynamic lights (gfx_deferred_rendering_gl4) and bloom need them.
+	{ "AllowDeferredMapRendering",   1 },
+	{ "AllowDeferredModelRendering", 1 },
 }
 
 --------------------------------------------------------------------------------
