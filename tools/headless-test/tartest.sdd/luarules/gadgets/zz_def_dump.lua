@@ -55,6 +55,9 @@ function gadget:GameFrame(n)
     end
   end
   for id = 1, #UnitDefs do dumpDef("U", UnitDefs[id]) end
+  for id, fd in pairs(FeatureDefs) do  -- features: customParams only (normal maps etc.)
+    for k, v in pairs(fd.customParams or {}) do out("F", fd.name, "customParams." .. k, v) end
+  end
   echo("DEFDUMP END")
   Spring.SendCommands("quitforce")
 end

@@ -133,6 +133,9 @@ function gadget:Initialize()
   cz = Game.mapSizeZ * 0.62 - dmax * 0.45
   far = tonumber(opt.visualzoom) or 700
   if opt.visualceg and opt.visualceg ~= "" then cz = Game.mapSizeZ * 0.62 - 150 + 0.25 * far end  -- the CEG row, below the vote dialog
+  if opt.visualhold and opt.visualhold ~= "" and not (opt.visualceg and opt.visualceg ~= "") then
+    cz = Game.mapSizeZ * 0.62 + 0.25 * far  -- VISUALHOLD: look at the units themselves
+  end
 end
 function gadget:DrawScreenPost()  -- last draw call-in of the frame: projectiles are drawn by then
   draws = draws + 1
