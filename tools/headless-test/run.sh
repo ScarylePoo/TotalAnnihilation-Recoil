@@ -45,6 +45,7 @@ sed -i "s/IsHost=1;/IsHost=1;\n\tHostPort=$((20000 + RANDOM % 30000));/" "$WD/sc
 [ -n "$WATER" ] && sed -i 's/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\twaterprobe=1;/' "$WD/script.txt"
 [ -n "$TORP" ] && sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\ttorpprobe=$TORP;\n\t\ttorpkind=${TORPKIND:-ship,sub,moving,shore};/; s/blank_map_x=24/blank_map_x=32/; s/blank_map_y=24/blank_map_y=32/" "$WD/script.txt"
 [ -n "$GAP" ] && sed -i 's/debugmode=1;/debugmode=1;\n\t\tgaponly=1;/' "$WD/script.txt"
+[ -n "$FFPROBE" ] && sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tffprobe=1;/" "$WD/script.txt"
 [ -n "$FLIGHT" ] && sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tflightprobe=$FLIGHT;/" "$WD/script.txt"
 [ -n "$DUMP" ] && sed -i 's/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tdumponly=1;/' "$WD/script.txt"
 [ -n "$VISUALCEG" ] && VISUAL=${VISUAL:-none}
