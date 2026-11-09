@@ -23,6 +23,11 @@
 			white-space: nowrap;
 			pointer-events: none;
 		}
+		/* .hidden in theme.rcss is display: none, but .tag above sets display: flex with the same specificity
+		   and this file's rules win over the theme's, so a hidden tag sat as an empty pill in the screen corner */
+		.tag.hidden {
+			display: none;
+		}
 		.pip {
 			width: 8dp;
 			height: 8dp;

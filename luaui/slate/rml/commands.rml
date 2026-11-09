@@ -198,16 +198,22 @@
 		.cap {
 			padding: 0dp 2dp;
 			font-size: 12dp;
-			line-height: 14dp;
+			line-height: 13dp;
 			color: #f4f5f7;
-			white-space: nowrap;
+			white-space: normal;   /* a label wider than the button wraps onto a second line */
 			overflow: hidden;
 		}
+		.cap.long {
+			font-size: 11dp;       /* "Normal Priority", "Return Fire"... */
+			line-height: 12dp;
+		}
 		.order .cap {
-			margin-top: 6dp;
+			margin-top: 5dp;
+			max-height: 26dp;
 		}
 		.state .cap {
-			margin-top: 8dp;
+			margin-top: 5dp;
+			max-height: 26dp;
 		}
 		.order .okey {
 			position: absolute;

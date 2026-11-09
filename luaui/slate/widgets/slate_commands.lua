@@ -25,8 +25,9 @@ end
 --  metal cost, the hotkey and how many are queued.
 --
 --  Left click gives the command, right click on a build tile takes one off
---  the queue, and the modifier keys work as they do everywhere else. The
---  mouse wheel over the build panel turns the page.
+--  the queue, and the modifier keys work as they do everywhere else. Pages
+--  turn with the arrows in the header only (the wheel used to, which was
+--  confusing while zooming near the panel).
 --
 --  The selection panel is told what the mouse is over (WG.Slate.hover), and
 --  the hotbind widget which action a Ctrl+Insert would bind
@@ -102,9 +103,20 @@ local reallyHidden = {}
 -- Command list
 --------------------------------------------------------------------------------
 
+-- the engine's own command names that do not fit a button or read oddly
+local LABELS = {
+	ManualFire  = "Manual Fire",
+	LoadUnits   = "Load",
+	UnloadUnits = "Unload",
+	SelfD       = "Self Destruct",
+	UnCloaked   = "Uncloaked",
+	["Set Target"]    = "Set Target",
+	["Cancel Target"] = "Cancel Target",
+}
+
 local function CleanName(name)
 	name = (name or ""):gsub("\255...", ""):gsub("[\r\n]+", " ")
-	return name
+	return LABELS[name] or name
 end
 
 local function HotKey(action)
@@ -238,7 +250,7 @@ end
 local function TileSize()
 	local cols = S.game.buildColumns or 4
 	local rows = S.game.buildRows or 5
-	local w = floor((INNER_WIDTH - GAP * (cols - 1)) / cols)
+	local w = floor((INNER_WIDTH - 2 - GAP * (cols - 1)) / cols) -- 2dp spare: dp-to-px rounding must not wrap the last tile
 	local avail = BUILD_HEIGHT - PAD * 2 - BORDER * 2 - HEADER_H - GAP - ((#chips > 0) and (CHIP_H + GAP) or 0)
 	local h = floor((avail - GAP * (rows - 1)) / rows)
 	return cols, rows, w, min(w, h)
@@ -297,8 +309,8 @@ end
 local function ShowOrders()
 	local oCols = S.game.orderColumns or 5
 	local sCols = S.game.stateColumns or 4
-	local ow = floor((INNER_WIDTH - GAP * (oCols - 1)) / oCols)
-	local sw = floor((INNER_WIDTH - GAP * (sCols - 1)) / sCols)
+	local ow = floor((INNER_WIDTH - 2 - GAP * (oCols - 1)) / oCols) -- 2dp spare, as for the build tiles
+	local sw = floor((INNER_WIDTH - 2 - GAP * (sCols - 1)) / sCols)
 
 	local parts = {}
 	for i = 1, #orders do
@@ -306,7 +318,7 @@ local function ShowOrders()
 		local last = (i % oCols == 0) and " last" or ""
 		parts[#parts + 1] = string.format('<div id="o%d" class="order tile%s%s" data-o="%d" style="width: %ddp;">', i, last, cmd.disabled and " disabled" or "", i, ow)
 		if cmd.slateLabel ~= "" then
-			parts[#parts + 1] = string.format('<div class="cap">%s</div>', hud.Escape(cmd.slateLabel))
+			parts[#parts + 1] = string.format('<div class="cap%s">%s</div>', (#cmd.slateLabel > 8) and " long" or "", hud.Escape(cmd.slateLabel))
 		elseif cmd.texture and cmd.texture ~= "" then
 			parts[#parts + 1] = string.format('<img class="oicon" src="/%s"/>', cmd.texture)
 		end
@@ -335,7 +347,7 @@ local function ShowOrders()
 		local pipW = min(14, floor((sw - 10 - (pips - 1) * 2) / max(1, pips)))
 		local last = (i % sCols == 0) and " last" or ""
 		parts[#parts + 1] = string.format('<div id="s%d" class="state tile%s%s" data-s="%d" style="width: %ddp;">', i, last, cmd.disabled and " disabled" or "", i, sw)
-		parts[#parts + 1] = string.format('<div class="cap">%s</div><div class="pips">', hud.Escape(label))
+		parts[#parts + 1] = string.format('<div class="cap%s">%s</div><div class="pips">', (#label > 8) and " long" or "", hud.Escape(label))
 		for p = 1, pips do
 			parts[#parts + 1] = string.format('<div class="pip%s" style="width: %ddp;"/>', (p <= lit) and " lit" or "", pipW)
 		end
@@ -541,12 +553,6 @@ function widget:Initialize()
 	end)
 	hud.OnClick(view, "prev", function() hud.Sound("click") ; TurnPage(-1) end)
 	hud.OnClick(view, "next", function() hud.Sound("click") ; TurnPage(1) end)
-	view.Element("build"):AddEventListener("mousescroll", function(event)
-		local delta = event.parameters and (event.parameters.wheel_delta_y or event.parameters.wheel_delta)
-		if delta and delta ~= 0 then
-			TurnPage((delta > 0) and 1 or -1)
-		end
-	end)
 
 	WG.SlateCommands = {
 		-- the command under the mouse and whether it is disabled, or nil

@@ -9,8 +9,10 @@
 
 		   The plot itself (#plot) is drawn with gl by the widget, and the
 		   engine draws gl UNDER RmlUi. So the window's own glass is turned
-		   off (an id rule beats .panel.window, including the theme rules
-		   appended at run time) and every part except #plot carries the
+		   off (class "hole": the theme rules core.lua appends are scoped
+		   under the body id and outrank this file's #econgraph rule, so the
+		   clearing has to come from the theme itself, slate_api_core.lua
+		   ThemeRules) and every part except #plot carries the
 		   glass instead (class "panel window fill"), tiling the window
 		   exactly and leaving #plot as a hole the gl drawing shows through.
 		   Use padding, not margins, between parts, or the map shows through
@@ -315,7 +317,7 @@
 	</style>
 </head>
 <body>
-	<div id="econgraph" class="panel window hidden">
+	<div id="econgraph" class="panel window hole hidden">
 		<div id="head" class="panel window fill">
 			<div id="title" class="title"/>
 			<div id="subtitle"/>

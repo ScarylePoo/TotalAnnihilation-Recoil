@@ -3,10 +3,13 @@
 	<title>Slate minimap frame</title>
 	<link type="text/rcss" href="theme.rcss"/>
 	<style>
-		/* A frame around the engine's minimap. The minimap itself is drawn by
-		   the engine, underneath; this is only the border, and it never takes
-		   the mouse. Position and size are set
-		   from Lua to wrap the minimap. */
+		/* A Slate frame around the engine's minimap. The engine draws the
+		   minimap underneath (before RmlUi), so the frame is hollow: a light
+		   outer line, a band of the theme's glass and a light inner line, no
+		   background. It never takes the mouse. Position and size are set
+		   from Lua to wrap whatever geometry the minimap has (the player can
+		   resize it in the settings; the engine may move it). The band's
+		   colour follows the opacity and tint settings (set from Lua). */
 		#minimap-frame {
 			position: absolute;
 			left: 0px;
@@ -14,21 +17,30 @@
 			width: 100px;
 			height: 100px;
 			box-sizing: border-box;
-			border: 2dp rgba(13, 14, 16, 200);
-			border-radius: 4dp;
+			border: 1dp rgba(255, 255, 255, 36);
+			border-radius: 8dp;
+		}
+		#minimap-glass {
+			width: 100%;
+			height: 100%;
+			box-sizing: border-box;
+			border: 6dp rgba(13, 14, 16, 224);
+			border-radius: 7dp;
 		}
 		#minimap-line {
 			width: 100%;
 			height: 100%;
 			box-sizing: border-box;
-			border: 1dp rgba(255, 255, 255, 60);
-			border-radius: 3dp;
+			border: 1dp rgba(255, 255, 255, 50);
+			border-radius: 2dp;
 		}
 	</style>
 </head>
 <body>
 	<div id="minimap-frame">
-		<div id="minimap-line"/>
+		<div id="minimap-glass">
+			<div id="minimap-line"/>
+		</div>
 	</div>
 </body>
 </rml>

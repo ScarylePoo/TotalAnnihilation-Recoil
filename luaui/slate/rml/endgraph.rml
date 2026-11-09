@@ -8,8 +8,10 @@
 		   PANEL_HEIGHT in slate_endgraph.lua.
 
 		   As in econgraph.rml, the plot (#plot) is drawn with gl UNDER RmlUi,
-		   so the window's own glass is turned off (an id rule beats
-		   .panel.window, including the theme rules appended at run time) and
+		   so the window's own glass is turned off (class "hole": the theme
+		   rules core.lua appends are scoped under the body id and outrank
+		   this file's #endgraph rule, so the clearing comes from the theme,
+		   slate_api_core.lua ThemeRules) and
 		   every part except #plot carries the glass instead (class "panel
 		   window fill"), tiling the window exactly. Use padding, not margins,
 		   between parts. The gl side paints the hole in the same themed
@@ -262,7 +264,7 @@
 	</style>
 </head>
 <body>
-	<div id="endgraph" class="panel window hidden">
+	<div id="endgraph" class="panel window hole hidden">
 		<div id="head" class="panel window fill">
 			<div id="title" class="title"/>
 			<div id="subtitle"/>

@@ -627,6 +627,31 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
 - Hover info (`slate_selection.lua`): features get their own view (name, metal, energy); the engine tooltip's colour
   codes (\255 r g b, \b) are stripped before escaping (they showed as junk characters).
 
+## Slate fixes (2026-11-09, from play-testing)
+- Widget Selector (F11) "unloaded itself": its layer was -math.huge, so it initialised before Slate Core, found no
+  WG.Slate and removed itself (its Shutdown then bound F11 to the engine's selector). Layer -99990 now.
+- Graph windows (economy, end graph) drew their gl plot faint: core.lua appends the theme rules scoped under the
+  body id ("#slate-themed .panel.window {...}"), which outranks the window's own "#econgraph { background: clear }"
+  rule, so the glass covered the plot after all. The theme now carries ".panel.window.hole { clear }" and both
+  windows have class "hole" (ThemeRules in slate_api_core.lua). Rule of thumb: nothing in a document's own
+  stylesheet can beat the appended theme rules except with another class on top of the theme's selector.
+- Orders panel: labels wrap onto a second line (long ones in 11dp), and the engine's own names that fit nowhere are
+  relabelled (LABELS in slate_commands.lua: ManualFire -> Manual Fire, LoadUnits -> Load...). Tile widths keep 2dp
+  spare so dp-to-px rounding cannot wrap the last tile of a row (at 900p a 4-column grid became 3 columns and
+  overflowed the orders header).
+- Build panel: the mouse wheel no longer turns pages (arrows only).
+- Minimap: a real Slate frame (1dp light line, 6dp glass band in the theme's panel colour and opacity, 1dp inner
+  line; minimap.rml + slate_minimap.lua). The engine draws the minimap before RmlUi and does not bend to the UI, so
+  the frame is hollow and re-wraps the minimap's geometry every frame; the minimap is inset by the frame plus 4px.
+  (The old frame was a 2dp dark line that vanished against the map.) The frame's colour follows opacity/tint
+  (OnSettings, which was referenced but never defined before).
+- The small dark pill in the screen's top-left corner was a hidden commander name tag: the theme's .hidden
+  (display: none) lost to the tag's own display: flex (same specificity, the file's rule wins), so hidden tags
+  parked at 0,0 as empty pills. nametags.rml now has .tag.hidden { display: none }. Same lesson as the graphs: a
+  document's own rule outranks theme.rcss at equal specificity.
+- Checks: run_win_visual.sh with VISUALSELECT=1 (keeps LuaUI), VISUALCMD="luaui econgraph" opens the economy graph,
+  screenshots zoomed with tools/ta-data/pngcrop.py (pure Python; no PIL on this machine).
+
 ## Unit brightness (2026-11-09)
 - CUS GL4 `albedoFactor` uniform (defaultunit bin, `luarules/configs/cus_defs.lua`): multiplies the unit's base colour
   right after the texture read (`cus_gl4.frag.glsl`, after albedoColor), so lighting, specular, glow (tex2 red adds

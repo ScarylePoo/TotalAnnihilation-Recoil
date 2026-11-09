@@ -2,8 +2,10 @@
 --------------------------------------------------------------------------------
 --
 --  Minimap placement and frame of the RmlUi HUD. Puts the engine's minimap in
---  the top left corner, sized to the map's proportions, and draws a frame
---  around it. The minimap itself stays the engine's.
+--  the top left corner, sized to the map's proportions, and draws a Slate
+--  frame around it. The minimap itself stays the engine's: it is drawn by the
+--  engine before RmlUi and does not bend to the UI, so the frame is hollow and
+--  follows the minimap's geometry every frame (wherever the engine has it).
 --
 --  The size follows the "Minimap size" setting (slate_minimapsize).
 --
@@ -26,8 +28,8 @@ end
 local DOCUMENT_PATH = "minimap.rml"
 
 local MINIMAP_HEIGHT_RATIO = 400 / 1440 -- share of the screen's height; tuned at 1440p
-local PADDING = 8     -- pixels between the screen's edge and the minimap
-local FRAME_DP = 3    -- the frame's thickness (must match the borders in minimap.rml: 2 + 1)
+local FRAME_DP = 8    -- the frame's thickness in dp (must match the borders in minimap.rml: 1 + 6 + 1)
+local MARGIN = 4      -- pixels between the screen's edge and the frame
 local SETTLE_FRAMES = 30 -- the engine may move the minimap again while loading; repeat for this long
 
 local spSendCommands       = Spring.SendCommands
@@ -43,6 +45,12 @@ local function round(x)
 	return math.floor(x + 0.5)
 end
 
+-- the frame's thickness in pixels at the current interface scale
+local function FramePx()
+	local scale = (hud and hud.GetScale()) or 1
+	return math.max(2, round(FRAME_DP * scale))
+end
+
 local function SetMinimap()
 	local vsx, vsy = Spring.GetViewGeometry()
 	local aspect = Game.mapSizeZ / Game.mapSizeX
@@ -54,8 +62,26 @@ local function SetMinimap()
 		w = round(vsx / 3)
 		h = round(w * aspect)
 	end
-	spSendCommands("minimap geo " .. PADDING .. " " .. PADDING .. " " .. w .. " " .. h)
+	local inset = FramePx() + MARGIN
+	spSendCommands("minimap geo " .. inset .. " " .. inset .. " " .. w .. " " .. h)
 	spSendCommands("minimap border 0")
+end
+
+-- the glass band takes the theme's panel colour (opacity and tint settings)
+local function TintFrame()
+	if not (view and S and S.Colors) then return end
+	local c = S.Colors()
+	local a = math.max(c.opacity or 0.9, 0.6)
+	view.Element("minimap-glass").style["border-color"] = string.format("rgba(%d,%d,%d,%d)",
+		round(c.panel[1] * 255), round(c.panel[2] * 255), round(c.panel[3] * 255), round(a * 255))
+end
+
+-- a setting changed (minimap size, interface size, opacity, tint): size the minimap again and re-wrap it
+local function OnSettings()
+	frames = 0
+	shown = ""
+	SetMinimap()
+	TintFrame()
 end
 
 -- wraps the frame around wherever the minimap is now
@@ -68,7 +94,7 @@ local function PlaceFrame()
 		return
 	end
 	local _, vsy = Spring.GetViewGeometry()
-	local pad = math.max(1, round(FRAME_DP * hud.GetScale()))
+	local pad = FramePx()
 	local key = x .. " " .. y .. " " .. w .. " " .. h .. " " .. vsy .. " " .. pad
 	if key ~= shown then
 		shown = key
@@ -92,7 +118,9 @@ function widget:Initialize()
 	hud.showInPregame = true -- the minimap is used to pick a start spot
 	document = result
 	view = hud.NewView(document)
+	S = hud.Slate()
 	hud.OnChange("slate_minimap", OnSettings)
+	TintFrame()
 	PlaceFrame()
 	hud.ShowPassive(document)
 end

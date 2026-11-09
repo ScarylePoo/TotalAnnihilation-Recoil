@@ -217,6 +217,10 @@ function S.ThemeRules()
 		".panel { background-color: " .. Rgba(p[1], p[2], p[3], opacity) .. "; border-color: " .. borderRgba .. "; }",
 		".panel.window { background-color: " .. Rgba(p[1], p[2], p[3], max(opacity, 0.88)) .. "; }",
 		".popup { background-color: " .. Rgba(p[1], p[2], p[3], max(opacity, 0.94)) .. "; }",
+		-- a window whose parts carry the glass themselves, leaving a hole for gl drawing (the graphs): the window
+		-- element itself stays clear. (These rules are scoped under the body id by core.lua, so a document's own
+		-- "#window { background-color: transparent }" cannot win against them; this one has the extra class.)
+		".panel.window.hole { background-color: rgba(0, 0, 0, 0); }",
 		".raised, .tile, .close, .tab, .button { border-color: " .. borderRgba .. "; }",
 		".divider { background-color: " .. borderRgba .. "; }",
 		".window-head { border-bottom-color: " .. borderRgba .. "; }",

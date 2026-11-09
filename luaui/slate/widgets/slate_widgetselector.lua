@@ -9,7 +9,7 @@ function widget:GetInfo()
 		author  = "trepan, jK, Bluestone (original); Scary le Poo",
 		date    = "2026-10-24",
 		license = "GNU GPL, v2 or later",
-		layer   = -math.huge,
+		layer   = -99990,  -- after Slate Layout (-99999) and Slate Core (-99998), which it needs at Initialize
 		handler = true,
 		enabled = true,
 	}
