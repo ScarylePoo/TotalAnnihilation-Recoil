@@ -627,6 +627,14 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
 - Hover info (`slate_selection.lua`): features get their own view (name, metal, energy); the engine tooltip's colour
   codes (\255 r g b, \b) are stripped before escaping (they showed as junk characters).
 
+## Order lines with many units (2026-11-09)
+- gfx_orders_gl4.lua: a big selection turned the ground into string. The rebuild now counts the queues it draws
+  (selected + echoed units) and above TUNE.crowdFrom (8) scales every line's resting alpha by crowdFrom/n down to
+  crowdMin (0.25 of restAlpha), thins the ribbons toward half width and shrinks the marks to 3/4; one unit's path
+  is unchanged. WG.orders.get/setCrowdFrom, saved in the config. Checked with the new harness mode
+  `VISUALMOVE=1` (every unit gets a two-leg move order at frame 60; camera on the path), 20 Peewees on
+  Altair Crossing: faint but readable lines.
+
 ## Command colours (2026-11-09, from Splinter Faction)
 - `cmdcolors_mod.txt` (game root) + `luaui/widgets/gfx_mod_cmdcolors.lua`: the widget feeds the file to
   Spring.LoadCmdColorsConfig at start and reloads the engine's `cmdcolors.txt` when disabled. The engine itself only

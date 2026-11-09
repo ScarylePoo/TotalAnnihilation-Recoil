@@ -103,6 +103,12 @@ function gadget:GameFrame(n)
       if h then Spring.SetUnitHealth(u.id, mh * 0.5) end
     end
   end
+  if opt.visualmove and opt.visualmove ~= "" and n == 60 then  -- VISUALMOVE=1: a two-leg move order for every unit (order lines)
+    for _, u in ipairs(units) do
+      Spring.GiveOrderToUnit(u.id, CMD.MOVE, { u.x + 700, Spring.GetGroundHeight(u.x + 700, u.z - 500), u.z - 500 }, {})
+      Spring.GiveOrderToUnit(u.id, CMD.MOVE, { u.x - 300, Spring.GetGroundHeight(u.x - 300, u.z - 900), u.z - 900 }, { "shift" })
+    end
+  end
   if opt.visualkill and opt.visualkill ~= "" and n == 198 then  -- death explosions: VISUALKILL=1 (explode) or 2 (self-destruct)
     for _, u in ipairs(units) do Spring.DestroyUnit(u.id, tonumber(opt.visualkill) == 2) end
     units = {}
@@ -146,6 +152,9 @@ function gadget:Initialize()
   if opt.visualceg and opt.visualceg ~= "" then cz = Game.mapSizeZ * 0.62 - 150 + 0.25 * far end  -- the CEG row, below the vote dialog
   if opt.visualhold and opt.visualhold ~= "" and not (opt.visualceg and opt.visualceg ~= "") then
     cz = Game.mapSizeZ * 0.62 + 0.25 * far  -- VISUALHOLD: look at the units themselves
+  end
+  if opt.visualmove and opt.visualmove ~= "" then
+    cz = Game.mapSizeZ * 0.62 - 350  -- VISUALMOVE: the units' two-leg path runs 500 and 900 elmos up the map
   end
 end
 function gadget:DrawScreenPost()  -- last draw call-in of the frame: projectiles are drawn by then

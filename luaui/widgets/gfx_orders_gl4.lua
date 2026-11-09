@@ -31,8 +31,10 @@ end
 --  an order in the last few seconds (the echo); allied units' latest order,
 --  in their team color, quietly. On the frame an order is given its mark
 --  starts oversized and collapses into place and its line draws itself in.
---  After that everything settles to a resting alpha so a big army does not
---  turn the ground into string.
+--  After that everything settles to a resting alpha, and the more units are
+--  selected the fainter and thinner each line is drawn (TUNE.crowd*), so a
+--  big army does not turn the ground into string: one unit's path reads at
+--  full strength, sixty units' paths are a faint weave.
 --
 --  Everything tunable is in STYLE and TUNE below, also reachable through
 --  WG.orders for the options menu.
@@ -59,6 +61,9 @@ local TUNE = {
 	zPull         = 24.0,  -- depth pull toward the camera, so terrain LOD does not swallow it
 	segment       = 48,    -- elmos per ribbon piece
 	maxUnits      = 300,   -- most units whose queues are drawn at once
+	crowdFrom     = 8,     -- selections bigger than this fade and thin their lines: alpha x crowdFrom/n...
+	crowdMin      = 0.25,  -- ...down to this share of restAlpha (20 units ~0.15, a 60-unit army ~0.10)
+	crowdWidth    = 0.5,   -- line half-width at full crowding, relative (marks shrink to 0.75)
 	maxQueue      = 24,    -- orders read per unit
 	fadeStart     = 5000,  -- camera distance where it all starts to fade
 	fadeEnd       = 9000,
@@ -528,10 +533,14 @@ end
 -- Building the instance data
 --------------------------------------------------------------------------------
 
+-- crowding of the current rebuild: 1 = one unit's queue, down to TUNE.crowdMin
+local crowd = 1
+local crowdW = 1   -- line width multiplier derived from it
+
 local function PushMark(x, z, style, color, restAlpha, t0, flash, queued)
 	local i = numMarks * INSTSTEP
 	local d = markData
-	d[i + 1], d[i + 2], d[i + 3], d[i + 4] = x, 0, z, style.size
+	d[i + 1], d[i + 2], d[i + 3], d[i + 4] = x, 0, z, style.size * (0.75 + 0.25 * crowd)
 	d[i + 5], d[i + 6], d[i + 7], d[i + 8] = color[1], color[2], color[3], restAlpha
 	d[i + 9], d[i + 10], d[i + 11], d[i + 12] = style.shape, t0, flash, queued and 1 or 0
 	numMarks = numMarks + 1
@@ -546,7 +555,7 @@ local function PushRibbon(ax, az, bx, bz, style, color, restAlpha, t0, queued, u
 		return uvStart
 	end
 	local pieces = max(1, floor(len / TUNE.segment + 0.999))
-	local packed = style.pattern * 10 + min(style.width, 9.99)
+	local packed = style.pattern * 10 + min(style.width * crowdW, 9.99)
 	for p = 0, pieces - 1 do
 		local f0, f1 = p / pieces, (p + 1) / pieces
 		local i = numRibbons * INSTSTEP
@@ -645,8 +654,22 @@ end
 local function Rebuild()
 	numMarks, numRibbons = 0, 0
 	local now = Now()
-	local rest = TUNE.restAlpha
 	local count = 0
+
+	-- the more queues on screen, the fainter and thinner each one
+	local n = 0
+	for i = 1, #selectedList do
+		if spValidUnitID(selectedList[i]) then n = n + 1 end
+	end
+	for unitID, until_ in pairs(echoUntil) do
+		if until_ >= now and not selected[unitID] then n = n + 1 end
+	end
+	crowd = 1
+	if n > TUNE.crowdFrom then
+		crowd = max(TUNE.crowdMin, TUNE.crowdFrom / n)
+	end
+	crowdW = TUNE.crowdWidth + (1 - TUNE.crowdWidth) * crowd
+	local rest = TUNE.restAlpha * crowd
 
 	-- selected units: everything in their queues
 	for i = 1, #selectedList do
@@ -1007,6 +1030,8 @@ function widget:Initialize()
 		setEchoTime   = function(v) TUNE.echoTime = v end,
 		getFlashScale = function() return TUNE.flashScale end,
 		setFlashScale = function(v) TUNE.flashScale = v; resourcesReady = false end, -- baked into the shader
+		getCrowdFrom  = function() return TUNE.crowdFrom end,
+		setCrowdFrom  = function(v) TUNE.crowdFrom = v end,
 	}
 end
 
@@ -1022,6 +1047,7 @@ function widget:GetConfigData()
 		showAllies = TUNE.showAllies,
 		echoTime   = TUNE.echoTime,
 		flashScale = TUNE.flashScale,
+		crowdFrom  = TUNE.crowdFrom,
 	}
 end
 
@@ -1031,4 +1057,5 @@ function widget:SetConfigData(data)
 	if data.showAllies ~= nil then TUNE.showAllies = data.showAllies end
 	if data.echoTime   ~= nil then TUNE.echoTime   = data.echoTime end
 	if data.flashScale ~= nil then TUNE.flashScale = data.flashScale end
+	if data.crowdFrom  ~= nil then TUNE.crowdFrom  = data.crowdFrom end
 end
