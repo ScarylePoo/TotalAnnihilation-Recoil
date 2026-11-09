@@ -18,7 +18,7 @@
 #   PORTPROBE=1 tools/headless-test/run.sh ... instead runs only zz_port_probe (the Splinter Faction ports of Nov 2026)
 #   TURNPROBE=1 [TURNOPTS='\\n\\t\\tmoveturninplace=0;'] run.sh ... instead runs only zz_turn_probe (speed through a 60 and a 150 degree turn)
 #   MODOPTS='\\n\\t\\tshotspeed=1;' run.sh ...   adds modoptions to the start script (any mode)
-#   AIPROBE=1 [AIFRAMES=18000 AINAME=AdaptiveAI AIBOTH=1 MAP=... MAPNAME=...] run.sh ...  a Lua AI plays team 1 (and 0) for AIFRAMES frames at 60x,
+#   AIPROBE=1 [AIFRAMES=18000 AINAME=AdaptiveAI AIBOTH=1 AINAME0=SimpleAI MAP=... MAPNAME=...] run.sh ...  a Lua AI plays team 1 (and 0) for AIFRAMES frames at 60x,
 #                                             decision traces in the log, then zz_ai_probe quits; AIPROBE=1 alone also stops the harness spawning every unit
 #   VBOPROBE=1 tools/headless-test/run.sh ... instead runs only zz_vbo_probe (unit test of modules/graphics/instancevbotable.lua with a fake GPU buffer)
 #   GAP=1 tools/headless-test/run.sh ...      instead runs only zz_piece_gap_probe (piece matrices of every unit def in action); it prints the path of
@@ -69,7 +69,7 @@ if [ -n "$AIPROBE" ]; then
   sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\taiprobe=${AIFRAMES:-18000};\n\t\taitrace=1;\n\t\tMaxSpeed=60;/" "$WD/script.txt"
   [ -n "$AIDEBUGFROM" ] && sed -i "s/debugmode=1;/debugmode=1;\n\t\taidebugfrom=$AIDEBUGFROM;/" "$WD/script.txt"
   sed -i "s/\[ALLYTEAM0\]/[AI0] { Name=Bot1; ShortName=${AINAME:-AdaptiveAI}; Team=1; Host=0; IsFromDemo=0; }\n\t&/" "$WD/script.txt"
-  [ -n "$AIBOTH" ] && sed -i "s/\[ALLYTEAM0\]/[AI1] { Name=Bot0; ShortName=${AINAME:-AdaptiveAI}; Team=0; Host=0; IsFromDemo=0; }\n\t&/" "$WD/script.txt"
+  [ -n "$AIBOTH" ] && sed -i "s/\[ALLYTEAM0\]/[AI1] { Name=Bot0; ShortName=${AINAME0:-${AINAME:-AdaptiveAI}}; Team=0; Host=0; IsFromDemo=0; }\n\t&/" "$WD/script.txt"
   # with both teams AIs the one player must spectate, or the server never starts the game
   [ -n "$AIBOTH" ] && sed -i "0,/Spectator=0;/s//Spectator=1;/" "$WD/script.txt"
 fi

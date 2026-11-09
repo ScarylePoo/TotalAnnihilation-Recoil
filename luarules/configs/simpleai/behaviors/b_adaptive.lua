@@ -7,8 +7,11 @@
 --           this module measures how the game is going for the OPPOSITION
 --           (army value, kill/loss exchange, economy, base pressure), blends
 --           that into a "player dominance" estimate, and steers a difficulty
---           scalar D in [0,1] toward a target of "close game, slight player
---           edge". D is mapped onto a knob table other behaviors consume:
+--           scalar D in [0,1] so that the AI stays a step AHEAD of the player
+--           (TA:Recoil, 2026-11-09: SF aimed for a close game with the player
+--           slightly ahead; here the target is the AI ahead by the
+--           adaptiveai_edge modoption, 0 = even). D is mapped onto a knob
+--           table other behaviors consume:
 --
 --             tick.knobs                    (set every team tick; nil for
 --                                            plain SimpleAI teams -> stock)
@@ -25,12 +28,13 @@
 --           its factories/constructors physically build faster via
 --           Spring.SetUnitBuildSpeed.
 --
---           The controller is deliberately conservative:
---             * 4-minute warmup before D moves at all (no signal yet)
+--           The controller is smoothed but leans forward:
+--             * 3-minute warmup before D moves at all (no signal yet)
 --             * EMA smoothing + a deadband so it does not twitch
---             * per-update step clamps, ASYMMETRIC: it backs off (eases)
---               twice as fast as it ramps up. Rubber-banding that rescues a
---               losing player is forgivable; punishing a winning one is not.
+--             * per-update step clamps, ASYMMETRIC the TA:Recoil way: it
+--               hardens twice as fast as it eases. (SF had it the other way
+--               round, easing fast to rescue a losing player; this AI is
+--               meant to be the one setting the pace.)
 --
 --           Owns ctx state: none (all controller state is module-local;
 --           the only shared surfaces are tick.knobs / services.GetKnobs).
@@ -58,12 +62,19 @@ return function(ctx, lib, cfg, services)
 	--------------------------------------------------------------------------
 	-- Controller cadence / dynamics
 	local UPDATE_INTERVAL = 900    -- frames between controller updates (~30s)
-	local WARMUP_FRAMES   = 7200   -- no D movement before this (~4 min): too little signal
-	local TARGET_DOM      = 0.10   -- aim for the player being SLIGHTLY ahead (~55-60% win feel)
-	local DEADBAND        = 0.08   -- |dominance - target| inside this -> no step at all
+	local WARMUP_FRAMES   = 5400   -- no D movement before this (~3 min): too little signal
+	-- Dominance is positive when the PLAYER is ahead. The target is negative: the AI stays ahead by
+	-- adaptiveai_edge (modoption, default 0.15; 0 = an even game). SF's value was +0.10 (player slightly ahead).
+	local TARGET_DOM      = -0.15
+	do
+		local mo = Spring.GetModOptions and Spring.GetModOptions()
+		local v  = mo and tonumber(mo.adaptiveai_edge)
+		if v then TARGET_DOM = -math.max(0, math.min(0.5, v)) end
+	end
+	local DEADBAND        = 0.06   -- |dominance - target| inside this -> no step at all
 	local GAIN            = 0.15   -- step per unit of error beyond the deadband
-	local MAX_STEP_UP     = 0.035  -- max D increase per update (harder)...
-	local MAX_STEP_DOWN   = 0.07   -- ...but it EASES twice as fast (see brief)
+	local MAX_STEP_UP     = 0.07   -- max D increase per update: it HARDENS twice as fast...
+	local MAX_STEP_DOWN   = 0.035  -- ...as it eases (see brief)
 	local EMA_KEEP        = 0.6    -- dominance smoothing: new = old*KEEP + raw*(1-KEEP)
 
 	-- Signal weights (must sum to 1). Army value dominates because it is the
@@ -85,8 +96,9 @@ return function(ctx, lib, cfg, services)
 	local BS_QUANT = 0.05
 
 	-- Starting difficulty; optionally overridden by the adaptiveai_start
-	-- modoption (a number 0..1). 0.5 == stock SimpleAI strength.
-	local D_START = 0.5
+	-- modoption (a number 0..1). 0.5 == stock SimpleAI strength; the modoption
+	-- defaults to 0.6 so the AI opens with a small head start.
+	local D_START = 0.6
 	do
 		local mo = Spring.GetModOptions and Spring.GetModOptions()
 		local v  = mo and tonumber(mo.adaptiveai_start)
@@ -195,7 +207,7 @@ return function(ctx, lib, cfg, services)
 	local function RecomputeKnobs(teamID)
 		local d = D[teamID]
 		local k = knobs[teamID]
-		k.buildSpeedMult   = Tri(0.65, 1.0, 1.35, d)   -- SetUnitBuildSpeed on builders
+		k.buildSpeedMult   = Tri(0.65, 1.0, 1.5, d)    -- SetUnitBuildSpeed on builders (SF hi 1.35; more room to pull ahead)
 		k.waveCooldown     = Round(Tri(2700, 1500, 1000, d))
 		k.musterSize       = Round(Tri(2, 4, 7, d))
 		k.bigArmy          = Round(Tri(5, 9, 15, d))
@@ -343,11 +355,11 @@ return function(ctx, lib, cfg, services)
 			local err  = dom[teamID] - TARGET_DOM
 			local step = 0
 			if err > DEADBAND then
-				-- Player more dominant than target: get harder, slowly.
-				step = math.min(MAX_STEP_UP, (err - DEADBAND) * GAIN)
+				-- Player closer to (or past) the AI than the target: get harder, quickly.
+				step = math.min(MAX_STEP_UP, (err - DEADBAND) * GAIN * 2)
 			elseif err < -DEADBAND then
-				-- Player behind target: ease off, twice as fast.
-				step = math.max(-MAX_STEP_DOWN, (err + DEADBAND) * GAIN * 2)
+				-- AI further ahead than the target: ease off, slowly.
+				step = math.max(-MAX_STEP_DOWN, (err + DEADBAND) * GAIN)
 			end
 			if step ~= 0 then
 				D[teamID] = Clamp01(D[teamID] + step)

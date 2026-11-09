@@ -7,7 +7,7 @@
 return {
 	{
 		name = 'AdaptiveAI',
-		desc = 'Adjusts its difficulty in real time to be a good match for you',
+		desc = 'Reads the game every 30 seconds and adjusts its difficulty to stay a step ahead of you',
 	},
 	{
 		name = 'SimpleAI',

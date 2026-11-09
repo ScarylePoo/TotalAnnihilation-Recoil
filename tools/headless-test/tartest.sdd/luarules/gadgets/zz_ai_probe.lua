@@ -71,6 +71,8 @@ function gadget:GameFrame(n)
           end
         end
         local parts = {}
+        local dA, domA = Spring.GetGameRulesParam("adaptiveai_d_" .. teamID), Spring.GetGameRulesParam("adaptiveai_dom_" .. teamID)
+        if dA then parts[#parts + 1] = ("D=%.2f dom=%+.2f"):format(dA, domA or 0) end
         for _, c in ipairs({ "com", "con", "fac", "mex", "bld", "def", "army", "air" }) do
           parts[#parts + 1] = c .. "=" .. (counts[c] or 0)
         end

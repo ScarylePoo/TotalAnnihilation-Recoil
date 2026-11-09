@@ -704,7 +704,10 @@ Files: `LuaAI.lua` (the AIs the lobby offers: AdaptiveAI, SimpleAI, SimpleDefend
 (queries: build lists, targets, placement, bricks, reachability), `luarules/configs/simpleai/behaviors/*.lua` (b_adaptive
 difficulty controller, b_defense intel, b_construction economy, b_commander, b_throttle, b_strategic nukes, b_combat waves
 and raids, b_surrender). SF's b_morph / b_upgrades / b_economy (morphs, research points, build boost) are not ported: TA
-has none of that. Modoptions (section AI): `adaptiveai_start` (0..1, 0.5 = plain SimpleAI), `ai_neverstall` (150 M/E floor;
+has none of that. Modoptions (section AI): `adaptiveai_start` (0..1, 0.5 = plain SimpleAI; default 0.6 since 2026-11-09),
+`adaptiveai_edge` (2026-11-09: how far ahead the AI steers to stay, 0.15 default, 0 = even; SF's controller aimed for the
+player slightly ahead, +0.10, and eased twice as fast as it hardened; TA:Recoil's hardens twice as fast as it eases,
+3-minute warmup, build-speed knob up to 1.5x), `ai_neverstall` (150 M/E floor;
 AdaptiveAI always has it), `aitrace` (decision trace to the infolog every 10 s).
 
 What differs from SF's AI (see each file's header):
