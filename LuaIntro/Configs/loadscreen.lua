@@ -5,7 +5,7 @@
 -- quote or a unit note). To add one, add an entry to a list below:
 --
 --   tips   { title = "...", text = "...", image = "path/in/game.png" (optional), link = "..." (optional) }
---   units  { title = "...", text = "...", image = "unitpics/XXX.png" }
+--   units  { title = "...", text = "...", image = "unitpics/XXX.png" }   (in loadscreen_units.lua)
 --   quotes { "the quote", "who said it" }
 --
 -- image is any picture inside the game (png, jpg or dds), shown square beside the text; "\n" in text starts a new
@@ -42,30 +42,8 @@ return {
 		  text = "Every key can be changed in the Keybinds window. Hover a build or order button and press Ctrl+Insert to bind it to a key, Ctrl+Delete to unbind." },
 	},
 
-	units = {
-		{ image = "unitpics/ARM_Commander.png", title = "Arm Commander",
-		  text = "The heart of every Arm war effort. It builds, it repairs, and its D-Gun erases whatever it touches. Lose it and the war is lost." },
-		{ image = "unitpics/CORE_Commander.png", title = "Core Commander",
-		  text = "Core's commander: a builder, a fighter, and the last thing standing between the Core and defeat. Guard it well." },
-		{ image = "unitpics/CORE_T3_BOT_Krogoth.png", title = "Krogoth",
-		  text = "Core's experimental Kbot. Slow, enormous and nearly unstoppable once it reaches the front." },
-		{ image = "unitpics/ARM_T2_DEF_BigBertha.png", title = "Big Bertha",
-		  text = "Arm's long range plasma cannon. It shells targets from across the map." },
-		{ image = "unitpics/CORE_T2_DEF_Intimidator.png", title = "Intimidator",
-		  text = "Core's answer to the Big Bertha: a long range cannon that turns distant bases into craters." },
-		{ image = "unitpics/ARM_T2_DEF_Annihilator.png", title = "Annihilator",
-		  text = "A heavy energy weapon that cuts down anything that comes near. It needs a lot of power to fire." },
-		{ image = "unitpics/CORE_T2_DEF_DoomsdayMachine.png", title = "Doomsday Machine",
-		  text = "Core's fortress: several heavy weapons in one armoured shell that closes up when it is not firing." },
-		{ image = "unitpics/ARM_T2_BOT_Zeus.png", title = "Zeus",
-		  text = "An Arm assault Kbot with a short-ranged lightning gun that tears through armour." },
-		{ image = "unitpics/CORE_T2_BOT_Pyro.png", title = "Pyro",
-		  text = "A fast Core Kbot with a flamethrower. Deadly up close, and when it dies it takes the ground around it with it." },
-		{ image = "unitpics/ARM_T1_VEH_Flash.png", title = "Flash",
-		  text = "A cheap, fast Arm tank with a rapid-fire cannon. Good for raiding and early harassment." },
-		{ image = "unitpics/CORE_T1_BOT_Ak.png", title = "A.K.",
-		  text = "Core's basic infantry Kbot. Cheap and quick to build, dangerous in numbers." },
-	},
+	-- unit notes: LuaIntro/Configs/loadscreen_units.lua
+	units = VFS.Include("LuaIntro/Configs/loadscreen_units.lua"),
 
 	quotes = {
 		{ "Strategy without tactics is the slowest route to victory. Tactics without strategy is the noise before defeat.", "Sun Tzu" },
