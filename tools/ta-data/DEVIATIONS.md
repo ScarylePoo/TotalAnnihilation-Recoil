@@ -67,7 +67,7 @@ Every changed line in `units/*.lua`, `Weapons/*.lua`, `gamedata/movedefs.lua` an
 | Acceleration / brake rate below 0.01 (18 ground and sea units: Turtle, Bear, Warlord, Millennium, Crock...) | TA value | 0.01 | engine floor (GroundMoveType); they start and stop faster than in TA |
 | Movement classes layout | — | `movedefs_classes.lua` (+ `_tags`, `_post`), as in Splinter Faction | User request. Every class: SF's unit heat (always on; only the legacy pathfinder uses it, QTPFS ignores it), raw movement, flow mapping, SF's `genericDepthmodParams` (submerged tanks/kbots at half speed at any depth; engine default slowed them with depth, 9 % at 100 deep). SF's `slopeMod = 4` default too (much less slowdown on hills than the engine default 4 / maxSlope). Not taken from SF: its footprint override (units keep their own). The post step makes units' own water-depth tags match their class (movement already followed the class) |
 | Friendly fire | own and allied units take damage from everything | ordinary weapons do none to your own or allied units (`luarules/gadgets/unit_friendly_fire_removal.lua`, from SF, extended to allies); as in TA, death explosions and self-destructs (mines and crawling bombs included), the D-Gun and nukes (anti-nuke targetable missiles) still hurt everyone; a weapon can opt in with `customparams.friendlyfire = "true"` | User decision |
-| Slow projectiles (300 elmos/s or less: torpedoes, depth charges, light/medium cannons, Goliath, Morty, Leveler, Snapper, E.M.G.s, Crusader/Enforcer guns, kbot rockets, flamethrower, D-Gun) | TA speed | 1.25 x TA (start speed and acceleration too); modoptions `shotspeed` / `shotspeedcutoff` (1 = TA) | User request: ground units move 1.25x TA's (movespeed modoption) and outran or dodged them |
+| Slow projectiles (300 elmos/s or less: torpedoes, depth charges, light/medium cannons, Goliath, Morty, Leveler, Snapper, E.M.G.s, Crusader/Enforcer guns, kbot rockets, flamethrower, D-Gun) | TA speed | 1.5 x TA (start speed and acceleration too; 1.25 until 2026-11-09); modoptions `shotspeed` / `shotspeedcutoff` (1 = TA) | User request: ground units move 1.25x TA's (movespeed modoption) and outran or dodged them |
 | Weapon and sight range (modoptions `weaponrange`, `sightrange`) | TA | 1.25 x TA by default (1 = TA); cannons speed up by the square root to keep reaching | User decision after play-testing: TA's short ranges made fights clump |
 | `gamedata/modrules.lua` | — | `airmiplevel = 4` | the old `airlosmiplevel` key was not read by Recoil; `losmul`/`airlosmul` removed (not read either) |
 
@@ -175,8 +175,9 @@ particles wrongly).
 ## Movement modoptions (2026-11-08; lobby sliders, defaults below; aircraft unchanged)
 - Ground unit speed (movespeed, 1-2, default 1.25): land, sea and hover units' top speed x this.
 - Ground unit turn rate (moveturn, 1-2, default 1.25): turn rate x this (equal to the speed keeps TA's turning circles).
-- Ground unit acceleration (moveaccel, 0.25-4, default 1) and braking (movebrake, 0.25-4, default 1): TA's values
-  (0.003-0.2 and 0.002-1 elmos/frame^2) x this; the engine floors both at 0.01. 1 / 1 / 1 / 1 is TA. (Until
+- Ground unit acceleration (moveaccel, 0.25-4, default 1.5) and braking (movebrake, 0.25-4, default 1.5): TA's values
+  (0.003-0.2 and 0.002-1 elmos/frame^2) x this; the engine floors both at 0.01. 1 / 1 / 1 / 1 is TA (play-tested
+  2026-11-09: 1.5 accel/brake and 1.5 slow-shot speed "excellent"). (Until
   2026-11-09 these were floors, 0 = TA's.)
 - Turn in place above (moveturninplace, 0-180 degrees, default 90): turns up to this are taken at speed in a curve;
   wider ones slow the unit to pivot. 0 is the engine default (every turn slows the unit, down to 10 % of its speed).

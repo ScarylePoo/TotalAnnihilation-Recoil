@@ -554,7 +554,7 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
 
 ## Movement modoptions
 - modoptions.lua section "Movement": movespeed, moveturn (multipliers, default 1.25), moveaccel, movebrake (multipliers
-  since 2026-11-09, default 1 = TA's; they were floors in elmos/frame^2 with 0 = TA's). Applied in
+  since 2026-11-09, default 1.5 after play-testing, 1 = TA's; they were floors in elmos/frame^2 with 0 = TA's). Applied in
   gamedata/alldefs_post.lua UnitDef_Post to every def with a speed that can't fly. Walk cadence follows UnitDefs speed
   (scripts/headers/walk.lua), so legs keep pace. Checked with DUMP=1 run.sh at the defaults, at TA values
   (movespeed=1 moveturn=1) and at moveaccel=2 movebrake=2 (Peewee 0.1/0.19 -> 0.2/0.38, Stumpy 0.016/0.01 -> 0.032/0.02).
@@ -575,7 +575,7 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
   deviation (10 aircraft TA's AA lists predate take the side's aircraft bonus), the only stat rows the speeds below.
   The Crasher and the Core decoy commander fire from slot 3/4 (NOWEAPON before): the audit's PAIRING row for
   `noweapon` is that, not a missing weapon.
-- Slow projectiles (modoptions `shotspeed` 1-2, default 1.25, and `shotspeedcutoff` 0-1000 elmos/s, default 300; Movement
+- Slow projectiles (modoptions `shotspeed` 1-2, default 1.5 (1.25 until 2026-11-09), and `shotspeedcutoff` 0-1000 elmos/s, default 300; Movement
   section): `WeaponDef_Post` multiplies `weaponvelocity` (and `startvelocity`, `weaponacceleration`) by
   `SLOW_SHOT_MULT` = 1.25 for every weapon at or under `SLOW_SHOT` = 300 elmos/s except bombs: all torpedoes and depth
   charges, light cannons (170), medium cannons (210/220: Hammer, Thud, Bulldog, Reaper, Triton, Gimp, Crock), Pyro

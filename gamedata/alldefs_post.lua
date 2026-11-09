@@ -75,8 +75,8 @@ function UnitDef_Post(name, ud)
 		if ud.maxvelocity then ud.maxvelocity = tonumber(ud.maxvelocity) * sm end
 		if ud.speed then ud.speed = tonumber(ud.speed) * sm end
 		if ud.turnrate then ud.turnrate = tonumber(ud.turnrate) * tm end
-		if ud.acceleration then ud.acceleration = tonumber(ud.acceleration) * num("moveaccel", 1) end
-		if ud.brakerate then ud.brakerate = tonumber(ud.brakerate) * num("movebrake", 1) end
+		if ud.acceleration then ud.acceleration = tonumber(ud.acceleration) * num("moveaccel", 1.5) end
+		if ud.brakerate then ud.brakerate = tonumber(ud.brakerate) * num("movebrake", 1.5) end
 		-- the engine slows a turn-in-place unit for any turn wider than turnInPlaceAngleLimit (default 0: every turn),
 		-- down to 10 % of its speed for a sharp one; with a high brake rate that is a dead stop before each turn
 		if ud.turninplaceanglelimit == nil then
@@ -179,7 +179,7 @@ local TA_GRAVITY = 112 / 900
 
 -- slow projectiles fly faster than TA's (WeaponDef_Post; modoptions shotspeed, shotspeedcutoff)
 local SLOW_SHOT = tonumber(modOptions.shotspeedcutoff) or 300
-local SLOW_SHOT_MULT = tonumber(modOptions.shotspeed) or 1.25
+local SLOW_SHOT_MULT = tonumber(modOptions.shotspeed) or 1.5
 -- every weapon's range (WeaponDef_Post; modoption weaponrange)
 local WEAPON_RANGE_MULT = tonumber(modOptions.weaponrange) or 1.25
 
