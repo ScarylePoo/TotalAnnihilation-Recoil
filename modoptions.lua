@@ -313,6 +313,18 @@ local options =
   },
 
   {
+    key    = 'buildrange', -- read by gamedata/alldefs_post.lua (UnitDef_Post)
+    name   = 'Build range',
+    desc   = "How far builders reach when building, repairing and reclaiming, as a multiple of TA's (TA 3.1c: 40 to 100 elmos). The bigger footprints need more than TA's reach to start a building.\nkey: buildrange",
+    type   = 'number',
+    section= 'ranges',
+    def    = 1.5,
+    min    = 1,
+    max    = 3,
+    step   = 0.05,
+  },
+
+  {
     key    = 'ai',
     name   = 'AI',
     desc   = 'The built-in Lua AIs (AdaptiveAI, SimpleAI)',

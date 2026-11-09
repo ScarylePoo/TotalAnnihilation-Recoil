@@ -597,6 +597,10 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
   version, `shotspeed=1` = TA exactly. `MODOPTS='\\n\\t\\tkey=value;' run.sh` passes modoptions to any probe.
 
 ## Range modoptions (2026-11-08)
+- `buildrange` (1-3, default 1.5, 2026-11-09): builders' `builddistance` x mult (`UnitDef_Post`; only defs that set
+  it, i.e. TA's 40-100 elmos; factories keep the engine's 128). Asked for after the footprint change: with units one
+  footprint step bigger, TA's reach often could not start a building. Checked with DUMP=: commander 60 -> 90,
+  constructors 40 -> 60.
 - `weaponrange` (1-2, default 1.25 since 2026-11-09, user decision): every weapon's range x mult (`WeaponDef_Post`). Set missile `flighttime` scales too
   (others derive lifetime from range); Cannons get `weaponvelocity` x sqrt(mult) so v^2/g keeps its margin over the
   range (applied after the slow-shot boost, whose cutoff reads TA's speed). Anti-nuke `coverage` unchanged.

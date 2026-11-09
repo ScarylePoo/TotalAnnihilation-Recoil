@@ -60,6 +60,10 @@ function UnitDef_Post(name, ud)
 	-- sight). Radar, sonar and jammers are unchanged.
 	local sightMult = tonumber((Spring.GetModOptions and Spring.GetModOptions() or {}).sightrange) or 1.25
 	if sightMult ~= 1 and tonumber(ud.sightdistance) then ud.sightdistance = tonumber(ud.sightdistance) * sightMult end
+	-- builders' reach (build, repair, reclaim): modoption buildrange, default 1.5 x TA's 40-100 elmos (2026-11-09:
+	-- footprints are one step bigger than TA's, so TA's reach often could not start a building)
+	local buildMult = tonumber((Spring.GetModOptions and Spring.GetModOptions() or {}).buildrange) or 1.5
+	if buildMult ~= 1 and tonumber(ud.builddistance) then ud.builddistance = tonumber(ud.builddistance) * buildMult end
 
 	-- Movement modoptions (modoptions.lua, section "Movement"), for ground units (land, sea, hover; not aircraft,
 	-- whose flight model reads these differently): movespeed and moveturn multiply TA's top speed and turn rate
