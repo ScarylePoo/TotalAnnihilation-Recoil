@@ -313,6 +313,47 @@ local options =
   },
 
   {
+    key    = 'ai',
+    name   = 'AI',
+    desc   = 'The built-in Lua AIs (AdaptiveAI, SimpleAI)',
+    type   = 'section',
+  },
+
+  {
+    key    = 'adaptiveai_start', -- read by luarules/configs/simpleai/behaviors/b_adaptive.lua
+    name   = 'AdaptiveAI starting difficulty',
+    desc   = "Where the AdaptiveAI starts before it has read the game: 0 easiest, 0.5 plain SimpleAI, 1 hardest. It then steers toward a close game with you slightly ahead.\nkey: adaptiveai_start",
+    type   = 'number',
+    section= 'ai',
+    def    = 0.5,
+    min    = 0,
+    max    = 1,
+    step   = 0.05,
+  },
+
+  {
+    key    = 'ai_neverstall',
+    name   = 'AI never stalls',
+    desc   = "Keeps SimpleAI teams' metal and energy from running dry (a small floor, 150 of each). AdaptiveAI always has it.\nkey: ai_neverstall",
+    type   = 'list',
+    section= 'ai',
+    def    = 'enabled',
+    items  = {
+      { key = 'disabled', name = 'Disabled', desc = 'A clean, non-cheating AI' },
+      { key = 'enabled',  name = 'Enabled',  desc = 'The AI is topped up to 150 metal and energy whenever it drops below' },
+    },
+  },
+
+  {
+    key    = 'aitrace',
+    name   = 'AI decision trace in the log',
+    desc   = "Writes each AI team's decision trace to the infolog every 10 seconds (what it built and why). For debugging.\nkey: aitrace",
+    type   = 'bool',
+    section= 'ai',
+    def    = false,
+  },
+
+  {
     key    = 'DisableMapDamage',
     name   = 'Undeformable map',
     desc   = 'Prevents the map shape from being changed by weapons',

@@ -633,3 +633,63 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
   lines give shots per unit (and src/ground heights, lof). Sweep 2026-11-09: all 68 armed land units (minus AA-only and
   stockpile weapons) fire on the Windows engine; builders (commanders) need VISUALENEMY, the ground-attack mode gives
   them a build order.
+
+## AI: AdaptiveAI / SimpleAI (2026-11-09, ported from Splinter Faction)
+Files: `LuaAI.lua` (the AIs the lobby offers: AdaptiveAI, SimpleAI, SimpleDefenderAI, Sandbox),
+`luarules/gadgets/ai_simpleai.lua` (core: classification, counters, ctx, team tick), `luarules/configs/simpleai/lib.lua`
+(queries: build lists, targets, placement, bricks, reachability), `luarules/configs/simpleai/behaviors/*.lua` (b_adaptive
+difficulty controller, b_defense intel, b_construction economy, b_commander, b_throttle, b_strategic nukes, b_combat waves
+and raids, b_surrender). SF's b_morph / b_upgrades / b_economy (morphs, research points, build boost) are not ported: TA
+has none of that. Modoptions (section AI): `adaptiveai_start` (0..1, 0.5 = plain SimpleAI), `ai_neverstall` (150 M/E floor;
+AdaptiveAI always has it), `aitrace` (decision trace to the infolog every 10 s).
+
+What differs from SF's AI (see each file's header):
+- Factions from the unit name prefix (`arm_` / `core_`); a unit's tier from its name (`_t1_`..`_t3_`); a team's tech
+  level = the highest tier any finished builder of its own can build (a T1 constructor builds an Advanced lab, so it is
+  tech 2 at once; the cost gate keeps the lab for later). Commanders: `customparams.iscommander`.
+- Classes TA needs: IsShip (smClass 3; ships fight on their own like aircraft), IsAssistant (FARK, Necro, mine layers:
+  builders with no useful build list; they repair / finish nanoframes / guard factories), IsSilo / IsAntiNuke
+  (stockpile weapons) and IsLRPC (range > 2000) are "strategic", not turrets. Mexes are recognised by
+  `customparams.metal_spot_mult` (extractsMetal is 0 here). TA builders make energy: classify builders before generators.
+- Energy: `lib.EnergyOutput` (energyMake, negative energyUpkeep = solar, wind capped by average wind, tidal x strength).
+  Energy is the TA bottleneck (every unit costs several times its metal in E): rung P2 is URGENT (right after the opening
+  mexes) when the bank is under 35 % or stalling; power is ordered in batches of up to 3 small plants; a new factory
+  needs 80 + 50/factory E income; storage waits for 6 mexes and a healthy bank; metal makers are built when E brims and
+  M is short, switched off (CMD.ONOFF) in an energy stall and back on when E recovers (`mm.off`/`mm.on` trace keys).
+- Metal: `lib.FindMexSpot` returns spot + the cheapest basic extractor the engine accepts there (land / underwater);
+  mex expansion (P6) comes right after the first factory, above power and storage (TA maps have dozens of spots);
+  `lib.FindMexUpgrade` + rung MOHO put a moho over a basic mex (unit_mex_upgrade.lua removes the mex).
+- Rungs REP (repair hurt friendlies, nothing shooting at them), AS (finish an unattended nanoframe), FB.assist (guard the
+  busiest factory; the commander always does when idle), 6a (one turret per factory floor), ST (b_strategic's wanted
+  silo / anti-nuke), MM (metal makers). Every list a rung picks from is cut to what THIS builder can make (`Mine`), so no
+  rung fails and eats the turn; picks are cost-gated (bank + 120 s of metal income; factories 300 s).
+- Combat: role weights from the radar icon roles (gamedata/unit_icons.lua glyphs); AA units x3 while enemy air is
+  about; paralyzer-only units capped. Commander: D-Gun any enemy in range when E >= 1.1 x the shot (b_commander).
+- Sea: buildings with minWaterDepth > 0 and sea factories only when `lib.WaterNear(teamID)` (4 % of the survey cells
+  within 3000 of home below sea level). Walls, mines and decoy commanders are never on a build list.
+- The selector (b_construction SimpleConstructionProjectSelection) is at Lua 5.1's 60-upvalue limit: new constants go in
+  the `TA` table (SF's go in STOR).
+
+Testing: `AIPROBE=1 AIBOTH=1 AIFRAMES=14400 MAP=/mnt/e/EvoDev/xxxmaps/altair_crossing_v3.sd7 MAPNAME=Altair_Crossing_v3
+KEEPLOG=out.log tools/headless-test/run.sh <engine> 1700` (AI on team 1, AIBOTH: both; the player spectates, or the
+server never starts). zz_ai_probe runs at 60x, echoes [AIPROBE] per team every 1800 frames (units by class, resources,
+kills, losses, what each factory is doing, what has been built) and the AI's own traces ([SimpleAI] team N f=...; r=
+rung tallies). run.sh pre-sets TARInitialSettingsVersion in the write dir, or the loading screen's Initial Settings
+addon restarts the engine. Headless runs about 1.5x real time with two AIs.
+Opening (from the runs, Altair Crossing 1v1, both AdaptiveAI): 3 mexes, first factory ordered at 0:31 and standing at
+0:47 (P5 fires with 600 metal banked even if the energy bank is low; urgent power then follows), one LLT per factory
+(rung 6a, above mex expansion), mex expansion to 14 (P6), factories by income (FAC_BASE 1 + one per 7 M/s; a T1 lab
+eats ~7 M/s flat out; plus 80 + 50/factory E income), storage only after 6 mexes. At 8 minutes: ~9-11 mexes, 2
+factories, 4-5 constructors, 300-550 E/s, 20-24 M/s, 6-9 combat units built; raids and waves are running by then and
+in one run Arm had killed Core's factory by minute 6. TA T1 labs are slow (vehicle plant: Stumpy 24 s, constructor
+50 s), so production scales with factories and assist, not with the bank: a full bank means "build another factory".
+Self-play result (final tuning, same map): Arm killed Core's commander at 7:03 with a commander hunt
+(lib.FindCommanderTarget), 14 kills to 4; the game ends there (comends) and gadget:GameOver removes the AI, so the
+winner idles afterwards in the probe. Energy storage is capped low (TECH_CEIL e), metal makers come early when energy
+floats (rung MM above the defence floor), and once two factories stand the next factory a builder starts is an Advanced
+lab if it can make one (TA.HasTier2Factory).
+Known: the headless engine segfaulted twice in a worker thread (f=11671, f=16200; stripped traces; not reproducible with
+the same seed) (stripped trace; not reproducible with the
+same seed), so a crashed run is rerun before it is blamed on the AI. Rung tallies "stuck" and "unreach" are builders
+whose orders failed (dropped after 30 s). Not done: LRPC (Berthas) are never built; ships only hunt the nearest
+enemy; no hover/sea muster; SimpleConstructorAI is not offered; no play-testing against a human yet.

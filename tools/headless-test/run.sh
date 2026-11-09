@@ -18,6 +18,8 @@
 #   PORTPROBE=1 tools/headless-test/run.sh ... instead runs only zz_port_probe (the Splinter Faction ports of Nov 2026)
 #   TURNPROBE=1 [TURNOPTS='\\n\\t\\tmoveturninplace=0;'] run.sh ... instead runs only zz_turn_probe (speed through a 60 and a 150 degree turn)
 #   MODOPTS='\\n\\t\\tshotspeed=1;' run.sh ...   adds modoptions to the start script (any mode)
+#   AIPROBE=1 [AIFRAMES=18000 AINAME=AdaptiveAI AIBOTH=1 MAP=... MAPNAME=...] run.sh ...  a Lua AI plays team 1 (and 0) for AIFRAMES frames at 60x,
+#                                             decision traces in the log, then zz_ai_probe quits; AIPROBE=1 alone also stops the harness spawning every unit
 #   GAP=1 tools/headless-test/run.sh ...      instead runs only zz_piece_gap_probe (piece matrices of every unit def in action); it prints the path of
 #                                             gapdata.txt, which tools/s3okit/kit/piece_gaps.py turns into a report of pieces floating off the unit
 #
@@ -54,9 +56,22 @@ sed -i "s/IsHost=1;/IsHost=1;\n\tHostPort=$((20000 + RANDOM % 30000));/" "$WD/sc
 # PORTPROBE: Splinter Faction ports; team 2 is an ally of team 0 (unit sharing keeps orders). PORTCOLORS=1 also turns
 # on Auto team colours (the player's config)
 [ -n "$PORTCOLORS" ] && printf 'AutoTeamColors = 1\nAutoTeamColorsPalette = 2\n' > "$WD/springsettings.cfg"
+# The loading screen's Initial Settings addon would write its settings into this fresh write dir and restart the
+# engine (LuaIntro/Addons/initial_settings.lua); after the restart a game with Lua AIs sat idle. Mark it as done.
+printf 'TARInitialSettingsVersion = 99\n' >> "$WD/springsettings.cfg"
 [ -n "$PORTPROBE" ] && sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tportprobe=1;/; s/\\[ALLYTEAM0\\]/[TEAM2] { TeamLeader=0; AllyTeam=0; Side=ARM; StartPosX=2000; StartPosZ=1000; }\n\t&/" "$WD/script.txt"
 [ -n "$TURNPROBE" ] && sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tturnprobe=1;${TURNOPTS:-}/" "$WD/script.txt"
 [ -n "$MODOPTS" ] && sed -i "s/debugmode=1;/debugmode=1;$MODOPTS/" "$WD/script.txt"
+# AIPROBE=1: team 1 is a Lua AI (AINAME, default AdaptiveAI); AIBOTH=1 makes team 0 one too. The game runs
+# at up to 60x for AIFRAMES frames (default 18000 = 10 min) with the AI decision trace on, then quits (zz_ai_probe).
+if [ -n "$AIPROBE" ]; then
+  sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\taiprobe=${AIFRAMES:-18000};\n\t\taitrace=1;\n\t\tMaxSpeed=60;/" "$WD/script.txt"
+  [ -n "$AIDEBUGFROM" ] && sed -i "s/debugmode=1;/debugmode=1;\n\t\taidebugfrom=$AIDEBUGFROM;/" "$WD/script.txt"
+  sed -i "s/\[ALLYTEAM0\]/[AI0] { Name=Bot1; ShortName=${AINAME:-AdaptiveAI}; Team=1; Host=0; IsFromDemo=0; }\n\t&/" "$WD/script.txt"
+  [ -n "$AIBOTH" ] && sed -i "s/\[ALLYTEAM0\]/[AI1] { Name=Bot0; ShortName=${AINAME:-AdaptiveAI}; Team=0; Host=0; IsFromDemo=0; }\n\t&/" "$WD/script.txt"
+  # with both teams AIs the one player must spectate, or the server never starts the game
+  [ -n "$AIBOTH" ] && sed -i "0,/Spectator=0;/s//Spectator=1;/" "$WD/script.txt"
+fi
 [ -n "$FFPROBE" ] && sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tffprobe=1;/" "$WD/script.txt"
 [ -n "$FLIGHT" ] && sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tflightprobe=$FLIGHT;/" "$WD/script.txt"
 [ -n "$DUMP" ] && sed -i 's/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tdumponly=1;/' "$WD/script.txt"
