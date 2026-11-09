@@ -4,6 +4,9 @@
 #
 #   VISUAL=unit1,unit2 | VISUALCEG=ceg1,ceg2  [VISUALZOOM= VISUALDIST= VISUALOUT=dir VISUALMAP=x.sd7 VISUALMAPNAME=..]
 #     tools/headless-test/run_win_visual.sh   (more options: see zz_visual_probe.lua)
+#   VISUALSELECT=1 keeps LuaUI running (the probe turns it off otherwise); VISUALFRAMES=n runs until frame n;
+#   VISUALENEMY=<unit> puts one enemy next to each unit. Together they exercise the GL4 unit widgets (lights,
+#   health bars) against enemy deaths: afterwards grep run/infolog.txt for ZOMBIE / "invalid unit" / "listener error".
 #
 # WINROOT (default "/mnt/i/Claude Space/recoil-win") holds engine-2026.09.01/ (the release's amd64-windows.7z unpacked)
 # and run/ (write dir; the game is rsynced to run/games/tar.sdd, the probe mod to run/games/tartest.sdd).
@@ -17,9 +20,11 @@ mkdir -p "$RUN/games"
 rsync -a --delete --exclude=.git --exclude=tools "$GAME/" "$RUN/games/tar.sdd/"
 rsync -aL --delete "$HERE/tartest.sdd/" "$RUN/games/tartest.sdd/"   # -L: tart_keys.txt links to the real key file
 rm -rf "$RUN/screenshots" "$RUN/infolog.txt"
+# the run dir keeps the widget on/off state between runs; the leak probe needs the deferred lights widget on
+[ -n "$LIGHTSPROBE" ] && rm -f "$RUN/LuaUI/Config/TART_data.lua"
 cp "$HERE/script.txt" "$RUN/script.txt"
 [ -n "$VISUALCEG" ] && VISUAL=${VISUAL:-none}
-sed -i "s|debugmode=1;|debugmode=1;\n\t\taimonly=1;\n\t\tvisualceg=$VISUALCEG;\n\t\tvisualunits=$VISUAL;\n\t\tvisualzoom=${VISUALZOOM:-700};\n\t\tvisualdist=${VISUALDIST:-420};\n\t\tvisualkill=${VISUALKILL:-};\n\t\tvisualhold=${VISUALHOLD:-};\n\t\tvisualspacing=${VISUALSPACING:-};\n\t\tvisualtex=${VISUALTEX:-};\n\t\tvisualselect=${VISUALSELECT:-};\n\t\tvisualhurt=${VISUALHURT:-};\n\t\tvisualcmd=${VISUALCMD:-};\n\t\tvisualenemy=${VISUALENEMY:-};|" "$RUN/script.txt"
+sed -i "s|debugmode=1;|debugmode=1;\n\t\taimonly=1;\n\t\tvisualceg=$VISUALCEG;\n\t\tvisualunits=$VISUAL;\n\t\tvisualzoom=${VISUALZOOM:-700};\n\t\tvisualdist=${VISUALDIST:-420};\n\t\tvisualkill=${VISUALKILL:-};\n\t\tvisualhold=${VISUALHOLD:-};\n\t\tvisualspacing=${VISUALSPACING:-};\n\t\tvisualtex=${VISUALTEX:-};\n\t\tvisualselect=${VISUALSELECT:-};\n\t\tvisualhurt=${VISUALHURT:-};\n\t\tvisualcmd=${VISUALCMD:-};\n\t\tvisualenemy=${VISUALENEMY:-};\n\t\tvisualframes=${VISUALFRAMES:-};\n\t\tlightsprobe=${LIGHTSPROBE:-};|" "$RUN/script.txt"
 # VISUALMAP=/path/to/map.sd7 VISUALMAPNAME=<name in its mapinfo.lua>: a real map instead of the generated blank one
 rm -rf "$RUN/maps"
 if [ -n "$VISUALMAP" ]; then
@@ -35,3 +40,4 @@ OUT=${VISUALOUT:-$RUN/shots}
 mkdir -p "$OUT" && cp "$RUN"/screenshots/* "$OUT/" 2>/dev/null
 echo "--- screenshots: $OUT ($(ls "$OUT" | wc -l))"
 grep -a "\[VISUAL\] draw\|GL renderer\|Error\|error" "$RUN/infolog.txt" | grep -v "RmlUi\|TART.lua" | head -15
+[ -n "$LIGHTSPROBE" ] && grep -a "LIGHTSPROBE\|ZOMBIE\|zombie units\|invalid unit/featureID\|listener error\|upload failed" "$RUN/infolog.txt" | sed "s/^\[t=[^]]*\]//" | tail -40

@@ -634,6 +634,33 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
   stockpile weapons) fire on the Windows engine; builders (commanders) need VISUALENEMY, the ground-attack mode gives
   them a build order.
 
+## Deferred lights crash (2026-11-09)
+A 25-minute skirmish (Comet Catcher, vs AdaptiveAI) ended in an engine access violation inside the Deferred Lights
+GL4 widget's "Unit Point Light VBO". Two faults, both from Splinter Faction / BAR code, lined up:
+- **Enemy deaths leak.** The engine sends `UnitDestroyed` and `RenderUnitDestroyed` to a player's LuaUI only for the
+  player's own ally team (EventHandler.h `CanReadAllyTeam`); `UnitLeftLos` only fires on a LOS change. An enemy that
+  dies in view produces no event at all, so `api_unit_tracker_gl4` kept it in `visibleUnits` and every listener kept
+  its instances (the per-unit glow lights, headlights, health bars) for a unit id that was gone or recycled. Visible
+  as "Found invalid unit/featureID N ... while resizing" and "ZOMBIE instanceID" lines. Fix: the tracker sweeps
+  `visibleUnits` / `alliedUnits` every 10 frames (`isValidLivingSeenUnit`) and also handles `RenderUnitDestroyed`.
+- **The instance table corrupted itself when it compacted those dead entries.** `modules/graphics/instancevbotable.lua`
+  (SF's copy, older than BAR's): `resizeInstanceVBOTable` copied each surviving element from its *new* index instead
+  of its old one (all data shifted by one element per dropped entry), and `pushElementInstance` kept the write offset
+  computed *before* the resize, so the new element landed past the compacted data and left a hole; `#instanceData`
+  then stopped at the hole (6119 = 211 x 29 in the log), every later `Upload` threw "Invalid luaStartIndex", and
+  since `popElementInstance` uploaded half-way through its bookkeeping, each failure left `usedElements` one too high
+  ("nil element at the back of the array") until the engine crashed in the next upload. Fixes: both offsets (as BAR
+  has since done), and `popElementInstance` now finishes all Lua bookkeeping before any GPU call, with the upload in a
+  pcall (a failed upload leaves a stale light, never a broken table).
+- Tests: `VBOPROBE=1 run.sh` (zz_vbo_probe: the module against a fake GPU buffer that checks bounds like
+  LuaVBOImpl::Upload; `VBOPROBE=old_instancevbotable.lua` style paths test another copy) and, on the Windows engine,
+  `VISUAL=<units> VISUALENEMY=core_t1_bot_ak VISUALSELECT=1 VISUALFRAMES=2400 LIGHTSPROBE=1 run_win_visual.sh`
+  (zz_lights_probe widget: dead units still in the light buffers / tracker, every 60 frames; must stay 0). Result
+  2026-11-09, 12 Core AKs killed by 12 Arm units: fixed code 86 -> 50 lights, 0 leaked throughout; the old tracker +
+  module (control) kept all 86 with 36 leaked point lights, 12 leaked headlights and 12 dead units in the tracker.
+  The run dir keeps the widget on/off state (LuaUI/Config/TART_data.lua); LIGHTSPROBE runs delete it so the lights
+  widget is on, and need VISUALCFG with AllowDeferredMap/ModelRendering = 1.
+
 ## AI: AdaptiveAI / SimpleAI (2026-11-09, ported from Splinter Faction)
 Files: `LuaAI.lua` (the AIs the lobby offers: AdaptiveAI, SimpleAI, SimpleDefenderAI, Sandbox),
 `luarules/gadgets/ai_simpleai.lua` (core: classification, counters, ctx, team tick), `luarules/configs/simpleai/lib.lua`

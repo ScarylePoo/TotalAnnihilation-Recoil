@@ -20,6 +20,7 @@
 #   MODOPTS='\\n\\t\\tshotspeed=1;' run.sh ...   adds modoptions to the start script (any mode)
 #   AIPROBE=1 [AIFRAMES=18000 AINAME=AdaptiveAI AIBOTH=1 MAP=... MAPNAME=...] run.sh ...  a Lua AI plays team 1 (and 0) for AIFRAMES frames at 60x,
 #                                             decision traces in the log, then zz_ai_probe quits; AIPROBE=1 alone also stops the harness spawning every unit
+#   VBOPROBE=1 tools/headless-test/run.sh ... instead runs only zz_vbo_probe (unit test of modules/graphics/instancevbotable.lua with a fake GPU buffer)
 #   GAP=1 tools/headless-test/run.sh ...      instead runs only zz_piece_gap_probe (piece matrices of every unit def in action); it prints the path of
 #                                             gapdata.txt, which tools/s3okit/kit/piece_gaps.py turns into a report of pieces floating off the unit
 #
@@ -72,11 +73,12 @@ if [ -n "$AIPROBE" ]; then
   # with both teams AIs the one player must spectate, or the server never starts the game
   [ -n "$AIBOTH" ] && sed -i "0,/Spectator=0;/s//Spectator=1;/" "$WD/script.txt"
 fi
+[ -n "$VBOPROBE" ] && sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tvboprobe=$VBOPROBE;/" "$WD/script.txt"
 [ -n "$FFPROBE" ] && sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tffprobe=1;/" "$WD/script.txt"
 [ -n "$FLIGHT" ] && sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tflightprobe=$FLIGHT;/" "$WD/script.txt"
 [ -n "$DUMP" ] && sed -i 's/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tdumponly=1;/' "$WD/script.txt"
 [ -n "$VISUALCEG" ] && VISUAL=${VISUAL:-none}
-[ -n "$VISUAL" ] && sed -i "s|debugmode=1;|debugmode=1;\n\t\taimonly=1;\n\t\tvisualceg=$VISUALCEG;\n\t\tvisualunits=$VISUAL;\n\t\tvisualzoom=${VISUALZOOM:-700};\n\t\tvisualdist=${VISUALDIST:-420};\n\t\tvisualkill=${VISUALKILL:-};\n\t\tvisualhold=${VISUALHOLD:-};\n\t\tvisualspacing=${VISUALSPACING:-};\n\t\tvisualtex=${VISUALTEX:-};\n\t\tvisualselect=${VISUALSELECT:-};\n\t\tvisualhurt=${VISUALHURT:-};\n\t\tvisualcmd=${VISUALCMD:-};|" "$WD/script.txt"
+[ -n "$VISUAL" ] && sed -i "s|debugmode=1;|debugmode=1;\n\t\taimonly=1;\n\t\tvisualceg=$VISUALCEG;\n\t\tvisualunits=$VISUAL;\n\t\tvisualzoom=${VISUALZOOM:-700};\n\t\tvisualdist=${VISUALDIST:-420};\n\t\tvisualkill=${VISUALKILL:-};\n\t\tvisualhold=${VISUALHOLD:-};\n\t\tvisualspacing=${VISUALSPACING:-};\n\t\tvisualtex=${VISUALTEX:-};\n\t\tvisualselect=${VISUALSELECT:-};\n\t\tvisualhurt=${VISUALHURT:-};\n\t\tvisualcmd=${VISUALCMD:-};\n\t\tvisualframes=${VISUALFRAMES:-};|" "$WD/script.txt"
 [ -n "$PADS" ] && sed -i 's/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tpadonly=1;/' "$WD/script.txt" && sed -i 's/\[ALLYTEAM0\]/[TEAM2] { TeamLeader=0; AllyTeam=1; Side=ARM; StartPosX=300; StartPosZ=11800; }\n\t[TEAM3] { TeamLeader=0; AllyTeam=2; Side=ARM; StartPosX=1000; StartPosZ=11800; }\n\t[TEAM4] { TeamLeader=0; AllyTeam=3; Side=ARM; StartPosX=2000; StartPosZ=11800; }\n\t[TEAM5] { TeamLeader=0; AllyTeam=4; Side=ARM; StartPosX=3000; StartPosZ=11800; }\n\t[ALLYTEAM2] { NumAllies=0; }\n\t[ALLYTEAM3] { NumAllies=0; }\n\t[ALLYTEAM4] { NumAllies=0; }\n\t&/' "$WD/script.txt"
 if [ -n "$STARTP" ]; then
   sed -i '/skippregame=1;/d' "$WD/script.txt"
@@ -115,6 +117,7 @@ sed 's/^\[t=[^]]*\]\(\[f=[^]]*\]\)\? //' "$WD/infolog.txt" > "$WD/clean.log"
 grep "\[HARNESS\]\|^\[SP\]" "$WD/clean.log" | grep -v ", spawn, "
 echo "--- spawn failures: $(grep -c 'SPAWN FAIL' "$WD/clean.log")"
 grep "\[PROBE\]" "$WD/clean.log" | cut -c1-300
+[ -n "$VBOPROBE" ] && grep "\[VBOPROBE\]" "$WD/clean.log"
 if [ -n "$GAP" ]; then
   sed -n 's/^.*GAPD //p' "$WD/infolog.txt" > "$WD/gapdata.txt"
   echo "--- gap data: $WD/gapdata.txt ($(du -h "$WD/gapdata.txt" | cut -f1))"

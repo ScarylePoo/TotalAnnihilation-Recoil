@@ -134,6 +134,7 @@ local pending, draws, taken, quitting = nil, 0, 0, false
 -- is taken on each draw after the sim has moved on by STEP frames, NSHOTS times.
 local SLOW, STEP, NSHOTS = 190, 1, 12
 local lastShot = -100
+local MINFRAME = tonumber(opt.visualframes) or 0  -- VISUALFRAMES=n: keep the game running until frame n before quitting
 
 function gadget:Initialize()
   list = lineup()
@@ -189,7 +190,7 @@ function gadget:GameFrame(n)
       dist = far, rx = 2.35, ry = math.pi, rz = 0, fov = 45 }, 0)
   end
   -- (no slow motion: each drawn frame is a new sim state, which is what the screenshots need)
-  if taken >= NSHOTS and not quitting then
+  if taken >= NSHOTS and n >= MINFRAME and not quitting then
     quitting = true
     Spring.Echo("[VISUAL] draw frames " .. draws .. ", shots taken " .. taken)
     Spring.Echo("[VISUAL] camera " .. table.concat((function()
