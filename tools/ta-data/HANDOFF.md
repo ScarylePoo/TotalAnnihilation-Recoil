@@ -552,6 +552,17 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
 - grade.py arm|core in out: contrast, faction split tone, sky gradient, bloom, vignette, grain.
 - Results of 2026-11-08: I:\Claude Space\Commander Box Art (Arm on Painted Badlands, Core on Incandescence).
 
+## Footprints from movement classes (2026-11-09)
+- As in Splinter Faction: `movedefs_tags.lua` lists footprintX/Z, so `movedefs_post.lua` copies each class's footprint
+  into its units; `movedefs_classes.lua` sizes every class so its largest model fits (one step above TA's: kbots 3,
+  tanks 3/4, hovers 4, HOVERBIG 6 for Turtle/Bear, ships 5/7/9 by beam, subs 5, commander 3, Krogoth 4). Why: TA's
+  footprints came from the old models; 88 of 117 mobile units stuck out of theirs (clumping). Analysis script:
+  `DUMP=` run.sh + `tools/ta-data/footprints.py <dump.json> [<SF fpdump>]` (model bounds vs engine xsize/zsize).
+- Consequences handled: factory exit lanes at least as wide as the units (Arm kbot lab 4, Core vehicle plant 5, hover
+  platforms 6); transports `transportsize` 4 and capacity x1.5 (Atlas/Valkyrie 4 = one unit; the Valkyrie's TA
+  capacity 1 carried nothing). Death-explosion size (UnitSizeLevel) and SimpleAI placement use footprints of
+  buildings only. Units define no collision volumes, so hitboxes are unchanged (model radius).
+
 ## Movement modoptions
 - modoptions.lua section "Movement": movespeed, moveturn (multipliers, default 1.25), moveaccel, movebrake (multipliers
   since 2026-11-09, default 1.5 after play-testing, 1 = TA's; they were floors in elmos/frame^2 with 0 = TA's). Applied in

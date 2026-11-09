@@ -37,8 +37,8 @@ return {
 		sightdistance = 250,
 		-- other abilities
 		canload = 1,
-		transportsize = 3,  -- TA 3.1c (was 24)
-		transportcapacity = 5,  -- TA 3.1c (was 24)
+		transportsize = 4,  -- TA 3.1c 3 (footprints are one step bigger)
+		transportcapacity = 8,  -- TA 3.1c 5, x1.5 for the bigger footprints
 		transportmaxunits = 24,
 		transportmass = 28000,  -- so you can't transport a krog
 		-- unit animation

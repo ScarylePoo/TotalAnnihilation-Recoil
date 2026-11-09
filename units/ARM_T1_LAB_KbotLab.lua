@@ -39,7 +39,7 @@ return {
 		-- unit animation
 		footprintx = 6,
 		footprintz = 6,
-		yardmap = "yoccoy ooccoo ooccoo ooccoo ooccoo yoccoy",
+		yardmap = "yccccy occcco occcco occcco occcco yccccy",  -- lane 4 wide for 3x3 kbots (TA: 2),
 		-- what are these? or more importantly, do they work/have meaning?
 		energyuse = 0,
 		bmcode = 0,

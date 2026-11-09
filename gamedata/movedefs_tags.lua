@@ -2,9 +2,11 @@
 -- tags movedefs_post.lua keeps consistent between a unit and its class. From Splinter Faction, except:
 --   (slopeMod 4 as in SF: replaces the engine's default of 4 / maxSlope, ~10x stronger, so tanks and kbots slow
 --   down much less on hills; user decision.)
---   footprintX/Z: not here, so units keep their own footprint (the remodels' build grid; e.g. the Krogoth is 3x3
---     in a 6x6 class) and missing ones still default to 1 in the engine.
+--   footprintX/Z (2026-11-09): back in, as in SF: a unit's footprint is its movement class's (classes are sized to
+--     their largest model, movedefs_classes.lua). Until then units kept TA's own footprints.
 return {
+	footprintX    = 1,
+	footprintZ    = 1,
 	crushStrength = 10,
 	minWaterDepth = 10,
 	maxWaterDepth = 0,

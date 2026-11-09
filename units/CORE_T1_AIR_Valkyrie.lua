@@ -39,8 +39,8 @@ return {
 		sightdistance = 245,  -- TA 3.1c (was 210)
 		-- other abilities
 		canload = 1,
-		transportsize = 3,
-		transportcapacity = 1,
+		transportsize = 4,  -- footprints are one step bigger than TA's (movedefs_classes.lua)
+		transportcapacity = 4,  -- one unit of any size it can lift (capacity 1 carried nothing: a kbot counts its footprint, 2)
 		transportmass = 3000,
 		-- unit animation
 		collide = 0,

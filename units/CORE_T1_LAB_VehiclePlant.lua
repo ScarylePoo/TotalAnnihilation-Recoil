@@ -39,7 +39,7 @@ return {
 		-- unit animation
 		footprintx = 7,
 		footprintz = 7,
-		yardmap = "yyoooyy yyoooyy ooooooo oocccoo oocccoo oocccoo oocccoo",
+		yardmap = "yyoooyy yyoooyy ooooooo occccco occccco occccco occccco",  -- lane 5 wide for 4x4 tanks (TA: 3),
 		-- what are these? or more importantly, do they work/have meaning?
 		bmcode = 0,
 		threed = 1,

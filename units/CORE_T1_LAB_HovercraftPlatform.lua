@@ -39,7 +39,7 @@ return {
 		-- unit animation
 		footprintx = 8,
 		footprintz = 7,
-		yardmap = "ooccccoo ooccccoo ooccccoo ooccccoo ooccccoo ooccccoo ooccccoo",
+		yardmap = "occcccco occcccco occcccco occcccco occcccco occcccco occcccco",  -- lane 6 wide for the 6x6 hover transports (TA: 4),
 		-- what are these? or more importantly, do they work/have meaning?
 		bmcode = 0,
 		threed = 1,

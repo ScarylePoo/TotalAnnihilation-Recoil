@@ -17,7 +17,7 @@ return {
 		buildcostmetal = 665,
 		buildtime = 20341,
 		-- movement or placement
-		movementclass = "TANKHOVER3",
+		movementclass = "HOVERBIG",
 		movestate = -1,
 		canmove = 1,
 		canpatrol = 1,
@@ -39,8 +39,8 @@ return {
 		-- other abilities
 		canload = 1,
 		transportmaxunits = 6,
-		transportsize = 3,  -- TA 3.1c (was 6)
-		transportcapacity = 5,
+		transportsize = 4,  -- TA 3.1c 3 (footprints are one step bigger)
+		transportcapacity = 8,  -- TA 3.1c 5, x1.5 for the bigger footprints
 		-- unit animation
 		waterline = 4,
 		footprintx = 4,

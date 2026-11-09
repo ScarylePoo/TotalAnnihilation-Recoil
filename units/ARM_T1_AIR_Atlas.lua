@@ -39,8 +39,8 @@ return {
 		sightdistance = 245,  -- TA 3.1c (was 225)
 		-- other abilities
 		canload = 1,
-		transportsize = 3,
-		transportcapacity = 5,  -- TA 3.1c (was 1)
+		transportsize = 4,  -- footprints are one step bigger than TA's (movedefs_classes.lua)
+		transportcapacity = 4,  -- one unit of any size it can lift (TA 3.1c: 1; 5 until 2026-11-09)
 		transportmass = 3000,
 		-- unit animation
 		collide = 0,

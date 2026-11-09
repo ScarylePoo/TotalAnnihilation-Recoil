@@ -1,4 +1,9 @@
 -- Movement classes (converted from TA's Moveinfo.TDF; values TA 3.1c where marked). Laid out like Splinter Faction:
+-- Footprints (2026-11-09): as in Splinter Faction a unit's footprint is its class's (movedefs_tags lists
+-- footprintX/Z, so movedefs_post copies the class value into every unit of the class), and each class is sized so
+-- its largest model fits (TA's footprints were one step smaller than the remodels: 3/4 of all mobile units stuck out
+-- of their footprint, which is why they clumped). Ships and subs are sized to their beam; the hull may overhang
+-- fore and aft. Factory exit lanes were widened to match; transports' transportsize/capacity too.
 -- this file defines the classes by name, gamedata/movedefs.lua fills in missing tags from movedefs_tags.lua and runs
 -- movedefs_post.lua. The engine wants an array, so the map is converted at the end (sorted by name: the same order
 -- on every machine).
@@ -24,8 +29,8 @@ local genericDepthmodParams = {
 
 local moveDefs = {
 	SMALL_SHIP = {
-		footprintx = 4,
-		footprintz = 4,
+		footprintx = 5,  -- TA 4: the model must fit (2026-11-09, see header)
+		footprintz = 5,
 		minwaterdepth = 3,  -- TA 3.1c (was 5)
 		-- ARM_T1_SEA_Constructor
 		-- ARM_T1_SEA_Crusader
@@ -44,8 +49,8 @@ local moveDefs = {
 		flowmapping = flowMappingToggle,
 	},
 	MEDIUM_SHIP = {
-		footprintx = 6,
-		footprintz = 6,
+		footprintx = 7,  -- TA 6
+		footprintz = 7,
 		minwaterdepth = 10,
 		-- ARM_T1_SEA_Hulk
 		-- ARM_T2_SEA_Conqueror
@@ -60,8 +65,8 @@ local moveDefs = {
 		flowmapping = flowMappingToggle,
 	},
 	BIG_SHIP = {
-		footprintx = 8,
-		footprintz = 8,
+		footprintx = 9,  -- TA 8
+		footprintz = 9,
 		minwaterdepth = 15,  -- TA 3.1c (was 20)
 		-- ARM_T2_SEA_Colossus
 		-- ARM_T2_SEA_Millenium
@@ -74,8 +79,8 @@ local moveDefs = {
 		flowmapping = flowMappingToggle,
 	},
 	SHIP_SUBMARINE = {  -- odd naming needed for spring to identify the class as sea movement
-		footprintx = 3,
-		footprintz = 3,
+		footprintx = 5,  -- TA 3
+		footprintz = 5,
 		minwaterdepth = 15,
 		submarine = 1,
 		-- ARM_T1_SEA_Lurker
@@ -93,8 +98,8 @@ local moveDefs = {
 		flowmapping = flowMappingToggle,
 	},
 	COMMANDER = {
-		footprintx = 2,
-		footprintz = 2,
+		footprintx = 3,  -- TA 2
+		footprintz = 3,
 		maxwaterdepth = 400,
 		maxslope = 50,
 		-- ARM_Commander
@@ -108,8 +113,8 @@ local moveDefs = {
 		flowmapping = flowMappingToggle,
 	},
 	TANKSH3 = {
-		footprintx = 3,
-		footprintz = 3,
+		footprintx = 4,  -- TA 3
+		footprintz = 4,
 		maxwaterdepth = 12,  -- TA 3.1c (was 20)
 		maxslope = 16,
 		depthmodparams = genericDepthmodParams,
@@ -119,8 +124,8 @@ local moveDefs = {
 		flowmapping = flowMappingToggle,
 	},
 	TANKSH2 = {
-		footprintx = 2,
-		footprintz = 2,
+		footprintx = 3,  -- TA 2
+		footprintz = 3,
 		maxwaterdepth = 12,  -- TA 3.1c (was 20)
 		maxslope = 20,
 		depthmodparams = genericDepthmodParams,
@@ -140,8 +145,21 @@ local moveDefs = {
 		flowmapping = flowMappingToggle,
 	},
 	TANKHOVER3 = {
-		footprintx = 3,
-		footprintz = 3,
+		footprintx = 4,  -- TA 3
+		footprintz = 4,
+		maxslope = 15,
+		badslope = 15,
+		maxwaterslope = 255,
+		badwaterslope = 255,
+		depthmodparams = genericDepthmodParams,
+		heatmod = unitHeat,
+		heatmapping = true,
+		allowrawmovement = allowRawMovement,
+		flowmapping = flowMappingToggle,
+	},
+	HOVERBIG = {  -- the hover transports (Turtle, Bear): TANKHOVER3 with a 6x6 footprint
+		footprintx = 6,  -- TA 3
+		footprintz = 6,
 		maxslope = 15,
 		badslope = 15,
 		maxwaterslope = 255,
@@ -153,8 +171,8 @@ local moveDefs = {
 		flowmapping = flowMappingToggle,
 	},
 	KBOTSTANDARD = {
-		footprintx = 2,
-		footprintz = 2,
+		footprintx = 3,  -- TA 2
+		footprintz = 3,
 		maxwaterdepth = 12,  -- TA 3.1c (was 18)
 		maxslope = 36,
 		depthmodparams = genericDepthmodParams,
@@ -164,8 +182,8 @@ local moveDefs = {
 		flowmapping = flowMappingToggle,
 	},
 	KBOTBAD = {
-		footprintx = 2,
-		footprintz = 2,
+		footprintx = 3,  -- TA 2
+		footprintz = 3,
 		maxwaterdepth = 12,  -- TA 3.1c (was 16)
 		maxslope = 24,  -- 32
 		depthmodparams = genericDepthmodParams,
@@ -175,8 +193,8 @@ local moveDefs = {
 		flowmapping = flowMappingToggle,
 	},
 	KBOTGOOD = {
-		footprintx = 2,
-		footprintz = 2,
+		footprintx = 3,  -- TA 2
+		footprintz = 3,
 		maxwaterdepth = 20,
 		maxslope = 42,
 		depthmodparams = genericDepthmodParams,
@@ -186,8 +204,8 @@ local moveDefs = {
 		flowmapping = flowMappingToggle,
 	},
 	AMPHTANK = {
-		footprintx = 3,  -- 2
-		footprintz = 3,  -- 2
+		footprintx = 4,  -- TA 2
+		footprintz = 4,
 		maxwaterdepth = 250,
 		maxslope = 32,
 		maxwaterslope = 455,
@@ -199,8 +217,8 @@ local moveDefs = {
 		flowmapping = flowMappingToggle,
 	},
 	KROGOTH = {
-		footprintx = 6,
-		footprintz = 6,
+		footprintx = 4,  -- TA 6; the remodel is 57 elmos
+		footprintz = 4,
 		maxwaterdepth = 12,  -- TA 3.1c (was 50)
 		maxslope = 32,
 		crushstrength = 1000,
@@ -233,8 +251,8 @@ local moveDefs = {
 		flowmapping = flowMappingToggle,
 	},
 	GOLIATH = {
-		footprintx = 3,
-		footprintz = 3,
+		footprintx = 4,  -- TA 3
+		footprintz = 4,
 		maxwaterdepth = 12,  -- TA 3.1c (was 16)
 		maxslope = 16,
 		crushstrength = 500,

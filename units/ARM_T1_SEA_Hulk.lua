@@ -37,8 +37,8 @@ return {
 		sightdistance = 250,  -- TA 3.1c (was 437)
 		-- other abilities
 		canload = 1,
-		transportsize = 3,  -- TA 3.1c (was 20)
-		transportcapacity = 20,
+		transportsize = 4,  -- TA 3.1c 3 (footprints are one step bigger)
+		transportcapacity = 30,  -- TA 3.1c 20, x1.5 for the bigger footprints
 		transportmass = 28000,  -- core krog mass is 29800
 		-- unit animation
 		waterline = 15,
