@@ -627,6 +627,13 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
 - Hover info (`slate_selection.lua`): features get their own view (name, metal, energy); the engine tooltip's colour
   codes (\255 r g b, \b) are stripped before escaping (they showed as junk characters).
 
+## Command colours (2026-11-09, from Splinter Faction)
+- `cmdcolors_mod.txt` (game root) + `luaui/widgets/gfx_mod_cmdcolors.lua`: the widget feeds the file to
+  Spring.LoadCmdColorsConfig at start and reloads the engine's `cmdcolors.txt` when disabled. The engine itself only
+  ever reads `cmdcolors.txt` (Game.cpp, at load). Effects: engine unit selection boxes off (Fancy Selected Units draws
+  them), the engine's queue lines at alpha 0.1 under the Orders GL4 marks (which gfx_orders_gl4.lua's header always
+  assumed), queue icons half size, range rings alpha 0.5.
+
 ## Slate fixes (2026-11-09, from play-testing)
 - Widget Selector (F11) "unloaded itself": its layer was -math.huge, so it initialised before Slate Core, found no
   WG.Slate and removed itself (its Shutdown then bound F11 to the engine's selector). Layer -99990 now.
