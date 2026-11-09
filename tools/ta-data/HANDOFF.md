@@ -614,3 +614,12 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
   cloaked ones). `GetUnitLosState` returns a table for widgets (raw bits need full read).
 - Hover info (`slate_selection.lua`): features get their own view (name, metal, energy); the engine tooltip's colour
   codes (\255 r g b, \b) are stripped before escaping (they showed as junk characters).
+
+## Unit brightness (2026-11-09)
+- CUS GL4 `albedoFactor` uniform (defaultunit bin, `luarules/configs/cus_defs.lua`): multiplies the unit's base colour
+  right after the texture read (`cus_gl4.frag.glsl`, after albedoColor), so lighting, specular, glow (tex2 red adds
+  albedo again), team colour and damage shading all apply on top. `brightnessFactor` (1.6) instead scales the final
+  colour. Live: `/luarules unitbrightness <0.25-3>`; Slate Graphics > Unit brightness (0.5-2, engine config
+  TARUnitBrightness, read again when CUS initialises). Checked on the Windows engine at 1.0 vs 1.6.
+- tex2 in TA:Recoil (OPTION_TEX2_SPECULAR): red = self-illumination, green = specular (-> metalness/roughness), blue
+  ignored. Stock CUS GL4 reads blue as roughness.

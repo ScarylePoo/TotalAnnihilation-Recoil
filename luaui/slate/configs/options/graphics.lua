@@ -229,6 +229,9 @@ return {
 		  children = {
 			{ id = "distortionstrength", name = "Strength", type = "slider", min = 0.25, max = 2, step = 0.05, api = {"distortionsgl4", nil, "IntensityMultiplier"}, configVar = {"Distortion GL4", "intensityMultiplier"}, default = 1 },
 		  } },
+		{ id = "unitbrightness", name = "Unit brightness", type = "slider", min = 0.5, max = 2, step = 0.05, default = 1,
+		  config = "TARUnitBrightness", cmd = "luarules unitbrightness %s",
+		  desc = "Brightens the units' own colours before lighting: shading, shine and glow still apply on top." },
 		{ id = "outline", name = "Unit outline", type = "bool", widget = "Outline (deferred)", requires = "Outline (deferred)",
 		  desc = "Thin dark outline around units so they read clearly against the terrain." },
 		{ id = "underconstruction", name = "Under-construction highlight", type = "bool", widget = "Under construction gfx", requires = "Under construction gfx",

@@ -112,6 +112,7 @@ uniform int drawPass = 1;
 uniform int bitOptions;
 
 uniform float brightnessFactor = 1.5;
+uniform float albedoFactor = 1.0; // TA:Recoil: base colour multiplier, before lighting (Slate: Graphics > Unit brightness)
 //int bitOptions = 1 +  2 + 8 + 16 + 128 + 256;
 
 float simFrame = (timeInfo.z * 30.0);
@@ -872,6 +873,7 @@ void main(void){
 	#endif
 	vec4 teamColor = teamCol;
 	vec3 albedoColor = SRGBtoLINEAR(mix(texColor1.rgb, teamColor.rgb, texColor1.a));
+	albedoColor *= albedoFactor; // TA:Recoil: brighter base colour; lighting, specular, glow and damage apply on top
 
 	if (BITMASK_FIELD(bitOptions, OPTION_HEALTH_TEXRAPTORS)) {
 		float texHeight = normalTexVal.a;

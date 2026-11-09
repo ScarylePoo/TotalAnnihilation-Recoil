@@ -49,6 +49,7 @@ local uniformBins = {
 		bitOptions = defaultUnitBitShaderOptions,
 		baseVertexDisplacement = 0.0,
 		brightnessFactor = 1.6,  -- TA:Recoil: 1.1 (our older, darker textures)
+		albedoFactor = 1.0,      -- TA:Recoil: base colour multiplier before lighting; set live by the Unit brightness option
 	},
 	-- These are the default featureDef uniformBins, you probably don't want to mess with them unless you really know what you're doing
 	feature = {

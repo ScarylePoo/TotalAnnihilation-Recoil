@@ -1660,6 +1660,21 @@ function gadget:GameFrame(n)
 end
 
 local updaterate = 1
+-- TA:Recoil: "/luarules unitbrightness <x>": unit base colour multiplier (albedoFactor) before lighting, so a unit is
+-- brighter as a whole and lighting, specular, glow and damage apply on top (brightnessFactor scales the final colour).
+-- Slate's Graphics > Unit brightness sets it and saves it in the engine config (TARUnitBrightness).
+local function SetUnitBrightness(v)
+	v = math.max(0.25, math.min(3, tonumber(v) or 1))
+	if uniformBins.defaultunit then uniformBins.defaultunit.albedoFactor = v end
+end
+
+local function UnitBrightness(optName, line, words, playerID)
+	if playerID ~= Spring.GetMyPlayerID() then
+		return
+	end
+	SetUnitBrightness(words and words[1])
+end
+
 local function CUSGL4updaterate(optName, line, words, playerID)
 	if playerID ~= Spring.GetMyPlayerID() then
 		return
@@ -1833,6 +1848,8 @@ function gadget:Initialize()
 	gadgetHandler:AddChatAction("dumpcusgl4", DumpCUSGL4)
 	gadgetHandler:AddChatAction("markbincusgl4", MarkBinCUSGL4)
 	gadgetHandler:AddChatAction("freetextures", FreeTextures)
+	gadgetHandler:AddChatAction("unitbrightness", UnitBrightness)
+	SetUnitBrightness(Spring.GetConfigFloat("TARUnitBrightness", 1.0))
 	if not initiated and tonumber(Spring.GetConfigInt("cus2", 1) or 1) == 1 then
 		initGL4()
 	end
