@@ -729,6 +729,8 @@ player slightly ahead, +0.10, and eased twice as fast as it hardened; TA:Recoil'
 3-minute warmup, build-speed knob up to 1.5x), `ai_neverstall` (150 M/E floor;
 AdaptiveAI always has it), `aitrace` (decision trace to the infolog every 10 s).
 
+`validais.lua` (2026-11-09, like SF's) names the AIs a lobby may offer: AdaptiveAI, Simple*AI (SimpleAI and
+SimpleDefenderAI) and Sandbox; the engine's BARb and CircuitAI know only Beyond All Reason's units and are left out.
 What differs from SF's AI (see each file's header):
 - Factions from the unit name prefix (`arm_` / `core_`); a unit's tier from its name (`_t1_`..`_t3_`); a team's tech
   level = the highest tier any finished builder of its own can build (a T1 constructor builds an Advanced lab, so it is
