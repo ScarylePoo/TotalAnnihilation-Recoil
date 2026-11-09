@@ -55,9 +55,9 @@ end
 
 function script.FireWeapon(num)
 	local b = (gun == 0) and barrel1 or barrel2
-	gun = 1 - gun
 	Move(b, z_axis, -3.125, 1250)  -- COB: snap back 3.125, recover at 7.5/s
 	WaitForMove(b, z_axis)
+	gun = 1 - gun                  -- after the wait: the engine queries the muzzle once FireWeapon first yields
 	Move(b, z_axis, 0, 7.5)
 end
 

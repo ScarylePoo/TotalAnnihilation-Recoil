@@ -680,6 +680,14 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
 - tex2 in TA:Recoil (OPTION_TEX2_SPECULAR): red = self-illumination, green = specular (-> metalness/roughness), blue
   ignored. Stock CUS GL4 reads blue as roughness.
 
+## Alternating barrels: flip the gun index AFTER the recoil starts (2026-11-09)
+- The engine runs `FireWeapon` up to its first Sleep/WaitFor, THEN calls `QueryWeapon` for the muzzle piece and
+  spawns the shot (Weapon.cpp: FireWeapon at the top of the fire branch; Shot -> UpdateWeaponPieces -> Fire in the
+  projectile loop). A script that flipped its gun index before the recoil (Hammer, Jethro, Spider: `gun = 1` then
+  Move) made the shot leave the other barrel from the one recoiling. The flip now comes after the recoil has
+  started (as the Thud always did). Rule for new scripts: pick the barrel from the index, animate it, yield, then
+  flip.
+
 ## Maverick did not fire; Windows sweep (2026-11-09)
 - Holstered, the Maverick's flares (QueryWeapon) sit below ground; a Cannon has no line of fire from there, so it never
   aimed, never drew its pistols and never fired (ground attack and enemies in range alike). QueryWeapon now returns the

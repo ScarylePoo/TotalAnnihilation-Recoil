@@ -97,18 +97,14 @@ function script.QueryWeapon(num)
 	return (gun == 0) and rfirept or lfirept
 end
 
+-- The gun index flips after the recoil has started: the engine runs FireWeapon up to its first wait, then
+-- asks QueryWeapon for the muzzle (Weapon.cpp), so flipping first put the shot on the other launcher.
 function script.FireWeapon(num)
-	if gun == 0 then
-		gun = 1
-		Move(rgun, z_axis, -3.75, 62.5)
-		WaitForMove(rgun, z_axis)
-		Move(rgun, z_axis, 0, 1.875)
-	else
-		gun = 0
-		Move(lgun, z_axis, -3.75, 62.5)
-		WaitForMove(lgun, z_axis)
-		Move(lgun, z_axis, 0, 1.875)
-	end
+	local g = (gun == 0) and rgun or lgun
+	Move(g, z_axis, -3.75, 62.5)
+	WaitForMove(g, z_axis)
+	gun = 1 - gun
+	Move(g, z_axis, 0, 1.875)
 end
 
 function script.SweetSpot(num)

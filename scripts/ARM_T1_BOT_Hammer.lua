@@ -134,18 +134,14 @@ function script.QueryWeapon(num)
 	return (gun == 0) and rfirept or lfirept
 end
 
+-- The engine runs FireWeapon up to its first Sleep, THEN asks QueryWeapon for the muzzle and spawns the shot
+-- (Weapon.cpp). So the gun index flips after the recoil has started, or the shot would leave the other barrel.
 function script.FireWeapon(num)
-	if gun == 0 then
-		gun = 1
-		Move(rcannon, z_axis, -5, 62.5)
-		Sleep(100)
-		Move(rcannon, z_axis, 0, 10)
-	else
-		gun = 0
-		Move(lcannon, z_axis, -5, 62.5)
-		Sleep(100)
-		Move(lcannon, z_axis, 0, 10)
-	end
+	local cannon = (gun == 0) and rcannon or lcannon
+	Move(cannon, z_axis, -5, 62.5)
+	Sleep(100)
+	gun = 1 - gun
+	Move(cannon, z_axis, 0, 10)
 end
 
 function script.SweetSpot(num)
