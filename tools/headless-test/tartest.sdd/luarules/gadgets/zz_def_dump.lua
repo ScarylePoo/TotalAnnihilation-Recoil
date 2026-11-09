@@ -52,7 +52,7 @@ end
 
 function gadget:GameFrame(n)
   if n ~= 3 then return end
-  for id = 1, #WeaponDefs do
+  for id = 0, #WeaponDefs do
     local wd = WeaponDefs[id]
     dumpDef("W", wd)
     -- damages are indexed by armor type number; name them
