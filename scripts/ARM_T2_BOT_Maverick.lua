@@ -401,6 +401,12 @@ function script.AimFromWeapon(num)
 end
 
 function script.QueryWeapon(num)
+	-- Holstered, the flares sit in the hip holsters below ground level; a Cannon refuses to fire from an underground
+	-- muzzle (no line of fire), so the Maverick never started aiming and never drew. The shoulder stands in until the
+	-- pistols are drawn (as the Peewee's elbow does).
+	if not drawn then
+		return (gun == 0) and rshoulder or lshoulder
+	end
 	return (gun == 0) and flare1 or flare2
 end
 

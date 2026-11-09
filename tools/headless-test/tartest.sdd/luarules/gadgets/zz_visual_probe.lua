@@ -71,6 +71,10 @@ function gadget:GameFrame(n)
       local id = Spring.CreateUnit(ud.name, x, Spring.GetGroundHeight(x, z), z, "north", 0)
       if id then
         units[#units + 1] = { id = id, x = x, z = z - attackDist(ud) }
+        if opt.visualenemy and opt.visualenemy ~= "" then  -- VISUALENEMY=<unit>: an enemy in range, no orders (fire at will)
+          local ex, ez = x, z - attackDist(ud)
+          Spring.CreateUnit(opt.visualenemy, ex, Spring.GetGroundHeight(ex, ez), ez, "south", 1)
+        end
       else
         Spring.Echo("[VISUAL] spawn failed " .. ud.name)
       end
@@ -103,7 +107,7 @@ function gadget:GameFrame(n)
     for _, u in ipairs(units) do Spring.DestroyUnit(u.id, tonumber(opt.visualkill) == 2) end
     units = {}
   end
-  if n >= 30 and not (opt.visualhold and opt.visualhold ~= "") then  -- VISUALHOLD=1: units only stand there (scale reference)
+  if n >= 30 and not (opt.visualhold and opt.visualhold ~= "") and not (opt.visualenemy and opt.visualenemy ~= "") then  -- VISUALHOLD=1: units only stand there (scale reference)
     for _, u in ipairs(units) do
       Spring.SetTeamResource(0, "e", 1e7)
       if n % 90 == 30 then

@@ -58,7 +58,7 @@ function UnitDef_Post(name, ud)
 	end
 	-- Sight modoption (sightrange): multiplies every unit's TA sight radius (air sight follows: the engine makes it 1.5x
 	-- sight). Radar, sonar and jammers are unchanged.
-	local sightMult = tonumber((Spring.GetModOptions and Spring.GetModOptions() or {}).sightrange) or 1
+	local sightMult = tonumber((Spring.GetModOptions and Spring.GetModOptions() or {}).sightrange) or 1.25
 	if sightMult ~= 1 and tonumber(ud.sightdistance) then ud.sightdistance = tonumber(ud.sightdistance) * sightMult end
 
 	-- Movement modoptions (modoptions.lua, section "Movement"), for ground units (land, sea, hover; not aircraft,
@@ -181,7 +181,7 @@ local TA_GRAVITY = 112 / 900
 local SLOW_SHOT = tonumber(modOptions.shotspeedcutoff) or 300
 local SLOW_SHOT_MULT = tonumber(modOptions.shotspeed) or 1.25
 -- every weapon's range (WeaponDef_Post; modoption weaponrange)
-local WEAPON_RANGE_MULT = tonumber(modOptions.weaponrange) or 1
+local WEAPON_RANGE_MULT = tonumber(modOptions.weaponrange) or 1.25
 
 -- Plasma ball size by damage per shot (largest of default/planes): ~2.5 for the 8-damage EMG, 16 for the
 -- 2400-damage Intimidator, square-root curve so the mid-weight tank guns stay modest (130 damage -> ~5.5).

@@ -585,10 +585,10 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
   version, `shotspeed=1` = TA exactly. `MODOPTS='\\n\\t\\tkey=value;' run.sh` passes modoptions to any probe.
 
 ## Range modoptions (2026-11-08)
-- `weaponrange` (1-2, default 1): every weapon's range x mult (`WeaponDef_Post`). Set missile `flighttime` scales too
+- `weaponrange` (1-2, default 1.25 since 2026-11-09, user decision): every weapon's range x mult (`WeaponDef_Post`). Set missile `flighttime` scales too
   (others derive lifetime from range); Cannons get `weaponvelocity` x sqrt(mult) so v^2/g keeps its margin over the
   range (applied after the slow-shot boost, whose cutoff reads TA's speed). Anti-nuke `coverage` unchanged.
-- `sightrange` (1-2, default 1): `sightdistance` x mult (`UnitDef_Post`); air sight follows (engine 1.5x sight).
+- `sightrange` (1-2, default 1.25): `sightdistance` x mult (`UnitDef_Post`); air sight follows (engine 1.5x sight).
   Radar/sonar/jammers unchanged.
 - User's reason: short TA ranges make fights clump (only the front ranks are in range, the rest crowd forward).
 - Checked: defaults give identical def dumps; at 1.25/1.25 only range/sight (+ derived maxWeaponRange, LOS radii,
@@ -623,3 +623,13 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
   TARUnitBrightness, read again when CUS initialises). Checked on the Windows engine at 1.0 vs 1.6.
 - tex2 in TA:Recoil (OPTION_TEX2_SPECULAR): red = self-illumination, green = specular (-> metalness/roughness), blue
   ignored. Stock CUS GL4 reads blue as roughness.
+
+## Maverick did not fire; Windows sweep (2026-11-09)
+- Holstered, the Maverick's flares (QueryWeapon) sit below ground; a Cannon has no line of fire from there, so it never
+  aimed, never drew its pistols and never fired (ground attack and enemies in range alike). QueryWeapon now returns the
+  shoulder until drawn (same fix as the Peewee). The headless AIM probe reported it firing: do not trust it alone for
+  "does it fire"; use the Windows engine.
+- `VISUALENEMY=<unit> run_win_visual.sh`: an enemy in range of each unit, no orders (fire at will); the [VISUAL] frame
+  lines give shots per unit (and src/ground heights, lof). Sweep 2026-11-09: all 68 armed land units (minus AA-only and
+  stockpile weapons) fire on the Windows engine; builders (commanders) need VISUALENEMY, the ground-attack mode gives
+  them a build order.

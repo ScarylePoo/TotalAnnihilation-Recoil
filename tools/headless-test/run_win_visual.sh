@@ -19,7 +19,7 @@ rsync -aL --delete "$HERE/tartest.sdd/" "$RUN/games/tartest.sdd/"   # -L: tart_k
 rm -rf "$RUN/screenshots" "$RUN/infolog.txt"
 cp "$HERE/script.txt" "$RUN/script.txt"
 [ -n "$VISUALCEG" ] && VISUAL=${VISUAL:-none}
-sed -i "s|debugmode=1;|debugmode=1;\n\t\taimonly=1;\n\t\tvisualceg=$VISUALCEG;\n\t\tvisualunits=$VISUAL;\n\t\tvisualzoom=${VISUALZOOM:-700};\n\t\tvisualdist=${VISUALDIST:-420};\n\t\tvisualkill=${VISUALKILL:-};\n\t\tvisualhold=${VISUALHOLD:-};\n\t\tvisualspacing=${VISUALSPACING:-};\n\t\tvisualtex=${VISUALTEX:-};\n\t\tvisualselect=${VISUALSELECT:-};\n\t\tvisualhurt=${VISUALHURT:-};\n\t\tvisualcmd=${VISUALCMD:-};|" "$RUN/script.txt"
+sed -i "s|debugmode=1;|debugmode=1;\n\t\taimonly=1;\n\t\tvisualceg=$VISUALCEG;\n\t\tvisualunits=$VISUAL;\n\t\tvisualzoom=${VISUALZOOM:-700};\n\t\tvisualdist=${VISUALDIST:-420};\n\t\tvisualkill=${VISUALKILL:-};\n\t\tvisualhold=${VISUALHOLD:-};\n\t\tvisualspacing=${VISUALSPACING:-};\n\t\tvisualtex=${VISUALTEX:-};\n\t\tvisualselect=${VISUALSELECT:-};\n\t\tvisualhurt=${VISUALHURT:-};\n\t\tvisualcmd=${VISUALCMD:-};\n\t\tvisualenemy=${VISUALENEMY:-};|" "$RUN/script.txt"
 # VISUALMAP=/path/to/map.sd7 VISUALMAPNAME=<name in its mapinfo.lua>: a real map instead of the generated blank one
 rm -rf "$RUN/maps"
 if [ -n "$VISUALMAP" ]; then
