@@ -553,10 +553,11 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
 - Results of 2026-11-08: I:\Claude Space\Commander Box Art (Arm on Painted Badlands, Core on Incandescence).
 
 ## Movement modoptions
-- modoptions.lua section "Movement": movespeed, moveturn (multipliers, default 1.25), moveaccel, movebrake (floors in
-  elmos/frame^2, default 0 = TA's, play-tested; 0 keeps TA's). Applied in gamedata/alldefs_post.lua UnitDef_Post to every def
-  with a speed that can't fly. Walk cadence follows UnitDefs speed (scripts/headers/walk.lua), so legs keep pace.
-  Checked with DUMP=1 run.sh at the defaults and at TA values (movespeed=1 moveturn=1 moveaccel=0 movebrake=0).
+- modoptions.lua section "Movement": movespeed, moveturn (multipliers, default 1.25), moveaccel, movebrake (multipliers
+  since 2026-11-09, default 1 = TA's; they were floors in elmos/frame^2 with 0 = TA's). Applied in
+  gamedata/alldefs_post.lua UnitDef_Post to every def with a speed that can't fly. Walk cadence follows UnitDefs speed
+  (scripts/headers/walk.lua), so legs keep pace. Checked with DUMP=1 run.sh at the defaults, at TA values
+  (movespeed=1 moveturn=1) and at moveaccel=2 movebrake=2 (Peewee 0.1/0.19 -> 0.2/0.38, Stumpy 0.016/0.01 -> 0.032/0.02).
 - moveturninplace (degrees, default 90) -> turnInPlaceAngleLimit. The engine's default 0 cuts a ground unit's target
   speed for ANY turn (to turnRate/angle of top speed, at least 10 %); with the braking floor that was a dead stop
   before every turn. TURNPROBE=1 run.sh measures it: 60 degree turn 100 % speed at 90, 10 % at 0.
