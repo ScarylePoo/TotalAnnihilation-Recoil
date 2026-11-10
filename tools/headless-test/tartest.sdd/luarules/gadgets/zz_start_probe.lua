@@ -27,6 +27,12 @@ end
 --   boxes  1v1 with start boxes (StartPosType=2): the engine's ready step is
 --          taken by slate_placement's GameSetup; team 0 picks a faction but
 --          no spot (timeout: auto-placed); spots and spawns must be in boxes.
+--   nofaction  1v1 with the mod option factionchoice=0: no faction phase,
+--          placement from frame 0; team 0's faction message is ignored and it
+--          gets its lobby side (ARM); the AI its side (CORE).
+--   noplace  1v1 with startplacement=0: faction phase (team 0 picks Core),
+--          then no placement phase: commanders at the script positions.
+--   neither  both off: commanders at the script positions from GameStart.
 --------------------------------------------------------------------------------
 
 local opt = Spring.GetModOptions() or {}
@@ -37,7 +43,8 @@ local function log(...) Spring.Echo("[HARNESS] START", ...) end
 
 if gadgetHandler:IsSyncedCode() then
 
-local HUMANS = { duel = {}, teams = {1, 2}, ffa = {1, 2}, boxes = {}, lobby = {}, lobbybox = {} }
+local HUMANS = { duel = {}, teams = {1, 2}, ffa = {1, 2}, boxes = {}, lobby = {}, lobbybox = {}, nofaction = {}, noplace = {}, neither = {} }
+local NO_SPOTS = { lobby = true, noplace = true, neither = true }   -- scenarios with no placement: the script positions stand in for spots
 local LOBBY_POS = { [0] = {1000, 1000}, [1] = {6000, 6000} }   -- StartPosX/Z in script.txt
 local phaseFrames = {}
 local lastPhase
@@ -129,10 +136,17 @@ local function verify()
         x, _, z = Spring.GetUnitPosition(units[1])
       end
       local spot = Spring.GetTeamRulesParam(t, "confirmedSpot")
-      if SCEN == "lobby" then
-        -- no spots: the lobby position stands in for the spot
+      if NO_SPOTS[SCEN] then
+        -- no spots: the engine's start position (the lobby's with
+        -- StartPosType=3, the map's fixed one otherwise), moved off the edge
+        -- as game_spawn.lua does, stands in for the spot
+        local ex, _, ez = Spring.GetTeamStartPosition(t)
+        if SCEN == "lobby" then
+          check(ex == LOBBY_POS[t][1] and ez == LOBBY_POS[t][2], "team " .. t .. "'s engine start position is the lobby's", ex, ez)
+        end
         spot = 0
-        Spring.SetGameRulesParam("spot_0_x", LOBBY_POS[t][1]); Spring.SetGameRulesParam("spot_0_z", LOBBY_POS[t][2])
+        Spring.SetGameRulesParam("spot_0_x", math.max(128, math.min(Game.mapSizeX - 128, ex or 0)))
+        Spring.SetGameRulesParam("spot_0_z", math.max(128, math.min(Game.mapSizeZ - 128, ez or 0)))
         Spring.SetGameRulesParam("spot_0_at", ally(t))
       end
       local sx, sz, sat = spotOf(spot or 0)
@@ -195,6 +209,22 @@ local function verify()
   elseif SCEN == "boxes" then
     check(name(0) == "arm_commander", "team 0 got Arm", name(0))
     check(phaseFrames.done and phaseFrames.done - phaseFrames.placement >= 900, "placement waited for team 0 to time out", phaseFrames.done)
+  elseif SCEN == "nofaction" then
+    check(phaseFrames.faction == nil, "no faction phase", phaseFrames.faction)
+    check(phaseFrames.placement == 0, "placement from frame 0", phaseFrames.placement)
+    check(name(0) == "arm_commander", "team 0 got its lobby side (ARM), not the Core it sent", name(0))
+    check(name(1) == "core_commander", "AI team 1 got its lobby side (CORE)", name(1))
+    check(phaseFrames.done and phaseFrames.done < 200, "placement ended early once all confirmed", phaseFrames.done)
+  elseif SCEN == "noplace" then
+    check(phaseFrames.faction == 0, "faction phase from frame 0", phaseFrames.faction)
+    check(phaseFrames.placement == nil, "no placement phase", phaseFrames.placement)
+    check(name(0) == "core_commander", "team 0 got the faction it chose (Core)", name(0))
+    check((Spring.GetGameRulesParam("spotCount") or 0) == 0, "no spots published", Spring.GetGameRulesParam("spotCount"))
+    check(phaseFrames.done and phaseFrames.done < 200, "faction phase ended early once all chose", phaseFrames.done)
+  elseif SCEN == "neither" then
+    check(phaseFrames.faction == nil and phaseFrames.placement == nil, "no phases at all")
+    check(phaseFrames.done == 0, "done from frame 0", phaseFrames.done)
+    check(name(0) == "arm_commander" and name(1) == "core_commander", "lobby sides", name(0), name(1))
   end
   log("RESULT", fails == 0 and "PASS" or "FAIL", passes, "checks passed", fails, "failed")
 end
@@ -226,7 +256,8 @@ end
 
 else -- unsynced: team 0, the real player, as the widgets would
 
-local FACTION = { duel = "core_commander", teams = "arm_commander", ffa = "core_commander", boxes = "arm_commander", lobby = "arm_commander", lobbybox = "arm_commander" }
+local FACTION = { duel = "core_commander", teams = "arm_commander", ffa = "core_commander", boxes = "arm_commander", lobby = "arm_commander", lobbybox = "arm_commander",
+                  nofaction = "core_commander", noplace = "core_commander", neither = "core_commander" }
 local function ulog(ok, what, ...) Spring.Echo("[HARNESS] START", ok and "PASS" or "FAIL", what, ...) end
 local placementStart
 

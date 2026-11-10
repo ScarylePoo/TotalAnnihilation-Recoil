@@ -5,7 +5,7 @@
 #   AIM=1 tools/headless-test/run.sh ...      instead runs only zz_walker_aim_probe (fire, hits and gun pitch of every armed unit)
 #   SCRIPTP=1 tools/headless-test/run.sh ...  instead runs only zz_script_probe (poses, on/off, build, corpses, transports, pads, stockpile)
 #   PADS=1 tools/headless-test/run.sh ...     instead runs only zz_pad_probe (air repair pads: luarules/gadgets/unit_air_pads.lua)
-#   STARTP=duel|teams|ffa|boxes|lobby|lobbybox tools/headless-test/run.sh ...  instead runs only zz_start_probe: the pregame flow of
+#   STARTP=duel|teams|ffa|boxes|lobby|lobbybox|nofaction|noplace|neither tools/headless-test/run.sh ...  instead runs only zz_start_probe: the pregame flow of
 #                                             game_spawn.lua (faction choice, placement, spawn) with simulated players, see the probe
 #   MAP=/path/map.sd7 MAPNAME="Map Name" ...  plays on that map instead of the generated blank one (e.g. one with start positions)
 #   KEEPLOG=path saves the cleaned infolog there (for tools/s3okit/kit/compare_probe.py)
@@ -89,6 +89,9 @@ if [ -n "$STARTP" ]; then
     boxes) sed -i 's/StartPosType=0;/StartPosType=2;/; s/\[ALLYTEAM0\] { NumAllies=0; }/[ALLYTEAM0] { NumAllies=0; StartRectLeft=0; StartRectTop=0; StartRectRight=0.3; StartRectBottom=1; }/; s/\[ALLYTEAM1\] { NumAllies=0; }/[ALLYTEAM1] { NumAllies=0; StartRectLeft=0.7; StartRectTop=0; StartRectRight=1; StartRectBottom=1; }/' "$WD/script.txt" ;;
     lobby) sed -i 's/StartPosType=0;/StartPosType=3;/' "$WD/script.txt" ;;
     lobbybox) sed -i 's/StartPosType=0;/StartPosType=3;/; s/\[ALLYTEAM0\] { NumAllies=0; }/[ALLYTEAM0] { NumAllies=0; StartRectLeft=0; StartRectTop=0; StartRectRight=0.3; StartRectBottom=1; }/; s/\[ALLYTEAM1\] { NumAllies=0; }/[ALLYTEAM1] { NumAllies=0; StartRectLeft=0.7; StartRectTop=0; StartRectRight=1; StartRectBottom=1; }/' "$WD/script.txt" ;;
+    nofaction) sed -i 's/debugmode=1;/debugmode=1;\n\t\tfactionchoice=0;/' "$WD/script.txt" ;;
+    noplace)   sed -i 's/debugmode=1;/debugmode=1;\n\t\tstartplacement=0;/' "$WD/script.txt" ;;
+    neither)   sed -i 's/debugmode=1;/debugmode=1;\n\t\tfactionchoice=0;\n\t\tstartplacement=0;/' "$WD/script.txt" ;;
   esac
 fi
 if [ -n "$MAP" ]; then

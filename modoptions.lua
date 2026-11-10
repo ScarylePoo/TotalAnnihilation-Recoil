@@ -62,6 +62,24 @@ local options =
 		section	= 'botagame',
 		def		= false,
 	},
+
+	{
+		key		= "factionchoice", -- read by luarules/gadgets/game_spawn.lua
+		name	= "Faction Choice",
+		desc	= "Players pick Arm or Core at the start of the game. Off: each player gets the side set in the lobby (random when none).\nkey: factionchoice",
+		type	= "bool",
+		section	= 'botagame',
+		def		= true,
+	},
+
+	{
+		key		= "startplacement", -- read by luarules/gadgets/game_spawn.lua
+		name	= "Start Placement",
+		desc	= "Players pick a start spot on the map at the start of the game. Off: commanders appear at the lobby or start box positions.\nkey: startplacement",
+		type	= "bool",
+		section	= 'botagame',
+		def		= true,
+	},
   
   {
     key    = 'StartMetal',

@@ -48,6 +48,14 @@
 --  game always did; spectators' messages are ignored; a team that selected a
 --  spot but did not confirm it keeps that spot.
 --
+--  Mod options (modoptions.lua) turn each phase off on its own:
+--    factionchoice=0   no faction phase: every team takes its lobby side (a
+--                      random faction when the side is not one), and the game
+--                      goes straight to placement, or to the spawn.
+--    startplacement=0  no placement phase: every team starts at its engine
+--                      start position (FallbackPos), as with no usable spots.
+--  Both off: the commanders are created at GameStart.
+--
 --  The headless test harness (tools/headless-test) sets the mod option
 --  skippregame=1: start units are then created at GameStart at the engine
 --  start positions, as before this gadget had phases.
@@ -114,6 +122,7 @@ local SELECT_BYTE  = "\139"
 local CONFIRM_BYTE = "\140"
 
 local SHARE_RADIUS = 96   -- elmos between a shared spot's centre and each commander
+local EDGE_MIN     = 128  -- elmos; a start position nearer the map edge than this is moved in (as game_start_spots.lua does with map spots)
 
 --------------------------------------------------------------------------------
 -- Phase state
@@ -121,6 +130,17 @@ local SHARE_RADIUS = 96   -- elmos between a shared spot's centre and each comma
 
 local modOptions = Spring.GetModOptions() or {}
 local SKIP_PREGAME = (tonumber(modOptions.skippregame) or 0) ~= 0
+
+-- A bool mod option, as a lobby or a script may spell it (true/false, 1/0).
+local function Flag(key, default)
+	local v = modOptions[key]
+	if v == nil or v == "" then return default end
+	if v == true or v == 1 or v == "1" or v == "true" then return true end
+	if v == false or v == 0 or v == "0" or v == "false" then return false end
+	return default
+end
+local FACTION_CHOICE  = Flag("factionchoice", true)
+local START_PLACEMENT = Flag("startplacement", true)
 
 local phase             = nil   -- nil (before GameStart) | "faction" | "placement" | "done"
 local factionDeadline   = 0
@@ -373,7 +393,14 @@ local function FallbackPos(teamID)
 	bx2, bz2 = bx2 or Game.mapSizeX, bz2 or Game.mapSizeZ
 	local unset = (not x) or (x <= 0 and z <= 0) or (math.abs(x - bx1) < 1 and math.abs(z - bz1) < 1)
 	if not unset then
-		return x, z
+		-- a position hard against the edge (the engine's fixed positions on a
+		-- generated map are at 20, 20) leaves no room to build: move it in
+		local cx = math.max(EDGE_MIN, math.min(Game.mapSizeX - EDGE_MIN, x))
+		local cz = math.max(EDGE_MIN, math.min(Game.mapSizeZ - EDGE_MIN, z))
+		if cx ~= x or cz ~= z then
+			Spring.Echo(string.format("[Game Spawn] Team %d's start position (%.0f, %.0f) is against the map edge, moved to (%.0f, %.0f)", teamID, x, z, cx, cz))
+		end
+		return cx, cz
 	end
 	local mates = Spring.GetTeamList(allyID) or { teamID }
 	local k, n = 1, #mates
@@ -520,6 +547,8 @@ local function HasStartBoxes()
 	return false
 end
 
+local StartPlacement   -- the phase clock, below
+
 function gadget:GameStart()
 	-- only activate if engine didn't already spawn units (compatibility)
 	if #Spring.GetAllUnits() > 0 then
@@ -558,7 +587,9 @@ function gadget:GameStart()
 	-- Fetch the (already validated and partitioned) start spots before
 	-- broadcasting the phase, so the game rules params are ready when widgets
 	-- first read them.
-	if Game.startPosType == 3 and not HasStartBoxes() then
+	if not START_PLACEMENT then
+		Spring.Echo("[Game Spawn] Start placement is off (mod option) — no placement phase")
+	elseif Game.startPosType == 3 and not HasStartBoxes() then
 		-- the players chose their start positions in the lobby
 		Spring.Echo("[Game Spawn] Start positions chosen in the lobby — no placement phase")
 	elseif GG.StartSpots then
@@ -572,11 +603,31 @@ function gadget:GameStart()
 		Spring.Echo("[Game Spawn] GG.StartSpots missing (game_start_spots.lua not loaded?) — skipping placement phase")
 	end
 
+	Spring.SetGameRulesParam("factionDeadlineFrame",   0)
+	Spring.SetGameRulesParam("placementDeadlineFrame", 0)
+
+	if not FACTION_CHOICE then
+		-- No faction phase: the human teams take their lobby side too.
+		Spring.Echo("[Game Spawn] Faction choice is off (mod option) — every team takes its lobby side" ..
+			"  human teams=" .. #humanTeams .. "  AI teams=" .. (#allNonGaiaTeams - #humanTeams) ..
+			"  spots=" .. #mapSpots .. "  FFA=" .. tostring(isFFA))
+		for _, teamID in ipairs(allNonGaiaTeams) do
+			if not factionChosen[teamID] then
+				SetFaction(teamID, LobbyFaction(teamID) or RandomFaction())
+			end
+		end
+		if usePlacement then
+			StartPlacement(Spring.GetGameFrame())
+		else
+			SpawnAll()
+		end
+		return
+	end
+
 	phase = "faction"
 	factionDeadline = Spring.GetGameFrame() + CHOICE_TIMEOUT_FRAMES
-	Spring.SetGameRulesParam("factionDeadlineFrame",   factionDeadline)
-	Spring.SetGameRulesParam("placementDeadlineFrame", 0)
-	Spring.SetGameRulesParam("phase",                  "faction")
+	Spring.SetGameRulesParam("factionDeadlineFrame", factionDeadline)
+	Spring.SetGameRulesParam("phase",                "faction")
 
 	Spring.Echo("[Game Spawn] Phase: faction  deadline=" .. factionDeadline ..
 		"  human teams=" .. #humanTeams .. "  AI teams=" .. (#allNonGaiaTeams - #humanTeams) ..
@@ -679,7 +730,7 @@ end
 -- Phase clock
 --------------------------------------------------------------------------------
 
-local function StartPlacement(n)
+function StartPlacement(n)
 	phase = "placement"
 	placementDeadline = n + PLACEMENT_TIMEOUT_FRAMES
 	Spring.SetGameRulesParam("placementDeadlineFrame", placementDeadline)

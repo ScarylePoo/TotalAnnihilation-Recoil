@@ -684,6 +684,24 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
   harness script.txt sets skippregame=1; VISUALPREGAME drops it, the faction phase lasts 900 frames and screenshots
   start at 195).
 
+## Start flow: faction choice and placement toggles (2026-11-09)
+- `luarules/gadgets/game_spawn.lua` + `game_start_spots.lua` + Slate's `slate_factionchooser.lua` / `slate_placement.lua`
+  are the pregame (ported from SF 2026-11-06). Checked against the SF copy on E: (dated 2026-10-02, older than the
+  port): ours is a superset: SF's synthesis from resource clusters, void-water repair, duplicate detection, the
+  gap-search partition between two sides, the greedy auction for 3+, the auto-placement (farthest from the enemy
+  side / from claimed spots, sharing the least crowded spot in overflow), plus start boxes (spots partitioned by
+  box, synthesised inside it), lobby start positions (startpostype 3 skips placement unless there are boxes),
+  edge clamping of map spots, opponents' claims hidden with refusal feedback, and a timed-out player keeping the
+  spot it selected.
+- Mod options `factionchoice` and `startplacement` (bool, default on, main section) switch the two phases off on
+  their own. game_spawn.lua `Flag()` reads them (true/false/1/0). factionchoice=0: every team takes its lobby side
+  (random faction when the side is not one) and the game goes straight to "placement" at frame 0 (or to the spawn).
+  startplacement=0: no spots are published and every team starts at its engine start position (FallbackPos: the
+  lobby position, else the start box centre spread for teammates). Both off: commanders at GameStart, phase "done"
+  from frame 0. The Slate widgets need nothing: both leave when the "phase" param is not theirs.
+- Probes: `STARTP=nofaction|noplace|neither tools/headless-test/run.sh ~/engine/2026.09.01` (with the older
+  duel|teams|ffa|boxes|lobby|lobbybox); each ends with `[HARNESS] START RESULT PASS n checks passed 0 failed`.
+
 ## Unit brightness (2026-11-09)
 - CUS GL4 `albedoFactor` uniform (defaultunit bin, `luarules/configs/cus_defs.lua`): multiplies the unit's base colour
   right after the texture read (`cus_gl4.frag.glsl`, after albedoColor), so lighting, specular, glow (tex2 red adds
