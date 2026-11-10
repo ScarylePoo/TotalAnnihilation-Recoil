@@ -141,7 +141,7 @@ def shapes_core():
     ear = _arc(cx, cy, r, a_top, a_low) + [(x_in, 154 - x_in), (x_in, top_y)]
 
     polys = [body, sector, ear, _mirror(ear, cx)]
-    return polys, (6, apex[1], 296, tip_y)
+    return polys, (6, top_y, 296, tip_y)
 
 
 SHAPES = {"arm": shapes_arm, "core": shapes_core}
