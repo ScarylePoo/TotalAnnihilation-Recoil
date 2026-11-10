@@ -102,8 +102,9 @@ return {
 	-- The faction chooser at the start of a game (slate_factionchooser.lua),
 	-- one card per faction. `id` is the commander the spawn gadget creates
 	-- (gamedata/sidedata.lua); `picture` a file path from the game root, shown
-	-- at 392x220 dp (784x440 pixels, so it is sharp up to 4K); `color` tints
-	-- the card. The pictures are placeholders from tools/faction_placeholders.py.
+	-- at 392x220 dp (1568x880 pixels, so it is sharp up to 8K); `color` tints
+	-- the card. The pictures and the emblems beside them (<faction>_emblem.png,
+	-- transparent, premultiplied) are drawn by tools/faction_logos.py.
 	factions = {
 		{
 			id      = "arm_commander",

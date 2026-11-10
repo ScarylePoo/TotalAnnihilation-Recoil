@@ -671,6 +671,16 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
 - Checks: run_win_visual.sh with VISUALSELECT=1 (keeps LuaUI), VISUALCMD="luaui econgraph" opens the economy graph,
   screenshots zoomed with tools/ta-data/pngcrop.py (pure Python; no PIL on this machine).
 
+## Faction pictures and emblems (2026-11-09)
+- `tools/faction_logos.py` (Pillow + numpy, system python3) draws `luaui/slate/images/factions/arm.png` and `core.png`
+  for the faction chooser at 1568x880 (4x the 392x220 dp shown, sharp to 8K) and the emblems alone as
+  `arm_emblem.png` / `core_emblem.png` (1024x1024, transparent, PREMULTIPLIED as RmlUi needs). Arm: steel ring,
+  blue arrow rising; Core: steel gear, red hexagonal reactor. New designs, not the TA marks. Shapes are drawn at 4x
+  and scaled down; edit the script and re-run rather than the PNGs. The old placeholder script is gone.
+- Seeing the chooser in the engine: `VISUALPREGAME=1 VISUALSELECT=1 VISUAL=arm_commander run_win_visual.sh` (the
+  harness script.txt sets skippregame=1; VISUALPREGAME drops it, the faction phase lasts 900 frames and screenshots
+  start at 195).
+
 ## Unit brightness (2026-11-09)
 - CUS GL4 `albedoFactor` uniform (defaultunit bin, `luarules/configs/cus_defs.lua`): multiplies the unit's base colour
   right after the texture read (`cus_gl4.frag.glsl`, after albedoColor), so lighting, specular, glow (tex2 red adds
