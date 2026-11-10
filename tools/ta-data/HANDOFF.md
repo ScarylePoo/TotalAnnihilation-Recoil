@@ -693,6 +693,14 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
   box, synthesised inside it), lobby start positions (startpostype 3 skips placement unless there are boxes),
   edge clamping of map spots, opponents' claims hidden with refusal feedback, and a timed-out player keeping the
   spot it selected.
+- Partition refinement (2026-11-09, Comet Catcher Remake came out top vs bottom): the 2-side gap split took the engine's
+  team positions as the default cut direction even with choose-in-game positions (startpostype 2), where nobody
+  chose them, and the search for a wider empty band then turned the cut to top/bottom (the map's 8 spots lie in two
+  rows). Now: startpostype 2 positions are ignored; without a meaningful centroid axis the default is the map's long
+  axis (left/right on a wide map); and a default cut that passes cleanly between the spots (gap >= 10% of the
+  spots' span along it, or >= 768 elmos) is kept, the search only runs for a default that slices through spots.
+  The `[Start Spots] Gap split:` log line names the default, its gap and whether it was kept. Checked on Comet
+  Catcher with startpostype 2 and 0 (`STARTP=duel STARTPOSTYPE=2 MAP=... MAPNAME="Comet Catcher Remake 1.8"`).
 - Mod options `factionchoice` and `startplacement` (bool, default on, main section) switch the two phases off on
   their own. game_spawn.lua `Flag()` reads them (true/false/1/0). factionchoice=0: every team takes its lobby side
   (random faction when the side is not one) and the game goes straight to "placement" at frame 0 (or to the spawn).

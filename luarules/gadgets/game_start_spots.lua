@@ -691,14 +691,17 @@ local function Build()
 		-- For 3+ allyteams (rare in sided play) we fall back to a balanced greedy
 		-- auction by centroid distance.
 
-		-- Centroid per allyteam from engine-assigned start positions; an
-		-- allyteam with none usable takes its start box centre (the map centre
-		-- without a box), so every allyteam takes part in the split.
+		-- Centroid per allyteam from engine-assigned start positions (the
+		-- map's fixed ones or the lobby's: with choose-in-game positions
+		-- (startpostype 2) nobody chose, so those are ignored); an allyteam
+		-- with none usable takes its start box centre (the map centre without
+		-- a box), so every allyteam takes part in the split.
 		local centroids = {}
+		local positionsMeanSomething = (Game.startPosType ~= 2)
 		for atID in pairs(atCounts) do
 			local cx, cz, n = 0, 0, 0
 			for _, tID in ipairs(Spring.GetTeamList(atID)) do
-				if tID ~= gaiaTeamID then
+				if tID ~= gaiaTeamID and positionsMeanSomething then
 					local tx, _, tz = Spring.GetTeamStartPosition(tID)
 					if tx and (tx > 0 or tz > 0) then
 						cx = cx + tx; cz = cz + tz; n = n + 1
@@ -775,47 +778,60 @@ local function Build()
 			-- applied at assignment time below).
 			local kCut = math.max(1, math.floor(spotTotal / 2))
 
-			-- Score a direction: normalised gap between the two balanced halves.
-			-- Larger = the halves are separated by more empty space along dir.
+			-- Score a direction: normalised gap between the two balanced halves
+			-- (larger = the halves are separated by more empty space along
+			-- dir), and that gap in elmos.
 			local function ScoreDir(dx, dz)
-				if spotTotal < 2 then return -1 end
+				if spotTotal < 2 then return -1, 0 end
 				local proj = {}
 				for i = 1, #spotList do
 					proj[i] = spotList[i].x * dx + spotList[i].z * dz
 				end
 				table.sort(proj)
 				local span = proj[#proj] - proj[1]
-				if span < 1 then return -1 end
-				return (proj[kCut + 1] - proj[kCut]) / span
+				if span < 1 then return -1, 0 end
+				local gap = proj[kCut + 1] - proj[kCut]
+				return gap / span, gap
 			end
 
-			-- Default direction: the centroid axis (engine intent).
+			-- Default direction: the centroid axis (the lobby's or the map's
+			-- intent). Without one, across the map's long axis: left and right
+			-- on a wide map, top and bottom on a tall one.
 			local cax, caz = c2.x - c1.x, c2.z - c1.z
 			local clen = math.sqrt(cax * cax + caz * caz)
+			local defaultName = "centroid axis"
 			if clen < 1 then
-				-- Degenerate centroids: seed with the map's horizontal axis; the
-				-- search below will still find the best separating direction.
-				cax, caz, clen = 1, 0, 1
+				if Game.mapSizeX >= Game.mapSizeZ then cax, caz = 1, 0 else cax, caz = 0, 1 end
+				clen = 1
+				defaultName = "long axis"
 			end
 			cax, caz = cax / clen, caz / clen
 
 			local bestDx, bestDz = cax, caz
-			local bestScore      = ScoreDir(cax, caz)
-			local centroidScore  = bestScore
+			local bestScore, defaultGap = ScoreDir(cax, caz)
+			local centroidScore = bestScore
 
-			-- Sample directions across a half-circle (a line is undirected, so
-			-- 0..π covers every distinct cut orientation).  Override the default
-			-- only when a direction is clearly better, so uniform maps with no
-			-- real barrier keep the sensible engine-intended axis.
-			local STEPS  = 36     -- 5° resolution
-			local MARGIN = 0.03   -- required improvement over the centroid axis
-			for step = 0, STEPS - 1 do
-				local theta  = math.pi * step / STEPS
-				local dx, dz = math.cos(theta), math.sin(theta)
-				local sc     = ScoreDir(dx, dz)
-				if sc > bestScore + MARGIN then
-					bestScore = sc
-					bestDx, bestDz = dx, dz
+			-- A default cut that passes cleanly between the spots stands: it is
+			-- what the lobby, the map or the map's shape asked for, and a wider
+			-- empty band in another direction (the rows of spots on a wide map,
+			-- which would make the sides top and bottom) is no reason to turn
+			-- it. Only a default that slices through the spots is searched
+			-- for a better direction, across a half-circle (a line is
+			-- undirected, so 0..π covers every distinct cut orientation).
+			local CLEAN_GAP_FRACTION = 0.10   -- of the spots' span along the cut
+			local CLEAN_GAP_ELMOS    = 768
+			local clean = bestScore >= CLEAN_GAP_FRACTION or defaultGap >= CLEAN_GAP_ELMOS
+			if not clean then
+				local STEPS  = 36     -- 5° resolution
+				local MARGIN = 0.03   -- required improvement over the default
+				for step = 0, STEPS - 1 do
+					local theta  = math.pi * step / STEPS
+					local dx, dz = math.cos(theta), math.sin(theta)
+					local sc     = ScoreDir(dx, dz)
+					if sc > bestScore + MARGIN then
+						bestScore = sc
+						bestDx, bestDz = dx, dz
+					end
 				end
 			end
 
@@ -850,8 +866,9 @@ local function Build()
 			end
 
 			Spring.Echo(string.format(
-				"[Start Spots] Gap split: dir=(%.2f, %.2f)  centroidScore=%.3f  bestScore=%.3f  lowTeam=%d gets %d",
-				bestDx, bestDz, centroidScore, bestScore, lowTeam, lowQuota))
+				"[Start Spots] Gap split: %s dir=(%.2f, %.2f) gap=%.3f (%.0f elmos, %s), used dir=(%.2f, %.2f) gap=%.3f  lowTeam=%d gets %d",
+				defaultName, cax, caz, centroidScore, defaultGap, clean and "clean, kept" or "searched",
+				bestDx, bestDz, bestScore, lowTeam, lowQuota))
 		else
 			-- ── Balanced greedy auction (3+ allyteams) ────────────────────────
 			local candidates = {}

@@ -94,6 +94,8 @@ if [ -n "$STARTP" ]; then
     neither)   sed -i 's/debugmode=1;/debugmode=1;\n\t\tfactionchoice=0;\n\t\tstartplacement=0;/' "$WD/script.txt" ;;
   esac
 fi
+# STARTPOSTYPE=2: choose-in-game start positions without boxes (the engine gives no team positions); 3: the lobby's
+[ -n "$STARTPOSTYPE" ] && sed -i "s/StartPosType=0;/StartPosType=$STARTPOSTYPE;/" "$WD/script.txt"
 if [ -n "$MAP" ]; then
   mkdir -p "$WD/maps"
   ln -s "$MAP" "$WD/maps/$(basename "$MAP")"
