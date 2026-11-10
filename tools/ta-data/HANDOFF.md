@@ -710,6 +710,16 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
 - Probes: `STARTP=nofaction|noplace|neither tools/headless-test/run.sh ~/engine/2026.09.01` (with the older
   duel|teams|ffa|boxes|lobby|lobbybox); each ends with `[HARNESS] START RESULT PASS n checks passed 0 failed`.
 
+## Metal spots from a map's Lua metal layout (2026-11-09)
+- Crystallized Plains 1.01 (and many maps of that family) has a blank metal map in the SMF; its spots are in
+  `mapconfig/map_metal_layout.lua` ({spots = {{x, z, metal}, ...}}) and the map's own gadget
+  (`LuaRules/Gadgets/map_lua_metal_spots.lua`, layer -10) writes them into the metal map at Initialize. Our
+  `game_metal_spots.lua` runs at layer -100, scanned the metal map first and found nothing. It now reads the layout
+  file when the map has one (LayoutSpots: one spot per entry, snapped to its 16-elmo square, duplicates within
+  MIN_SEPARATION merged), else scans the metal map, and a map with nothing at Initialize is scanned again at
+  GameStart; `game_metal_spot_loader.lua` reloads at GameStart when it had none. The `[Metal Spots]` log line names
+  the source.
+
 ## Unit brightness (2026-11-09)
 - CUS GL4 `albedoFactor` uniform (defaultunit bin, `luarules/configs/cus_defs.lua`): multiplies the unit's base colour
   right after the texture read (`cus_gl4.frag.glsl`, after albedoColor), so lighting, specular, glow (tex2 red adds
