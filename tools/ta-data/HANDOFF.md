@@ -720,6 +720,24 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
   GameStart; `game_metal_spot_loader.lua` reloads at GameStart when it had none. The `[Metal Spots]` log line names
   the source.
 
+## Geothermal plants: vents placed from Lua, hover ghost (2026-11-09)
+- Crystallized Plains places its 4 geovents from its own feature placer (LuaGaia, which loads after LuaRules), so
+  `game_geovent_spots.lua` (layer -100, scanned features at Initialize) published 0 and right-click did nothing.
+  The gadget now also takes `FeatureCreated` for geoThermal features and republishes at GameStart / every 30 frames
+  while new ones arrive; its log line says how many vents take a geothermal plant (TestBuildOrder at the snapped
+  position). `game_geovent_spot_loader.lua` reloads whenever customGeovent_count changes, refilling the shared table.
+- `game_metal_maker_placement_snapping.lua`: with builders selected and no command active, the mouse within 90 elmos
+  of a free vent shows the geothermal plant's ghost (yellow guide line; GetHoverVent/DrawGeoHover, in
+  DrawWorldPreUnit after the metal spot hover) and a right-click queues one per builder that has it, at
+  Pos2BuildPos of the vent (the engine's own snap, so the order lands where the ghost was). A vent with a plant
+  within 48 elmos is taken. Commanders cannot build geothermal plants (TA); the T1 construction units can.
+- Check: `GEOPROBE=1 VISUALHOLD=1 VISUAL=arm_t1_bot_constructor VISUALSELECT=1 VISUALFRAMES=310 run_win_visual.sh`
+  (zz_geo_probe.lua gadget + widget in tartest.sdd): a geovent is created on the blank map at frame 1, the mouse is
+  parked on it (WarpMouse to its screen position each Update), the screenshots show the ghost, the probe calls the
+  snapping widget's MousePress/MouseRelease with button 3 and checks the kbot's queue. Mind: a LuaUI order goes
+  through the network and in this harness lands ~30 sim frames after it is given (the sim runs far ahead of the
+  draw loop), so the check waits 70 frames. The visual probe's own frame-30 build order is held off by VISUALHOLD.
+
 ## Unit brightness (2026-11-09)
 - CUS GL4 `albedoFactor` uniform (defaultunit bin, `luarules/configs/cus_defs.lua`): multiplies the unit's base colour
   right after the texture read (`cus_gl4.frag.glsl`, after albedoColor), so lighting, specular, glow (tex2 red adds

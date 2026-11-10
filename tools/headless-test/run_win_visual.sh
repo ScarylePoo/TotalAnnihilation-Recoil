@@ -24,7 +24,7 @@ rm -rf "$RUN/screenshots" "$RUN/infolog.txt"
 [ -n "$LIGHTSPROBE" ] && rm -f "$RUN/LuaUI/Config/TART_data.lua"
 cp "$HERE/script.txt" "$RUN/script.txt"
 [ -n "$VISUALCEG" ] && VISUAL=${VISUAL:-none}
-sed -i "s|debugmode=1;|debugmode=1;\n\t\taimonly=1;\n\t\tvisualceg=$VISUALCEG;\n\t\tvisualunits=$VISUAL;\n\t\tvisualzoom=${VISUALZOOM:-700};\n\t\tvisualdist=${VISUALDIST:-420};\n\t\tvisualkill=${VISUALKILL:-};\n\t\tvisualhold=${VISUALHOLD:-};\n\t\tvisualspacing=${VISUALSPACING:-};\n\t\tvisualtex=${VISUALTEX:-};\n\t\tvisualselect=${VISUALSELECT:-};\n\t\tvisualhurt=${VISUALHURT:-};\n\t\tvisualcmd=${VISUALCMD:-};\n\t\tvisualenemy=${VISUALENEMY:-};\n\t\tvisualframes=${VISUALFRAMES:-};\n\t\tvisualmove=${VISUALMOVE:-};\n\t\tlightsprobe=${LIGHTSPROBE:-};|" "$RUN/script.txt"
+sed -i "s|debugmode=1;|debugmode=1;\n\t\taimonly=1;\n\t\tvisualceg=$VISUALCEG;\n\t\tvisualunits=$VISUAL;\n\t\tvisualzoom=${VISUALZOOM:-700};\n\t\tvisualdist=${VISUALDIST:-420};\n\t\tvisualkill=${VISUALKILL:-};\n\t\tvisualhold=${VISUALHOLD:-};\n\t\tvisualspacing=${VISUALSPACING:-};\n\t\tvisualtex=${VISUALTEX:-};\n\t\tvisualselect=${VISUALSELECT:-};\n\t\tvisualhurt=${VISUALHURT:-};\n\t\tvisualcmd=${VISUALCMD:-};\n\t\tvisualenemy=${VISUALENEMY:-};\n\t\tvisualframes=${VISUALFRAMES:-};\n\t\tvisualmove=${VISUALMOVE:-};\n\t\tlightsprobe=${LIGHTSPROBE:-};\n\t\tgeoprobe=${GEOPROBE:-};|" "$RUN/script.txt"
 # VISUALPREGAME=1: keep the faction/placement pregame (the harness skips it otherwise), e.g. to see the Slate faction chooser
 [ -n "$VISUALPREGAME" ] && sed -i "/skippregame=1;/d" "$RUN/script.txt"
 # VISUALMAP=/path/to/map.sd7 VISUALMAPNAME=<name in its mapinfo.lua>: a real map instead of the generated blank one
@@ -41,5 +41,6 @@ echo "engine exit: $?   (infolog: $RUN/infolog.txt)"
 OUT=${VISUALOUT:-$RUN/shots}
 mkdir -p "$OUT" && cp "$RUN"/screenshots/* "$OUT/" 2>/dev/null
 echo "--- screenshots: $OUT ($(ls "$OUT" | wc -l))"
+grep -a "\[GEOPROBE\]" "$RUN/infolog.txt" | sed 's/^\[t=[^]]*\]\[f=[^]]*\] //'
 grep -a "\[VISUAL\] draw\|GL renderer\|Error\|error" "$RUN/infolog.txt" | grep -v "RmlUi\|TART.lua" | head -15
 [ -n "$LIGHTSPROBE" ] && grep -a "LIGHTSPROBE\|ZOMBIE\|zombie units\|invalid unit/featureID\|listener error\|upload failed" "$RUN/infolog.txt" | sed "s/^\[t=[^]]*\]//" | tail -40

@@ -376,6 +376,80 @@ local function DrawPaintPath(cursorX, cursorY, cursorZ)
 	glColor(1, 1, 1, 1)
 end
 
+-- TA:Recoil: geovents (WG.customGeoventSpots, game_geovent_spots.lua). With builders selected and no command
+-- active, the mouse over a vent shows the ghost of the geothermal plant (needGeo) the builders can build, and a
+-- right-click queues one from each selected builder that has it. Same reach as a metal spot.
+local GEO_OCCUPIED = 48   -- elmos: a geothermal plant (4x4) within this of the vent means it is taken
+
+-- the geothermal plant unitDefID a builder can build, or nil
+local function GeoOptionOf(ud)
+	for _, bo in ipairs(ud and ud.buildOptions or {}) do
+		if UnitDefs[bo].needGeo then return bo end
+	end
+	return nil
+end
+
+-- the vent under the mouse, and the geothermal plant of the first selected builder that has one:
+-- vent, geoDefID, mouse x, y, z; nil when there is none, a command is active, or the vent is taken
+local function GetHoverVent(screenX, screenY)
+	local spots = WG.customGeoventSpots
+	if not spots or #spots == 0 then return nil end
+	local _, activeCmdID = spGetActiveCommand()
+	if activeCmdID ~= nil then return nil end
+	local geoDefID
+	for _, uID in ipairs(spGetSelectedUnits()) do
+		geoDefID = GeoOptionOf(UnitDefs[spGetUnitDefID(uID)])
+		if geoDefID then break end
+	end
+	if not geoDefID then return nil end
+	local _, pos = spTraceScreenRay(screenX, screenY, true, true)
+	if not pos then return nil end
+	local vent, best = nil, HOVER_RADIUS * HOVER_RADIUS
+	for _, s in ipairs(spots) do
+		local d = (s.x - pos[1]) ^ 2 + (s.z - pos[3]) ^ 2
+		if d < best then vent, best = s, d end
+	end
+	if not vent then return nil end
+	for _, u in ipairs(spGetUnitsInCylinder(vent.x, vent.z, GEO_OCCUPIED)) do
+		local ud = UnitDefs[spGetUnitDefID(u)]
+		if ud and ud.needGeo then return nil end
+	end
+	return vent, geoDefID, pos[1], pos[2], pos[3]
+end
+
+local function TryGeoRightClick(screenX, screenY)
+	local vent = GetHoverVent(screenX, screenY)
+	if not vent then return false end
+	local shift = select(4, spGetModKeyState())
+	local gy = spGetGroundHeight(vent.x, vent.z)
+	local issued = false
+	for _, uID in ipairs(spGetSelectedUnits()) do
+		local geoDefID = GeoOptionOf(UnitDefs[spGetUnitDefID(uID)])
+		if geoDefID then
+			local bx, by, bz = Spring.Pos2BuildPos(geoDefID, vent.x, gy, vent.z, 0)
+			Spring.GiveOrderToUnit(uID, -geoDefID, { bx or vent.x, by or gy, bz or vent.z, 0 }, shift and { "shift" } or {})
+			issued = true
+		end
+	end
+	return issued
+end
+
+local function DrawGeoHover(vent, geoDefID, bx, by, bz)
+	local sy = spGetGroundHeight(vent.x, vent.z)
+	glDepthTest(false)
+	glLineWidth(2.0)
+	glColor(1, 0.85, 0.2, LINE_ALPHA)
+	glBeginEnd(GL.LINES, DoLine, bx, by, bz, vent.x, sy, vent.z)
+	glLineWidth(1.0)
+	glColor(1, 1, 1, GHOST_ALPHA)
+	glPushMatrix()
+	local gx, gz = GhostPos(geoDefID, vent.x, sy, vent.z)
+	glTranslate(gx, sy + GHOST_YOFF, gz)
+	glUnitShape(geoDefID, myTeamID, false, true, true)
+	glPopMatrix()
+	glColor(1, 1, 1, 1)
+end
+
 function widget:DrawWorldPreUnit()
 	-- MODE A: placement snapping mode (original behavior)
 	local _, cmdID = spGetActiveCommand()
@@ -416,7 +490,12 @@ function widget:DrawWorldPreUnit()
 	-- MODE B (hover): single ghost + guide line
 	local mx, my = spGetMouseState()
 	local spot, mexDefID, bx, by, bz = GetHoverSpotAndBuildDef(mx, my)
-	if not spot then return end
+	if not spot then
+		-- TA:Recoil: or the ghost of a geothermal plant over a vent
+		local vent, geoDefID, vx, vy, vz = GetHoverVent(mx, my)
+		if vent then DrawGeoHover(vent, geoDefID, vx, vy, vz) end
+		return
+	end
 
 	local sy = spGetGroundHeight(spot.x, spot.z)  -- negative when underwater; intentional
 
@@ -441,43 +520,6 @@ function widget:DrawWorldPreUnit()
 	glColor(1, 1, 1, 1)
 end
 
--- TA:Recoil: right-click a geovent (WG.customGeoventSpots, game_geovent_spots.lua) with builders selected and no
--- command active: each selected builder that can build a geothermal plant (needGeo) queues its own on the vent.
-local GEO_HOVER = 60
-local function TryGeoRightClick(screenX, screenY)
-	local spots = WG.customGeoventSpots
-	if not spots or #spots == 0 then return false end
-	local _, activeCmdID = spGetActiveCommand()
-	if activeCmdID ~= nil then return false end
-	local _, pos = spTraceScreenRay(screenX, screenY, true, true)
-	if not pos then return false end
-	local vent, best = nil, GEO_HOVER * GEO_HOVER
-	for _, s in ipairs(spots) do
-		local d = (s.x - pos[1]) ^ 2 + (s.z - pos[3]) ^ 2
-		if d < best then vent, best = s, d end
-	end
-	if not vent then return false end
-	-- a vent with a geothermal plant on it already is taken
-	for _, u in ipairs(spGetUnitsInCylinder(vent.x, vent.z, 40)) do
-		local ud = UnitDefs[spGetUnitDefID(u)]
-		if ud and ud.needGeo then return false end
-	end
-	local shift = select(4, spGetModKeyState())
-	local gy = spGetGroundHeight(vent.x, vent.z)
-	local issued = false
-	for _, uID in ipairs(spGetSelectedUnits()) do
-		local ud = UnitDefs[spGetUnitDefID(uID)]
-		local geoDefID
-		for _, bo in ipairs(ud and ud.buildOptions or {}) do
-			if UnitDefs[bo].needGeo then geoDefID = bo break end
-		end
-		if geoDefID then
-			Spring.GiveOrderToUnit(uID, -geoDefID, { vent.x, gy, vent.z, 0 }, shift and { "shift" } or {})
-			issued = true
-		end
-	end
-	return issued
-end
 
 -- Intercept clicks:
 --  A) left-click in placement mode: snap (original)

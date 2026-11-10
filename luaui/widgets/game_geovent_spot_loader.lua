@@ -14,9 +14,14 @@ end
 local GetGameRulesParam = Spring.GetGameRulesParam
 local GetGroundHeight   = Spring.GetGroundHeight
 
-function widget:Initialize()
-	local geoSpots = {}
+local loadedCount = -1
+
+local function Load()
+	-- the same table on a reload: the minimap drawer caches it once it exists
+	local geoSpots = WG.customGeoventSpots or {}
+	for i = #geoSpots, 1, -1 do geoSpots[i] = nil end
 	local count = GetGameRulesParam("customGeovent_count") or 0
+	loadedCount = count
 
 	for i = 1, count do
 		local x = GetGameRulesParam("customGeovent_" .. i .. "_x")
@@ -29,6 +34,17 @@ function widget:Initialize()
 
 	WG.customGeoventSpots = geoSpots
 	Spring.Echo("[GeoventSpotLoader] Loaded " .. #geoSpots .. " custom geovent spots into WG.customGeoventSpots")
+end
+
+function widget:Initialize()
+	Load()
+end
+
+-- a map that places its vents from Lua publishes them after load (game_geovent_spots.lua)
+function widget:GameFrame(n)
+	if n % 30 == 0 and (GetGameRulesParam("customGeovent_count") or 0) ~= loadedCount then
+		Load()
+	end
 end
 
 function widget:Shutdown()
