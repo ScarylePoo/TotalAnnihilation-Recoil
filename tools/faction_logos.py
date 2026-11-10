@@ -10,9 +10,9 @@ opaque, so they need no premultiplied alpha (see theme.rcss).
 The emblems are also saved on their own, 1024x1024 with transparency, for
 use elsewhere in the UI. Those are premultiplied, as RmlUi needs.
 
-Everything is drawn with Pillow: shapes are rendered at SS times the final
-size and scaled down for anti-aliasing. The original Total Annihilation
-marks are not copied; these are new designs in the factions' colours.
+Everything is drawn with Pillow: the logos are polygons (measured from the
+reference picture in Claude Space, see the emblems section) rendered at SS
+times the final size and scaled down for anti-aliasing.
 
     python3 tools/faction_logos.py
 """
@@ -35,12 +35,11 @@ EMBLEM_FILE = 1024     # emblem-only file size
 BG = (13, 14, 16)
 TEXT = (244, 245, 247)
 MUTED = (181, 186, 193)
-STEEL = (214, 221, 230)   # the metal ring both emblems share
 
 FACTIONS = [
     # file stem, name, tagline, faction colour (`color` in slate_game.lua), symbol colour
-    ("arm", "ARM", "SPEED  ·  RANGE  ·  NUMBERS", (0x4a, 0x86, 0xe0), (0x8c, 0xb8, 0xff)),
-    ("core", "CORE", "ARMOUR  ·  WEIGHT  ·  FIREPOWER", (0xd8, 0x4a, 0x3c), (0xf0, 0x5a, 0x48)),
+    ("arm", "ARM", "SPEED  ·  RANGE  ·  NUMBERS", (0x4a, 0x86, 0xe0), (0x3d, 0x7e, 0xf0)),
+    ("core", "CORE", "ARMOUR  ·  WEIGHT  ·  FIREPOWER", (0xd8, 0x4a, 0x3c), (0xe0, 0x3c, 0x30)),
 ]
 
 
@@ -49,87 +48,134 @@ def mix(a, b, t):
 
 
 # ---------------------------------------------------------------- emblems
-# Each emblem is drawn into a unit circle (radius 1, centre 0) on an RGBA
-# canvas of `size` pixels, at SS times that and scaled down.
+# The two logos as polygons, in the pixel coordinates of the reference
+# picture they were measured from ("Arm and core logo shapes.png" in Claude
+# Space: the logos drawn as glowing outlines; the lit outline was
+# thresholded and everything the outside could not reach was taken as the
+# shape, then the straight edges and the circle were read off that mask).
 
-def _canvas(size):
-    px = size * SS
-    img = Image.new("RGBA", (px, px), (0, 0, 0, 0))
-    scale = px / 2.0
-
-    def P(x, y):
-        return (scale + x * scale * 0.98, scale + y * scale * 0.98)
-
-    return img, P
+def _mirror(pts, cx):
+    return [(2 * cx - x, y) for x, y in pts]
 
 
-def _ring(draw, P, r_out, r_in, colour):
-    draw.ellipse([P(-r_out, -r_out), P(r_out, r_out)], fill=colour)
-    draw.ellipse([P(-r_in, -r_in), P(r_in, r_in)], fill=(0, 0, 0, 0))
+def _arc(cx, cy, r, a0, a1, n=64):
+    """Points on a circle from angle a0 to a1 (degrees, y down)."""
+    return [(cx + r * math.cos(math.radians(a0 + (a1 - a0) * i / n)),
+             cy + r * math.sin(math.radians(a0 + (a1 - a0) * i / n))) for i in range(n + 1)]
 
 
-def _polygon(draw, P, pts, colour):
-    draw.polygon([P(x, y) for x, y in pts], fill=colour)
+def shapes_arm():
+    """A rhombus in a channel, framed by two bars split at the top, a V below,
+    and swallowtail wings either side. Mirror axis x = 196."""
+    cx = 196.0
+    rhombus = [(cx, 61), (252, 141), (cx, 221), (140, 141)]
+
+    # upper-left piece: the bar (inner edge through (184,50)-(148,100), outer
+    # edge through (176,10)-(116,100), cut vertically at x=188 near the top)
+    # grown into the upper wing (y 103..133, swallowtail end 10..24)
+    def xi(y):
+        return 184 - 0.72 * (y - 50)
+
+    def xo(y):
+        return 176 - 0.6667 * (y - 10)
+
+    upper_left = [(xo(10), 10), (188, 10), (188, 50 - (188 - 184) / 0.72), (xi(133), 133),
+                  (24, 133), (10, 103), (xo(103), 103)]
+
+    # lower piece: the V (inner edge through (160,200) at 0.7 per y, outer edge
+    # through (112,180) at 0.64 per y) with the lower wings (y 149..179)
+    def vi(y):
+        return 160 + 0.7 * (y - 200)
+
+    def vo(y):
+        return 112 + 0.64 * (y - 180)
+
+    y_in = 200 + (cx - 160) / 0.7
+    y_out = 180 + (cx - 112) / 0.64
+    left = [(10, 179), (24, 149), (vi(149), 149), (cx, y_in)]
+    right = _mirror([(vi(149), 149), (24, 149), (10, 179), (vo(179), 179)], cx)
+    lower = left + right + [(cx, y_out), (vo(179), 179)]
+
+    polys = [rhombus, upper_left, _mirror(upper_left, cx), lower]
+    return polys, (10, 10, 382, y_out)
 
 
-def _rotate(pts, a):
-    c, s = math.cos(a), math.sin(a)
-    return [(x * c - y * s, x * s + y * c) for x, y in pts]
+def shapes_core():
+    """Two ears and a chevron body with legs, around an inner sector, all on
+    one circle (centre (151,134), radius 129). Mirror axis x = 151."""
+    cx, cy, r = 151.0, 134.0, 129.0
+
+    def on_circle_y(x, upper):   # y of the circle at x
+        dy = math.sqrt(max(0.0, r * r - (x - cx) ** 2))
+        return cy - dy if upper else cy + dy
+
+    # body: outer edge x + y = 176 from the apex to the shoulder, legs tapering
+    # to a point (outer edge 0.28 per y, inner edge vertical at x=56), inner
+    # edge x + y = 283 up to the inner apex
+    apex = (cx, 176 - cx)
+    shoulder = (6.0, 170.0)
+    leg_in = 56.0
+    tip_y = shoulder[1] + (leg_in - shoulder[0]) / 0.28
+    inner_apex = (cx, 283 - cx)
+    body_left = [shoulder, (leg_in, tip_y), (leg_in, 283 - leg_in), inner_apex]
+    body = [apex] + body_left + _mirror(list(reversed(body_left[:-1])), cx)
+
+    # inner sector: 45-degree edges from (151,148) down to the circle
+    s_apex = (cx, 148.0)
+    # x = cx - (y - 148) meets the circle at y = 232
+    y_c = 232.0
+    x_c = cx - (y_c - 148)
+    a0 = math.degrees(math.atan2(y_c - cy, x_c - cx))
+    a1 = 180 - a0
+    sector = [s_apex] + _arc(cx, cy, r, a0, a1)
+
+    # left ear: inside the circle, left of x=128, above the line x + y = 154
+    x_in = 128.0
+    top_y = on_circle_y(x_in, True)
+    # the line meets the circle at (22,132)
+    low = (22.0, 132.0)
+    a_top = math.degrees(math.atan2(top_y - cy, x_in - cx))
+    a_low = math.degrees(math.atan2(low[1] - cy, low[0] - cx))
+    if a_low > a_top:
+        a_low -= 360
+    ear = _arc(cx, cy, r, a_top, a_low) + [(x_in, 154 - x_in), (x_in, top_y)]
+
+    polys = [body, sector, ear, _mirror(ear, cx)]
+    return polys, (6, apex[1], 296, tip_y)
 
 
-def emblem_arm(size, symbol):
-    """A steel ring around an arrow pointing up: the Arm rising."""
-    img, P = _canvas(size)
-    d = ImageDraw.Draw(img)
-    steel = STEEL + (255,)
-    col = symbol + (255,)
-
-    _ring(d, P, 0.98, 0.84, steel)
-    # two small breaks in the ring at the sides, so it reads as made, not drawn
-    for sx in (-1, 1):
-        _polygon(d, P, [(sx * 0.80, -0.045), (sx * 1.02, -0.045), (sx * 1.02, 0.045), (sx * 0.80, 0.045)], (0, 0, 0, 0))
-
-    # arrow head: a chevron with a flat inner apex
-    _polygon(d, P, [(-0.66, 0.16), (0, -0.72), (0.66, 0.16), (0.50, 0.30), (0, -0.40), (-0.50, 0.30)], col)
-    # shaft, with a slot of light down the middle
-    _polygon(d, P, [(-0.11, -0.26), (0.11, -0.26), (0.11, 0.66), (-0.11, 0.66)], col)
-    _polygon(d, P, [(-0.025, -0.10), (0.025, -0.10), (0.025, 0.50), (-0.025, 0.50)], (0, 0, 0, 0))
-    # a light edge along the top of the chevron
-    _polygon(d, P, [(-0.66, 0.16), (0, -0.72), (0.66, 0.16), (0.62, 0.20), (0, -0.66), (-0.62, 0.20)], TEXT + (255,))
-
-    return img.resize((size, size), Image.LANCZOS)
+SHAPES = {"arm": shapes_arm, "core": shapes_core}
 
 
-def emblem_core(size, symbol):
-    """A steel gear around a red hexagonal reactor: the Core."""
-    img, P = _canvas(size)
-    d = ImageDraw.Draw(img)
-    steel = STEEL + (255,)
-    col = symbol + (255,)
-    dark = mix(BG, symbol, 0.25) + (255,)
+def emblem(stem, box, symbol):
+    """The logo drawn to fit a box pixels square: a solid fill in the faction's
+    symbol colour with a lighter rim, anti-aliased by supersampling."""
+    polys, (x0, y0, x1, y1) = SHAPES[stem]()
+    w, h = x1 - x0, y1 - y0
+    scale = box * SS / max(w, h)
+    px = box * SS
+    ox = (px - w * scale) / 2 - x0 * scale
+    oy = (px - h * scale) / 2 - y0 * scale
 
-    # gear: ring plus twelve teeth
-    _ring(d, P, 0.84, 0.70, steel)
-    tooth = [(-0.11, -0.80), (0.11, -0.80), (0.085, -0.99), (-0.085, -0.99)]
-    for k in range(12):
-        _polygon(d, P, _rotate(tooth, k * math.pi / 6), steel)
+    mask = Image.new("L", (px, px), 0)
+    d = ImageDraw.Draw(mask)
+    for poly in polys:
+        d.polygon([(ox + x * scale, oy + y * scale) for x, y in poly], fill=255)
 
-    # hexagon, flat top, with a dark centre
-    hexa = [(math.cos(a) * 0.56, math.sin(a) * 0.56) for a in (math.radians(30 + 60 * k) for k in range(6))]
-    hexb = [(math.cos(a) * 0.46, math.sin(a) * 0.46) for a in (math.radians(30 + 60 * k) for k in range(6))]
-    _polygon(d, P, hexa, col)
-    _polygon(d, P, hexb, dark)
-    # the reactor: a disc with three vents cut from it
-    d.ellipse([P(-0.27, -0.27), P(0.27, 0.27)], fill=col)
-    vent = [(-0.035, -0.30), (0.035, -0.30), (0.035, -0.10), (-0.035, -0.10)]
-    for k in range(3):
-        _polygon(d, P, _rotate(vent, k * 2 * math.pi / 3 + math.pi), dark)
-    d.ellipse([P(-0.09, -0.09), P(0.09, 0.09)], fill=TEXT + (255,))
+    # the rim: erode the shape at 1x (a big MinFilter at SS is far too slow)
+    # and scale the eroded mask back up; its soft edge is a fine inner edge
+    rim = max(2, int(round(box * 0.012)))
+    small = mask.resize((box, box), Image.BOX)
+    inner = small.filter(ImageFilter.MinFilter(rim * 2 + 1)).resize((px, px), Image.BILINEAR)
+    inner = inner.point(lambda v: 255 if v >= 128 else 0)
 
-    return img.resize((size, size), Image.LANCZOS)
-
-
-EMBLEMS = {"arm": emblem_arm, "core": emblem_core}
+    light = mix(symbol, TEXT, 0.55)
+    img = Image.new("RGBA", (px, px), light + (0,))
+    img.putalpha(mask)
+    fill = Image.new("RGBA", (px, px), symbol + (255,))
+    img.paste(fill, (0, 0), inner)
+    img = img.resize((box, box), Image.LANCZOS)
+    return img
 
 
 # ---------------------------------------------------------------- pictures
@@ -180,7 +226,7 @@ def picture(stem, name, tagline, colour, symbol):
     img = background(colour, cx, cy)
 
     # the emblem, with a soft shadow under it
-    em = EMBLEMS[stem](EMBLEM, symbol)
+    em = emblem(stem, EMBLEM, symbol)
     shadow = Image.new("RGBA", (EMBLEM + 80, EMBLEM + 80), (0, 0, 0, 0))
     shadow.paste((0, 0, 0, 150), (40, 48), em)
     shadow = shadow.filter(ImageFilter.GaussianBlur(22))
@@ -225,7 +271,7 @@ def main():
         picture(stem, name, tagline, colour, symbol).save(path, optimize=True)
         print(path)
         path = os.path.join(OUT, stem + "_emblem.png")
-        premultiplied(EMBLEMS[stem](EMBLEM_FILE, symbol)).save(path, optimize=True)
+        premultiplied(emblem(stem, EMBLEM_FILE, symbol)).save(path, optimize=True)
         print(path)
 
 

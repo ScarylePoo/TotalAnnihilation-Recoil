@@ -674,9 +674,12 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
 ## Faction pictures and emblems (2026-11-09)
 - `tools/faction_logos.py` (Pillow + numpy, system python3) draws `luaui/slate/images/factions/arm.png` and `core.png`
   for the faction chooser at 1568x880 (4x the 392x220 dp shown, sharp to 8K) and the emblems alone as
-  `arm_emblem.png` / `core_emblem.png` (1024x1024, transparent, PREMULTIPLIED as RmlUi needs). Arm: steel ring,
-  blue arrow rising; Core: steel gear, red hexagonal reactor. New designs, not the TA marks. Shapes are drawn at 4x
-  and scaled down; edit the script and re-run rather than the PNGs. The old placeholder script is gone.
+  `arm_emblem.png` / `core_emblem.png` (1024x1024, transparent, PREMULTIPLIED as RmlUi needs). The logos are the
+  real Arm (rhombus, split bars, V and swallowtail wings; blue) and Core (ears, chevron body with legs, inner
+  sector on one circle; red) marks as polygons, measured from the reference "Arm and core logo shapes.png" in
+  `I:\Claude Space\faction logos` (thresholded the glowing outline, filled what the outside could not reach, read
+  the edges off the mask). Edit the polygons in the script and re-run rather than the PNGs; a solid fill with a
+  lighter rim is the style. The old placeholder script is gone.
 - Seeing the chooser in the engine: `VISUALPREGAME=1 VISUALSELECT=1 VISUAL=arm_commander run_win_visual.sh` (the
   harness script.txt sets skippregame=1; VISUALPREGAME drops it, the faction phase lasts 900 frames and screenshots
   start at 195).
