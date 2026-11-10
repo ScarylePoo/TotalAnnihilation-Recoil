@@ -738,6 +738,19 @@ tablefunctions + unitTypeChecker before the gadget handler, like LuaUI; SF gadge
   through the network and in this harness lands ~30 sim frames after it is given (the sim runs far ahead of the
   draw loop), so the check waits 70 frames. The visual probe's own frame-30 build order is held off by VISUALHOLD.
 
+## Volumetric fog from SF 0.1.97 (2026-11-10)
+- `luaui/widgets/gfx_timecyclesweathereffects_fog.lua` is SF's GFX Fog 5.0 (commit 06385950, 2026-11-09) unchanged
+  but for the header: a raymarch at reduced resolution over a blurred copy of the terrain, carved by the 3D noise
+  cube (`modelmaterials_gl4/noise64_cube_3.dds`), lit per step by the sun's shadow map, up to 8 local volumes
+  (`WG.fog.AddVolume`, `Script.LuaUI.FogVolumeAdd`) and battle smoke from big deaths. Amount follows `WG.weather`
+  (fogStart, fogR/G/B, night) plus standing mist. It needs `modules/graphics/LuaShader.lua` (engine uniform
+  buffer defs) and `InstanceVBOTable.MakeTexRectVAO`, both here. Graphics options: Volumetric fog with quality
+  (1-3), amount and battle smoke, in the presets (Medium 1, High 2, Ultra 3).
+- Checked on the Windows engine on Crystallized Plains with Shadows=1 (`VISUALMAP=... VISUALCFG=$'Shadows = 1\n...'`):
+  mist in the low ground, shafts, no shader errors. The SF checkout on E: is a git clone of
+  github.com/SplinterFaction/SplinterFaction (HEAD 0.1.97 on 2026-11-09); `git log` there is the way to see what
+  changed since a port.
+
 ## Unit brightness (2026-11-09)
 - CUS GL4 `albedoFactor` uniform (defaultunit bin, `luarules/configs/cus_defs.lua`): multiplies the unit's base colour
   right after the texture read (`cus_gl4.frag.glsl`, after albedoColor), so lighting, specular, glow (tex2 red adds
