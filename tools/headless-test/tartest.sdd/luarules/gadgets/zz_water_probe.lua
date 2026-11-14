@@ -36,6 +36,9 @@ local W_CASES = {
   {a = "arm_t2_sea_archer",     b = "core_t1_air_fink",   order = "auto", circle = true},
   {a = "arm_t2_sea_archer",     b = "arm_t1_sea_skeeter", order = "auto"},
   {a = "core_t1_seapl_typhoon", b = "arm_t1_sea_skeeter", order = "attack", x = 6800, z = 8000, visible = true},   -- 40 elmos of water
+  {a = "arm_t1_seapl_albatross", b = "core_t1_sea_searcher", order = "attack", x = 8000, z = 8800, dz = 2500, tough = true, visible = true},
+  {a = "arm_t2_air_lancet",      b = "core_t1_sea_searcher", order = "attack", x = 9400, z = 8800, dz = 2500, tough = true, visible = true},
+  {a = "core_t2_air_titan",      b = "arm_t1_sea_skeeter",  order = "attack", x = 10800, z = 8800, dz = 2500, tough = true, visible = true},
 }
 local byAttacker = {}
 local W_FRAME0, W_FRAMES = 60, 1500
@@ -88,7 +91,8 @@ local function setupWeaponCases()
     c.tag = string.format("%02d %s>%s(%s)", i, c.a, c.b, c.order)
     c.w, c.slot, c.lastReload = {}, {0, 0, 0}, {0, 0, 0}
     c.uid = Spring.CreateUnit(c.a, x, Spring.GetGroundHeight(x, z), z, 0, TEAM)
-    c.target = Spring.CreateUnit(c.b, x, Spring.GetGroundHeight(x, z + 300), z + 300, 0, 0)
+    c.target = Spring.CreateUnit(c.b, x, Spring.GetGroundHeight(x, z + (c.dz or 300)), z + (c.dz or 300), 0, 0)
+    if c.tough and c.target then Spring.SetUnitMaxHealth(c.target, 1e7); Spring.SetUnitHealth(c.target, 1e7) end
     if c.order == "auto" then
       Spring.GiveOrderToUnit(c.uid, CMD.FIRE_STATE, {2}, {})
     else

@@ -16,6 +16,7 @@
 #   VISUALCEG=ceg1,ceg2 [VISUALZOOM=...] tools/headless-test/run.sh ...  GRAPHICAL engine: those CEGs in a row on the ground, repeated
 #   DUMP=<file> tools/headless-test/run.sh ... instead runs only zz_def_dump: every runtime UnitDef/WeaponDef to <file> (tools/ta-data/defdump.py -> JSON)
 #   PORTPROBE=1 tools/headless-test/run.sh ... instead runs only zz_port_probe (the Splinter Faction ports of Nov 2026)
+#   AIRPROBE=1|unit1,unit2 tools/headless-test/run.sh ... instead runs only zz_air_probe (aircraft: short hops, bomb and ground attack runs)
 #   TURNPROBE=1 [TURNOPTS='\\n\\t\\tmoveturninplace=0;'] run.sh ... instead runs only zz_turn_probe (speed through a 60 and a 150 degree turn)
 #   MODOPTS='\\n\\t\\tshotspeed=1;' run.sh ...   adds modoptions to the start script (any mode)
 #   AIPROBE=1 [AIFRAMES=18000 AINAME=AdaptiveAI AIBOTH=1 AINAME0=SimpleAI MAP=... MAPNAME=...] run.sh ...  a Lua AI plays team 1 (and 0) for AIFRAMES frames at 60x,
@@ -75,6 +76,7 @@ if [ -n "$AIPROBE" ]; then
 fi
 [ -n "$VBOPROBE" ] && sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tvboprobe=$VBOPROBE;/" "$WD/script.txt"
 [ -n "$FFPROBE" ] && sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tffprobe=1;/" "$WD/script.txt"
+[ -n "$AIRPROBE" ] && sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tairprobe=$AIRPROBE;/; s/blank_map_x=24/blank_map_x=40/; s/blank_map_y=24/blank_map_y=24/" "$WD/script.txt"
 [ -n "$FLIGHT" ] && sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tflightprobe=$FLIGHT;/" "$WD/script.txt"
 [ -n "$DUMP" ] && sed -i 's/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\tdumponly=1;/' "$WD/script.txt"
 [ -n "$VISUALCEG" ] && VISUAL=${VISUAL:-none}

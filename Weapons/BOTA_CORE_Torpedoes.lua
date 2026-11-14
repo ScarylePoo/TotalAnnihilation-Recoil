@@ -89,8 +89,7 @@ return {
 		range = 300,  -- TA 3.1c (was 480)
 		reloadtime = 6,
 		areaofeffect = 16,
-		burst = 2,
-		bursttime = 0.35,
+		-- TA 3.1c: one torpedo per shot (was burst = 2, bursttime = 0.35)
 		damage = {
 			default = 400,  -- TA 3.1c (was 600)
 		},
