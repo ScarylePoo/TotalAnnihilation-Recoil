@@ -241,6 +241,30 @@ local function CannonTrail(wd)
 	end
 end
 
+-- Missile trail (gamedata/explosions/missiletrails_ta.lua): a flickering jet, nozzle glow, sparks and embers, on top
+-- of the engine's smoke ribbon. Homing missiles small, artillery rockets medium, anti-nukes large, stockpiled
+-- strategic missiles (nukes, the Stunner's EMP blue, the Neutron green) strategic.
+local function MissileTrail(name, wd)
+	if wd.cegtag ~= nil then return end
+	local size = "small"
+	if wd.weapontype == "StarburstLauncher" then
+		if tobool(wd.stockpile) and tobool(wd.interceptor) then
+			size = "large"
+		elseif tobool(wd.stockpile) then
+			size = "strategic"
+		else
+			size = "medium"
+		end
+	end
+	local colour = ""
+	if tobool(wd.paralyzer) then
+		colour = "-emp"
+	elseif name:find("neutron") then
+		colour = "-green"
+	end
+	wd.cegtag = "missiletrail-ta-" .. size .. colour
+end
+
 --------------------------------------------------------------------------------
 -- EFFECTS (all from Splinter Faction's effect library, gamedata/explosions; only effects SF itself uses)
 --------------------------------------------------------------------------------
@@ -534,6 +558,8 @@ function WeaponDef_Post(name, weaponDef)
 	if weaponDef.weapontype == "Cannon" then
 		CannonTrail(weaponDef)
 		weaponDef.rgbcolor = PLASMA_ORANGE
+	elseif weaponDef.weapontype == "MissileLauncher" or weaponDef.weapontype == "StarburstLauncher" then
+		MissileTrail(name, weaponDef)
 	end
 
 	-- an impact effect on every weapon (TA-era effect names are gone with the old effect library)

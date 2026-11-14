@@ -2050,6 +2050,22 @@ local missileDistortionByCeg = {
 	},
 }
 
+-- TA:Recoil missile trails (gamedata/explosions/missiletrails_ta.lua, set by alldefs_post MissileTrail): a heat
+-- shimmer behind the jet, growing with the trail size; same for every colour.
+for size, r in pairs({ small = 75, medium = 100, large = 130, strategic = 200 }) do
+	for _, colour in ipairs({ "", "-emp", "-green" }) do
+		missileDistortionByCeg["missiletrail-ta-" .. size .. colour] = {
+			radius = r,
+			theta = 0.08,
+			noiseStrength = 4.5,
+			noiseScaleSpace = 0.7,
+			distanceFalloff = 1.3,
+			effectStrength = 2.8,
+			yoffset = math.floor(r / 6),
+		}
+	end
+end
+
 local function AssignDistortionsToAllWeapons()
 	for weaponID = 0, #WeaponDefs do
 		local weaponDef = WeaponDefs[weaponID]
