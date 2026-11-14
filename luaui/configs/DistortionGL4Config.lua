@@ -115,10 +115,15 @@ do
 			for i, fx in ipairs(fxList) do
 				if type(fx) == "table" and fx.class == "AirJet" and fx.options and fx.options.piece then
 					local o = fx.options
+					local px, py, pz = 0, 0, 0
+					if o.pos then
+						px, py, pz = tonumber(o.pos[1]) or 0, tonumber(o.pos[2]) or 0, tonumber(o.pos[3]) or 0
+					end
 					unitDistortions[unitDefName] = unitDistortions[unitDefName] or {}
 					local alreadyHas = false
 					for _, d in pairs(unitDistortions[unitDefName]) do
-						if d.pieceName == o.piece then
+						local dc = d.distortionConfig
+						if d.pieceName == o.piece and dc.posx == px and dc.posy == py and dc.posz == pz then
 							alreadyHas = true
 							break
 						end
@@ -127,6 +132,7 @@ do
 						local cfg = copy(airjetBase)
 						local length = tonumber(o.length) or 20
 						local width = tonumber(o.width) or 4
+						cfg.posx, cfg.posy, cfg.posz = px, py, pz -- nozzle in piece space
 						cfg.radius = length * 6
 						cfg.theta = math.atan(width / length) * 1.2
 						if o.emitVector then

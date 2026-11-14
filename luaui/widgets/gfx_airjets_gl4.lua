@@ -15,6 +15,8 @@
 --   * config read from lupsunitfxs.lua instead of airjet_effects.lua
 --   * emitVector is honoured (BAR always used the piece -z axis); SF air
 --     plants point their engine jets straight up
+--   * pos (piece-space nozzle offset) is honoured: TA exhaust vector pieces
+--     sit at the model centre and only their vertices mark the nozzle
 --   * onActive jets (LUPS semantics) only show while Spring.GetUnitIsActive,
 --     polled every few frames, with the fade-in replayed on each activation
 --   * no team color mode, no scavenger variants
@@ -101,7 +103,7 @@ local function loadLupsUnitFx()
 	return env.effectUnitDefs or {}
 end
 
--- unitDefID -> list of jet defs {piece, width, length, color, emitVector, onActive, ...}
+-- unitDefID -> list of jet defs {piece, pos, width, length, color, emitVector, onActive, ...}
 local effectDefs = {}
 local effectDefIDList = {}
 
@@ -121,8 +123,11 @@ local function BuildDefs()
 					local ex, ey, ez = ev[1] or 0, ev[2] or 0, ev[3] or -1
 					local l = math.sqrt(ex * ex + ey * ey + ez * ez)
 					if l > 0 then ex, ey, ez = ex / l, ey / l, ez / l else ex, ey, ez = 0, 0, -1 end
+					local p = o.pos or { 0, 0, 0 }
 					jets[#jets + 1] = {
+						index         = #jets + 1, -- instance key: several jets may share a piece
 						piece         = o.piece,
+						pos           = { tonumber(p[1]) or 0, tonumber(p[2]) or 0, tonumber(p[3]) or 0 },
 						-- BAR pre-scales by 0.8/0.92 and then 1.4/1.2 at init; net 1.12/1.1
 						width         = (tonumber(o.width) or 4) * 0.92 * 1.2,
 						length        = (tonumber(o.length) or 20) * 0.8 * 1.4,
@@ -187,6 +192,7 @@ layout (location = 3) in vec3 color;
 layout (location = 4) in uint pieceIndex;
 layout (location = 5) in uvec4 instData;
 layout (location = 6) in vec3 jetParams;       // xzVelSizeMult, yVelSizeMult, jetType (atlas column)
+layout (location = 7) in vec3 jetPos;          // nozzle offset in piece space (LUPS pos)
 
 //__DEFINES__
 //__ENGINEUNIFORMBUFFERDEFS__
@@ -257,7 +263,7 @@ void main()
 	vec3 jetAxis = mat3(worldMat) * (-emitdir);
 	float axisLen = length(jetAxis);
 	jetAxis = (axisLen > 1e-5) ? jetAxis / axisLen : worldMat[2].xyz;
-	vec3 nozzle = worldMat[3].xyz;
+	vec3 nozzle = (worldMat * vec4(jetPos, 1.0)).xyz;
 	vec3 worldPos = nozzle + vertexOffset.x * worldMat[0].xyz + vertexOffset.y * jetAxis; // unturned vertex
 	vec3 worldCamPos = cameraViewInv[3].xyz;
 	vec3 widthAxis = cross(worldCamPos - worldPos, jetAxis);
@@ -366,6 +372,7 @@ local function initGL4()
 		{ id = 4, name = "pieceIndex", type = GL.UNSIGNED_INT, size = 1 },
 		{ id = 5, name = "instData", type = GL.UNSIGNED_INT, size = 4 },
 		{ id = 6, name = "jetParams", size = 3 },
+		{ id = 7, name = "jetPos", size = 3 },
 	}
 	jetInstanceVBO = InstanceVBOTable.makeInstanceVBOTable(layout, 256, "jetInstanceVBO", 5)
 	if not jetInstanceVBO then
@@ -449,7 +456,10 @@ local function PushJet(unitID, fx, spawnFrame, noUpload)
 	instanceData[15] = fx.xzVelSizeMult
 	instanceData[16] = fx.yVelSizeMult
 	instanceData[17] = fx.jetType
-	local key = unitID .. "_" .. fx.piecenum
+	instanceData[18] = fx.pos[1]
+	instanceData[19] = fx.pos[2]
+	instanceData[20] = fx.pos[3]
+	local key = unitID .. "_" .. fx.index
 	pushElementInstance(jetInstanceVBO, instanceData, key, true, noUpload, unitID)
 	return key
 end
@@ -520,7 +530,7 @@ local function PollActive(frame)
 					for i = 1, #jets do
 						local fx = jets[i]
 						if fx.onActive and fx.piecenum then
-							local key = unitID .. "_" .. fx.piecenum
+							local key = unitID .. "_" .. fx.index
 							if active then
 								if not instanceIDtoIndex[key] then
 									keys[#keys + 1] = PushJet(unitID, fx, frame) -- fade in from now
@@ -644,16 +654,18 @@ function widget:Initialize()
 	reInitialize()
 
 	WG.airjets = {}
-	-- for other widgets: WG.airjets.addAirJet(unitID, piecenum, width, length, {r,g,b}, emitVector, xzVelSizeMult, yVelSizeMult, jetType)
-	WG.airjets.addAirJet = function(unitID, piecenum, width, length, color3, emitVector, xzVelSizeMult, yVelSizeMult, jetType)
-		local key = tostring(unitID) .. "_" .. tostring(piecenum)
+	-- for other widgets: WG.airjets.addAirJet(unitID, piecenum, width, length, {r,g,b}, emitVector, xzVelSizeMult, yVelSizeMult, jetType, pos)
+	WG.airjets.addAirJet = function(unitID, piecenum, width, length, color3, emitVector, xzVelSizeMult, yVelSizeMult, jetType, pos)
+		local key = tostring(unitID) .. "_p" .. tostring(piecenum)
 		emitVector = emitVector or { 0, 0, -1 }
+		pos = pos or { 0, 0, 0 }
 		pushElementInstance(jetInstanceVBO, {
 			width * 5, length * 5, spGetGameFrame(),
 			emitVector[1], emitVector[2], emitVector[3],
 			color3[1], color3[2], color3[3],
 			piecenum, 0, 0, 0, 0,
 			xzVelSizeMult or defaultXZVelSizeMult, yVelSizeMult or defaultYVelSizeMult, jetType or defaultJetType,
+			pos[1], pos[2], pos[3],
 		}, key, true, nil, unitID)
 		return key
 	end
