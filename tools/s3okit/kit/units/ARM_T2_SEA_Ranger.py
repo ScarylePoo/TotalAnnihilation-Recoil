@@ -15,6 +15,8 @@ Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the 
 import math
 
 UNIT = dict(
+    # missile emit points tail -> nose: the launch starts at the tail (make_missiles.py writes the projectile)
+    skeleton_opts=dict(emit={'rocket1': [(0.00, 0.00, -15.10), (0.00, 0.00, 15.10)], 'rocket2': [(0.00, 0.00, -15.10), (0.00, 0.00, 15.10)]}),
     # the launcher sits under the closed roofs at rest; the script raises it, so give it full texture
     always_visible=['plate', 'turret1', 'launcher1', 'rocket1', 'rocket2'],
     wreck=dict(seed=23, remove=['door2'], pose={'launcher2': (10, 40, 0), 'door1': (0, 0, -18)}),

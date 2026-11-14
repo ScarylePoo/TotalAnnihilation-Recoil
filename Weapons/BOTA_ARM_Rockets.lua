@@ -39,7 +39,7 @@ return {
 		weapontype = "StarburstLauncher",
 		tolerance = 4000,
 		-- visuals
-		model = "BOTA_Rocket",
+		model = "ARM_T2_SEA_Ranger_Missile.s3o",  -- the missile the unit raises (tools/s3okit/kit/make_missiles.py)
 		smoketrail = 1,
 		-- sounds
 		soundstart = "Rockhvy1",
@@ -70,7 +70,7 @@ return {
 		weapontype = "StarburstLauncher",
 		tolerance = 4000,
 		-- visuals
-		model = "BOTA_Rocket",
+		model = "ARM_T2_VEH_Merl_Missile.s3o",  -- the missile the unit raises (tools/s3okit/kit/make_missiles.py)
 		smoketrail = 1,
 		-- sounds
 		soundstart = "Rockhvy1",

@@ -64,7 +64,7 @@ return {
 		},
 		weapons = {
 			{
-				name = "ANTI_NUCLEAR_MISSILE",
+				name = "CORE_ANTI_NUCLEAR_MISSILE",
 			},
 		},
 	},

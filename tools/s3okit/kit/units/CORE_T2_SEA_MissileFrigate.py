@@ -22,6 +22,8 @@ OPEN = {
 }
 
 UNIT = dict(
+    # missile emit points tail -> nose: the launch starts at the tail (make_missiles.py writes the projectile)
+    skeleton_opts=dict(emit={'rocket1': [(0.00, 0.00, -17.60), (0.00, 0.00, 14.10)], 'rocket2': [(0.00, 0.00, -17.60), (0.00, 0.00, 14.10)]}),
     res=2048,
     wreck=dict(seed=37, remove=['rocket2'], drop=['dish'], pose={'turret': (0, 40, 0)}),
     preview_pose=dict(OPEN, gun=(-8, 0, 0)),

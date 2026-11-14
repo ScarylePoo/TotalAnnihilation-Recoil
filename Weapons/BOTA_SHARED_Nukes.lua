@@ -1,17 +1,16 @@
 -- Weapon definitions (converted from BOTA_SHARED_Nukes.TDF)
 
-return {
+local weapons = {
 	nuclear_missile = {
 		-- used by units
-		-- ARM_T2_DEF_Retaliator
-		-- CORE_T2_DEF_Silencer
+		-- ARM_T2_DEF_Retaliator (CORE_T2_DEF_Silencer: core_nuclear_missile, below)
 		-- type
 		weapontype = "StarburstLauncher",
 		stockpile = 1,
 		targetable = 1,
 		commandfire = 1,
 		-- visuals
-		model = "BOTA_Nuclear_Missile",
+		model = "ARM_T2_DEF_Retaliator_Missile.s3o",  -- the missile the unit raises (tools/s3okit/kit/make_missiles.py)
 		smoketrail = 1,
 		-- sounds
 		soundstart = "misicbm1",
@@ -42,8 +41,7 @@ return {
 	},
 	anti_nuclear_missile = {
 		-- used by units
-		-- ARM_T2_DEF_Protector
-		-- CORE_T2_DEF_FortitudeMissileDefense
+		-- ARM_T2_DEF_Protector (CORE_T2_DEF_FortitudeMissileDefense: core_anti_nuclear_missile, below)
 		-- type
 		weapontype = "StarburstLauncher",
 		stockpile = 1,
@@ -51,7 +49,7 @@ return {
 		coverage = 2000,  -- TA 3.1c (was 1100)
 		tracks = 1,
 		-- visuals
-		model = "BOTA_Anti_Nuclear_Missile",
+		model = "ARM_T2_DEF_Protector_Missile.s3o",  -- the missile the unit raises (tools/s3okit/kit/make_missiles.py)
 		smoketrail = 1,
 		-- sounds
 		soundstart = "Rockhvy1",
@@ -160,7 +158,7 @@ return {
 		targetable = 1,
 		commandfire = 1,
 		-- visuals
-		model = "BOTA_Stunner_Missile",
+		model = "ARM_T2_DEF_Stunner_Missile.s3o",  -- the missile the unit raises (tools/s3okit/kit/make_missiles.py)
 		smoketrail = 1,
 		-- sounds
 		soundstart = "misicbm1",
@@ -215,7 +213,7 @@ return {
 		targetable = 1,
 		commandfire = 1,
 		-- visuals
-		model = "BOTA_Neutron_Missile",
+		model = "CORE_T2_DEF_Neutron_Missile.s3o",  -- the missile the unit raises (tools/s3okit/kit/make_missiles.py)
 		smoketrail = 1,
 		-- sounds
 		soundstart = "misicbm1",
@@ -250,3 +248,16 @@ return {
 		},
 	},
 }
+
+-- The Core silos fly their own missile: same weapon, Core projectile model.
+local function copy(t)
+	local c = {}
+	for k, v in pairs(t) do c[k] = (type(v) == "table") and copy(v) or v end
+	return c
+end
+weapons.core_nuclear_missile = copy(weapons.nuclear_missile)               -- CORE_T2_DEF_Silencer
+weapons.core_nuclear_missile.model = "CORE_T2_DEF_Silencer_Missile.s3o"
+weapons.core_anti_nuclear_missile = copy(weapons.anti_nuclear_missile)     -- CORE_T2_DEF_FortitudeMissileDefense
+weapons.core_anti_nuclear_missile.model = "CORE_T2_DEF_FortitudeMissileDefense_Missile.s3o"
+
+return weapons

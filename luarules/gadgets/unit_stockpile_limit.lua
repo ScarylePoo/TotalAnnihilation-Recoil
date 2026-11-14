@@ -65,8 +65,8 @@ if gadgetHandler:IsSyncedCode() then -- SYNCED --
 
 	-- TA:Recoil: BAR's caps, by weapon (Weapons/BOTA_SHARED_Nukes.lua): nuclear missiles 10, anti-nukes 20, EMP 10
 	local weaponLimit = {
-		nuclear_missile = 10,
-		anti_nuclear_missile = 20, cormabm_weapon = 20, armscab_weapon = 20,
+		nuclear_missile = 10, core_nuclear_missile = 10,
+		anti_nuclear_missile = 20, core_anti_nuclear_missile = 20, cormabm_weapon = 20, armscab_weapon = 20,
 		stunner_missile = 10,
 	}
 

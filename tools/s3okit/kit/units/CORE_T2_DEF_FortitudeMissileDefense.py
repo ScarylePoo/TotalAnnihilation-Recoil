@@ -11,6 +11,8 @@ Coordinates are ENGINE/global: X right, Y up, Z forward."""
 import math
 
 UNIT = dict(
+    # missile emit points tail -> nose: the launch starts at the tail (make_missiles.py writes the projectile)
+    skeleton_opts=dict(emit={'dummy': [(0.00, -10.80, 0.00), (0.00, 11.00, 0.00)]}),
     res=2048, bake_res=2048,          # no 2x supersampling: machine time (see the batch report)
     wreck=dict(seed=33, drop=['wedge']),
     preview_pose={'wedge': {'move': (-5.75, 0, 0)}, 'drawer': {'move': (0, 23.5, 0)}, 'dummy': {'move': (5.25, 0, 0)}},
