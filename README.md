@@ -76,7 +76,7 @@ repository itself always keeps `$VERSION`.
 
 - **Cavedog Entertainment**, for Total Annihilation, The Core Contingency and Battle Tactics: the units, the
   design and the war this game is about.
-- **Forboding Angel**: project lead.
+- **Scary le Poo**: project lead.
 - Built using **BOTA** (Balanced Original Total Annihilation) as a starting point.
 - **Splinter Faction** and **Beyond All Reason**, whose interface, effects, gadgets and hard-won Recoil know-how this
   game borrows from.
