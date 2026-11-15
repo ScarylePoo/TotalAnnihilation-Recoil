@@ -17,6 +17,7 @@
 #   DUMP=<file> tools/headless-test/run.sh ... instead runs only zz_def_dump: every runtime UnitDef/WeaponDef to <file> (tools/ta-data/defdump.py -> JSON)
 #   PORTPROBE=1 tools/headless-test/run.sh ... instead runs only zz_port_probe (the Splinter Faction ports of Nov 2026)
 #   AIRPROBE=1|unit1,unit2 tools/headless-test/run.sh ... instead runs only zz_air_probe (aircraft: short hops, bomb and ground attack runs)
+#   AIRPROBE=lost ... runs zz_lastseen_probe instead (attack orders whose target slips out of sight: unit_air_lastseen)
 #   TURNPROBE=1 [TURNOPTS='\\n\\t\\tmoveturninplace=0;'] run.sh ... instead runs only zz_turn_probe (speed through a 60 and a 150 degree turn)
 #   MODOPTS='\\n\\t\\tshotspeed=1;' run.sh ...   adds modoptions to the start script (any mode)
 #   AIPROBE=1 [AIFRAMES=18000 AINAME=AdaptiveAI AIBOTH=1 AINAME0=SimpleAI MAP=... MAPNAME=...] run.sh ...  a Lua AI plays team 1 (and 0) for AIFRAMES frames at 60x,

@@ -12,7 +12,7 @@ end
 --   air    every fighter attacks an enemy Thunder flying a patrol (dps on air targets).
 -- AIRPROBE=unit1,unit2 limits the units.
 local opt = Spring.GetModOptions() or {}
-if not opt.airprobe or not gadgetHandler:IsSyncedCode() then return end
+if not opt.airprobe or opt.airprobe == "lost" or not gadgetHandler:IsSyncedCode() then return end
 
 local want
 if opt.airprobe ~= "1" then
