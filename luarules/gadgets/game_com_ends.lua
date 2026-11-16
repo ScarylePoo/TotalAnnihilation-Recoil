@@ -18,6 +18,11 @@ if not gadgetHandler:IsSyncedCode() then
 end
 
 local MODE = (Spring.GetModOptions() or {}).mode or "comends" -- same default as modoptions.lua
+
+-- A Coilbox scenario (mod option coilbox_mission, written by Coilbox) ends
+-- through its own victory and defeat triggers: losing a commander ends nothing.
+local cbm = (Spring.GetModOptions() or {}).coilbox_mission
+local MISSION = type(cbm) == "string" and cbm:match("%S") ~= nil
 local OWN_COM  = (MODE == "commander")
 local TEAM_COM = (MODE == "comends")
 
@@ -106,7 +111,7 @@ function gadget:UnitDestroyed(unitID, unitDefID, teamID)
 end
 
 function gadget:Initialize()
-	if not (OWN_COM or TEAM_COM) or next(isCommander) == nil then
+	if MISSION or not (OWN_COM or TEAM_COM) or next(isCommander) == nil then
 		gadgetHandler:RemoveGadget(self)
 		return
 	end

@@ -46,6 +46,15 @@ if (gadgetHandler:IsSyncedCode()) then
 		-- teamDeathMode possible values: "none", "teamzerounits" , "allyzerounits". Teamzerounits = killall, allyzerounits = team
 		local teamDeathMode = modOptions.mode or TEAMCOMENDS -- same default as modoptions.lua
 
+		-- A Coilbox scenario (mod option coilbox_mission, written by Coilbox) ends
+		-- only through its own victory and defeat triggers, which call
+		-- Spring.GameOver themselves. So in a mission no team is killed for having
+		-- no units, no last-alliance-standing victory is declared and there are no
+		-- surrender or draw votes; teams whose players all resigned or left are
+		-- still removed.
+		local cbm = modOptions.coilbox_mission
+		local MISSION = type(cbm) == "string" and cbm:match("%S") ~= nil
+
 		-- ignoreGaia is a C-like bool
 		local ignoreGaia = 1
 
@@ -332,6 +341,12 @@ if (gadgetHandler:IsSyncedCode()) then
 		end
 		
 		function gadget:GameFrame(frame)
+			if MISSION then
+				if (frame%32) == 0 then
+					KillResignedTeams()
+				end
+				return
+			end
 			
 			-- trigger gameover with a delay to let all explosions calm down
 			if gameoverframe and frame >= gameoverframe and (gamewinners or GG.gamewinners) then
@@ -466,6 +481,10 @@ if (gadgetHandler:IsSyncedCode()) then
 		end
 
 		function gadget:Initialize()
+			if MISSION then
+				Echo("[Game End] Coilbox mission " .. cbm .. ": the mission's own triggers end the game")
+				return
+			end
 			gadgetHandler:AddChatAction('voteforend', CallEndVote, "Call vote to accept surrender")
 			gadgetHandler:AddChatAction('votefordraw', CallDrawVote, "Call vote to draw the game")
 			if teamDeathMode == "none" then

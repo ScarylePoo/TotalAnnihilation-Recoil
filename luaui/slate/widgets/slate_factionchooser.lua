@@ -208,6 +208,15 @@ function widget:Initialize()
 		widgetHandler:RemoveWidget(widget)
 		return
 	end
+	-- no faction phase this game (luarules/gadgets/game_spawn.lua): the mod
+	-- option factionchoice off, or a Coilbox scenario (coilbox_mission)
+	local mo = Spring.GetModOptions() or {}
+	local fc = mo.factionchoice
+	if fc == "0" or fc == "false" or fc == 0 or fc == false
+			or (type(mo.coilbox_mission) == "string" and mo.coilbox_mission:match("%S")) then
+		widgetHandler:RemoveWidget(widget)
+		return
+	end
 	groupWidth = CARD_WIDTH * #factions + CARD_GAP * (#factions - 1)
 
 	local helpers = include("slate/rml/core.lua")

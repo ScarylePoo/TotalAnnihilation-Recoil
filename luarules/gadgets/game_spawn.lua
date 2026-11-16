@@ -56,6 +56,11 @@
 --                      start position (FallbackPos), as with no usable spots.
 --  Both off: the commanders are created at GameStart.
 --
+--  A Coilbox scenario (mod option coilbox_mission, written by Coilbox) turns
+--  both phases off, and a team the scenario marks "no commander" gets no start
+--  unit or start resources (GG.CoilboxMission.suppressesStart): the mission
+--  places its units and sets its bank.
+--
 --  The headless test harness (tools/headless-test) sets the mod option
 --  skippregame=1: start units are then created at GameStart at the engine
 --  start positions, as before this gadget had phases.
@@ -141,6 +146,24 @@ local function Flag(key, default)
 end
 local FACTION_CHOICE  = Flag("factionchoice", true)
 local START_PLACEMENT = Flag("startplacement", true)
+
+-- A Coilbox scenario: Coilbox writes the scenario id into the start script as
+-- the mod option coilbox_mission. The mission decides sides and positions, so
+-- both phases are off and every team starts at its engine start position.
+local MISSION = type(modOptions.coilbox_mission) == "string" and modOptions.coilbox_mission:match("%S") ~= nil
+if MISSION then
+	FACTION_CHOICE  = false
+	START_PLACEMENT = false
+end
+
+-- Whether the mission places this team's opening units itself ("no commander"
+-- in the scenario), so the game must not spawn any. GG.CoilboxMission is
+-- Coilbox's published contract; its runtime gadget (layer 1000) sets it in
+-- Initialize, after this gadget's, so it is read when the spawn happens.
+local function MissionSuppressesStart(teamID)
+	local m = GG.CoilboxMission
+	return MISSION and m and m.suppressesStart and m.suppressesStart(teamID) == true
+end
 
 local phase             = nil   -- nil (before GameStart) | "faction" | "placement" | "done"
 local factionDeadline   = 0
@@ -450,6 +473,11 @@ end
 
 --   spawnX, spawnZ: the team's spot, or nil for FallbackPos
 local function SpawnStartUnit(teamID, spawnX, spawnZ)
+	if MissionSuppressesStart(teamID) then
+		-- the scenario places this team's units and sets its bank
+		Spring.Echo(string.format("[Game Spawn] Team %d: start units placed by the Coilbox mission", teamID))
+		return
+	end
 	local startUnit, side = StartUnitName(teamID)
 	if startUnit and startUnit ~= "" then
 		local x, z = spawnX, spawnZ
@@ -587,7 +615,9 @@ function gadget:GameStart()
 	-- Fetch the (already validated and partitioned) start spots before
 	-- broadcasting the phase, so the game rules params are ready when widgets
 	-- first read them.
-	if not START_PLACEMENT then
+	if MISSION then
+		Spring.Echo("[Game Spawn] Coilbox mission " .. modOptions.coilbox_mission .. " — no faction or placement phase")
+	elseif not START_PLACEMENT then
 		Spring.Echo("[Game Spawn] Start placement is off (mod option) — no placement phase")
 	elseif Game.startPosType == 3 and not HasStartBoxes() then
 		-- the players chose their start positions in the lobby
@@ -608,9 +638,9 @@ function gadget:GameStart()
 
 	if not FACTION_CHOICE then
 		-- No faction phase: the human teams take their lobby side too.
-		Spring.Echo("[Game Spawn] Faction choice is off (mod option) — every team takes its lobby side" ..
+		if not MISSION then Spring.Echo("[Game Spawn] Faction choice is off (mod option) — every team takes its lobby side" ..
 			"  human teams=" .. #humanTeams .. "  AI teams=" .. (#allNonGaiaTeams - #humanTeams) ..
-			"  spots=" .. #mapSpots .. "  FFA=" .. tostring(isFFA))
+			"  spots=" .. #mapSpots .. "  FFA=" .. tostring(isFFA)) end
 		for _, teamID in ipairs(allNonGaiaTeams) do
 			if not factionChosen[teamID] then
 				SetFaction(teamID, LobbyFaction(teamID) or RandomFaction())
