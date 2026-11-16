@@ -109,6 +109,12 @@ return {
 		radiusadjust = 0,
 		distance = 1,
 	},
+	building_gate_x14 = {
+		bitmap = "icons/building_gate.png",
+		size = 1.89,
+		radiusadjust = 0,
+		distance = 1,
+	},
 	building_mex_t1 = {
 		bitmap = "icons/building_mex_t1.png",
 		size = 1.35,

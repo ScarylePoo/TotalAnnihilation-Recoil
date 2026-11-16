@@ -3,6 +3,10 @@
 "Ground 5",
 0.247
 ],
+"ARM_GalacticGate": [
+"Moon 5",
+0.9
+],
 "ARM_T1_AIR_Atlas": [
 "Air 4",
 0.655
@@ -530,6 +534,10 @@
 "CORE_Commander": [
 "Moon 3",
 0.544
+],
+"CORE_GalacticGate": [
+"Green 1",
+0.9
 ],
 "CORE_T1_AIR_Avenger": [
 "Air 4",

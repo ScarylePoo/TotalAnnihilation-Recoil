@@ -2,6 +2,7 @@
 
 return {
 	arm_commander = "commander_none",
+	arm_galacticgate = "building_gate_x14",
 	arm_t1_air_atlas = "air_transport_t1",
 	arm_t1_air_constructor = "air_builder_t1",
 	arm_t1_air_freedomfighter = "air_aa_t1",
@@ -134,6 +135,7 @@ return {
 	arm_t2_veh_spider = "veh_emp_t2",
 	arm_t2_veh_triton = "amphveh_assault_t2",
 	core_commander = "commander_none",
+	core_galacticgate = "building_gate_x14",
 	core_t1_air_avenger = "air_aa_t1",
 	core_t1_air_constructor = "air_builder_t1",
 	core_t1_air_fink = "air_scout_t1",

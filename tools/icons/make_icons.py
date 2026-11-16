@@ -142,6 +142,8 @@ UNITS = {
     'arm_t2_seadef_advancedsonar': ('building', 'sonar', 2), 'core_t2_seadef_advancedsonar': ('building', 'sonar', 2),
     'arm_t2_def_targetingfacility': ('building', 'targeting', 2), 'core_t2_def_targetingfacility': ('building', 'targeting', 2),
     'arm_t2_def_airrepairpad': ('building', 'repair', 2), 'core_t2_def_airrepairpad': ('building', 'repair', 2),
+    # campaign objective (not buildable)
+    'arm_galacticgate': ('building', 'gate', 0, 1.4), 'core_galacticgate': ('building', 'gate', 0, 1.4),
 }
 _hand = set(UNITS)
 for side in ('arm', 'core'):
@@ -374,6 +376,9 @@ def glyph(p, g, cx, cy, k):
     elif g == 'targeting':
         p.arc((cx - 24 * k, cy - 24 * k, cx + 24 * k, cy + 24 * k), 0, 360, 7 * k)
         L([(0, -34), (0, -12)], 7); L([(0, 12), (0, 34)], 7); L([(-34, 0), (-12, 0)], 7); L([(12, 0), (34, 0)], 7)
+    elif g == 'gate':
+        p.arc((cx - 28 * k, cy - 28 * k, cx + 28 * k, cy + 28 * k), 0, 360, 7 * k)
+        p.poly(star(cx, cy, 18 * k, 6 * k, 4), fill=INK, outline=False)
     elif g == 'repair':
         L([(0, -24), (0, 24)], 14); L([(-24, 0), (24, 0)], 14)
     elif g == 'carrier':
