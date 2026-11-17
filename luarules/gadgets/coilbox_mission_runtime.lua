@@ -1,0 +1,1414 @@
+-- Coilbox mission runtime: the gadget that runs a scenario.
+--
+-- Vendored into a game by coilbox. Change it in the coilbox repository under
+-- lua/mission-runtime/ and install again, or the next runtime update will
+-- overwrite the edit.
+--
+-- The gadget exists for missions and nothing else. Without the coilbox_mission
+-- modoption the chunk returns false, the gadget handler drops it, and a normal
+-- game pays only the cost of reading this file.
+
+local LOG_SECTION = "coilbox-mission"
+
+local function log(level, message)
+	Spring.Log(LOG_SECTION, level, message)
+end
+
+-- The scenario id coilbox wrote into the start script, or nil for a normal
+-- game. The id becomes part of a VFS path, so anything that is not a plain name
+-- is refused rather than followed.
+local function readMissionId()
+	local raw = Spring.GetModOptions().coilbox_mission
+	if type(raw) ~= "string" then
+		return nil
+	end
+
+	local id = raw:match("^%s*(.-)%s*$")
+	if id == "" then
+		return nil
+	end
+	if not id:match("^[%w._%-]+$") or id:match("^%.+$") then
+		log("error", "ignoring coilbox_mission: " .. id .. " is not a mission id")
+		return nil
+	end
+	return id
+end
+
+local MISSION_ID = readMissionId()
+if not MISSION_ID then
+	return false
+end
+
+-- Read a Lua table out of an archive.
+--
+-- Data files under missions/ are given an empty environment: a mission that
+-- reaches for a global fails here instead of reaching into the gadget. Runtime
+-- modules are code and pass nil, which runs them in the gadget's environment.
+local function includeTable(path, env)
+	if not VFS.FileExists(path, VFS.ZIP) then
+		return nil, path .. " is missing"
+	end
+
+	local ok, value = pcall(VFS.Include, path, env, VFS.ZIP)
+	if not ok then
+		return nil, path .. " failed to load: " .. tostring(value)
+	end
+	if type(value) ~= "table" then
+		return nil, path .. " did not return a table"
+	end
+	return value
+end
+
+local RUNTIME, runtimeError = includeTable("missions/runtime.lua", {})
+if not RUNTIME then
+	log("error", runtimeError)
+	return false
+end
+
+local MISSION, missionError = includeTable("missions/" .. MISSION_ID .. "/mission.lua", {})
+if not MISSION then
+	log("error", missionError)
+	return false
+end
+
+local DIFFICULTY, difficultyError = includeTable("luarules/mission_runtime/coilbox_difficulty.lua")
+if not DIFFICULTY then
+	log("error", difficultyError)
+	return false
+end
+
+local START, startError = includeTable("luarules/mission_runtime/coilbox_start.lua")
+if not START then
+	log("error", startError)
+	return false
+end
+
+-- The ground a base's terrain steps leave, by Zero-K's own rules. A copy of the
+-- blueprint widget's terraform.lua: a gadget cannot include a LuaUI file, and
+-- tests/terrain_test.lua fails when the two differ.
+local TERRAFORM, terraformError = includeTable("luarules/mission_runtime/coilbox_terraform.lua")
+if not TERRAFORM then
+	log("error", terraformError)
+	return false
+end
+
+local BASES, basesError = includeTable("luarules/mission_runtime/coilbox_bases.lua")
+if not BASES then
+	log("error", basesError)
+	return false
+end
+
+local TRIGGERS, triggersError = includeTable("luarules/mission_runtime/coilbox_triggers.lua")
+if not TRIGGERS then
+	log("error", triggersError)
+	return false
+end
+
+local UNIT_CONDITIONS, unitConditionsError =
+	includeTable("luarules/mission_runtime/coilbox_unit_conditions.lua")
+if not UNIT_CONDITIONS then
+	log("error", unitConditionsError)
+	return false
+end
+
+local PLAYER_ACTIONS, playerActionsError =
+	includeTable("luarules/mission_runtime/coilbox_player_actions.lua")
+if not PLAYER_ACTIONS then
+	log("error", playerActionsError)
+	return false
+end
+
+local ZONES, zonesError = includeTable("luarules/mission_runtime/coilbox_zones.lua")
+if not ZONES then
+	log("error", zonesError)
+	return false
+end
+
+local VARS, varsError = includeTable("luarules/mission_runtime/coilbox_vars.lua")
+if not VARS then
+	log("error", varsError)
+	return false
+end
+
+local GROUPS, groupsError = includeTable("luarules/mission_runtime/coilbox_groups.lua")
+if not GROUPS then
+	log("error", groupsError)
+	return false
+end
+
+local ECONOMY, economyError = includeTable("luarules/mission_runtime/coilbox_economy.lua")
+if not ECONOMY then
+	log("error", economyError)
+	return false
+end
+
+local CALL, callError = includeTable("luarules/mission_runtime/coilbox_call.lua")
+if not CALL then
+	log("error", callError)
+	return false
+end
+
+local OBJECTIVES, objectivesError = includeTable("luarules/mission_runtime/coilbox_objectives.lua")
+if not OBJECTIVES then
+	log("error", objectivesError)
+	return false
+end
+
+local GAMEOVER, gameOverError = includeTable("luarules/mission_runtime/coilbox_gameover.lua")
+if not GAMEOVER then
+	log("error", gameOverError)
+	return false
+end
+
+local DIALOGUE, dialogueError = includeTable("luarules/mission_runtime/coilbox_dialogue.lua")
+if not DIALOGUE then
+	log("error", dialogueError)
+	return false
+end
+
+local PAUSE, pauseError = includeTable("luarules/mission_runtime/coilbox_pause.lua")
+if not PAUSE then
+	log("error", pauseError)
+	return false
+end
+
+local VIEW, viewError = includeTable("luarules/mission_runtime/coilbox_view.lua")
+if not VIEW then
+	log("error", viewError)
+	return false
+end
+
+local REVEAL, revealError = includeTable("luarules/mission_runtime/coilbox_reveal.lua")
+if not REVEAL then
+	log("error", revealError)
+	return false
+end
+
+local RESTRICTIONS, restrictionsError =
+	includeTable("luarules/mission_runtime/coilbox_restrictions.lua")
+if not RESTRICTIONS then
+	log("error", restrictionsError)
+	return false
+end
+
+local EXTENSIONS, extensionsError = includeTable("luarules/mission_runtime/coilbox_extensions.lua")
+if not EXTENSIONS then
+	log("error", extensionsError)
+	return false
+end
+
+-- Refuse a mission built for a newer runtime than the game vendored. Running it
+-- anyway would quietly drop whatever this version cannot read, and a mission
+-- that half works is harder to diagnose than one that refuses to start.
+local function needsNewerRuntime(field, have)
+	local needs = tonumber(MISSION[field]) or 0
+	if needs <= (tonumber(have) or 0) then
+		return false
+	end
+	log("error", string.format(
+		"mission %s needs %s %d, this runtime is at %s: update the runtime in this game",
+		MISSION_ID, field, needs, tostring(have)))
+	return true
+end
+
+if needsNewerRuntime("runtimeVersion", RUNTIME.version)
+	or needsNewerRuntime("schemaVersion", RUNTIME.schemaVersion) then
+	return false
+end
+
+-- How hard this mission is being played (issue #2164).
+--
+-- A modoption rather than something in the compiled mission, because one
+-- scenario is played at every difficulty. It also has to reach a mission the
+-- game ships in a packaged archive, which coilbox cannot write into, so a
+-- setting compiled in would be a setting that mission could never change.
+--
+-- Read here, once, so both halves of the gadget answer the same. A launcher
+-- that says nothing leaves it at the default, and a mission that gates nothing
+-- plays the same whatever it says.
+local DIFFICULTY_LEVEL, difficultyProblem = DIFFICULTY.parse(Spring.GetModOptions().coilbox_difficulty)
+if difficultyProblem then
+	log("warning", difficultyProblem)
+end
+local DIFFICULTY_GATE = DIFFICULTY.gate(DIFFICULTY_LEVEL)
+
+-- Not fatal. The mission will spawn its units at coordinates that mean nothing
+-- on this map, but saying so beats a silent sea of drowned commanders.
+if MISSION.map and MISSION.map ~= Game.mapName then
+	log("warning", string.format(
+		"mission %s was built for map %s and is running on %s",
+		MISSION_ID, MISSION.map, tostring(Game.mapName)))
+end
+
+function gadget:GetInfo()
+	return {
+		name = "Coilbox mission runtime",
+		desc = "Runs a coilbox scenario as a mission",
+		author = "coilbox",
+		date = "2026",
+		license = "MIT or GNU GPL, v2 or later",
+		-- Behind the game's own gadgets. The runtime overrides the start the
+		-- game would otherwise give the player, so it needs the last word:
+		-- gadgetHandler runs low layers first, and whoever runs last is the one
+		-- whose starting resources and damage modifiers stick.
+		layer = 1000,
+		enabled = true,
+	}
+end
+
+-- Names the message the synced half sends its unsynced half when an actor has
+-- become a unit.
+local ACTOR_MESSAGE = "coilbox_mission_actor"
+-- And the one that says a unit is the runtime's own -- an anchor or a spotter --
+-- which the unsynced half takes off this player's screen.
+local HIDDEN_MESSAGE = "coilbox_mission_hidden"
+-- And the four that reach the player rather than the game: a line of dialogue,
+-- which the widget draws, and a sound, a camera move and a map marker, which the
+-- unsynced half does outright.
+local DIALOGUE_MESSAGE = "coilbox_mission_dialogue"
+local SOUND_MESSAGE = "coilbox_mission_sound"
+local CAMERA_MESSAGE = "coilbox_mission_camera"
+local MARKER_MESSAGE = "coilbox_mission_marker"
+-- And the one that asks this client to pause the game or start it again, which
+-- synced Lua cannot do for itself.
+local PAUSE_MESSAGE = "coilbox_mission_pause"
+
+-- The global the widget registers on the widget handler to hear a line. A
+-- missing one is a no-op in the engine, so a game with no LuaUI, or a player who
+-- has switched the widget off, costs nothing here.
+local DIALOGUE_GLOBAL = "CoilboxMissionDialogue"
+
+-- Which unit an actor became, mirrored for LuaUI. An actor's display name has no
+-- synced engine call behind it -- nothing renames a unit -- so the name is drawn
+-- over the unit instead, and the panel that draws it needs to know which unit
+-- that is. 0 means the actor is not on the map.
+local ACTOR_RULES_PREFIX = "coilbox_mission_actor_"
+
+-- Where a trigger's state is kept, so a runtime loaded again by `/luarules reload`
+-- knows which ones had fired. Game rules params, because the engine holds them
+-- across the reload and every other part of the runtime's state that a panel or
+-- a debrief reads is already kept there (issue #4147). The first is whether the
+-- trigger is armed, 1 or 0, and the second the frame it may next fire on.
+local TRIGGER_RULES_PREFIX = "coilbox_mission_trigger_"
+local TRIGGER_READY_PREFIX = "coilbox_mission_trigger_ready_"
+
+-- What a reload cannot give back, said once in the log. Each of these is a list
+-- or a clock the runtime holds in its own variables and the engine holds no copy
+-- of, so there is nothing to read it back from.
+local NOT_KEPT = "which units are in a group and what a group was ordered to do, "
+	.. "which reveals are lit, how long a zone has been held, how many units a team has "
+	.. "built or captured since the mission began, what a player has selected or ordered, "
+	.. "and which held lines of dialogue are on screen"
+
+-- The rest of the runtime reads the mission through GG, in both halves. Both
+-- compute the team plan, because it is derived from the mission and deriving it
+-- twice is cheaper than a channel between the halves.
+--
+-- `mission` is the compiled scenario exactly as coilbox emitted it, so a mission
+-- that misbehaves can be diagnosed by reading missions/<id>/mission.lua.
+local function publish()
+	local teams, problems = START.teamPlan(MISSION, Spring.GetGaiaTeamID())
+
+	local actors = {}
+	for _, actor in ipairs(MISSION.actors or {}) do
+		actors[actor.id] = actor
+	end
+
+	-- The prefab buildings the author named. A base is placed as one piece, so a
+	-- building only gets an id when the scenario wants to talk about that
+	-- building, and the ones that have one are addressable exactly as actors are.
+	local buildings = {}
+	for _, prefab in ipairs(MISSION.prefabs or {}) do
+		for _, building in ipairs(prefab.buildings or {}) do
+			if building.id then
+				buildings[building.id] = building
+			end
+		end
+	end
+
+	local noCommander = {}
+	for _, team in ipairs(teams) do
+		if team.noCommander then
+			noCommander[team.team] = true
+		end
+	end
+
+	GG.CoilboxMission = {
+		id = MISSION_ID,
+		-- True when this runtime was loaded into a game that was already running,
+		-- which only `/luarules reload` does. The modules read it to take their
+		-- state back from where they kept it instead of starting from the scenario.
+		resumed = Spring.GetGameFrame() >= 1,
+		mission = MISSION,
+		runtime = RUNTIME,
+		-- What the mission is being played at, and the question everything the
+		-- scenario gated asks of it. Published so a game's own Lua can ask the
+		-- same question the runtime does rather than reading the modoption and
+		-- inventing its own ladder (issue #2164).
+		difficulty = DIFFICULTY_LEVEL,
+		difficultyGate = DIFFICULTY_GATE,
+		-- Per-participant setup with the engine team number resolved.
+		teams = teams,
+		--- Whether the mission places this engine team's opening units itself, and
+		-- the game must not.
+		--
+		-- The adoption contract's question, asked by a game's own start gadget
+		-- where it would spawn. Answering it is the only reliable way to keep a
+		-- game's start out of a mission: the engine has no veto on
+		-- Spring.CreateUnit, so all the runtime can do on its own is destroy what
+		-- the game just made, and a game that ends a team when its commander dies
+		-- reads that as the team dying (issue #884).
+		suppressesStart = function(teamID)
+			return noCommander[teamID] == true
+		end,
+		--- The same question asked about the game rather than about one team.
+		--
+		-- A game whose start is a sequence rather than a call asks this one. A
+		-- faction choice and a start position picker decide nothing a mission has
+		-- already decided, so a game skips the whole sequence when this is true
+		-- and runs it when some team still needs a start out of it (issue #888).
+		--
+		-- Read against the engine's team list rather than the scenario's, because
+		-- a team the mission says nothing about still wants the start the game
+		-- would have given it, and the sequence is what decides that start.
+		suppressesEveryStart = function()
+			local gaia = Spring.GetGaiaTeamID()
+			for _, teamID in ipairs(Spring.GetTeamList() or {}) do
+				if teamID ~= gaia and not noCommander[teamID] then
+					return false
+				end
+			end
+			return true
+		end,
+		-- Actor records by id, and the named prefab buildings by theirs. `units`
+		-- holds the unit each one currently is, in one name space, so a trigger
+		-- naming either gets a unit back. A name with no entry in `units` is one
+		-- that has died or never spawned.
+		actors = actors,
+		buildings = buildings,
+		units = {},
+		-- The synced half adds `triggers`, the trigger engine, `vars`, the
+		-- mission's variables, `groups`, the scenario's groups, `objectives`,
+		-- its objectives, and `gameOver`, which ends it. Registering a condition
+		-- or action type on the engine is how the rest of the runtime joins in,
+		-- and `extensions` is the same seam offered to a game's own Lua through
+		-- missions/extensions.lua; going through the handles is how they read
+		-- and drive what those own.
+	}
+	return GG.CoilboxMission, problems
+end
+
+if gadgetHandler:IsSyncedCode() then
+	-- The frame the runtime stops counting what arrives as part of the start.
+	-- Everything the mission itself places lands in GameStart, so by here the
+	-- scenario's own units are down and the bank can be set to the scenario's
+	-- number over whatever the game opened on.
+	local START_FRAME = 1
+
+	local teams = {}
+	local units = {}
+	-- Actors a reload found still on the map. The unsynced half starts again with
+	-- the gadget but loads after this half does, so it is told on the first frame.
+	local tell
+	-- Whether the scenario places a given engine team's opening units itself. The
+	-- published one, so a game asking the contract question and the undo below are
+	-- reading the same answer.
+	local suppressesStart
+	local suppressing = false
+	-- True only inside the runtime's own Spring.CreateUnit, so the suppression
+	-- does not eat what the runtime just placed.
+	local spawning = false
+	-- True while the runtime is putting one of its own units on the map after the
+	-- start, or taking one off. A spotter is not something a team built and not
+	-- something it lost, so nothing about one reaches the triggers. The start
+	-- window is the same idea for everything the runtime places at game start.
+	local placing = false
+	local invulnerable = {}
+	local actorOfUnit = {}
+	-- The trigger engine, and the hooks its unit conditions want fed. Both are
+	-- synced only: triggers decide what happens in the game, so they run where
+	-- every machine runs them.
+	local triggers
+	local unitHooks
+	-- The hooks its player conditions want fed: an order a player gave, and what
+	-- a player's client says they have selected.
+	local playerHooks
+	-- The scenario's groups, once registered.
+	local groups
+	-- What ends the mission, and what stops anything else ending it.
+	local gameOver
+	-- The reveals that are lit, and the spotters lighting them.
+	local reveal
+	-- What the mission's teams may build and do.
+	local restrictions
+	-- Their banks, what they are paid and how much they can hold.
+	local economy
+
+	--- Tell the triggers something happened.
+	--
+	-- Nothing is raised while the start window is open. The mission's own spawns
+	-- and the game's suppressed ones all land in there, and a mission counting
+	-- what a team has built should not be counting the units it was handed.
+	--
+	-- Nothing is raised after the mission has ended either. The result is already
+	-- in the replay, and a trigger that spawns a wave into a finished mission is
+	-- a mission that looks broken.
+	local function raise(name, payload)
+		if suppressing or placing or not triggers or gameOver.isOver() then
+			return
+		end
+		triggers:event(name, payload)
+	end
+
+	--- Where a placement actually lands.
+	--
+	-- A scenario carries no height, because everything in one sits on terrain, so
+	-- the ground is read here. A building is put through the engine's build grid
+	-- as well: Spring.CreateUnit does not snap, and a base a few elmos off the
+	-- grid cannot be rebuilt where it stood and sits at the wrong height on a
+	-- slope. Pos2BuildPos answers with the height a builder would have used, so
+	-- the ground read is its job for those.
+	local function groundAt(placement)
+		local def = UnitDefNames[placement.unitDef]
+		if def and def.isBuilding then
+			return Spring.Pos2BuildPos(def.id, placement.x, 0, placement.z, placement.facing)
+		end
+		return placement.x, Spring.GetGroundHeight(placement.x, placement.z), placement.z
+	end
+
+	--- Put one planned unit on the map.
+	--
+	-- Spring.CreateUnit raises on a unit def the game does not have. A scenario
+	-- built against a different version of the game is the likely cause, and one
+	-- missing unit should not take the whole mission down with it.
+	--
+	-- It also answers nil without raising, for a team that is already at its unit
+	-- limit and for a position the loader would not put a unit on. That is the
+	-- refusal worth saying most: the mission plays, the engine exits cleanly, and
+	-- the only difference between it and a mission whose author placed nothing
+	-- there is this line (issue #2165).
+	--- Whether an engine team is the scenario's neutral team.
+	local function neutralTeam(team)
+		for _, entry in ipairs(teams) do
+			if entry.neutral and entry.team == team then
+				return true
+			end
+		end
+		return false
+	end
+
+	local function create(placement)
+		local x, y, z = groundAt(placement)
+		spawning = true
+		local ok, unitID = pcall(Spring.CreateUnit,
+			placement.unitDef, x, y, z, placement.facing, placement.team)
+		spawning = false
+
+		if not ok then
+			log("error", string.format(
+				"could not spawn %s: %s", tostring(placement.unitDef), tostring(unitID)))
+			return nil
+		end
+		if not unitID then
+			log("error", string.format(
+				"the engine refused to spawn %s for team %s at %g,%g, so it is not on the map",
+				tostring(placement.unitDef), tostring(placement.team), x, z))
+			return nil
+		end
+		if neutralTeam(placement.team) then
+			-- Neutral means nobody fires at it unprompted, and it holds its own fire
+			-- too, or a neutral turret would shoot at a player who ignores it.
+			Spring.SetUnitNeutral(unitID, true)
+			Spring.GiveOrderToUnit(unitID, CMD.FIRE_STATE, { 0 }, 0)
+		end
+		return unitID
+	end
+
+	--- The author's overrides on a placed unit.
+	--
+	-- Health is a fraction of the unit's own maximum, so a scenario can say "half
+	-- dead" without knowing the def's hit points. Invulnerability is held here
+	-- and applied in UnitPreDamaged rather than through the unit's armoured
+	-- state, which its own script owns and would flip back.
+	local function applyState(unitID, state)
+		if state.hp then
+			local _, maxHealth = Spring.GetUnitHealth(unitID)
+			if maxHealth then
+				Spring.SetUnitHealth(unitID, maxHealth * state.hp)
+			end
+		end
+		if state.invulnerable then
+			invulnerable[unitID] = true
+		end
+	end
+
+	--- Fill a prefab factory's build queue.
+	--
+	-- A build order is the negative of the unit def id, and the engine reads the
+	-- shift and control keys on one as "five of these" and "twenty of these", so
+	-- each is given with no options at all and appends exactly one unit. Build
+	-- orders always append, so nothing here clears the queue either.
+	--
+	-- `repeat` goes last, and needs its 0-or-1 parameter: the engine refuses the
+	-- command without one, and refuses it outright for a factory whose def cannot
+	-- repeat, which is the game's decision rather than the mission's.
+	local function applyQueue(unitID, queue, repeatQueue)
+		for _, name in ipairs(queue) do
+			local def = UnitDefNames[name]
+			if def then
+				Spring.GiveOrderToUnit(unitID, -def.id, {}, 0)
+			else
+				log("warning", string.format(
+					"a prefab factory's queue names %s, which this game has no unit def for",
+					tostring(name)))
+			end
+		end
+		if repeatQueue then
+			Spring.GiveOrderToUnit(unitID, CMD.REPEAT, { 1 }, 0)
+		end
+	end
+
+	--- Put one planned unit on the map, with everything the scenario says about
+	-- it. Answers the unit, or nil when the engine would not make it.
+	local function place(placement)
+		local unitID = create(placement)
+		if not unitID then
+			return nil
+		end
+		if placement.state then
+			applyState(unitID, placement.state)
+		end
+		if placement.queue then
+			applyQueue(unitID, placement.queue, placement.repeatQueue)
+		end
+		if placement.actor then
+			units[placement.actor] = unitID
+			actorOfUnit[unitID] = placement.actor
+			-- The unsynced half handles what is local to this player's
+			-- screen. It cannot read a synced table, so it is told which
+			-- unit each actor became.
+			SendToUnsynced(ACTOR_MESSAGE, placement.actor, unitID)
+			-- And LuaUI cannot be told at all, so it reads the same fact
+			-- out of a rules param.
+			Spring.SetGameRulesParam(ACTOR_RULES_PREFIX .. placement.actor, unitID)
+		end
+		return unitID
+	end
+
+	--- Set a base's ground from its terrain steps (issue #4799). Before its
+	-- buildings, so they stand on the ground the steps leave. An engine with no
+	-- SetHeightMapFunc leaves the ground as it is, and says so once.
+	local noHeightMap = false
+	local function setGround(prefab)
+		if not prefab.terrain or #prefab.terrain == 0 then
+			return
+		end
+		if not Spring.SetHeightMapFunc then
+			if not noHeightMap then
+				noHeightMap = true
+				log("error", "this engine has no Spring.SetHeightMapFunc, so no base's terrain changes were made")
+			end
+			return
+		end
+		local corners, refused = BASES.setGround(TERRAFORM, prefab)
+		if refused > 0 then
+			log("warning", string.format(
+				"base %s: %d of its %d terrain changes could not be made by the terraform rules",
+				tostring(prefab.id), refused, #prefab.terrain))
+		end
+		log("info", string.format("base %s changed %d corners of ground", tostring(prefab.id), corners))
+	end
+
+	local function spawn()
+		local startPositions = {}
+		for _, team in ipairs(teams) do
+			local x, _, z, valid = Spring.GetTeamStartPosition(team.team)
+			if valid then
+				startPositions[team.team] = { x = x, z = z }
+			end
+		end
+
+		-- Every base's ground before anything stands on the map, so each building
+		-- and each actor is placed on the ground the steps leave.
+		for _, prefab in ipairs(MISSION.prefabs or {}) do
+			if prefab.dormant ~= true and DIFFICULTY_GATE(prefab.difficulty) then
+				setGround(prefab)
+			end
+		end
+
+		local placements, problems = START.placements(MISSION, teams, startPositions, DIFFICULTY_GATE)
+		local prefabs, prefabProblems = START.prefabPlacements(MISSION, teams, DIFFICULTY_GATE)
+		for _, placement in ipairs(prefabs) do
+			placements[#placements + 1] = placement
+		end
+		for _, problem in ipairs(prefabProblems) do
+			problems[#problems + 1] = problem
+		end
+		for _, problem in ipairs(problems) do
+			log("warning", problem)
+		end
+
+		local spawned = 0
+		for _, placement in ipairs(placements) do
+			if place(placement) then
+				spawned = spawned + 1
+			end
+		end
+
+		-- After the actors, so a standing group ordered to guard one of them has
+		-- something to guard.
+		local grouped = groups.start()
+		-- Last, and inside the start window like everything else the runtime
+		-- places, so no trigger ever sees an anchor being created.
+		local anchored = gameOver.place()
+
+		log("notice", string.format(
+			"mission %s spawned %d of %d units, %d in groups and %d anchors, at difficulty %s",
+			MISSION_ID, spawned, #placements, grouped, anchored, DIFFICULTY_LEVEL))
+	end
+
+	--- Set every mission team's bank to what the scenario asked for. Teams the
+	-- scenario says nothing about land on nothing, which is how the normal
+	-- starting resources are suppressed.
+	local function applyResources()
+		for _, team in ipairs(teams) do
+			Spring.SetTeamResource(team.team, "m", team.metal)
+			Spring.SetTeamResource(team.team, "e", team.energy)
+		end
+	end
+
+	--- Take back the unit an actor was, in a runtime loaded again into a running
+	-- game.
+	--
+	-- Every actor's unit is in a game rules param, which the engine kept. It is
+	-- trusted only as far as it can be checked: the unit has to be alive and be
+	-- the def the actor is, because the engine reuses a unit id once the unit is
+	-- gone. An actor that died before the reload has 0 there and is dead still.
+	local function recover(id, record)
+		local unitID = Spring.GetGameRulesParam(ACTOR_RULES_PREFIX .. id)
+		if type(unitID) ~= "number" or unitID <= 0 then
+			return false
+		end
+
+		local defID = Spring.ValidUnitID(unitID) and not Spring.GetUnitIsDead(unitID)
+			and Spring.GetUnitDefID(unitID)
+		local def = defID and UnitDefs[defID]
+		local wanted = record.unitDef or record.def
+		if not def or def.name ~= wanted then
+			log("warning", string.format(
+				"actor %s could not be kept across the reload: unit %d is %s now, not %s",
+				id, unitID, def and def.name or "gone", tostring(wanted)))
+			return false
+		end
+
+		units[id] = unitID
+		actorOfUnit[unitID] = id
+		-- Invulnerability is the runtime's own table and is not on the unit.
+		if record.state and record.state.invulnerable then
+			invulnerable[unitID] = true
+		end
+		tell = tell or {}
+		tell[#tell + 1] = { id, unitID }
+		return true
+	end
+
+	function gadget:Initialize()
+		local published, problems = publish()
+		teams = published.teams
+		units = published.units
+		suppressesStart = published.suppressesStart
+
+		for _, problem in ipairs(problems) do
+			log("warning", problem)
+		end
+
+		-- Open from here rather than from GameStart, so a game that spawns in
+		-- GamePreload is covered too. Not for a runtime `/luarules reload` loads
+		-- into a game already past the window: nothing would close it again, and
+		-- every unit created with no builder would be undone (issue #3346).
+		suppressing = Spring.GetGameFrame() < START_FRAME
+
+		-- The trigger engine knows nothing about any condition or action until
+		-- one is registered on it. Every module that implements some registers
+		-- here, before the first frame, so the engine's index of which trigger
+		-- watches which event is built once and stays right.
+		triggers = TRIGGERS.new(MISSION, {
+			state = published,
+			gameSpeed = Game.gameSpeed,
+			-- Which triggers have fired and which have been switched on or off is
+			-- the one piece of mission progress nothing else already mirrors, so it
+			-- is written here whenever it changes and read back by a reloaded runtime.
+			save = function(id, enabled, readyFrame)
+				Spring.SetGameRulesParam(TRIGGER_RULES_PREFIX .. id, enabled and 1 or 0)
+				Spring.SetGameRulesParam(TRIGGER_READY_PREFIX .. id, readyFrame)
+			end,
+			restore = published.resumed and function(id)
+				local enabled = Spring.GetGameRulesParam(TRIGGER_RULES_PREFIX .. id)
+				if enabled == nil then
+					return nil
+				end
+				return {
+					enabled = enabled == 1,
+					readyFrame = Spring.GetGameRulesParam(TRIGGER_READY_PREFIX .. id),
+				}
+			end or nil,
+			-- A trigger the difficulty leaves out is never armed and cannot be
+			-- armed, which is decided here, before the first frame, because the
+			-- level cannot change while the mission runs.
+			difficulty = DIFFICULTY_LEVEL,
+			difficultyGate = DIFFICULTY_GATE,
+			log = log,
+		})
+		unitHooks = UNIT_CONDITIONS.register(triggers, published)
+		playerHooks = PLAYER_ACTIONS.register(triggers, published)
+		-- The zone geometry is published as well as read, so anything else that has
+		-- to work out where a zone is reads the same corners the conditions do.
+		published.zones = ZONES.register(triggers, published)
+		-- Before the first frame, so a var is at the number its author gave it
+		-- from the first trigger that reads it.
+		published.vars = VARS.register(triggers, published)
+		-- After the vars, because every field of an economy action is an amount and
+		-- an amount may name one. Before the first frame, so the income it is
+		-- holding is the scenario's own from the frame the game starts paying.
+		economy = ECONOMY.register(triggers, published)
+		published.economy = economy
+		-- A name is walked from the gadget's own environment, which is the only
+		-- place `GG` and a game's globals can be reached from.
+		published.call = CALL.register(triggers, published, {
+			root = function()
+				return getfenv(1)
+			end,
+		})
+		-- Creating a unit has to happen inside the start suppression and at the
+		-- ground height, both of which are this file's, so the groups get the one
+		-- hook and keep the lifecycle.
+		groups = GROUPS.register(triggers, published, {
+			spawn = function(group, team)
+				local created = {}
+				for _, placement in ipairs(START.groupPlacements(group, team)) do
+					local unitID = create(placement)
+					if unitID then
+						created[#created + 1] = unitID
+					end
+				end
+				return created
+			end,
+		})
+		published.groups = groups
+		-- A dormant base, placed by `spawn_base`: its ground, then its buildings,
+		-- through the same two steps the start takes.
+		published.bases = BASES.register(triggers, published, {
+			place = function(prefab)
+				local team
+				for _, entry in ipairs(teams) do
+					if entry.id == prefab.team then
+						team = entry.team
+					end
+				end
+				if not team then
+					log("error", string.format(
+						"base %s belongs to team %s, which the mission has no engine team for",
+						tostring(prefab.id), tostring(prefab.team)))
+					return 0
+				end
+				setGround(prefab)
+				local placed = 0
+				for _, placement in ipairs(START.basePlacements(prefab, team)) do
+					if place(placement) then
+						placed = placed + 1
+					end
+				end
+				return placed
+			end,
+		})
+		-- Before the first frame, so every objective has a state a panel can read
+		-- from the moment the mission starts.
+		published.objectives = OBJECTIVES.register(triggers, published)
+		-- The anchors are units, so they go through the gadget's own creation the
+		-- way a group's do.
+		gameOver = GAMEOVER.register(triggers, published, {
+			spawn = function(placement)
+				local unitID = create(placement)
+				if unitID then
+					-- Invulnerable through the same path an actor is, and hidden by
+					-- the unsynced half, which owns what this player's screen shows.
+					applyState(unitID, { invulnerable = true })
+					SendToUnsynced(HIDDEN_MESSAGE, unitID)
+				end
+				return unitID
+			end,
+			-- An anchor a reload found still standing, which was made invulnerable
+			-- by a table the reload emptied. Its engine-side hiding survives on
+			-- the unit, so only the table is put back.
+			keep = function(unitID)
+				invulnerable[unitID] = true
+			end,
+		})
+		published.gameOver = gameOver
+		-- A revealed area is lit by a unit, because the engine has no call that
+		-- lights part of a map. It goes on and comes off mid-mission, so both ends
+		-- are wrapped in `placing`: a spotter is not a unit the team built and not
+		-- one it lost. After the game over, which is where the team it belongs to
+		-- and the def it is built from both come from.
+		reveal = REVEAL.register(triggers, published, {
+			spawn = function(placement)
+				placing = true
+				local unitID = create(placement)
+				if unitID then
+					applyState(unitID, { invulnerable = true })
+					SendToUnsynced(HIDDEN_MESSAGE, unitID)
+				end
+				placing = false
+				return unitID
+			end,
+			remove = function(unitID)
+				placing = true
+				Spring.DestroyUnit(unitID, false, true)
+				placing = false
+			end,
+			def = GAMEOVER.inertDef,
+		})
+		published.reveal = reveal
+		-- After the game over, which is where "the team a human is playing" comes
+		-- from, because that is the team an unlock_unit naming none is about.
+		restrictions = RESTRICTIONS.register(triggers, published)
+		published.restrictions = restrictions
+		-- Whatever is already on the map. In a normal game that is nothing, since
+		-- the gadget loads before anything is placed, but a runtime reloaded into a
+		-- running mission finds a map full of builders whose menus nobody has
+		-- painted.
+		for _, unitID in ipairs(Spring.GetAllUnits() or {}) do
+			restrictions.paint(unitID, Spring.GetUnitDefID(unitID), Spring.GetUnitTeam(unitID))
+		end
+		-- Saying a line and playing a sound are things the player sees and hears
+		-- rather than things that happen in the game, so synced Lua decides only
+		-- that they happened and the unsynced half takes it from there.
+		published.dialogue = DIALOGUE.register(triggers, published, {
+			-- A held line is noted before it goes out, so the dismissal that
+			-- answers it finds a line the mission is holding. Nothing rides along
+			-- for a line that is not held, which is the message every runtime
+			-- before this one sent.
+			say = function(lineId, hold)
+				if hold then
+					playerHooks.held(lineId)
+				end
+				SendToUnsynced(DIALOGUE_MESSAGE, lineId, hold or nil)
+			end,
+			sound = function(name)
+				SendToUnsynced(SOUND_MESSAGE, name)
+			end,
+		})
+		-- Pointing the camera and putting a label on the map are the same kind of
+		-- thing: the player's screen rather than the game.
+		-- The engine team each one is for rides along, because every client runs
+		-- the unsynced half and only a client knows which team it is watching.
+		published.view = VIEW.register(triggers, published, {
+			pan = function(x, z, seconds, team)
+				SendToUnsynced(CAMERA_MESSAGE, x, z, seconds, team)
+			end,
+			mark = function(x, z, text, team)
+				SendToUnsynced(MARKER_MESSAGE, x, z, text, team)
+			end,
+		})
+		-- Stopping the clock is the server's to do and a client's to ask for, so
+		-- this goes to the unsynced half as well.
+		published.pause = PAUSE.register(triggers, {
+			pause = function(paused)
+				SendToUnsynced(PAUSE_MESSAGE, paused)
+			end,
+		})
+		published.triggers = triggers
+
+		-- Last, so every type the runtime itself implements is registered before a
+		-- game's own are read. What the game may add is checked against the version
+		-- marker rather than against what happens to be registered, but registering
+		-- after the runtime is what makes the two the same list.
+		published.extensions = EXTENSIONS.register(triggers, published, {
+			has = function(path)
+				return VFS.FileExists(path, VFS.ZIP)
+			end,
+			load = includeTable,
+			-- What a game's own handler runs in. A table of its own that falls
+			-- through to this gadget's environment: the handler is code, so it has
+			-- to reach the engine and GG, and a global it sets should land in its
+			-- own table rather than in the runtime's.
+			--
+			-- Named rather than left to VFS.Include's default, because the default
+			-- is not this environment. A handler included with no environment at all
+			-- cannot see GG, which is where a game keeps everything an extension is
+			-- likely to want (issue #776).
+			env = function()
+				return setmetatable({}, { __index = getfenv(1) })
+			end,
+			log = log,
+		})
+
+		-- Before the first frame, so a panel reading which unit an actor is finds
+		-- "not on the map" rather than nothing at all. Named prefab buildings
+		-- too, because they answer to the same table and the same param.
+		--
+		-- Not for a runtime `/luarules reload` loads into a game that is running:
+		-- the param is the only record of which unit an actor is, so zeroing it
+		-- would tell every panel and trigger that a living actor was dead (issue
+		-- #4147). It is read back instead, and zeroed only where the unit is gone.
+		for _, records in ipairs({ published.actors, published.buildings }) do
+			for id, record in pairs(records) do
+				if not (published.resumed and recover(id, record)) then
+					Spring.SetGameRulesParam(ACTOR_RULES_PREFIX .. id, 0)
+				end
+			end
+		end
+
+		if published.resumed then
+			log("warning", string.format(
+				"mission %s was reloaded into a running game at frame %d. Kept: actors, "
+					.. "invulnerable units, anchors, variables, objectives, which triggers have fired, "
+					.. "what teams are paid and what has been unlocked. Not kept: %s",
+				MISSION_ID, Spring.GetGameFrame(), NOT_KEPT))
+		end
+
+		log("notice", string.format(
+			"mission %s loaded at difficulty %s, runtime version %s",
+			MISSION_ID, DIFFICULTY_LEVEL, tostring(RUNTIME.version)))
+	end
+
+	function gadget:GameStart()
+		spawn()
+	end
+
+	function gadget:GameFrame(frame)
+		if frame < START_FRAME then
+			return
+		end
+		-- The unsynced half only exists once the gadgets have all loaded, so what a
+		-- reload recovered is said here, on the first frame to run.
+		if tell then
+			for _, entry in ipairs(tell) do
+				SendToUnsynced(ACTOR_MESSAGE, entry[1], entry[2])
+			end
+			tell = nil
+		end
+		if frame == START_FRAME then
+			applyResources()
+			suppressing = false
+		end
+		-- Free income, spread over the second it is quoted per. The economy module
+		-- owns the number, so a `set_income` that changed it changes what arrives.
+		economy.pay()
+		-- The greyed build icons, put back over whatever a game's own build gating
+		-- has written on top of them since (issue #955).
+		restrictions.refresh(frame)
+		-- Last, so the world a trigger reads on this frame is the finished one.
+		-- The engine owns how often it actually evaluates. A mission that has
+		-- ended evaluates nothing: the result is already in the replay.
+		if not gameOver.isOver() then
+			groups.hunt(frame)
+			triggers:frame(frame)
+		end
+	end
+
+	-- What the mission's teams may build and do.
+	--
+	-- Both callins are defined only when the mission asks for one, because both
+	-- are hot: AllowCommand is consulted for every order anyone gives for the
+	-- length of the game. A mission that restricts nothing pays nothing, which is
+	-- the bargain the modoption gate makes for a normal game.
+	--
+	-- Explicit booleans on the way out. A gadget handler reads a nil return as a
+	-- refusal, so "no opinion" is not something to leave unsaid here.
+	local RESTRICTED = MISSION.restrictions or {}
+
+	if RESTRICTED.buildable then
+		--- Refuse a build the mission forbids this team. The team is the builder's,
+		-- which is the team the unit would have been built on.
+		--
+		-- The second return is what the engine does with the order that asked.
+		-- Dropping it is what stops a factory queue jamming on a unit it will never
+		-- be allowed to build, and a builder standing at the site retrying forever.
+		function gadget:AllowUnitCreation(unitDefID, _, builderTeam)
+			if restrictions.allowsBuild(unitDefID, builderTeam) then
+				return true
+			end
+			return false, true
+		end
+	end
+
+	if RESTRICTED.commands and #RESTRICTED.commands > 0 then
+		--- Withhold a command the mission took away.
+		--
+		-- A command synced Lua gave is let through. A restriction is what the
+		-- player may not do, and the runtime ordering its own groups about is the
+		-- mission itself: a mission that withheld `attack` and then could not order
+		-- its raiders to attack would be restricting its author.
+		function gadget:AllowCommand(_, _, unitTeam, cmdID, _, _, _, _, _, fromLua)
+			if fromLua then
+				return true
+			end
+			return restrictions.allowsCommand(cmdID, unitTeam)
+		end
+	end
+
+	-- What a player did, for the two conditions that wait on it.
+	--
+	-- Both callins are defined only when a trigger asks, for the reason the two
+	-- above are: UnitCommand runs for every order every unit accepts, and
+	-- RecvLuaMsg for every message any gadget or widget in the game sends.
+
+	if PLAYER_ACTIONS.uses(MISSION, "command_given") then
+		--- A unit accepted an order. The engine calls this in synced code on every
+		-- machine, after AllowCommand, with the player the order came from.
+		function gadget:UnitCommand(unitID, unitDefID, unitTeam, cmdID, _, _, _, playerID, _, fromLua)
+			if playerHooks.command(unitTeam, cmdID, playerID, fromLua) then
+				raise("command_given", {
+					unitID = unitID,
+					unitDefID = unitDefID,
+					team = unitTeam,
+					cmdID = cmdID,
+					player = playerID,
+				})
+			end
+		end
+	end
+
+	local HEARS_SELECTION = PLAYER_ACTIONS.uses(MISSION, "unit_selected")
+	local HEARS_DISMISSAL = PLAYER_ACTIONS.uses(MISSION, "dialogue_dismissed")
+
+	if HEARS_SELECTION or HEARS_DISMISSAL then
+		--- A client said what its player has selected, or that its player clicked
+		-- a held line of dialogue away. A message the server relayed, so it
+		-- arrives here on every machine alike, and comes back out of a replay the
+		-- same way. The engine hands it over when it arrives rather than on a game
+		-- frame, so it is heard while the game is paused too.
+		--
+		-- True for a message of ours, so it stops there, and nothing for anything
+		-- else: another gadget's messages are not ours to swallow.
+		function gadget:RecvLuaMsg(message, playerID)
+			if HEARS_SELECTION then
+				local ours, changed = playerHooks.selection(playerID, message)
+				if changed then
+					raise("selection_changed", { player = playerID })
+				end
+				if ours then
+					return true
+				end
+			end
+			if HEARS_DISMISSAL then
+				local ours, lineId = playerHooks.dismissal(playerID, message)
+				if lineId then
+					raise("dialogue_dismissed", { line = lineId, player = playerID })
+					-- And the polled triggers, because a dismissal is often what a
+					-- paused lesson is waiting on and no frame is coming to ask them.
+					if not suppressing and not gameOver.isOver() then
+						triggers:poll()
+					end
+				end
+				if ours then
+					return true
+				end
+			end
+		end
+	end
+
+	--- Undo the start the game would have given a team the scenario spawns for
+	-- itself.
+	--
+	-- The fallback rather than the mechanism. What a game is asked to do is not
+	-- spawn in the first place, through suppressesStart. This catches a game that
+	-- has not been asked to, which is every game that has adopted the runtime and
+	-- not that part of the contract.
+	--
+	-- Undone rather than prevented, because the engine offers no veto:
+	-- AllowUnitCreation is consulted for builders and factories only, never for
+	-- Spring.CreateUnit, which is what a game's start gadget uses. Killing a unit
+	-- inside UnitCreated is a case the engine handles.
+	--
+	-- It reaches only as far as the start window, and it is not safe to widen. A
+	-- game that counts commanders counts this one, and Splinter Faction's
+	-- game_team_com_ends.lua answers an ally team's last commander dying with
+	-- Spring.KillTeam, which is the whole team's units and the player's seat in the
+	-- game. A start undone the frame it arrives is ahead of that bookkeeping. One
+	-- undone 1800 frames later is not, and the mission ends up worse off than the
+	-- unwanted commander it was undoing (issue #884).
+	--
+	-- Narrow on purpose. Only a team the scenario marked noCommander, only while
+	-- the start window is open, only a unit with no builder, so nothing anyone
+	-- has begun building is ever touched.
+	function gadget:UnitCreated(unitID, unitDefID, unitTeam, builderID)
+		if suppressing and not spawning and not builderID and suppressesStart(unitTeam) then
+			Spring.DestroyUnit(unitID, false, true)
+			return
+		end
+		-- Every builder gets its menu painted, including the ones the mission
+		-- places itself inside the start window: a builder a scenario hands a team
+		-- has the same build menu as one that team made.
+		restrictions.paint(unitID, unitDefID, unitTeam)
+		if suppressing then
+			return
+		end
+		raise("unit_created", { unitID = unitID, unitDefID = unitDefID, team = unitTeam })
+	end
+
+	--- A unit finished building. The mission's own spawns finish inside
+	-- Spring.CreateUnit, while the start window is open, which is what keeps a
+	-- team's placed units out of what that team has built.
+	function gadget:UnitFinished(unitID, unitDefID, unitTeam)
+		if suppressing or placing then
+			return
+		end
+		unitHooks.finished(unitDefID, unitTeam)
+		raise("unit_finished", { unitID = unitID, unitDefID = unitDefID, team = unitTeam })
+	end
+
+	--- A unit changed hands. UnitGiven rather than UnitTaken, because only by
+	-- then is the unit on the team that took it.
+	function gadget:UnitGiven(unitID, unitDefID, newTeam, oldTeam)
+		-- Gifted or captured, the unit is on another team now and that team's
+		-- restrictions are the ones its menu answers to.
+		restrictions.paint(unitID, unitDefID, newTeam)
+		local actor = actorOfUnit[unitID]
+		if actor then
+			unitHooks.captured(actor, newTeam)
+		end
+		raise("unit_captured", {
+			unitID = unitID,
+			unitDefID = unitDefID,
+			actor = actor,
+			team = newTeam,
+			oldTeam = oldTeam,
+		})
+	end
+
+	function gadget:UnitPreDamaged(unitID)
+		if invulnerable[unitID] then
+			return 0, 0
+		end
+	end
+
+	--- A team died, which is the game taking its players out of the mission and
+	-- putting them in the stands. The anchor is what should have stopped that, so
+	-- the game over is told and says whether the anchor was there when it happened.
+	function gadget:TeamDied(teamID)
+		gameOver.teamDied(teamID)
+	end
+
+	function gadget:UnitDestroyed(unitID, unitDefID, unitTeam)
+		invulnerable[unitID] = nil
+		groups.removed(unitID)
+		gameOver.removed(unitID)
+		reveal.removed(unitID)
+		restrictions.removed(unitID)
+		local actor = actorOfUnit[unitID]
+		if actor then
+			actorOfUnit[unitID] = nil
+			units[actor] = nil
+			Spring.SetGameRulesParam(ACTOR_RULES_PREFIX .. actor, 0)
+		end
+		-- After the bookkeeping, so a trigger asking whether an actor is dead
+		-- reads the answer this death just wrote.
+		raise("unit_destroyed", {
+			unitID = unitID,
+			unitDefID = unitDefID,
+			actor = actor,
+			team = unitTeam,
+		})
+	end
+else
+	local published
+
+	--- Draw the neutral team in the scenario's colour rather than the white the
+	-- engine gives Gaia. A team's colour is local to each screen, so it is set
+	-- here and not in the synced half.
+	local function paintNeutral()
+		for _, team in ipairs(published.teams) do
+			local color = team.neutral and team.color
+			if type(color) == "table" and #color == 3 then
+				Spring.SetTeamColor(team.team, color[1], color[2], color[3])
+			end
+		end
+	end
+
+	function gadget:Initialize()
+		published = publish()
+		paintNeutral()
+	end
+
+	--- Which unit an actor became. Anything about an actor that is local to this
+	-- player's screen is applied here, because the engine has no synced call for
+	-- it.
+	local function actorBecame(actorId, unitID)
+		published.units[actorId] = unitID
+
+		local actor = published.actors[actorId]
+		if actor and actor.state and actor.state.unselectable then
+			Spring.SetUnitNoSelect(unitID, true)
+		end
+	end
+
+	--- Take one of the runtime's own units off this player's screen. An anchor is
+	-- there to keep a team's unit count above nothing and a spotter to light a
+	-- revealed area, and neither is anything the player should see, so both are
+	-- drawn nowhere, on no minimap, and cannot be selected -- not even by a
+	-- select-all.
+	local function hide(unitID)
+		Spring.SetUnitNoDraw(unitID, true)
+		Spring.SetUnitNoMinimap(unitID, true)
+		Spring.SetUnitNoSelect(unitID, true)
+	end
+
+	-- Sounds that would not play, so a name the game has no sound for is one
+	-- warning rather than one every time the trigger fires.
+	local badSound = {}
+
+	--- Play a sound the mission asked for. The name goes to the engine as the
+	-- author wrote it, so it is either an item in the game's own sounds.lua or a
+	-- path to a file in the game.
+	local function playSound(name)
+		if not Spring.PlaySoundFile(name, 1) and not badSound[name] then
+			badSound[name] = true
+			log("warning", "this game has no sound called " .. tostring(name))
+		end
+	end
+
+	--- Whether an action the mission aimed at one team is this client's to do.
+	--
+	-- Every client runs this half, so a camera move or a marker for one
+	-- participant has to be dropped by everyone else (issue #827). The engine
+	-- team this client is on is its answer, which for a spectator is the team
+	-- the engine has them watching as.
+	local function forMe(team)
+		return VIEW.isFor(team, Spring.GetMyTeamID())
+	end
+
+	--- Move the camera to a place on the map, over `seconds`.
+	--
+	-- A scenario carries no height, so the ground is read here, the way it is for
+	-- everything else the runtime puts somewhere.
+	local function panCamera(x, z, seconds, team)
+		if not forMe(team) then
+			return
+		end
+		Spring.SetCameraTarget(x, Spring.GetGroundHeight(x, z), z, seconds)
+	end
+
+	--- Put a labelled point on the map.
+	--
+	-- Local on purpose. Every client runs this half, so a marker sent the way a
+	-- player's own click sends one would be broadcast once per player and land on
+	-- the map that many times over.
+	local function addMarker(x, z, text, team)
+		if not forMe(team) then
+			return
+		end
+		Spring.MarkerAddPoint(x, Spring.GetGroundHeight(x, z), z, text, true)
+	end
+
+	--- Whether a player who can pause is at this client. A spectator may not, and
+	-- in a replay the engine reads any pause request as a toggle of the playback,
+	-- so a mission played back must never send one.
+	local function mayPause()
+		return not Spring.IsReplay() and not Spring.GetSpectatingState()
+	end
+
+	--- Pause the game or start it again, the way the pause key does.
+	--
+	-- The state wanted is always named and never toggled, and it is sent whatever
+	-- the game looks like from here: this client only learns the game is paused
+	-- when the server says so, so a pause and an unpause a moment apart would
+	-- otherwise cancel wrongly.
+	local function setPaused(paused)
+		if mayPause() then
+			Spring.SendCommands(paused and "pause 1" or "pause 0")
+		end
+	end
+
+	--- Dismiss a held line on the player's behalf, when there is no panel for
+	-- them to dismiss it on. A lesson waiting on the dismissal would otherwise
+	-- wait for ever in a game with no LuaUI, or with the widget switched off.
+	local function dismissUnseen(lineId)
+		if not Spring.GetSpectatingState() then
+			Spring.SendLuaRulesMsg(PLAYER_ACTIONS.DISMISSED_MESSAGE .. lineId)
+		end
+	end
+
+	-- What this player has selected, reported to the synced half for the
+	-- `unit_selected` condition. Defined only when a trigger asks, so a mission
+	-- that does not costs nothing per drawn frame.
+	local WATCH = PLAYER_ACTIONS.watch(MISSION)
+
+	if WATCH then
+		local previous = {}
+		local lastSent = nil
+
+		local function defNameOf(unitID)
+			local defID = Spring.GetUnitDefID(unitID)
+			local def = defID and UnitDefs[defID]
+			return def and def.name
+		end
+
+		--- Whether the selection is the one last looked at. The engine has no
+		-- callin for a selection changing, so this is the comparison its own
+		-- widget handler makes to invent one.
+		local function unchanged(selected)
+			if #selected ~= #previous then
+				return false
+			end
+			for index = 1, #selected do
+				if selected[index] ~= previous[index] then
+					return false
+				end
+			end
+			return true
+		end
+
+		--- Send a report when what it would say has changed.
+		--
+		-- A spectator sends none, which covers somebody watching a replay as well:
+		-- the reports the players sent are in the replay already.
+		function gadget:Update()
+			if Spring.GetSpectatingState() then
+				return
+			end
+			local selected = Spring.GetSelectedUnits()
+			if unchanged(selected) then
+				return
+			end
+			previous = selected
+
+			local message = PLAYER_ACTIONS.encode(WATCH, selected, defNameOf, published.units)
+			if message ~= lastSent then
+				lastSent = message
+				Spring.SendLuaRulesMsg(message)
+			end
+		end
+	end
+
+	--- Returns nothing: a true return would stop the message reaching the gadgets
+	-- behind this one, and their messages are not ours to swallow.
+	function gadget:RecvFromSynced(message, first, second, third, fourth)
+		if message == ACTOR_MESSAGE then
+			actorBecame(first, second)
+		elseif message == HIDDEN_MESSAGE then
+			hide(first)
+		elseif message == CAMERA_MESSAGE then
+			panCamera(first, second, third, fourth)
+		elseif message == MARKER_MESSAGE then
+			addMarker(first, second, third, fourth)
+		elseif message == DIALOGUE_MESSAGE then
+			-- The panel is a widget, so the line goes on to LuaUI, which draws it
+			-- and plays its clip in step with the text. A game with no LuaUI, or a
+			-- player who has switched the widget off, gets no dialogue: there is
+			-- nowhere for it to appear. `second` is whether the line is held.
+			if second and not Script.LuaUI(DIALOGUE_GLOBAL) then
+				dismissUnseen(first)
+			else
+				Script.LuaUI[DIALOGUE_GLOBAL](first, second)
+			end
+		elseif message == PAUSE_MESSAGE then
+			setPaused(first)
+		elseif message == SOUND_MESSAGE then
+			-- Played here rather than in the widget, because a sound is not part of
+			-- the conversation and has nothing to queue behind.
+			playSound(first)
+		end
+	end
+end

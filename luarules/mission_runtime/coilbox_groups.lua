@@ -1,0 +1,645 @@
+-- Coilbox mission runtime: groups, dormancy and orders.
+--
+-- A group is a block of units spawned and ordered together under one id: a
+-- raiding party, a reinforcement wave, a garrison. The scenario says what is in
+-- it, where it lands, what it does and whether it is there from the start.
+--
+-- Two states, and both actions earn their keep:
+--
+-- - On the map or not. A group that is not `dormant` is placed at game start. A
+--   dormant one waits for `spawn_group`.
+-- - Awake or asleep. Asleep is a group that is standing there holding position:
+--   its units exist, defend themselves and do not wander. Awake is a group
+--   running its orders. `wake_group` is the release.
+--
+-- So a dormant garrison is `spawn_group` now and `wake_group` when the mission
+-- says go, and a reinforcement wave is `wake_group` on its own, which spawns it
+-- and sends it off in one action. A group carrying `startsAsleep` is on the map
+-- from the start and asleep, so a garrison in its post from the first frame needs
+-- only the `wake_group` (issue #900).
+--
+-- `release_group` is the end of a group's life as the mission's. The units stay
+-- on the map and stay whoever's they are, and the mission stops ordering them
+-- (issue #812).
+--
+-- `build_unit` is here rather than in a module of its own because it is an
+-- order, and this is where the runtime orders the mission's units. It names its
+-- builder the way a `guard` or an `attack` names its target, out of the same
+-- table, so an actor, a named base building and a group all work.
+--
+-- `hunt` is the order that goes on being given. It names a participant rather
+-- than a unit, so "go and kill the player" holds wherever the player has gone and
+-- whatever they have built since (issue #903). Each time a unit in the group runs
+-- out of orders it is sent to fight its way to the nearest unit that team has, so
+-- it engages what it meets on the way, moves on when that unit is dead or has
+-- left, and is given nothing while the team has nothing.
+--
+-- This module calls the engine, to create, order and hand over units. The
+-- layout of a spawned block is coilbox_start.lua's, and the creation itself is
+-- the gadget's, so the suppression window and the ground read stay in one place.
+
+local M = {}
+
+-- Queue this command behind the ones already given, rather than replacing them.
+-- Every order after a group's first carries it, which is what a player holding
+-- shift through a path gets.
+local QUEUED = CMD.OPT_SHIFT
+
+-- The orders that are a list of places to go, and the command each becomes.
+--
+-- `patrol` is the engine's own: giving the first patrol point to a unit with an
+-- empty queue makes the engine close the loop back to where the unit is
+-- standing, so a group patrols between its spawn and the points the author drew,
+-- exactly as it would if a player had shift-clicked them.
+local WAYPOINT_COMMAND = {
+	move = CMD.MOVE,
+	patrol = CMD.PATROL,
+	fight = CMD.FIGHT,
+}
+
+-- The move state the engine gives a unit whose def does not ask for one. Used
+-- only when a unit's state cannot be read back, so waking still hands something
+-- sane rather than pinning the unit down for the rest of the mission.
+local DEFAULT_MOVE_STATE = CMD.MOVESTATE_MANEUVER
+
+-- How many frames apart a hunting group looks for units with no orders left, which
+-- is once a game second. A unit stands for at most this long between targets, and
+-- the look costs one queue read per hunting unit.
+local HUNT_INTERVAL = Game.gameSpeed
+
+--- Register the group actions on a trigger engine.
+--
+-- @param engine the trigger engine
+-- @param state the published mission state, GG.CoilboxMission
+-- @param hooks `spawn(group, team)` puts a group's units on the map and returns
+--   their unit ids. The gadget owns it because creating a unit has to happen
+--   inside the runtime's own start suppression.
+-- @return the groups themselves, so a game's own actions drive them the way
+--   these do rather than around them
+function M.register(engine, state, hooks)
+	-- Group id -> the scenario's group.
+	local groups = {}
+	-- Group id -> its units that are alive, in the order they were spawned.
+	local members = {}
+	-- unitID -> the group it belongs to.
+	local groupOf = {}
+	-- unitID -> the move state it had before it was put to sleep. Kept rather
+	-- than assumed, because it is the game's own default for that unit type and
+	-- waking has to give it back rather than guess at it.
+	local resting = {}
+	-- Group id -> true while it is running its orders.
+	local awake = {}
+	-- Group id -> the engine team it is hunting, while it is.
+	local hunting = {}
+
+	-- Trigger params name a participant, not an engine team, and the mapping is
+	-- fixed once the mission has started.
+	local engineTeam = {}
+	for _, team in ipairs(state.teams or {}) do
+		engineTeam[team.id] = team.team
+	end
+
+	-- Group id -> true when the difficulty being played leaves it out
+	-- (issue #2164). Settled once: an excluded group is not placed at the start
+	-- and is not placed by spawn_group or wake_group either, so "the second wave
+	-- only comes on hard" is one range on the group rather than a difficulty test
+	-- on every trigger that sends it.
+	local excluded = {}
+	local gate = state.difficultyGate
+
+	for _, group in ipairs((state.mission or {}).groups or {}) do
+		groups[group.id] = group
+		members[group.id] = {}
+		if gate and not gate(group.difficulty) then
+			excluded[group.id] = true
+		end
+	end
+
+	--- The group a params table names, or nil once it has said so.
+	--
+	-- Error rather than warning: the action did nothing at all, and a mission
+	-- whose squad never arrives looks the same from outside as one that never had
+	-- a squad. The level is what a reader can filter the log on (issue #2165).
+	local function groupOfName(name)
+		local group = groups[name]
+		if not group then
+			engine:report("group:" .. tostring(name), "error",
+				"no group named " .. tostring(name) .. ", ignoring it")
+		end
+		return group
+	end
+
+	--- Whether a group is part of the mission at the difficulty being played.
+	--
+	-- Notice rather than error, which is the difference between this and every
+	-- other reason an action does nothing. A group the author gated out is meant
+	-- to be missing: saying so at error level would put a line in the test
+	-- drawer's problem list for every difficulty-aware mission, which is exactly
+	-- what #2165 added that list to stop happening.
+	local function playing(group)
+		if not excluded[group.id] then
+			return true
+		end
+		engine:report("group-difficulty:" .. tostring(group.id), "notice", string.format(
+			"group %s is not part of this mission at difficulty %s, so nothing was placed",
+			tostring(group.id), tostring(state.difficulty)))
+		return false
+	end
+
+	--- The units an order's target names: an actor's unit, a named prefab
+	-- building's, or a group's living units. One name space, because the editor
+	-- offers the author one list.
+	--
+	-- A declared actor or building that has died, or a group that has been wiped,
+	-- is a target that is simply not there any more. Only a name the mission never
+	-- declared is worth reporting.
+	local function targetsOf(name)
+		local unitID = state.units[name]
+		if unitID then
+			return { unitID }
+		end
+		if members[name] then
+			return members[name]
+		end
+		if state.actors[name] or (state.buildings and state.buildings[name]) then
+			return {}
+		end
+		engine:report("order-target:" .. tostring(name), "warning",
+			"nothing named " .. tostring(name) .. " to give an order about")
+		return {}
+	end
+
+	--- Add the commands one order becomes to `out`. False when the runtime has no
+	-- meaning for the order's kind.
+	--
+	-- `guard` is one command and no more: guarding never finishes, so a second
+	-- queued guard would never come up. `attack` is one command per target unit,
+	-- which is what shift-attacking a squad gives a player and what lets a group
+	-- work through the units it was pointed at.
+	local function commandsFor(order, out)
+		local waypoint = WAYPOINT_COMMAND[order.kind]
+		if waypoint then
+			for _, point in ipairs(order.waypoints or {}) do
+				out[#out + 1] = {
+					cmd = waypoint,
+					-- A scenario carries no height, so the ground is read here.
+					params = { point.x, Spring.GetGroundHeight(point.x, point.z), point.z },
+				}
+			end
+			return true
+		end
+
+		if order.kind == "guard" then
+			local targets = targetsOf(order.target)
+			if targets[1] then
+				out[#out + 1] = { cmd = CMD.GUARD, params = { targets[1] } }
+			end
+			return true
+		end
+
+		if order.kind == "attack" then
+			for _, unitID in ipairs(targetsOf(order.target)) do
+				out[#out + 1] = { cmd = CMD.ATTACK, params = { unitID } }
+			end
+			return true
+		end
+
+		return false
+	end
+
+	--- Give a group's units their orders.
+	--
+	-- Every unit gets the same queue. The first command replaces whatever the unit
+	-- was doing and the rest queue behind it, so an order list is one path rather
+	-- than a series of instructions each cancelling the last.
+	--
+	-- A `hunt` ends the list. Like a guard it never finishes, so nothing behind it
+	-- would come up. It gives no command of its own: the units walk whatever came
+	-- before it and handle.hunt picks them up once that is done. With nothing before
+	-- it they are stopped, because a patrol they were already on would never run
+	-- out.
+	local function issue(id, orders)
+		hunting[id] = nil
+		local commands = {}
+		for _, order in ipairs(orders or {}) do
+			if order.kind == "hunt" then
+				hunting[id] = engineTeam[order.team]
+				if not hunting[id] then
+					engine:report("hunt-team:" .. tostring(order.team), "error",
+						"no team named " .. tostring(order.team) .. " for a group to hunt")
+				elseif not commands[1] then
+					commands[1] = { cmd = CMD.STOP, params = {} }
+				end
+				break
+			end
+			if not commandsFor(order, commands) then
+				engine:report("order-kind:" .. tostring(order.kind), "warning",
+					"no implementation for order " .. tostring(order.kind) .. ", ignoring it")
+			end
+		end
+
+		for _, unitID in ipairs(members[id]) do
+			for index, command in ipairs(commands) do
+				Spring.GiveOrderToUnit(unitID, command.cmd, command.params, index > 1 and QUEUED or 0)
+			end
+		end
+	end
+
+	--- Whether a unit is the runtime's own: an anchor, which keeps a team's unit
+	-- count above nothing, or a spotter. A team holding only those has nothing left
+	-- to hunt, and an anchor is parked in a corner of the map for nobody to reach.
+	--
+	-- Read through `state` rather than taken once, because both are registered
+	-- after this module and the answer is only ever needed on a later frame.
+	local function placed(unitID)
+		return (state.gameOver ~= nil and state.gameOver.isAnchor(unitID))
+			or (state.reveal ~= nil and state.reveal.isSpotter(unitID))
+	end
+
+	--- What is worth walking at: not something in the air, which a group with no
+	-- way to hit it would follow around the map, and not something cloaked, which it
+	-- would stand beside for good.
+	local function solid(unitID)
+		local def = UnitDefs[Spring.GetUnitDefID(unitID)]
+		return not (def and def.canFly) and not Spring.GetUnitIsCloaked(unitID)
+	end
+
+	--- Where the unit of `team` nearest to x, z stands, preferring a solid one and
+	-- taking anything over nothing. Nil when the team has no units.
+	local function nearestOf(team, x, z)
+		local anyX, anyZ, anyDistance = nil, nil, math.huge
+		local bestX, bestZ, bestDistance = nil, nil, math.huge
+		for _, unitID in ipairs(Spring.GetTeamUnits(team) or {}) do
+			local ux, _, uz = Spring.GetUnitPosition(unitID)
+			if ux and not placed(unitID) then
+				local distance = (ux - x) * (ux - x) + (uz - z) * (uz - z)
+				if distance < anyDistance then
+					anyX, anyZ, anyDistance = ux, uz, distance
+				end
+				if distance < bestDistance and solid(unitID) then
+					bestX, bestZ, bestDistance = ux, uz, distance
+				end
+			end
+		end
+		if bestX then
+			return bestX, bestZ
+		end
+		return anyX, anyZ
+	end
+
+	--- Hold a group where it stands.
+	local function sleep(id)
+		for _, unitID in ipairs(members[id]) do
+			if resting[unitID] == nil then
+				local states = Spring.GetUnitStates(unitID)
+				resting[unitID] = (states and states.movestate) or DEFAULT_MOVE_STATE
+			end
+			Spring.GiveOrderToUnit(unitID, CMD.MOVE_STATE, { CMD.MOVESTATE_HOLDPOS }, 0)
+		end
+	end
+
+	--- Give a group back the move state each of its units came with.
+	local function rouse(id)
+		for _, unitID in ipairs(members[id]) do
+			local was = resting[unitID]
+			if was ~= nil then
+				Spring.GiveOrderToUnit(unitID, CMD.MOVE_STATE, { was }, 0)
+				resting[unitID] = nil
+			end
+		end
+	end
+
+	--- Put a group's units on the map, unless it already has some standing.
+	--
+	-- A group whose units are all dead spawns again, so a repeating trigger is how
+	-- a mission sends wave after wave. A group that is still standing is left
+	-- alone, so a trigger that fires twice does not double it.
+	local function place(group)
+		if #members[group.id] > 0 then
+			return
+		end
+
+		local team = engineTeam[group.team]
+		if not team then
+			-- Nothing at all is placed for this group, so it is an error rather
+			-- than a warning: the map is short a squad and the run ends cleanly.
+			engine:report("group-team:" .. tostring(group.id), "error", string.format(
+				"group %s belongs to team %s, which the mission has no engine team for",
+				tostring(group.id), tostring(group.team)))
+			return
+		end
+
+		local living = members[group.id]
+		for _, unitID in ipairs(hooks.spawn(group, team)) do
+			living[#living + 1] = unitID
+			groupOf[unitID] = group.id
+		end
+	end
+
+	--- What a group does now: run `orders` if it is awake, hold if it is not.
+	local function settle(group, orders)
+		if awake[group.id] then
+			rouse(group.id)
+			issue(group.id, orders)
+		else
+			sleep(group.id)
+		end
+	end
+
+	--- Say once that an action was aimed at a group with nothing on the map. Not
+	-- fatal, but it is what a mission that forgot its spawn_group looks like, and
+	-- that mission exits with code 0 having done nothing anybody can see. Error,
+	-- so the level carries it (issue #2165).
+	local function requireUnits(group, what)
+		if #members[group.id] > 0 then
+			return true
+		end
+		engine:report("group-empty:" .. tostring(group.id) .. ":" .. what, "error",
+			"group " .. tostring(group.id) .. " has no units on the map to " .. what)
+		return false
+	end
+
+	local handle = {}
+
+	--- A group's units that are alive, in the order they were spawned. The table
+	-- is the runtime's own, so read it and do not keep it.
+	function handle.units(id)
+		return members[id] or {}
+	end
+
+	--- Whether a group is running its orders rather than holding.
+	function handle.isAwake(id)
+		return awake[id] == true
+	end
+
+	--- Place a group, leaving it asleep if it was. This is `spawn_group`: it is
+	-- how a mission puts a garrison somewhere without setting it off.
+	function handle.spawn(id)
+		local group = groupOfName(id)
+		if group and playing(group) then
+			place(group)
+			settle(group, group.orders)
+		end
+	end
+
+	--- Release a group to run its authored orders. This is `wake_group`.
+	--
+	-- A group that is not on the map yet is placed first, because "wake the
+	-- reinforcements" with nothing to wake would say nothing and do nothing, and
+	-- one action for a wave is what a mission author reaches for.
+	function handle.wake(id)
+		local group = groupOfName(id)
+		if group and playing(group) then
+			awake[group.id] = true
+			place(group)
+			settle(group, group.orders)
+		end
+	end
+
+	--- Replace a group's orders. This is `give_orders`.
+	--
+	-- It wakes the group too: a group told to move that stands there holding
+	-- position is a mission that looks broken and reports nothing. It does not
+	-- spawn one, because ordering units that were never asked for is not what the
+	-- author wrote.
+	function handle.orders(id, orders)
+		local group = groupOfName(id)
+		if group and playing(group) and requireUnits(group, "order") then
+			awake[group.id] = true
+			settle(group, orders)
+		end
+	end
+
+	--- Hand a group's units to another participant. This is `gift_units`.
+	--
+	-- Captured rather than given, because a give is the form a game refuses. The
+	-- engine passes that flag straight to `AllowUnitTransfer`, and the usual
+	-- anti-grief gadget says no to a share between teams that are not allied,
+	-- which is most of what a mission gifts for. Everything else about the two is
+	-- the same: `UnitGiven` fires either way, the queue is cleared either way, and
+	-- what is left over is a stats counter.
+	--
+	-- The group keeps its units, so the mission can go on ordering a squad it gave
+	-- the player. A game that refuses the move outright is reported, because an
+	-- action that says it worked and did nothing is not something an author can
+	-- see.
+	function handle.gift(id, team)
+		local group = groupOfName(id)
+		if not group or not playing(group) then
+			return
+		end
+
+		local newTeam = engineTeam[team]
+		if not newTeam then
+			engine:report("group-gift-team:" .. tostring(team), "warning",
+				"no team named " .. tostring(team) .. " in this mission")
+			return
+		end
+		if not requireUnits(group, "gift") then
+			return
+		end
+		-- The engine clears a unit's queue when it changes hands, and a unit lent to
+		-- the player is not to be marched off again a second later.
+		hunting[group.id] = nil
+
+		local refused = 0
+		for _, unitID in ipairs(members[group.id]) do
+			if not Spring.TransferUnit(unitID, newTeam, false) then
+				refused = refused + 1
+			end
+		end
+		if refused > 0 then
+			engine:report("group-gift-refused:" .. tostring(group.id) .. ":" .. tostring(team),
+				"warning", string.format(
+					"the game refused to hand %d of group %s's %d units to team %s",
+					refused, tostring(group.id), #members[group.id], tostring(team)))
+		end
+	end
+
+	--- Let go of a group. This is `release_group`.
+	--
+	-- The mission stops ordering the units and stops counting them as the group's,
+	-- so a squad it handed the player is the player's to command (issue #812).
+	-- Nothing is done to the units themselves: this is the mission letting go, and
+	-- `gift_units` is what changes who owns them. So the two are separate actions,
+	-- and a mission that lends an escort gifts it now and releases it when the
+	-- loan ends rather than deciding both at once.
+	--
+	-- They are woken first. A group that was asleep is standing on hold position,
+	-- and handing the player a squad pinned where the mission left it is a worse
+	-- handover than none at all.
+	--
+	-- A group released and then spawned again is a fresh block, the same as one
+	-- that has been wiped, because the runtime is left holding nothing that says
+	-- otherwise.
+	function handle.release(id)
+		local group = groupOfName(id)
+		if not group or not playing(group) or not requireUnits(group, "release") then
+			return
+		end
+		rouse(group.id)
+		hunting[group.id] = nil
+		local living = members[group.id]
+		for index = #living, 1, -1 do
+			groupOf[living[index]] = nil
+			living[index] = nil
+		end
+	end
+
+	--- Send every hunting group's unordered units at their quarry. Fed from the
+	-- gadget's GameFrame.
+	--
+	-- A group's units with orders cost one queue read each and nothing more. Only a
+	-- group with a unit standing idle reads the hunted team, and once however many
+	-- are idle: they all go to the unit nearest the first of them, so they stay a
+	-- group rather than each peeling off to its own target. The walk through the
+	-- scenario's list rather than `hunting` keeps the orders in a fixed sequence on
+	-- every client.
+	function handle.hunt(frame)
+		if frame % HUNT_INTERVAL ~= 0 then
+			return
+		end
+		for _, group in ipairs((state.mission or {}).groups or {}) do
+			local team = hunting[group.id]
+			if team then
+				local idle = {}
+				for _, unitID in ipairs(members[group.id]) do
+					local queue = Spring.GetUnitCommands(unitID, 1)
+					if queue and #queue == 0 then
+						idle[#idle + 1] = unitID
+					end
+				end
+				if idle[1] then
+					local x, _, z = Spring.GetUnitPosition(idle[1])
+					local toX, toZ = nearestOf(team, x, z)
+					if toX then
+						local params = { toX, Spring.GetGroundHeight(toX, toZ), toZ }
+						for _, unitID in ipairs(idle) do
+							Spring.GiveOrderToUnit(unitID, CMD.FIGHT, params, 0)
+						end
+					end
+				end
+			end
+		end
+	end
+
+	--- Tell one of the mission's units to build something. This is `build_unit`.
+	--
+	-- The builder is named the way an order target is, so an actor, a named base
+	-- building or a group all work and a group builds one each.
+	--
+	-- A build order is the negative of the unit def id, which is the command a
+	-- player's own build click gives. With a position it is a site on the map,
+	-- put through the engine's build grid the way every other building the
+	-- runtime places is. With no position it is the same order given to a
+	-- factory, which is what queues a unit in one: a factory has nowhere to put a
+	-- building, so where is the whole difference between the two.
+	--
+	-- Each of `count` is a separate order with no options on it. The engine reads
+	-- the shift and control keys on a build order as "five of these" and "twenty
+	-- of these", so one order is exactly one unit.
+	--
+	-- Queued rather than replacing, because a mission adding a building to a
+	-- builder's list should not cancel the road it is halfway through laying.
+	function handle.build(name, unitDef, pos, facing, count)
+		local def = UnitDefNames[unitDef]
+		if not def then
+			engine:report("build-def:" .. tostring(unitDef), "error", string.format(
+				"build_unit names %s, which this game has no unit def for", tostring(unitDef)))
+			return
+		end
+
+		local builders = targetsOf(name)
+		if #builders == 0 then
+			return
+		end
+
+		local how = math.floor(tonumber(count) or 1)
+		if how < 1 then
+			how = 1
+		end
+		local face = math.floor(tonumber(facing) or 0)
+
+		local params = {}
+		if pos then
+			-- A scenario carries no height, and a building does not go where it is
+			-- dropped: the engine snaps it to the build grid and answers with the
+			-- height a builder would have used.
+			local x, y, z = Spring.Pos2BuildPos(def.id, pos.x, 0, pos.z, face)
+			params = { x, y, z, face }
+		end
+
+		for _, unitID in ipairs(builders) do
+			for _ = 1, how do
+				Spring.GiveOrderToUnit(unitID, -def.id, params, QUEUED)
+			end
+		end
+	end
+
+	--- A unit is gone. Fed from the gadget's UnitDestroyed, so a group's roll is
+	-- the units that are actually standing and a wiped group can be sent again.
+	function handle.removed(unitID)
+		resting[unitID] = nil
+
+		local id = groupOf[unitID]
+		if not id then
+			return
+		end
+		groupOf[unitID] = nil
+
+		local living = members[id]
+		for index, member in ipairs(living) do
+			if member == unitID then
+				table.remove(living, index)
+				return
+			end
+		end
+	end
+
+	--- Place every group the scenario says is there from the start, running its
+	-- orders unless it starts asleep. Returns how many units that took, so the
+	-- gadget can report one figure for everything it put on the map.
+	function handle.start()
+		local spawned = 0
+		for _, group in ipairs((state.mission or {}).groups or {}) do
+			-- Silently at the start, where the actions above say a word: a group
+			-- the difficulty leaves out is one the mission never asked for here,
+			-- and one line per gated group on every load says nothing useful.
+			if group.dormant ~= true and not excluded[group.id] then
+				awake[group.id] = group.startsAsleep ~= true
+				place(group)
+				settle(group, group.orders)
+				spawned = spawned + #members[group.id]
+			end
+		end
+		return spawned
+	end
+
+	engine:addAction("spawn_group", function(params)
+		handle.spawn(params.group)
+	end)
+
+	engine:addAction("wake_group", function(params)
+		handle.wake(params.group)
+	end)
+
+	engine:addAction("give_orders", function(params)
+		handle.orders(params.group, params.orders)
+	end)
+
+	engine:addAction("gift_units", function(params)
+		handle.gift(params.group, params.team)
+	end)
+
+	engine:addAction("release_group", function(params)
+		handle.release(params.group)
+	end)
+
+	engine:addAction("build_unit", function(params)
+		handle.build(params.builder, params.unitDef, params.pos, params.facing, params.count)
+	end)
+
+	return handle
+end
+
+return M
