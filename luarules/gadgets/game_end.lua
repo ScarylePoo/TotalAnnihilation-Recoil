@@ -50,8 +50,9 @@ if (gadgetHandler:IsSyncedCode()) then
 		-- only through its own victory and defeat triggers, which call
 		-- Spring.GameOver themselves. So in a mission no team is killed for having
 		-- no units, no last-alliance-standing victory is declared and there are no
-		-- surrender or draw votes; teams whose players all resigned or left are
-		-- still removed.
+		-- surrender or draw votes. A side whose players have all resigned or left
+		-- loses the mission (through the runtime's GG.CoilboxMission.gameOver);
+		-- if the runtime offers no way to do that, the team is removed instead.
 		local cbm = modOptions.coilbox_mission
 		local MISSION = type(cbm) == "string" and cbm:match("%S") ~= nil
 
@@ -340,10 +341,50 @@ if (gadgetHandler:IsSyncedCode()) then
 			end
 		end
 		
+		-- A mission's side whose players have all resigned or left loses: the
+		-- Coilbox runtime is told, so the mission ends as a defeat instead of
+		-- carrying on with nobody playing. Returns true when it handled the team.
+		local function MissionResign(teamID)
+			local m = GG.CoilboxMission
+			local over = m and m.gameOver
+			if not (over and over.defeat and over.isOver) then
+				return false
+			end
+			if over.isOver() then
+				return true -- the mission has ended; nothing more to decide
+			end
+			local participant
+			for _, team in ipairs(m.teams or {}) do
+				if team.team == teamID then
+					participant = team.id
+					break
+				end
+			end
+			if not participant then
+				return false
+			end
+			-- an ally still playing keeps the side in the mission
+			local allyTeamID = select(6, GetTeamInfo(teamID))
+			for _, other in ipairs(GetTeamList(allyTeamID) or {}) do
+				if other ~= teamID and select(2, GetTeamInfo(other)) >= 0 and not select(3, GetTeamInfo(other)) then
+					return false
+				end
+			end
+			over.defeat(participant)
+			return true
+		end
+
 		function gadget:GameFrame(frame)
 			if MISSION then
 				if (frame%32) == 0 then
-					KillResignedTeams()
+					local teamList = Spring.GetTeamList()
+					for i = 1, #teamList do
+						local teamID = teamList[i]
+						if select(2, GetTeamInfo(teamID)) < 0 and not select(3, GetTeamInfo(teamID))
+								and not MissionResign(teamID) then
+							KillTeam(teamID)
+						end
+					end
 				end
 				return
 			end
@@ -454,6 +495,7 @@ if (gadgetHandler:IsSyncedCode()) then
 		end
 
 		function gadget:TeamDied(teamID)
+			if MISSION then return end -- no unit or team bookkeeping in a mission
 			
 			local teamUnitCount = teamsUnitCount[teamID] or 0
 			teamsUnitCount[teamID] = nil
@@ -520,6 +562,7 @@ if (gadgetHandler:IsSyncedCode()) then
 		end
 
 		function gadget:UnitCreated(unitID, unitDefID, unitTeamID)
+			if MISSION then return end -- no unit or team bookkeeping in a mission
 		
 			local _,_,isTeamDead = GetTeamInfo(unitTeamID)
 			
@@ -538,6 +581,7 @@ if (gadgetHandler:IsSyncedCode()) then
 		gadget.UnitCaptured = gadget.UnitCreated
 
 		function gadget:UnitDestroyed(unitID, unitDefID, unitTeamID)
+			if MISSION then return end -- no unit or team bookkeeping in a mission
 		
 			if unitTeamID == gaiaTeamID and ignoreGaia ~= 0 then
 				-- skip gaia
