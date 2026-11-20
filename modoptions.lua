@@ -374,6 +374,18 @@ local options =
   },
 
   {
+    key    = 'adaptiveai_aggression', -- read by luarules/configs/simpleai/behaviors/b_adaptive.lua
+    name   = 'AdaptiveAI aggression',
+    desc   = "How willing the AdaptiveAI is to attack and to see an attack through, whatever it costs. 0 is cautious: it waits for a big advantage and pulls back early. 0.5 is the old behaviour. 1 is reckless: it attacks on less than your army, fights on while outnumbered and hurt, and only turns back when it is losing more than you are. Separate from difficulty, and it does not change during the game.\nkey: adaptiveai_aggression",
+    type   = 'number',
+    section= 'ai',
+    def    = 0.7,
+    min    = 0,
+    max    = 1,
+    step   = 0.05,
+  },
+
+  {
     key    = 'ai_neverstall',
     name   = 'AI never stalls',
     desc   = "Keeps SimpleAI teams' metal and energy from running dry (a small floor, 150 of each). AdaptiveAI always has it.\nkey: ai_neverstall",
