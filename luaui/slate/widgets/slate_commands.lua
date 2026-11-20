@@ -40,6 +40,7 @@ local QUEUE_INTERVAL = 0.25
 
 -- must match #build and #orders in commands.rml
 local PANEL_WIDTH  = 300
+local COST_TAB_H    = 15  -- the metal / energy tab under each build picture (.cost in commands.rml)
 local BUILD_HEIGHT = 452
 local PAD          = 10
 local BORDER       = 1  -- .panel border in theme.rcss; inside the border-box width
@@ -92,6 +93,18 @@ local showBuild, showOrders = false, false
 local shownGrid, shownChips, shownOrders, shownStates -- what the markup was made from
 local pageCards = {}                -- build cmds on the current page; tile i has data-b="i"
 local hovered                       -- { kind = "build"|"order"|"state", cmd = } while the mouse is on a button
+local ownHover                      -- the table this widget put in S.hover, so only that one is ever taken back
+-- Take our hover back. The buttons are rebuilt often (every selection change), and a button that is
+-- replaced or hidden under the mouse never gets its mouseout: S.hover then stayed on the last build
+-- button for good, and the selection panel went on describing that unit whatever was selected.
+local function DropHover()
+	if ownHover and S and S.hover == ownHover then
+		S.hover = nil
+		S.hoverAction = nil
+	end
+	ownHover = nil
+	hovered = nil
+end
 local buildRect, orderRect          -- {x1, y1, x2, y2} in screen pixels, y up
 local orderHeight = ORDER_MIN_H
 
@@ -128,6 +141,8 @@ local function HotKey(action)
 	if #k > 5 then return nil end
 	return k
 end
+
+local TileSize   -- (defined below, with the grid)
 
 local function Refresh()
 	dirty = false
@@ -182,7 +197,8 @@ local function Refresh()
 		end
 	end
 
-	local perPage = (S.game.buildColumns or 4) * (S.game.buildRows or 5)
+	local cols, rows = TileSize()
+	local perPage = cols * rows
 	pageCount = max(1, ceil(#filtered / perPage))
 	page = min(max(1, page), pageCount)
 
@@ -247,12 +263,18 @@ end
 -- Markup
 --------------------------------------------------------------------------------
 
-local function TileSize()
+-- columns, rows, and the width and height of a build picture. A tile is its
+-- picture (square, as wide as the tile) with the cost tab under it; the panel
+-- keeps its height, so the rows asked for in slate_game.lua are cut to as many
+-- as fit with full-size pictures (four, where five fitted before the tab) and
+-- the rest of the list goes to the next page.
+TileSize = function()
 	local cols = S.game.buildColumns or 4
 	local rows = S.game.buildRows or 5
 	local w = floor((INNER_WIDTH - 2 - GAP * (cols - 1)) / cols) -- 2dp spare: dp-to-px rounding must not wrap the last tile
 	local avail = BUILD_HEIGHT - PAD * 2 - BORDER * 2 - HEADER_H - GAP - ((#chips > 0) and (CHIP_H + GAP) or 0)
-	local h = floor((avail - GAP * (rows - 1)) / rows)
+	rows = max(1, min(rows, floor((avail + GAP) / (w + COST_TAB_H + GAP))))
+	local h = floor((avail - GAP * (rows - 1)) / rows) - COST_TAB_H
 	return cols, rows, w, min(w, h)
 end
 
@@ -283,9 +305,11 @@ local function ShowGrid()
 		local defID = -cmd.id
 		local ud = UnitDefs[defID]
 		local last = (i % cols == 0) and " last" or ""
-		parts[#parts + 1] = string.format('<div id="b%d" class="card tile%s" data-b="%d" style="width: %ddp; height: %ddp;">', i, last, i, w, h)
-		parts[#parts + 1] = hud.UnitPictureRML(defID, "pic")
-		parts[#parts + 1] = string.format('<div class="cost">%s</div>', hud.Cost(ud.metalCost or 0))
+		parts[#parts + 1] = string.format('<div id="b%d" class="card tile%s" data-b="%d" style="width: %ddp; height: %ddp;">', i, last, i, w, h + COST_TAB_H)
+		parts[#parts + 1] = hud.UnitPictureRML(defID, "pic", string.format('style="height: %ddp;"', h))
+		-- metal and energy, each cut to four characters so the pair never outgrows the picture
+		parts[#parts + 1] = string.format('<div class="cost"><div class="m">%s</div><div class="e">%s</div></div>',
+			hud.CostTiny(ud.metalCost or 0), hud.CostTiny(ud.energyCost or 0))
 		if cmd.slateKey then
 			parts[#parts + 1] = string.format('<div class="key">%s</div>', hud.Escape(cmd.slateKey))
 		end
@@ -297,7 +321,7 @@ local function ShowGrid()
 		shownGrid = signature
 		view.Element("grid").inner_rml = signature
 		view.Forget()
-		hovered = nil
+		DropHover()
 	end
 	view.SetText("builder", hud.Escape(builderName))
 	view.SetClass("pager", "hidden", pageCount <= 1)
@@ -332,7 +356,7 @@ local function ShowOrders()
 		shownOrders = signature
 		view.Element("order-grid").inner_rml = signature
 		view.Forget()
-		hovered = nil
+		DropHover()
 	end
 
 	parts = {}
@@ -358,7 +382,7 @@ local function ShowOrders()
 		shownStates = signature
 		view.Element("state-grid").inner_rml = signature
 		view.Forget()
-		hovered = nil
+		DropHover()
 	end
 
 	-- the panel is as tall as its rows need
@@ -448,11 +472,12 @@ local function SetHover(kind, cmd)
 	elseif cmd then
 		S.hover = { title = CleanName(cmd.name), text = cmd.tooltip }
 		S.hoverAction = (cmd.action and cmd.action ~= "") and { action = cmd.action, label = CleanName(cmd.name) } or nil
-	elseif hovered then
-		S.hover = nil
-		S.hoverAction = nil
+	else
+		DropHover()
+		return
 	end
-	hovered = cmd and { kind = kind, cmd = cmd } or nil
+	ownHover = S.hover
+	hovered = { kind = kind, cmd = cmd }
 end
 
 local function Apply(cmd, button)
@@ -597,10 +622,7 @@ function widget:Shutdown()
 	widgetHandler:ConfigLayoutHandler(true)
 	spForceLayoutUpdate()
 	WG.SlateCommands = nil
-	if S and hovered then
-		S.hover = nil
-		S.hoverAction = nil
-	end
+	DropHover()
 	if hud then
 		hud.UnregisterPanel(LAYOUT_ORDER)
 		hud.UnregisterPanel(LAYOUT_BUILD)
@@ -625,6 +647,15 @@ function widget:Update(dt)
 	if hud.FollowGuiHidden(document) then
 		SetHover(nil, nil)
 		return -- hidden with the rest of the GUI (F5)
+	end
+	-- a hover whose panel is gone, or that the mouse has left without a mouseout, is dropped
+	if hovered then
+		local rect = (hovered.kind == "build") and buildRect or orderRect
+		local visible = (hovered.kind == "build" and showBuild) or (hovered.kind ~= "build" and showOrders)
+		local mx, my = Spring.GetMouseState()
+		if not visible or not rect or mx < rect[1] or mx > rect[3] or my < rect[2] or my > rect[4] then
+			DropHover()
+		end
 	end
 	local _, cmdID = spGetActiveCommand()
 	queueTimer = queueTimer + dt

@@ -617,6 +617,17 @@ function hud.Cost(v)
 	return string.format("%d", math.floor(v + 0.5))
 end
 
+-- A cost in at most four characters, for the tab under a build picture: 85, 1.2k, 12k, 214k, 1.9M.
+function hud.CostTiny(v)
+	v = math.floor((v or 0) + 0.5)
+	if v < 1000 then return tostring(v) end
+	local unit = "k"
+	v = v / 1000
+	if v >= 999.5 then v, unit = v / 1000, "M" end
+	local text = (v < 9.95) and string.format("%.1f", v) or string.format("%.0f", v)
+	return (text:gsub("%.0$", "")) .. unit
+end
+
 -- A rate or amount at the precision that fits it: 0.4, 12.5, 248, 12.5k.
 function hud.Short(v)
 	v = v or 0

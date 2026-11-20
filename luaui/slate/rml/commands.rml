@@ -125,18 +125,32 @@
 			height: 100%;
 			background-color: rgba(255, 255, 255, 10);
 		}
-		/* cost strip so the number reads over any picture */
+		/* cost tab under the picture: metal on the left, energy on the right, in the
+		   resource bar's colours. Its height must match COST_TAB_H in slate_commands.lua. */
 		.cost {
 			position: absolute;
 			left: 0dp;
 			right: 0dp;
 			bottom: 0dp;
-			height: 16dp;
-			line-height: 16dp;
-			text-align: center;
-			font-size: 11dp;
-			color: #c9d3de;
+			height: 15dp;
+			display: flex;
+			flex-direction: row;
+			overflow: hidden;
 			background-color: rgba(0, 0, 0, 153);
+		}
+		.cost .m, .cost .e {
+			flex: 1;
+			line-height: 15dp;
+			text-align: center;
+			font-size: 10dp;
+			white-space: nowrap;
+			overflow: hidden;
+		}
+		.cost .m {
+			color: #f4f5f7;
+		}
+		.cost .e {
+			color: #f2c230;
 		}
 		/* how many are queued in the factory */
 		.queue {
