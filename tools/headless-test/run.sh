@@ -22,6 +22,7 @@
 #   MODOPTS='\\n\\t\\tshotspeed=1;' run.sh ...   adds modoptions to the start script (any mode)
 #   AIPROBE=1 [AIFRAMES=18000 AINAME=AdaptiveAI AIBOTH=1 AINAME0=SimpleAI MAP=... MAPNAME=...] run.sh ...  a Lua AI plays team 1 (and 0) for AIFRAMES frames at 60x,
 #                                             decision traces in the log, then zz_ai_probe quits; AIPROBE=1 alone also stops the harness spawning every unit
+#                                             RECOUT=dir also keeps the game recording (luaui/widgets/dbg_game_recorder.lua, on with AIPROBE)
 #   VBOPROBE=1 tools/headless-test/run.sh ... instead runs only zz_vbo_probe (unit test of modules/graphics/instancevbotable.lua with a fake GPU buffer)
 #   GAP=1 tools/headless-test/run.sh ...      instead runs only zz_piece_gap_probe (piece matrices of every unit def in action); it prints the path of
 #                                             gapdata.txt, which tools/s3okit/kit/piece_gaps.py turns into a report of pieces floating off the unit
@@ -68,7 +69,7 @@ printf 'TARInitialSettingsVersion = 99\n' >> "$WD/springsettings.cfg"
 # AIPROBE=1: team 1 is a Lua AI (AINAME, default AdaptiveAI); AIBOTH=1 makes team 0 one too. The game runs
 # at up to 60x for AIFRAMES frames (default 18000 = 10 min) with the AI decision trace on, then quits (zz_ai_probe).
 if [ -n "$AIPROBE" ]; then
-  sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\taiprobe=${AIFRAMES:-18000};\n\t\taitrace=1;\n\t\tMaxSpeed=60;/" "$WD/script.txt"
+  sed -i "s/debugmode=1;/debugmode=1;\n\t\taimonly=1;\n\t\taiprobe=${AIFRAMES:-18000};\n\t\taitrace=1;\n\t\trecordgame=1;\n\t\tMaxSpeed=60;/" "$WD/script.txt"
   [ -n "$AIDEBUGFROM" ] && sed -i "s/debugmode=1;/debugmode=1;\n\t\taidebugfrom=$AIDEBUGFROM;/" "$WD/script.txt"
   sed -i "s/\[ALLYTEAM0\]/[AI0] { Name=Bot1; ShortName=${AINAME:-AdaptiveAI}; Team=1; Host=0; IsFromDemo=0; }\n\t&/" "$WD/script.txt"
   [ -n "$AIBOTH" ] && sed -i "s/\[ALLYTEAM0\]/[AI1] { Name=Bot0; ShortName=${AINAME0:-${AINAME:-AdaptiveAI}}; Team=0; Host=0; IsFromDemo=0; }\n\t&/" "$WD/script.txt"
@@ -121,6 +122,7 @@ sed 's/^\[t=[^]]*\]\(\[f=[^]]*\]\)\? //' "$WD/infolog.txt" > "$WD/clean.log"
 [ -n "$GAP" ] && grep -v "GAPD " "$WD/clean.log" > "$WD/clean2.log" && mv "$WD/clean2.log" "$WD/clean.log"
 [ -n "$DUMP" ] && sed -n 's/^.*DEFDUMP //p' "$WD/clean.log" > "$DUMP" && echo "--- def dump: $DUMP ($(wc -l < "$DUMP") lines)" && grep -v "DEFDUMP " "$WD/clean.log" > "$WD/clean2.log" && mv "$WD/clean2.log" "$WD/clean.log"
 [ -n "$KEEPLOG" ] && cp "$WD/clean.log" "$KEEPLOG"
+[ -n "$RECOUT" ] && mkdir -p "$RECOUT" && cp "$WD"/TARRecordings/*.txt "$RECOUT/" 2>/dev/null && echo "--- recordings: $RECOUT"
 [ -n "$VISUAL" ] && mkdir -p "${VISUALOUT:-$WD/shots}" && cp "$WD"/screenshots/* "${VISUALOUT:-$WD/shots}/" 2>/dev/null; [ -n "$VISUAL" ] && echo "--- screenshots: ${VISUALOUT:-$WD/shots}" && grep "\[VISUAL\]" "$WD/clean.log"
 grep "\[HARNESS\]\|^\[SP\]" "$WD/clean.log" | grep -v ", spawn, "
 echo "--- spawn failures: $(grep -c 'SPAWN FAIL' "$WD/clean.log")"
