@@ -203,6 +203,7 @@ local SIZE_MIN, SIZE_MAX, DMG_MIN, DMG_MAX = 2, 8, 8, 2400
 -- Laser bolts (every laser is a LaserCannon: TA had no continuous beams). One look for all of them, scaled by damage:
 -- thin bright bolts for light lasers, heavier ones up to the Annihilator; a white-hot core in a tint of the laser's
 -- colour; colours clamped to 0..1 (BOTA had components of 4).
+local LASER_SHORT, LASER_SHORT_MULT, LASER_SHORT_CAP = 60, 3.5, 100
 local function Clamp01(x) return math.min(math.max(x, 0), 1) end
 local function ParseColor(c)
 	if type(c) == "table" then return { tonumber(c[1]) or 1, tonumber(c[2]) or 1, tonumber(c[3]) or 1 } end
@@ -225,6 +226,14 @@ local function LaserLook(wd)
 	wd.rgbcolor = ("%.3f %.3f %.3f"):format(c1[1], c1[2], c1[3])
 	wd.rgbcolor2 = ("%.3f %.3f %.3f"):format(c2[1], c2[2], c2[3])
 	wd.hardstop = true
+	-- Bolt length (duration x weaponvelocity). TA's light lasers (A.K., Jeffy, Flea, Flash...) come out
+	-- 8 to 36 elmos long, a dash that is hard to see; they are drawn LASER_SHORT_MULT times as long,
+	-- up to LASER_SHORT_CAP. The heavy lasers (105 and up) are left alone. Looks only: duration does
+	-- not change what the bolt hits or when.
+	local dur, vel = tonumber(wd.duration), tonumber(wd.weaponvelocity)
+	if dur and vel and dur * vel > 0 and dur * vel < LASER_SHORT then
+		wd.duration = math.min(dur * LASER_SHORT_MULT, LASER_SHORT_CAP / vel)
+	end
 end
 
 local function CannonSize(wd)
