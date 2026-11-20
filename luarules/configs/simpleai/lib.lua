@@ -562,6 +562,10 @@ return function(ctx, cfg)
 					local x, _, z = Spring.GetUnitPosition(uid)
 					if isMex[d] then
 						mexes[#mexes + 1] = { uid = uid, x = x, z = z }
+					elseif ud.isBuilder and ud.canMove and not ud.canFly and #(ud.weapons or {}) == 0 then
+						-- an unarmed builder is as good a raid target as an
+						-- extractor (it is judged the same way: by what guards it)
+						mexes[#mexes + 1] = { uid = uid, x = x, z = z }
 					elseif ud.weapons and #ud.weapons > 0 then
 						threats[#threats + 1] = { x = x, z = z, w = L.UnitStrength(d) }
 					end

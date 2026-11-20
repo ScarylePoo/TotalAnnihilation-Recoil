@@ -75,6 +75,14 @@ return function(ctx, lib, cfg)
 		BODY_R         = 600,   -- raiders within this of each other count as the party
 		MAX_TIME       = 7200,   -- frames (~4 min) a raid stays out at most
 		HOME_WAIT      = 1800,   -- frames a returning raid is given to get home before it is stood down anyway
+		-- Early harassment: before the team has MIN_ARMY, its scouts (ctx.harassDef, the type
+		-- b_construction queues first in each factory until 7 minutes in) go out in pairs.
+		EARLY_SIZE     = 2,      -- an early harassing party is at least this many scouts
+		EARLY_INTERVAL = 450,    -- frames (~15s) between one ending and the next forming
+		EARLY_UNTIL    = 14400,  -- frames (8 min): no early harassing parties form after this
+		-- (Two scouts are worth under a hundred metal. Judged by that, one armed unit anywhere
+		-- near a target made it "defended", and a test game's scouts never left home.)
+		EARLY_NERVE    = 250,    -- an early party weighs targets and dangers as if worth at least this
 		active = {},   -- [teamID] = { members = {[uid]=true}, start =, target =, state = "out"|"home", began =, homeAt =, hits = }
 		ended  = {},   -- [teamID] = frame the last raid ended (or was last looked for)
 		x = {}, z = {}, v = {},   -- scratch: raid members' positions and values this tick
@@ -411,13 +419,14 @@ return function(ctx, lib, cfg)
 					local against = EnemyValueNear(teamID, cx, cz, RAID.DANGER_R)
 					local t = raid.target
 					local alive = t and Spring.ValidUnitID(t.uid) and not Spring.GetUnitIsDead(t.uid)
-					if against > raidValue * (K and K.raidFlee or RAID.FLEE_RATIO) then
+					local nerve = math.max(raidValue, raid.nerve or 0)
+					if against > nerve * (K and K.raidFlee or RAID.FLEE_RATIO) then
 						-- Driven off. A raid's job is to keep the enemy busy, so
 						-- it tries somewhere else before it gives up (its old
 						-- target stays off the list for a while: FindRaidTarget
 						-- remembers what has been aimed at).
 						local other = (raid.diverts < RAID.MAX_DIVERTS) and lib.FindRaidTarget
-								and lib.FindRaidTarget(teamID, raidValue, raid.repDef, cx, cz)
+								and lib.FindRaidTarget(teamID, nerve, raid.repDef, cx, cz)
 						if other then
 							raid.diverts = raid.diverts + 1
 							RaidTarget(other)
@@ -430,7 +439,7 @@ return function(ctx, lib, cfg)
 					elseif not alive then
 						if t then raid.hits = raid.hits + 1 end
 						local nextTarget = (raidValue >= raid.start * 0.5) and lib.FindRaidTarget
-								and lib.FindRaidTarget(teamID, raidValue, raid.repDef, cx, cz)
+								and lib.FindRaidTarget(teamID, nerve, raid.repDef, cx, cz)
 						if nextTarget then
 							RaidTarget(nextTarget)
 							Log(teamID, ("raidnext;units=%d;value=%d;defense=%d"):format(raidCount, raidValue, nextTarget.defense or 0))
@@ -452,15 +461,20 @@ return function(ctx, lib, cfg)
 			end
 
 		elseif useWeak and lib.FindRaidTarget and not tick.baseThreat
-				and readyGround >= RAID.MIN_ARMY and atMuster >= RAID.MIN_SIZE
-				and (n - (RAID.ended[teamID] or -99999)) >= RAID.INTERVAL then
+				and (readyGround >= RAID.MIN_ARMY or (ctx.harassDef and n < RAID.EARLY_UNTIL)) and atMuster >= RAID.EARLY_SIZE
+				and (n - (RAID.ended[teamID] or -99999)) >= (readyGround >= RAID.MIN_ARMY and RAID.INTERVAL or RAID.EARLY_INTERVAL) then
+			-- EARLY HARASSMENT: a team too small to raid yet sends only its
+			-- scouts, two or more at a time, at the same kind of target.
+			local early   = readyGround < RAID.MIN_ARMY
+			local minSize = early and RAID.EARLY_SIZE or RAID.MIN_SIZE
 			-- candidates: units at the staging point that deal direct damage
 			-- (heat cannot touch buildings, disruption cannot kill)
 			local nc, fastest = 0, 0
 			for i = 1, atMuster do
 				local uid = gatherList[i]
 				local d   = Spring.GetUnitDefID(uid)
-				if d and not (lib.NonDirectClass and lib.NonDirectClass(d)) then
+				if d and not (lib.NonDirectClass and lib.NonDirectClass(d))
+						and (not early or ctx.harassDef[d]) then
 					local speed = (UnitDefs[d] and UnitDefs[d].speed) or 0
 					nc = nc + 1
 					local c = RAID.cand[nc]
@@ -484,14 +498,16 @@ return function(ctx, lib, cfg)
 			for i = 1, nc do
 				local c = RAID.cand[i]
 				if #picked >= size or c.speed < fastest * RAID.SPEED_SHARE then break end
-				if pickedValue + c.value > budget and #picked >= RAID.MIN_SIZE then break end
+				if pickedValue + c.value > budget and #picked >= minSize then break end
 				picked[#picked + 1] = c
 				pickedValue = pickedValue + c.value
 			end
-			local target = (#picked >= RAID.MIN_SIZE)
-					and lib.FindRaidTarget(teamID, pickedValue, picked[1].def, muster and muster.x, muster and muster.z)
+			local target = (#picked >= minSize)
+					and lib.FindRaidTarget(teamID, early and math.max(pickedValue, RAID.EARLY_NERVE) or pickedValue,
+					                       picked[1].def, muster and muster.x, muster and muster.z)
 			if target then
-				raid = { members = {}, start = pickedValue, state = "out", began = n, hits = 0, diverts = 0, repDef = picked[1].def }
+				raid = { members = {}, start = pickedValue, state = "out", began = n, hits = 0, diverts = 0, repDef = picked[1].def,
+				         nerve = early and RAID.EARLY_NERVE or 0 }
 				RAID.active[teamID] = raid
 				local taken = {}
 				for i = 1, #picked do
@@ -499,7 +515,7 @@ return function(ctx, lib, cfg)
 					taken[picked[i].uid] = true
 				end
 				RaidTarget(target)
-				Log(teamID, ("raid;units=%d;value=%d;defense=%d"):format(#picked, pickedValue, target.defense or 0))
+				Log(teamID, ("raid;units=%d;value=%d;defense=%d;early=%d"):format(#picked, pickedValue, target.defense or 0, early and 1 or 0))
 				-- the raiders are no longer part of what is gathered for a wave
 				local keep = 0
 				for i = 1, atMuster do

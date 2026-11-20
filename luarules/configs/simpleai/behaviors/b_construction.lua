@@ -189,6 +189,25 @@ return function(ctx, lib, cfg, services)
 		stallPaused = ctx.stall and ctx.stall.paused or {},   -- [teamID] = factories on WAIT now (b_throttle)
 		SUPPORT_BASE = 1, SUPPORT_PER_FAC = 4, SUPPORT_MAX = 2,   -- per-type cap on misc buildings (radar, targeting...): 1 + one per 4 factories, at most 2
 		support = {},                               -- [defID] = true for misc buildings (the "building" category)
+		-- The opening (see PRIORITY 0, 5t and 6e in the chain): power first, a light turret
+		-- with the first factory, and extractors ahead of yet more power while metal is the
+		-- emptier bank.
+		OPEN_E          = 60,                       -- before the first factory: power until energy income reaches this (E/s)
+		OPEN_PLANTS     = 2,                        -- ...in one order of this many small plants (two solars: 25 -> 65 E/s)
+		MEX_FIRST_E     = 80,                       -- extractors may come before urgent power once energy income is this
+		FIRST_TUR_BANK  = 0.5,                      -- the first turret is started with this share of its metal cost banked
+		FIRST_TUR_RETRY = 1800,                     -- frames before the first turret is ordered again if it never appeared
+		openE      = {},                            -- [teamID] = true once the opening power was ordered
+		-- Early harassment (see HARASS in the factory queue, and RAIDS in b_combat): from its
+		-- first factory until HARASS_UNTIL a team keeps a few scouts alive, and b_combat sends
+		-- them at the enemy's outlying extractors and builders.
+		HARASS_UNTIL   = 12600,                     -- frames (7 min): no scouts are queued for harassment after this
+		HARASS_KEEP    = 2,                         -- scouts kept alive until then (a harassing party is a pair)
+		harassN    = {},                            -- [teamID] = scouts ordered so far
+		HARASS_SPACING = 450,                       -- frames between scout orders per team
+		harassAt   = {},                            -- [teamID] = frame a scout was last ordered
+		scoutOf    = {},                            -- [factoryDefID] = its scout's defID, or false
+		firstTurAt = {},                            -- [teamID] = frame the first turret may next be ordered
 		STALL_CON_FLOOR = 4,                        -- an energy stall never holds the team below this many constructors
 		CON_EMERGENCY = 2,                          -- below this many, a factory queues one even at the supply cap
 		STALL_COST_POWER = 4,                       -- how hard a stall pushes factories toward cheap units
@@ -1403,10 +1422,10 @@ return function(ctx, lib, cfg, services)
 		-- one go (queued with shift) so one builder's trip raises income by a
 		-- useful step. Big plants go one at a time.
 		local GEN_BATCH = 3
-		local function OrderPower(defID)
+		local function OrderPower(defID, atMost)
 			local out = TA.EnergyOutput(UnitDefs[defID])
 			local n = 1
-			if out > 0 and out < 50 then n = math.min(GEN_BATCH, math.max(1, math.ceil(60 / out))) end
+			if out > 0 and out < 50 then n = math.min(atMost or GEN_BATCH, math.max(1, math.ceil(60 / out))) end
 			local ok = false
 			for i = 1, n do
 				if SimpleBuildOrder(unitID, defID) then ok = true else break end
@@ -1512,13 +1531,86 @@ return function(ctx, lib, cfg, services)
 			end
 		end
 
+		-- HARASS: the scout a factory makes for early harassment: of the
+		-- ground units it builds that shoot straight, the cheapest of the fast
+		-- ones (within a quarter of the fastest). Cached per factory type;
+		-- b_combat learns the type through ctx.harassDef.
+		local function ScoutFor(facDefID)
+			local known = STOR.scoutOf[facDefID]
+			if known ~= nil then return known or nil end
+			local opts, fastest = UnitDefs[facDefID].buildOptions or {}, 0
+			local function Fits(id)
+				return ctx.IsCombat[id] and not ctx.IsAir[id] and not (ctx.IsShip and ctx.IsShip[id])
+						and not (lib.NonDirectClass and lib.NonDirectClass(id))
+			end
+			for _, id in ipairs(opts) do
+				if Fits(id) and (UnitDefs[id].speed or 0) > fastest then fastest = UnitDefs[id].speed end
+			end
+			local pick, pickCost
+			for _, id in ipairs(opts) do
+				if Fits(id) and (UnitDefs[id].speed or 0) >= fastest * 0.75 then
+					local cost = UnitDefs[id].metalCost or 0
+					if not pick or cost < pickCost or (cost == pickCost and id < pick) then pick, pickCost = id, cost end
+				end
+			end
+			STOR.scoutOf[facDefID] = pick or false
+			if pick then
+				ctx.harassDef = ctx.harassDef or {}
+				ctx.harassDef[pick] = true
+			end
+			return pick
+		end
+		local harassScout
+		if buildType == "Factory" and nowFrame < STOR.HARASS_UNTIL
+				and (nowFrame - (STOR.harassAt[unitTeam] or -99999)) >= STOR.HARASS_SPACING then
+			harassScout = ScoutFor(unitDefID)
+			if harassScout and not CanMake(harassScout) then harassScout = nil end
+			if harassScout then
+				local have = 0
+				for i = 1, #units do
+					local d = Spring.GetUnitDefID(units[i])
+					if d and ctx.harassDef[d] then have = have + 1 end
+				end
+				-- the first scout comes before the first constructor, the rest
+				-- after it (four scouts ahead of the constructor cost a minute
+				-- of economy in a test game)
+				if have >= STOR.HARASS_KEEP
+						or ((STOR.harassN[unitTeam] or 0) >= 1 and (SimpleConstructorCount[unitTeam] or 0) < 1) then
+					harassScout = nil
+				end
+			end
+		end
+
 		-- -------------------------------------------------------
 		-- BUILDER / COMMANDER priority chain
 		-- -------------------------------------------------------
 		if buildType == "Builder" or buildType == "Commander" then
 
-			-- PRIORITY 1: early mexes (always grab the first few immediately)
-			if mexspot and SimpleT1Mexes[unitTeam] < TA.MEX_TARGET_EARLY then
+			-- The cheapest ground turret this builder can make (the LLT): the
+			-- first turret of a base is this one, not whatever the list offers.
+			local firstTurret
+			if SimpleFactoriesCount[unitTeam] > 0 and turretCount == 0 and turretRoom and nearHome
+					and nowFrame >= (STOR.firstTurAt[unitTeam] or 0) then
+				local bestCost
+				for _, id in ipairs(turrets) do
+					local cost = UnitDefs[id].metalCost or 0
+					if not IsAATurret[id] and (not bestCost or cost < bestCost) then firstTurret, bestCost = id, cost end
+				end
+				if firstTurret and mcurrent < bestCost * STOR.FIRST_TUR_BANK then firstTurret = nil end
+			end
+
+			-- PRIORITY 0: the opening's power. A TA economy stalls hard below
+			-- 50 to 80 E/s, so before anything else the commander puts down
+			-- solars (STOR.OPEN_PLANTS of them: 25 -> 65 E/s). Once only;
+			-- after that the energy rungs below take over.
+			if SimpleFactoriesCount[unitTeam] == 0 and not STOR.openE[unitTeam]
+					and eincome < STOR.OPEN_E and genPick then
+				rung = "P2"
+				success = OrderPower(genPick, STOR.OPEN_PLANTS)
+				if success then STOR.openE[unitTeam] = true end
+
+				-- PRIORITY 1: early mexes (always grab the first few immediately)
+			elseif mexspot and SimpleT1Mexes[unitTeam] < TA.MEX_TARGET_EARLY then
 				rung = "P1"
 				AtMex(mexDef, mexspot)
 				success = true
@@ -1534,6 +1626,33 @@ return function(ctx, lib, cfg, services)
 					SimpleLastFacStart[unitTeam] = nowFrame
 					success = true
 				end
+
+				-- PRIORITY 5t: the first turret, the first thing a builder near
+				-- home does once there is a factory, the commander included (a
+				-- recording showed bases with no turret until minute four or five).
+			elseif firstTurret then
+				rung = "6b"
+				success = SimpleBuildOrder(unitID, firstTurret)
+				if success then STOR.firstTurAt[unitTeam] = nowFrame + STOR.FIRST_TUR_RETRY end
+
+				-- PRIORITY 6e: extractors before more power. The urgent energy
+				-- rung below fires whenever the bank is low, and with a factory
+				-- running the bank is always low: a recorded team sat on three
+				-- extractors for five minutes behind eleven solars, its metal
+				-- at the floor. So with the basic energy income in place
+				-- (MEX_FIRST_E), the next free spot comes first whenever metal
+				-- is the emptier of the two banks; when energy is, the urgent
+				-- rung below runs as before. (A fixed energy-to-metal income
+				-- ratio was tried first and overshot the other way: seven
+				-- extractors, 750 metal banked, and an energy stall.)
+			elseif mexspot and SimpleT1Mexes[unitTeam] < TA.MEX_TARGET_MID
+					and SimpleFactoriesCount[unitTeam] > 0
+					and eincome >= STOR.MEX_FIRST_E
+					and mcurrent * math.max(1, epool) < ecurrent * math.max(1, mpool)
+					and not STOR.Hostile(unitTeam, unitposx, unitposz, mexspot.x, mexspot.z) then
+				rung = "P6"
+				AtMex(mexDef, mexspot)
+				success = true
 
 				-- PRIORITY P2 (urgent): the energy bank is low or the team is
 				-- stalling on energy. In TA nothing gets built without it.
@@ -1849,6 +1968,19 @@ return function(ctx, lib, cfg, services)
 			local head = Spring.GetFactoryCommands(unitID, 1)
 			if head and head[1] and head[1].id == CMD.WAIT then
 				rung    = "F.wait"
+				success = true
+			elseif harassScout and unitRoom > 5 then
+				-- HARASS: a scout, ahead of everything else the factory makes
+				-- (the very first thing out of the first factory is one). It
+				-- goes to the front of the queue: appended, it sat behind six
+				-- other units and the first pair set out at three and a half
+				-- minutes.
+				rung = "F.scout"
+				-- (a factory takes "alt" on a build order as "put it first")
+				local x, y, z = Spring.GetUnitPosition(unitID)
+				Spring.GiveOrderToUnit(unitID, -harassScout, { x, y, z, 0 }, { "alt" })
+				STOR.harassAt[unitTeam] = nowFrame
+				STOR.harassN[unitTeam]  = (STOR.harassN[unitTeam] or 0) + 1
 				success = true
 			elseif #Spring.GetFullBuildQueue(unitID, 0) == 0
 					and (SimpleConstructorCount[unitTeam] or 0) < STOR.CON_EMERGENCY
