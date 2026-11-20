@@ -5,7 +5,7 @@ Coordinates are ENGINE/global: X right, Y up, Z forward. mirror=True builds the 
 import math
 
 UNIT = dict(
-    ref_model='objects3d/arm_flash.3do',
+    ref_model='tools/s3okit/ref/arm_flash.3do',
     res=1024,
     wreck=dict(seed=3, drop=['barrel2']),
     preview_pose={'turret': (0, -25, 0), 'sleeves': (-5, 0, 0)},
