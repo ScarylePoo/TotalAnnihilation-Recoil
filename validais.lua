@@ -20,6 +20,10 @@ return {
 		desc = 'SimpleAI (expands, techs and attacks in waves) and SimpleDefenderAI (the same, army kept at home)',
 	},
 	{
+		name = 'SurvivalAI',
+		desc = 'Survival: escalating waves from a network of spawn beacons (luarules/gadgets/ai_survival.lua)',
+	},
+	{
 		name = 'Sandbox',
 		desc = 'Does absolutely nothing',
 	},

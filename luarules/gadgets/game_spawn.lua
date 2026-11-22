@@ -440,7 +440,18 @@ local function FallbackPos(teamID)
 	return cx, cz
 end
 
+-- Survival AI teams (LuaAI.lua "SurvivalAI...", luarules/gadgets/ai_survival.lua) start with a
+-- spawn beacon in place of a commander, whatever faction the choice phase gave them.
+local SURVIVAL_START = "survival_beacon"
+local function IsSurvivalTeam(teamID)
+	local luaAI = Spring.GetTeamLuaAI(teamID)
+	return luaAI ~= nil and string.sub(luaAI, 1, 10) == "SurvivalAI" and UnitDefNames[SURVIVAL_START] ~= nil
+end
+
 local function StartUnitName(teamID)
+	if IsSurvivalTeam(teamID) then
+		return SURVIVAL_START, "Survival"
+	end
 	local defID = Spring.GetTeamRulesParam(teamID, "startUnit")
 	local f = defID and factionByDefID[defID]
 	if not f then
