@@ -174,6 +174,7 @@ local explosiveWeapons = {
 	Cannon = true,
 	AircraftBomb = true,
 }
+local IMPULSE_MIN_DAMAGE = 400   -- default damage a weapon needs before its hits push units (see WeaponDef_Post)
 local inertialessWeapons = {
 	LaserCannon = true,
 	BeamLaser = true,
@@ -526,6 +527,18 @@ function WeaponDef_Post(name, weaponDef)
 		end
 	end
 
+
+	-- Knockback only from heavy hits. In the engine nearly any impulse sends a ground unit into a skid: it stops
+	-- driving and sheds its speed, whichever side the hit came from, so ordinary weapons (Rocko and Storm rockets
+	-- above all) held units out of range just by hitting them. Below IMPULSE_MIN_DAMAGE a weapon now pushes nothing;
+	-- the big ones (heavy rockets, long-range plasma, nukes, large explosions) still shove.
+	do
+		local dmg = type(weaponDef.damage) == "table" and tonumber(weaponDef.damage.default) or 0
+		if dmg < IMPULSE_MIN_DAMAGE then
+			weaponDef.impulsefactor = 0
+			weaponDef.impulseboost = 0
+		end
+	end
 	
 	weaponDef.soundhitwet = ""
 	if weaponDef.range and tonumber(weaponDef.range) < 550 or 
