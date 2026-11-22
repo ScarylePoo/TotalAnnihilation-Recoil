@@ -12,6 +12,9 @@ return {
 		script = "CORE_T1_SEADEF_SonarStation.lua",
 		corpse = "CORE_T1_SEADEF_SonarStation_dead",
 		category = "CORE SPECIAL LEVEL1 NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "defense",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 399,
 		buildcostmetal = 20,

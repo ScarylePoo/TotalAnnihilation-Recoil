@@ -12,6 +12,9 @@ return {
 		script = "CORE_T2_SEA_MissileFrigate.lua",
 		corpse = "CORE_T2_SEA_MissileFrigate_dead",
 		category = "CORE SHIP LEVEL2 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "support",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 7628,
 		buildcostmetal = 2283,

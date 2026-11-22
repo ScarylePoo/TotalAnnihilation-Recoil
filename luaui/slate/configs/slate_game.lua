@@ -7,17 +7,12 @@
 -- slate_*.lua config files, then editing this one.
 --------------------------------------------------------------------------------
 
-local function HasWeapons(ud)
-	return ud.weapons and #ud.weapons > 0
-end
-
-local function IsEconomy(ud)
-	if ud.isFactory or HasWeapons(ud) then return false end
-	return (ud.extractsMetal or 0) > 0
-		or (ud.energyMake or 0) > 0 or (ud.metalMake or 0) > 0
-		or (ud.windGenerator or 0) > 0 or (ud.tidalGenerator or 0) > 0
-		or (ud.energyStorage or 0) > 0 or (ud.metalStorage or 0) > 0
-		or (ud.energyUpkeep or 0) < 0 or (ud.makesMetal or 0) > 0
+-- Build menu filters go by the unit's own customparams.buildcategory ("economy", "defense", "factory", or for mobile units "scout", "skirmish", "support" or "utility"),
+-- set in every file under units/. To move a unit to another filter, change it there.
+local function InCategory(name)
+	return function(ud)
+		return ud.customParams and ud.customParams.buildcategory == name
+	end
 end
 
 return {
@@ -42,10 +37,14 @@ return {
 	buildColumns = 4,
 	buildRows    = 5,
 	buildCategories = {
-		{ label = "Economy",   match = IsEconomy },
-		{ label = "Defence",   match = function(ud) return ud.isBuilding and HasWeapons(ud) end },
-		{ label = "Factories", match = function(ud) return ud.isFactory end },
-		{ label = "Units",     match = function(ud) return not ud.isImmobile end },
+		{ label = "Economy",   match = InCategory("economy") },
+		{ label = "Defence",   match = InCategory("defense") },
+		{ label = "Factories", match = InCategory("factory") },
+		-- what factories build (the roles Splinter Faction's build menu uses)
+		{ label = "Scout",     match = InCategory("scout") },
+		{ label = "Skirmish",  match = InCategory("skirmish") },
+		{ label = "Support",   match = InCategory("support") },
+		{ label = "Utility",   match = InCategory("utility") },
 	},
 	-- Picture for a build tile or the selection panel: a file path. Leave nil
 	-- to use the engine's build picture (unitpics/<name>.<ext>).

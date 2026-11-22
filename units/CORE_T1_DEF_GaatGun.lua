@@ -12,6 +12,9 @@ return {
 		script = "CORE_T1_DEF_GaatGun.lua",
 		corpse = "CORE_T1_DEF_GaatGun_dead",
 		category = "CORE LEVEL1 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "defense",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 5443,
 		buildcostmetal = 589,

@@ -12,6 +12,9 @@ return {
 		script = "CORE_T2_DEF_FortificationWall.lua",
 		corpse = "CORE_T2_DEF_FortificationWall_dead",
 		category = "CORE LEVEL2 NOWEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "defense",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 612,
 		buildcostmetal = 23,

@@ -12,6 +12,9 @@ return {
 		script = "ARM_T1_BOT_Flea.lua",          -- walker: Lua script on the standard skeleton (was the COB)
 		corpse = "ARM_T1_BOT_Flea_dead",
 		category = "ARM KBOT LEVEL1 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "scout",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 712,  -- TA 3.1c (was 218)
 		buildcostmetal = 44,  -- TA 3.1c (was 24)

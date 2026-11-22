@@ -12,6 +12,9 @@ return {
 		script = "CORE_T2_DEF_DoomsdayMachine.lua",
 		corpse = "CORE_T2_DEF_DoomsdayMachine_dead",
 		category = "CORE SPECIAL LEVEL2 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "defense",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 14245,
 		buildcostmetal = 2140,

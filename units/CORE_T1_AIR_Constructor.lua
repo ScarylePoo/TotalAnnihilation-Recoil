@@ -13,6 +13,9 @@ return {
 		script = "CORE_T1_AIR_Constructor.lua",
 		corpse = "CORE_T1_AIR_Constructor_dead",
 		category = "CORE VTOL LEVEL1 NOWEAPON NOTSUB",
+		customparams = {
+			buildcategory = "utility",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 4580,
 		buildcostmetal = 110,  -- TA 3.1c (was 274)

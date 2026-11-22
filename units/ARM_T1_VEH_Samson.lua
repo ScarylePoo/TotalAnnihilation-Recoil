@@ -12,6 +12,9 @@ return {
 		script = "ARM_T1_VEH_Samson.lua",
 		corpse = "ARM_T1_VEH_Samson_dead",
 		category = "ARM TANK LEVEL1 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "support",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 1027,
 		buildcostmetal = 119,  -- TA 3.1c (was 129)

@@ -12,6 +12,9 @@ return {
 		script = "CORE_T2_SEA_Hive.lua",
 		corpse = "CORE_T2_SEA_Hive_dead",
 		category = "CORE SHIP LEVEL2 NOWEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "utility",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 11715,
 		buildcostmetal = 1379,

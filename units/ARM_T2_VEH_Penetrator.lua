@@ -12,6 +12,9 @@ return {
 		script = "ARM_T2_VEH_Penetrator.lua",
 		corpse = "ARM_T2_VEH_Penetrator_dead",
 		category = "ARM TANK LEVEL2 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "support",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 17477,  -- TA 3.1c (was 14477)
 		buildcostmetal = 2604,  -- TA 3.1c (was 2004)

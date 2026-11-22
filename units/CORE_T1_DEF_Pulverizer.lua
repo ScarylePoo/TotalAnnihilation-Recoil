@@ -12,6 +12,9 @@ return {
 		script = "CORE_T1_DEF_Pulverizer.lua",
 		corpse = "CORE_T1_DEF_Pulverizer_dead",
 		category = "CORE SPECIAL LEVEL1 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "defense",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 805,
 		buildcostmetal = 76,  -- TA 3.1c (was 107)

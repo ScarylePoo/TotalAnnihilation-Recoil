@@ -12,6 +12,9 @@ return {
 		script = "ARM_T2_DEF_Ambusher.lua",
 		corpse = "ARM_T2_DEF_Ambusher_dead",
 		category = "ARM LEVEL2 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "defense",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 16821,
 		buildcostmetal = 2002,

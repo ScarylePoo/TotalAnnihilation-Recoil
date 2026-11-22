@@ -13,6 +13,9 @@ return {
 		script = "ARM_T1_LAB_KbotLab.lua",
 		corpse = "ARM_T1_LAB_KbotLab_dead",
 		category = "ARM PLANT LEVEL1 NOWEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "factory",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 1130,  -- TA 3.1c (was 830)
 		buildcostmetal = 705,  -- TA 3.1c (was 685)

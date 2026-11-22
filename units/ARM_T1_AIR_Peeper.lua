@@ -12,6 +12,9 @@ return {
 		script = "ARM_T1_AIR_Peeper.lua",
 		corpse = "ARM_T1_AIR_Peeper_dead",
 		category = "ARM VTOL LEVEL1 NOWEAPON NOTSUB",
+		customparams = {
+			buildcategory = "scout",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 1475,
 		buildcostmetal = 40.28,  -- TA 3.1c (was 40)

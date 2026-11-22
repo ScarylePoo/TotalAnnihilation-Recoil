@@ -12,6 +12,9 @@ return {
 		script = "ARM_T2_ECO_MohoMetalMaker.lua",
 		corpse = "ARM_T2_ECO_MohoMetalMaker_dead",
 		category = "ARM LEVEL2 NOWEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "economy",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 9350,  -- TA 3.1c (was 29350)
 		buildcostmetal = 58,  -- TA 3.1c (was 158)

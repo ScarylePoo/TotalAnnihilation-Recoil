@@ -12,6 +12,9 @@ return {
 		script = "CORE_T2_VEH_Deleter.lua",
 		corpse = "CORE_T2_VEH_Deleter_dead",
 		category = "CORE TANK LEVEL2 NOWEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "utility",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 1757,
 		buildcostmetal = 100,

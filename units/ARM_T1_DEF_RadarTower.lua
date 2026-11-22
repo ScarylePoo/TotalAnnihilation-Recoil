@@ -12,6 +12,9 @@ return {
 		script = "ARM_T1_DEF_RadarTower.lua",
 		corpse = "ARM_T1_DEF_RadarTower_dead",
 		category = "ARM SPECIAL LEVEL1 NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "defense",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 750,
 		buildcostmetal = 49,

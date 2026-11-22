@@ -12,6 +12,9 @@ return {
 		script = "CORE_T1_ECO_MetalMaker.lua",
 		corpse = "CORE_T1_ECO_MetalMaker_dead",
 		category = "CORE LEVEL1 NOWEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "economy",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 700,  -- TA 3.1c (was 1563)
 		buildtime = 2682,

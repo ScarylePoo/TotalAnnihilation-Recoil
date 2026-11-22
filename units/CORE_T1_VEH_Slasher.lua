@@ -12,6 +12,9 @@ return {
 		script = "CORE_T1_VEH_Slasher.lua",
 		corpse = "CORE_T1_VEH_Slasher_dead",
 		category = "CORE TANK LEVEL1 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "support",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 947,
 		buildcostmetal = 116,

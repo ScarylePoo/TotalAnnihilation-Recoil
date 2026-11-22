@@ -12,6 +12,9 @@ return {
 		script = "CORE_T2_BOT_TheCan.lua",
 		corpse = "CORE_T2_BOT_TheCan_dead",
 		category = "CORE KBOT LEVEL2 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "skirmish",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 3500,
 		buildcostmetal = 420,

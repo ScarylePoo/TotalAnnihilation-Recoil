@@ -12,6 +12,9 @@ return {
 		script = "ARM_T1_HOV_Skimmer.lua",
 		corpse = "ARM_T1_HOV_Skimmer_dead",
 		category = "ARM HOVER LEVEL1 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "scout",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 1169,
 		buildcostmetal = 76,

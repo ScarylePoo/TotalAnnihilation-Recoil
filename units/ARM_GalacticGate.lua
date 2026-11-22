@@ -13,6 +13,9 @@ return {
 		script = "ARM_GalacticGate.lua",
 		corpse = "ARM_GalacticGate_dead",
 		category = "ARM SPECIAL NOWEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "defense",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 1865294,
 		buildcostmetal = 213965,

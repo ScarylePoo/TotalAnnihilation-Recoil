@@ -12,6 +12,9 @@ return {
 		script = "CORE_T2_DEF_Buzzsaw.lua",
 		corpse = "CORE_T2_DEF_Buzzsaw_dead",
 		category = "CORE LEVEL2 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "defense",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 462648,
 		buildcostmetal = 35264,  -- TA 3.1c (was 31564)

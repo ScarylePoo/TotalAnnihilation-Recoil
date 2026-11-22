@@ -12,6 +12,9 @@ return {
 		script = "ARM_T2_ECO_FusionPowerplant.lua",
 		corpse = "ARM_T2_ECO_FusionPowerplant_dead",
 		category = "ARM LEVEL2 NOWEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "economy",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 36058,
 		buildcostmetal = 5130,

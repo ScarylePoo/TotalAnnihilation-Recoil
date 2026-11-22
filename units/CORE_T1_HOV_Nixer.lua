@@ -12,6 +12,9 @@ return {
 		script = "CORE_T1_HOV_Nixer.lua",
 		corpse = "CORE_T1_HOV_Nixer_dead",
 		category = "CORE HOVER LEVEL1 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "support",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 3352,
 		buildcostmetal = 318,

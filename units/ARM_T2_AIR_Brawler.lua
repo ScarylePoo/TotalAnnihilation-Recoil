@@ -12,6 +12,9 @@ return {
 		script = "ARM_T2_AIR_Brawler.lua",
 		corpse = "ARM_T2_AIR_Brawler_dead",
 		category = "ARM VTOL LEVEL2 WEAPON NOTSUB",
+		customparams = {
+			buildcategory = "skirmish",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 6249,
 		buildcostmetal = 314,

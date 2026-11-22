@@ -12,6 +12,9 @@ return {
 		script = "ARM_T1_SEA_Lurker.lua",
 		corpse = "ARM_T1_SEA_Lurker_dead",
 		category = "ARM UNDERWATER LEVEL1 WEAPON NOTAIR",
+		customparams = {
+			buildcategory = "skirmish",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 3724,
 		buildcostmetal = 1151,

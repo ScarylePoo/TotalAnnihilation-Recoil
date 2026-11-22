@@ -12,6 +12,9 @@ return {
 		script = "CORE_T1_SEAECO_TidalGenerator.lua",
 		corpse = "CORE_T1_SEAECO_TidalGenerator_dead",
 		category = "CORE LEVEL1 NOWEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "economy",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 752,  -- TA 3.1c (was 452)
 		buildcostmetal = 81,

@@ -12,6 +12,9 @@ return {
 		script = "CORE_T2_BOT_Pyro.lua",
 		corpse = "CORE_T2_BOT_Pyro_dead",
 		category = "CORE KBOT LEVEL2 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "skirmish",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 2200,  -- TA 3.1c (was 1600)  -- 2200
 		buildcostmetal = 260,  -- TA 3.1c (was 210)  -- 260

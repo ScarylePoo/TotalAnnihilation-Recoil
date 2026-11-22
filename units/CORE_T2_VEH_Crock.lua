@@ -12,6 +12,9 @@ return {
 		script = "CORE_T2_VEH_Crock.lua",
 		corpse = "CORE_T2_VEH_Crock_dead",
 		category = "CORE TANK LEVEL2 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "skirmish",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 2310,  -- TA 3.1c (was 2910)
 		buildcostmetal = 295,  -- TA 3.1c (was 350)

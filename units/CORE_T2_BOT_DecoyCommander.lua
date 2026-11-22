@@ -70,6 +70,7 @@ return {
 		defaultmissiontype = "Standby",
 		maneuverleashlength = 640,
 		customparams = {
+			buildcategory = "utility",
 			iscommander = 1,
 			isdecoycommander = 1,
 			side = "core",

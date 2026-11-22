@@ -12,6 +12,9 @@ return {
 		script = "CORE_T2_VEH_Reaper.lua",
 		corpse = "CORE_T2_VEH_Reaper_dead",
 		category = "CORE TANK LEVEL2 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "skirmish",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 3048,
 		buildcostmetal = 473,  -- TA 3.1c (was 573)

@@ -82,6 +82,7 @@ return {
 		norestrict = 1,
 		ovradjust = 1,
 		customparams = {
+			buildcategory = "unit",
 			iscommander = 1,
 			side = "core",
 		},

@@ -13,6 +13,9 @@ return {
 		script = "ARM_T1_VEH_Podger.lua",
 		corpse = "ARM_T1_VEH_Podger_dead",
 		category = "ARM TANK LEVEL1 NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "utility",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 1031,
 		buildcostmetal = 173,

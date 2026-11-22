@@ -81,6 +81,7 @@ return {
 		ovradjust = 1,
 		steeringmode = 2,
 		customparams = {
+			buildcategory = "unit",
 			iscommander = 1,
 			side = "arm",
 		},

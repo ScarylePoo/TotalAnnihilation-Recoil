@@ -12,6 +12,9 @@ return {
 		script = "CORE_T2_SEA_Executioner.lua",
 		corpse = "CORE_T2_SEA_Executioner_dead",
 		category = "CORE SHIP LEVEL2 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "skirmish",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 8551,  -- TA 3.1c (was 10689)
 		buildcostmetal = 1724,  -- TA 3.1c (was 2155)

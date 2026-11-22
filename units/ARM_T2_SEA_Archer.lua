@@ -12,6 +12,9 @@ return {
 		script = "ARM_T2_SEA_Archer.lua",
 		corpse = "ARM_T2_SEA_Archer_dead",
 		category = "ARM SHIP LEVEL2 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "support",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 17058,
 		buildcostmetal = 1358,

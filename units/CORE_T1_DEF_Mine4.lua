@@ -11,6 +11,9 @@ return {
 		buildpic = "CORE_T1_DEF_Mine4.png",
 		script = "CORE_T1_DEF_Mine4.lua",
 		category = "CORE MINE LEVEL1 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "defense",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 2342,
 		buildcostmetal = 104,

@@ -12,6 +12,9 @@ return {
 		script = "ARM_T2_VEH_Spider.lua",
 		corpse = "ARM_T2_VEH_Spider_dead",
 		category = "ARM TANK LEVEL2 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "support",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 2200,  -- TA 3.1c (was 2000)
 		buildcostmetal = 230,

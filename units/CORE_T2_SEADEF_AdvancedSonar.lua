@@ -12,6 +12,9 @@ return {
 		script = "CORE_T2_SEADEF_AdvancedSonar.lua",
 		corpse = "CORE_T2_SEADEF_AdvancedSonar_dead",
 		category = "CORE SPECIAL LEVEL2 NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "defense",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 2257,
 		buildcostmetal = 152,

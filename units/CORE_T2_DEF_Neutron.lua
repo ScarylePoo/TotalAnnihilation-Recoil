@@ -12,6 +12,9 @@ return {
 		script = "CORE_T2_DEF_Neutron.lua",
 		corpse = "CORE_T2_DEF_Neutron_dead",
 		category = "CORE SPECIAL LEVEL2 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "defense",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 52134,  -- TA 3.1c (was 44720)
 		buildcostmetal = 1708,  -- TA 3.1c (was 1256)

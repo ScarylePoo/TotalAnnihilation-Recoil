@@ -12,6 +12,9 @@ return {
 		script = "ARM_T2_ECO_CloakableFusion.lua",
 		corpse = "ARM_T2_ECO_CloakableFusion_dead",
 		category = "ARM LEVEL2 NOWEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "economy",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 42058,  -- TA 3.1c (was 39058)
 		buildcostmetal = 5420,

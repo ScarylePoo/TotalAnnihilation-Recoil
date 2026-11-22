@@ -12,6 +12,9 @@ return {
 		script = "ARM_T2_DEF_Flakker.lua",
 		corpse = "ARM_T2_DEF_Flakker_dead",
 		category = "ARM LEVEL2 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "defense",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 17425,
 		buildcostmetal = 1069,

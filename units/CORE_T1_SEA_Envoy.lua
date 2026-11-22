@@ -12,6 +12,9 @@ return {
 		script = "CORE_T1_SEA_Envoy.lua",
 		corpse = "CORE_T1_SEA_Envoy_dead",
 		category = "CORE SHIP LEVEL1 NOWEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "utility",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 4786,  -- TA 3.1c (was 6786)
 		buildcostmetal = 887,  -- TA 3.1c (was 1187)

@@ -12,6 +12,9 @@ return {
 		script = "CORE_T1_SEA_Searcher.lua",
 		corpse = "CORE_T1_SEA_Searcher_dead",
 		category = "CORE SHIP LEVEL1 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "scout",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 917,
 		buildcostmetal = 95,

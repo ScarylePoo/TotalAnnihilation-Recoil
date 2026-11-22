@@ -12,6 +12,9 @@ return {
 		script = "ARM_T2_DEF_Annihilator.lua",
 		corpse = "ARM_T2_DEF_Annihilator_dead",
 		category = "ARM SPECIAL WEAPON LEVEL2 NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "defense",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 25025,
 		buildcostmetal = 3985,

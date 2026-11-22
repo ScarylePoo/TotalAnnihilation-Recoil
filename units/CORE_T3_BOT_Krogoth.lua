@@ -12,6 +12,9 @@ return {
 		script = "CORE_T3_BOT_Krogoth.lua",
 		corpse = "CORE_T3_BOT_Krogoth_dead",
 		category = "CORE KBOT LEVEL2 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "skirmish",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 116664,  -- TA 3.1c (was 186664)
 		buildcostmetal = 29489,  -- TA 3.1c (was 36489)

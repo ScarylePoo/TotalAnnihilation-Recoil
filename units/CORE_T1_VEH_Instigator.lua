@@ -12,6 +12,9 @@ return {
 		script = "CORE_T1_VEH_Instigator.lua",
 		corpse = "CORE_T1_VEH_Instigator_dead",
 		category = "CORE TANK LEVEL1 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "skirmish",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 887,
 		buildcostmetal = 110,

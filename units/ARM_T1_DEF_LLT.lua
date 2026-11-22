@@ -12,6 +12,9 @@ return {
 		script = "ARM_T1_DEF_LLT.lua",
 		corpse = "ARM_T1_DEF_LLT_dead",
 		category = "ARM LEVEL1 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "defense",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 2546,  -- TA 3.1c (was 1946)
 		buildcostmetal = 262,  -- TA 3.1c (was 190)

@@ -12,6 +12,9 @@ return {
 		script = "ARM_T2_BOT_Marky.lua",
 		corpse = "ARM_T2_BOT_Marky_dead",
 		category = "ARM KBOT LEVEL2 NOWEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "utility",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 1152,
 		buildcostmetal = 95,

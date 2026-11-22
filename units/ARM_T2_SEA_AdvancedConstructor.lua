@@ -13,6 +13,9 @@ return {
 		script = "ARM_T2_SEA_AdvancedConstructor.lua",
 		corpse = "ARM_T2_SEA_AdvancedConstructor_dead",
 		category = "ARM UNDERWATER LEVEL2 NOWEAPON NOTAIR",
+		customparams = {
+			buildcategory = "utility",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 7568,  -- TA 3.1c (was 8568)
 		buildcostmetal = 695,  -- TA 3.1c (was 865)

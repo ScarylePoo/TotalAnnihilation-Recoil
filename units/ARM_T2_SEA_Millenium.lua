@@ -12,6 +12,9 @@ return {
 		script = "ARM_T2_SEA_Millenium.lua",
 		corpse = "ARM_T2_SEA_Millenium_dead",
 		category = "ARM SHIP LEVEL2 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "skirmish",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 20731,  -- TA 3.1c (was 25914)
 		buildcostmetal = 4404,  -- TA 3.1c (was 5505)

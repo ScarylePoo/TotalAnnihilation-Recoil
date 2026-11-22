@@ -12,6 +12,9 @@ return {
 		script = "CORE_T2_BOT_Voyeur.lua",
 		corpse = "CORE_T2_BOT_Voyeur_dead",
 		category = "CORE KBOT LEVEL2 NOWEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "utility",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 1283,
 		buildcostmetal = 93,

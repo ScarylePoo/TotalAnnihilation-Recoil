@@ -12,6 +12,9 @@ return {
 		script = "CORE_T1_BOT_Thud.lua",          -- walker: Lua script on the standard skeleton (was the COB)
 		corpse = "CORE_T1_BOT_Thud_dead",
 		category = "CORE KBOT LEVEL1 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "support",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 1161,
 		buildcostmetal = 147,

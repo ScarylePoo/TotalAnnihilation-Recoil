@@ -12,6 +12,9 @@ return {
 		script = "ARM_T2_SEADEF_AdvancedTorpedoLauncher.lua",
 		corpse = "ARM_T2_SEADEF_AdvancedTorpedoLauncher_dead",
 		category = "ARM SPECIAL LEVEL2 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "defense",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 4942,
 		buildcostmetal = 1762,

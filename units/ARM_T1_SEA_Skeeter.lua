@@ -12,6 +12,9 @@ return {
 		script = "ARM_T1_SEA_Skeeter.lua",
 		corpse = "ARM_T1_SEA_Skeeter_dead",
 		category = "ARM SHIP LEVEL1 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "scout",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 985,
 		buildcostmetal = 100,

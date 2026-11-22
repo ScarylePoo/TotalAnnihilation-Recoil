@@ -12,6 +12,9 @@ return {
 		script = "CORE_T2_DEF_FortitudeMissileDefense.lua",
 		corpse = "CORE_T2_DEF_FortitudeMissileDefense_dead",
 		category = "CORE SPECIAL LEVEL2 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "defense",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 92321,
 		buildcostmetal = 1508,  -- TA 3.1c (was 1708)

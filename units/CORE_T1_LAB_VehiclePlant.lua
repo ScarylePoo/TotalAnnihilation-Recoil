@@ -13,6 +13,9 @@ return {
 		script = "CORE_T1_LAB_VehiclePlant.lua",
 		corpse = "CORE_T1_LAB_VehiclePlant_dead",
 		category = "CORE PLANT LEVEL1 NOWEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "factory",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 1100,
 		buildcostmetal = 600,  -- TA 3.1c (was 709)

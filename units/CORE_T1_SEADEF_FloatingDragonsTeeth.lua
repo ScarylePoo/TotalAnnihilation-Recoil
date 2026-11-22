@@ -12,6 +12,9 @@ return {
 		script = "CORE_T1_SEADEF_FloatingDragonsTeeth.lua",
 		corpse = "CORE_T1_SEADEF_FloatingDragonsTeeth_dead",
 		category = "CORE LEVEL1 NOWEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "defense",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 630,
 		buildcostmetal = 18,

@@ -12,6 +12,9 @@ return {
 		script = "CORE_T1_SEADEF_Stinger.lua",
 		corpse = "CORE_T1_SEADEF_Stinger_dead",
 		category = "CORE SPECIAL LEVEL1 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "defense",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 1054,
 		buildcostmetal = 72,

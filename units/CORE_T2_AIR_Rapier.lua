@@ -12,6 +12,9 @@ return {
 		script = "CORE_T2_AIR_Rapier.lua",
 		corpse = "CORE_T2_AIR_Rapier_dead",
 		category = "CORE VTOL LEVEL2 WEAPON NOTSUB",
+		customparams = {
+			buildcategory = "skirmish",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 5778,
 		buildcostmetal = 294,

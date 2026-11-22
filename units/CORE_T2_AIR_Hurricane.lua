@@ -12,6 +12,9 @@ return {
 		script = "CORE_T2_AIR_Hurricane.lua",
 		corpse = "CORE_T2_AIR_Hurricane_dead",
 		category = "CORE VTOL LEVEL2 WEAPON NOTSUB",
+		customparams = {
+			buildcategory = "support",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 8050,
 		buildcostmetal = 220,

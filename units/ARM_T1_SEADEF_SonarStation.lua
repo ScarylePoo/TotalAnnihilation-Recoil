@@ -12,6 +12,9 @@ return {
 		script = "ARM_T1_SEADEF_SonarStation.lua",
 		corpse = "ARM_T1_SEADEF_SonarStation_dead",
 		category = "ARM SPECIAL LEVEL1 NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "defense",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 403,
 		buildcostmetal = 20,

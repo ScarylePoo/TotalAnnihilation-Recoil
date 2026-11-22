@@ -307,6 +307,12 @@ local function ShowGrid()
 		local last = (i % cols == 0) and " last" or ""
 		parts[#parts + 1] = string.format('<div id="b%d" class="card tile%s" data-b="%d" style="width: %ddp; height: %ddp;">', i, last, i, w, h + COST_TAB_H)
 		parts[#parts + 1] = hud.UnitPictureRML(defID, "pic", string.format('style="height: %ddp;"', h))
+		-- caution tape round the picture of anything that builds: factories, constructors, and builders
+		-- without a build list that still work on things (FARK assists, Necro resurrects). Carriers are
+		-- builders only to repair aircraft (canAssist off), so they get none.
+		if ud.isFactory or (ud.buildOptions and #ud.buildOptions > 0) or (ud.isBuilder and ud.canAssist) then
+			parts[#parts + 1] = string.format('<img class="tape" src="/%scaution_frame.png" style="height: %ddp;"/>', hud.IMAGE_DIR, h)
+		end
 		-- metal and energy, each cut to four characters so the pair never outgrows the picture
 		parts[#parts + 1] = string.format('<div class="cost"><div class="m">%s</div><div class="e">%s</div></div>',
 			hud.CostTiny(ud.metalCost or 0), hud.CostTiny(ud.energyCost or 0))

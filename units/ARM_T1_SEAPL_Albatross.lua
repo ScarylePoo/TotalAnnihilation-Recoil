@@ -12,6 +12,9 @@ return {
 		script = "ARM_T1_SEAPL_Albatross.lua",
 		corpse = "ARM_T1_SEAPL_Albatross_dead",
 		category = "ARM VTOL LEVEL1 WEAPON NOTSUB",
+		customparams = {
+			buildcategory = "support",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 9619,
 		buildcostmetal = 557,  -- TA 3.1c (was 257)

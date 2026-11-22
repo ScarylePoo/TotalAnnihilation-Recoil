@@ -12,6 +12,9 @@ return {
 		script = "CORE_T2_VEH_Hedgehog.lua",
 		corpse = "CORE_T2_VEH_Hedgehog_dead",
 		category = "CORE SPECIAL LEVEL2 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "support",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 92321,  -- TA 3.1c (was 62320)
 		buildcostmetal = 1508,

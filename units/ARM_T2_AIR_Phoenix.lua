@@ -12,6 +12,9 @@ return {
 		script = "ARM_T2_AIR_Phoenix.lua",
 		corpse = "ARM_T2_AIR_Phoenix_dead",
 		category = "ARM VTOL LEVEL2 WEAPON NOTSUB",
+		customparams = {
+			buildcategory = "support",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 7624,
 		buildcostmetal = 209,

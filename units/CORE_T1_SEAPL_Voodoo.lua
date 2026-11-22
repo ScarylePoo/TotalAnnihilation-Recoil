@@ -12,6 +12,9 @@ return {
 		script = "CORE_T1_SEAPL_Voodoo.lua",
 		corpse = "CORE_T1_SEAPL_Voodoo_dead",
 		category = "CORE VTOL LEVEL1 WEAPON NOTSUB",
+		customparams = {
+			buildcategory = "support",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 6524,
 		buildcostmetal = 182,  -- TA 3.1c (was 282)

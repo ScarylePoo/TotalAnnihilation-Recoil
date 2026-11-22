@@ -12,6 +12,9 @@ return {
 		script = "ARM_T1_BOT_Rocko.lua",          -- walker: Lua script on the standard skeleton (was the COB)
 		corpse = "ARM_T1_BOT_Rocko_dead",
 		category = "ARM KBOT LEVEL1 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "skirmish",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 964,  -- TA 3.1c (was 1064)
 		buildcostmetal = 117,  -- TA 3.1c (was 133)

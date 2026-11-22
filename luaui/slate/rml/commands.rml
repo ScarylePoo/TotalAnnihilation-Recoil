@@ -125,6 +125,16 @@
 			height: 100%;
 			background-color: rgba(255, 255, 255, 10);
 		}
+		/* caution tape framing the picture of a factory or constructor (images/caution_frame.png) */
+		.tape {
+			position: absolute;
+			left: 0dp;
+			top: 0dp;
+			width: 100%;
+		}
+		.card.disabled .tape {
+			opacity: 0.35;
+		}
 		/* cost tab under the picture: metal on the left, energy on the right, in the
 		   resource bar's colours. Its height must match COST_TAB_H in slate_commands.lua. */
 		.cost {

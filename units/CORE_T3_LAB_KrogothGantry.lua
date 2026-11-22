@@ -13,6 +13,9 @@ return {
 		script = "CORE_T3_LAB_KrogothGantry.lua",
 		corpse = "CORE_T3_LAB_KrogothGantry_dead",
 		category = "CORE PLANT LEVEL2 NOWEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "factory",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 9574,  -- TA 3.1c (was 29574)
 		buildcostmetal = 6587,  -- TA 3.1c (was 6087)

@@ -12,6 +12,9 @@ return {
 		script = "CORE_T2_AIR_Vamp.lua",
 		corpse = "CORE_T2_AIR_Vamp_dead",
 		category = "CORE VTOL LEVEL2 WEAPON NOTSUB",
+		customparams = {
+			buildcategory = "support",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 6973,
 		buildcostmetal = 257,

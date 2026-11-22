@@ -12,6 +12,9 @@ return {
 		script = "CORE_T1_DEF_Viper.lua",
 		corpse = "CORE_T1_DEF_Viper_dead",
 		category = "CORE LEVEL1 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "defense",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 6687,  -- TA 3.1c (was 7787)
 		buildcostmetal = 642,  -- TA 3.1c (was 872)

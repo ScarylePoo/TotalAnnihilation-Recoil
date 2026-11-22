@@ -12,6 +12,9 @@ return {
 		script = "CORE_T1_SEAECO_UWMetalExtractor.lua",
 		corpse = "CORE_T1_SEAECO_UWMetalExtractor_dead",
 		category = "CORE LEVEL1 NOWEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "economy",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 2219,  -- TA 3.1c (was 1419)
 		buildcostmetal = 125,  -- TA 3.1c (was 95)

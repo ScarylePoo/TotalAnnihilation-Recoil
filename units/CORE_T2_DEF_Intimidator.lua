@@ -12,6 +12,9 @@ return {
 		script = "CORE_T2_DEF_Intimidator.lua",
 		corpse = "CORE_T2_DEF_Intimidator_dead",
 		category = "CORE LEVEL2 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "defense",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 62520,  -- TA 3.1c (was 122520)
 		buildcostmetal = 4328,  -- TA 3.1c (was 6328)

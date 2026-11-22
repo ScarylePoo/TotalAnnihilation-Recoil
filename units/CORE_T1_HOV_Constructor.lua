@@ -13,6 +13,9 @@ return {
 		script = "CORE_T1_HOV_Constructor.lua",
 		corpse = "CORE_T1_HOV_Constructor_dead",
 		category = "CORE HOVER LEVEL1 NOWEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "utility",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 4455,
 		buildcostmetal = 390,

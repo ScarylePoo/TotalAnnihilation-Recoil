@@ -12,6 +12,9 @@ return {
 		script = "CORE_T2_VEH_Copperhead.lua",
 		corpse = "CORE_T2_VEH_Copperhead_dead",
 		category = "CORE TANK LEVEL2 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "support",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 12487,
 		buildcostmetal = 886,

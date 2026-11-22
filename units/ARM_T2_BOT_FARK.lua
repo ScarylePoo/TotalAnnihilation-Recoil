@@ -12,6 +12,9 @@ return {
 		script = "ARM_T2_BOT_FARK.lua",
 		corpse = "ARM_T2_BOT_FARK_dead",
 		category = "ARM KBOT LEVEL2 NOWEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "utility",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 3219,  -- TA 3.1c (was 7019)
 		buildcostmetal = 480,  -- TA 3.1c (was 626)

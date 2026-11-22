@@ -13,6 +13,9 @@ return {
 		script = "ARM_T1_SEAPL_Constructor.lua",
 		corpse = "ARM_T1_SEAPL_Constructor_dead",
 		category = "ARM VTOL LEVEL1 NOWEAPON NOTSUB",
+		customparams = {
+			buildcategory = "utility",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 5368,
 		buildcostmetal = 115,  -- TA 3.1c (was 395)

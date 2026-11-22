@@ -12,6 +12,9 @@ return {
 		script = "ARM_T1_ECO_WindGenerator.lua",
 		corpse = "ARM_T1_ECO_WindGenerator_dead",
 		category = "ARM LEVEL1 NOWEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "economy",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 509,  -- TA 3.1c (was 312)
 		buildcostmetal = 52,

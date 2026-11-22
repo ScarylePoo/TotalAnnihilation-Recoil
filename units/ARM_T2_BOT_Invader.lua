@@ -11,6 +11,9 @@ return {
 		buildpic = "ARM_T2_BOT_Invader.png",
 		script = "ARM_T2_BOT_Invader.lua",
 		category = "ARM KBOT LEVEL2 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "skirmish",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 5473,
 		buildcostmetal = 61,

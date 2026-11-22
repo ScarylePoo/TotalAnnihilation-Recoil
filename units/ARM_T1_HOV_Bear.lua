@@ -12,6 +12,9 @@ return {
 		script = "ARM_T1_HOV_Bear.lua",
 		corpse = "ARM_T1_HOV_Bear_dead",
 		category = "ARM HOVER LEVEL1 NOWEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "utility",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 7938,
 		buildcostmetal = 665,

@@ -11,6 +11,9 @@ return {
 		buildpic = "CORE_T2_BOT_Roach.png",
 		script = "CORE_T2_BOT_Roach.lua",
 		category = "CORE KBOT LEVEL2 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "skirmish",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 5471,
 		buildcostmetal = 65,

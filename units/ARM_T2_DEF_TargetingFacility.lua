@@ -12,6 +12,9 @@ return {
 		script = "ARM_T2_DEF_TargetingFacility.lua",
 		corpse = "ARM_T2_DEF_TargetingFacility_dead",
 		category = "ARM SPECIAL LEVEL2 NOWEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "defense",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 136058,  -- TA 3.1c (was 90000)
 		buildcostmetal = 15130,  -- TA 3.1c (was 3600)

@@ -12,6 +12,9 @@ return {
 		script = "ARM_T2_BOT_Pelican.lua",
 		corpse = "ARM_T2_BOT_Pelican_dead",
 		category = "ARM KBOT LEVEL2 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "skirmish",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 2468,
 		buildcostmetal = 255,

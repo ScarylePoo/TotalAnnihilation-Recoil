@@ -12,6 +12,9 @@ return {
 		script = "ARM_T2_SEA_Piranha.lua",
 		corpse = "ARM_T2_SEA_Piranha_dead",
 		category = "ARM UNDERWATER LEVEL2 WEAPON NOTAIR",
+		customparams = {
+			buildcategory = "skirmish",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 5481,
 		buildcostmetal = 1448,

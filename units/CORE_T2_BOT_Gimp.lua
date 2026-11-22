@@ -12,6 +12,9 @@ return {
 		script = "CORE_T2_BOT_Gimp.lua",
 		corpse = "CORE_T2_BOT_Gimp_dead",
 		category = "CORE KBOT LEVEL2 WEAPON NOTAIR",
+		customparams = {
+			buildcategory = "skirmish",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 2935,
 		buildcostmetal = 324,

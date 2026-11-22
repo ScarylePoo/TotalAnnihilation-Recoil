@@ -12,6 +12,9 @@ return {
 		script = "ARM_T2_SEA_Fibber.lua",
 		corpse = "ARM_T2_SEA_Fibber_dead",
 		category = "ARM UNDERWATER LEVEL2 NOWEAPON NOTAIR",
+		customparams = {
+			buildcategory = "utility",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 2897,
 		buildcostmetal = 295,

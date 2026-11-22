@@ -12,6 +12,9 @@ return {
 		script = "CORE_T1_SEAPL_Typhoon.lua",
 		corpse = "CORE_T1_SEAPL_Typhoon_dead",
 		category = "CORE VTOL LEVEL1 WEAPON NOTSUB",
+		customparams = {
+			buildcategory = "support",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 9785,  -- TA 3.1c (was 7785)
 		buildcostmetal = 545,  -- TA 3.1c (was 365)

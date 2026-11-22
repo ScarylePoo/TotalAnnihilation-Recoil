@@ -12,6 +12,9 @@ return {
 		script = "CORE_T2_SEA_Shredder.lua",
 		corpse = "CORE_T2_SEA_Shredder_dead",
 		category = "CORE SHIP LEVEL2 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "support",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 17921,
 		buildcostmetal = 1314,

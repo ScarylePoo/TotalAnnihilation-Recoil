@@ -12,6 +12,9 @@ return {
 		script = "ARM_T1_SEAECO_UWEnergyStorage.lua",
 		corpse = "ARM_T1_SEAECO_UWEnergyStorage_dead",
 		category = "ARM LEVEL1 NOWEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "economy",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 2950,
 		buildcostmetal = 284,

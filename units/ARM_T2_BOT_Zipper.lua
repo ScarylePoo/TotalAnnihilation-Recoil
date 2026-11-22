@@ -12,6 +12,9 @@ return {
 		script = "ARM_T2_BOT_Zipper.lua",
 		corpse = "ARM_T2_BOT_Zipper_dead",
 		category = "ARM KBOT LEVEL2 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "skirmish",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 2221,
 		buildcostmetal = 151,

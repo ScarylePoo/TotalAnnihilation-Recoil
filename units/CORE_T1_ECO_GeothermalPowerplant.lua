@@ -12,6 +12,9 @@ return {
 		script = "CORE_T1_ECO_GeothermalPowerplant.lua",
 		corpse = "CORE_T1_ECO_GeothermalPowerplant_dead",
 		category = "CORE LEVEL1 NOWEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "economy",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 9375,
 		buildcostmetal = 505,

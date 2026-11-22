@@ -12,6 +12,9 @@ return {
 		script = "CORE_T1_AIR_Shadow.lua",
 		corpse = "CORE_T1_AIR_Shadow_dead",
 		category = "CORE VTOL LEVEL1 WEAPON NOTSUB",
+		customparams = {
+			buildcategory = "support",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 5691,
 		buildcostmetal = 131,

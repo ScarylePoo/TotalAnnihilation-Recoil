@@ -12,6 +12,9 @@ return {
 		script = "ARM_T2_VEH_Panther.lua",
 		corpse = "ARM_T2_VEH_Panther_dead",
 		category = "ARM TANK LEVEL2 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "skirmish",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 3830,
 		buildcostmetal = 354,  -- TA 3.1c (was 284)

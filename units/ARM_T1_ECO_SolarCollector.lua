@@ -12,6 +12,9 @@ return {
 		script = "ARM_T1_ECO_SolarCollector.lua",
 		corpse = "ARM_T1_ECO_SolarCollector_dead",
 		category = "ARM LEVEL1 NOWEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "economy",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 760,  -- TA 3.1c (was 75)
 		buildcostmetal = 145,

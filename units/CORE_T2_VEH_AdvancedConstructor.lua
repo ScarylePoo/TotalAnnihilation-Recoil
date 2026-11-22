@@ -13,6 +13,9 @@ return {
 		script = "CORE_T2_VEH_AdvancedConstructor.lua",
 		corpse = "CORE_T2_VEH_AdvancedConstructor_dead",
 		category = "CORE TANK LEVEL2 NOWEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "utility",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 4504,  -- TA 3.1c (was 8504)
 		buildcostmetal = 455,  -- TA 3.1c (was 715)

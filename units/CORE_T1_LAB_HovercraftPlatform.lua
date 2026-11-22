@@ -13,6 +13,9 @@ return {
 		script = "CORE_T1_LAB_HovercraftPlatform.lua",
 		corpse = "CORE_T1_LAB_HovercraftPlatform_dead",
 		category = "CORE PLANT LEVEL1 NOWEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "factory",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 5421,  -- TA 3.1c (was 4421)
 		buildcostmetal = 1793,  -- TA 3.1c (was 1193)

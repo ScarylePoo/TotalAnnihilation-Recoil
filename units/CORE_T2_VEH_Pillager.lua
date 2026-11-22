@@ -12,6 +12,9 @@ return {
 		script = "CORE_T2_VEH_Pillager.lua",
 		corpse = "CORE_T2_VEH_Pillager_dead",
 		category = "CORE TANK LEVEL2 WEAPON NOTAIR NOTSUB",
+		customparams = {
+			buildcategory = "support",  -- build menu filter (luaui/slate/configs/slate_game.lua)
+		},
 		-- costs, makes, uses, storage
 		buildcostenergy = 1535,  -- TA 3.1c (was 2235)
 		buildcostmetal = 251,  -- TA 3.1c (was 302)
