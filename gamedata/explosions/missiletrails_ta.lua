@@ -8,15 +8,15 @@
 --   flame   a hot jet pointing back along the flight direction, flickering in length
 --   glow    a bright bloom on the nozzle
 --   sparks  streaks thrown back out of the jet, falling and cooling as they go
---   embers  a few slow glittering motes left hanging in the air for half a second
+--   embers  slow glittering motes left hanging in the air for a second or so
 --   ring    (strategic missiles) a faint shock ring now and then, a heavy-motor shimmer
 
 local SIZES = {
 	--               scale  sparks per frame   embers per frame  ring
-	small     = { s = 0.75, sparks = "0.5 r1",   embers = "0 r1.2", ring = false },
-	medium    = { s = 1.15, sparks = "0.8 r1.4", embers = "0 r1.5", ring = false },
-	large     = { s = 1.6,  sparks = "1 r2",     embers = "0.3 r1.5", ring = false },
-	strategic = { s = 2.4,  sparks = "2 r2",     embers = "1 r2",   ring = true },
+	small     = { s = 0.75, sparks = "0.8 r1.6", embers = "0 r1.8", ring = false },
+	medium    = { s = 1.15, sparks = "1.2 r2",   embers = "0.3 r1.8", ring = false },
+	large     = { s = 1.6,  sparks = "1.6 r2.6", embers = "0.7 r2", ring = false },
+	strategic = { s = 2.4,  sparks = "3 r3",     embers = "1.6 r2.6", ring = true },
 }
 
 -- hot core, flame body, cooling tail (rgb)
@@ -79,17 +79,17 @@ local function trail(size, pal)
 			class = [[CSimpleParticleSystem]],
 			count = 1,
 			properties = {
-				airdrag = 0.9,
+				airdrag = 0.92,
 				colormap = table.concat({ c(pal.hot, 1, 0.01), c(pal.mid, 1, 0.01), c(pal.cool, 0.8, 0.005), "0 0 0 0.01" }, "   "),
 				directional = true,
 				emitrot = 0, emitrotspread = 22, emitvector = [[dir]],
 				gravity = [[0, -0.09, 0]],
 				numparticles = size.sparks,
-				particlelife = 6, particlelifespread = 8,
+				particlelife = 12, particlelifespread = 14,   -- up to most of a second
 				particlesize = f(1.5 * s), particlesizespread = f(0.8 * s),
 				particlespeed = f(-6 * s - 2), particlespeedspread = f(3 * s),     -- thrown back out of the jet
 				pos = [[0, 0, 0]],
-				sizegrowth = 0, sizemod = 0.93,
+				sizegrowth = 0, sizemod = 0.96,
 				texture = [[gunshot]],
 				useairlos = true,
 			},
@@ -105,11 +105,11 @@ local function trail(size, pal)
 				emitrot = 0, emitrotspread = 180, emitvector = [[dir]],
 				gravity = [[0, 0.025, 0]],                                       -- heat lifts them a little
 				numparticles = size.embers,
-				particlelife = 14, particlelifespread = 16,
+				particlelife = 26, particlelifespread = 24,
 				particlesize = f(0.9 * s), particlesizespread = f(0.6 * s),
 				particlespeed = 0.3, particlespeedspread = f(0.8 * s),
 				pos = [[0, 0, 0]],
-				sizegrowth = 0, sizemod = 0.97,
+				sizegrowth = 0, sizemod = 0.98,
 				texture = [[flare]],
 				useairlos = true,
 			},
