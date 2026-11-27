@@ -76,6 +76,18 @@ local TUNE = {
 	ambScatter    = 0.85,   -- shadowed fog brightness
 	anisotropy    = 0.55,   -- forward scattering: fog toward the sun glows
 	maxDist       = 14000,  -- view rays are not marched past this
+	-- Far from the eye the march cannot follow fine detail, and what it cannot
+	-- follow comes out as regular stripes ("zebra") instead of fog. So detail is
+	-- faded out with distance, the finest first: each noise octave goes to its
+	-- average between the two distances given, and shadows are not looked up at
+	-- all past shadowMaxDist (far fog counts as lit). Distances in elmos from the
+	-- eye; the numbers are the ones the Zero-K port of this widget settled on.
+	noiseFadeCoarse = { 7000, 11000 },  -- the 1500-elmo octave
+	noiseFadeFine   = { 2500, 6000 },   -- the 430-elmo octave
+	shadowMaxDist = 5000,
+	animateDither = false,  -- true: the grain moves every frame (hides the pattern, shimmers far off)
+	detailFade    = true,   -- false: none of the above (the old look; "/fogmarch old")
+	stepCurve     = 1.0,    -- 1: steps all the same length. Above 1 they are shorter near the eye and longer far off
 	edgeFade      = 1400,   -- the layer fades out over this distance past the map's edge
 
 	-- battle smoke: a dark volume where a unit with a big death explosion died
@@ -189,6 +201,8 @@ uniform vec4 lightParams;     // x = sun scatter, y = ambient scatter, z = aniso
 uniform vec4 marchParams;     // x = steps, y = max distance, z = wind offset x, w = wind offset z
 
 uniform float edgeFade;       // elmos past the map edge over which the layer fades out
+uniform vec4 stepParams;      // x = step curve, y = shadow max distance, z = 1 to fade detail with distance, w = 1 if the dither moves
+uniform vec4 noiseFade;       // x, y = the coarse octave fades between these distances; z, w = the fine one
 uniform int numVolumes;
 uniform vec4 volPos[MAX_VOLUMES]; // xyz = centre, w = radius
 uniform vec4 volCol[MAX_VOLUMES]; // rgb = colour, a = extinction per elmo at the centre
@@ -234,8 +248,10 @@ void main() {
 	}
 
 	int steps = int(marchParams.x);
-	float ds = (tmax - tmin) / float(steps);
-	float t = tmin + ds * IGN(gl_FragCoord.xy + 5.588238 * mod(timeInfo.z, 64.0));
+	float span = tmax - tmin;
+	// where in each step the sample is taken: a per-pixel offset, so that the
+	// steps of neighbouring pixels do not line up into bands
+	float jitter = IGN(gl_FragCoord.xy + 5.588238 * mod(timeInfo.z, 64.0) * stepParams.w);
 
 	// how much light fog scatters toward the eye from the sun's direction
 	float g = lightParams.z;
@@ -251,14 +267,27 @@ void main() {
 	float trans = 1.0;
 
 	for (int i = 0; i < steps; i++) {
-		vec3 p = eye + dir * t;
-		t += ds;
+		// this step, from t0 to t1 along the ray; ds is its own length (the steps
+		// are all alike unless the step curve is above 1)
+		float t0 = tmin + span * pow(float(i) / float(steps), stepParams.x);
+		float t1 = tmin + span * pow(float(i + 1) / float(steps), stepParams.x);
+		float ds = t1 - t0;
+		vec3 p = eye + dir * (t0 + ds * jitter);
 
-		// two octaves of drifting noise, the second drifting the other way a little faster
-		vec3 np = p + windOff;
-		float n1 = textureLod(noiseTex, np * noiseParams.x, 0.0).a;
-		float n2 = textureLod(noiseTex, (p - windOff * 1.7).zyx * noiseParams.y, 0.0).a;
-		float n = n1 * 0.65 + n2 * 0.35;
+		float d = t0 + ds * jitter;   // this sample's distance from the eye
+
+		// Two octaves of drifting noise, the second drifting the other way a
+		// little faster. At range the march undersamples them and they draw
+		// stripes, so each fades to its 0.5 average with distance, the fine one
+		// first. At 0.5 the carving below is neutral: far fog stays as dense but
+		// goes smooth. An octave that has faded out is not fetched at all.
+		float fade1 = 1.0 - stepParams.z * smoothstep(noiseFade.x, noiseFade.y, d);
+		float fade2 = 1.0 - stepParams.z * smoothstep(noiseFade.z, noiseFade.w, d);
+		float n1 = 0.5;
+		float n2 = 0.5;
+		if (fade1 > 0.001) n1 = textureLod(noiseTex, (p + windOff) * noiseParams.x, 0.0).a;
+		if (fade2 > 0.001) n2 = textureLod(noiseTex, (p - windOff * 1.7).zyx * noiseParams.y, 0.0).a;
+		float n = 0.5 + (n1 - 0.5) * 0.65 * fade1 + (n2 - 0.5) * 0.35 * fade2;
 
 		// the layer: exponential in height, its top pushed up and down by the noise
 		float base = textureLod(baseTex, p.xz / mapSize.xy, 0.0).r;
@@ -289,11 +318,15 @@ void main() {
 		if (sigma > 0.000001) {
 			albedo /= sigma;
 			float lit = 1.0;
-			if (lightParams.w > 0.5) {
+			// the same goes for shadows: far off, one step and the next fall on
+			// either side of a shadow's edge and flip between lit and dark, which
+			// is the other stripe. Far fog is simply lit, eased in over the last fifth.
+			float shadowWeight = 1.0 - stepParams.z * smoothstep(0.8 * stepParams.y, stepParams.y, d);
+			if (lightParams.w > 0.5 && shadowWeight > 0.0) {
 				vec3 sc = (shadowView * vec4(p, 1.0)).xyz;
 				sc.xy += vec2(0.5);
 				if (all(greaterThan(sc.xy, vec2(0.0))) && all(lessThan(sc.xy, vec2(1.0)))) {
-					lit = texture(shadowTex, sc);
+					lit = mix(1.0, texture(shadowTex, sc), shadowWeight);
 				}
 			}
 			float a = 1.0 - exp(-sigma * ds);
@@ -574,6 +607,21 @@ local function SetQuality(q)
 	end
 end
 
+-- "/fogmarch old" and "/fogmarch new": the march as it was before the stripes
+-- were dealt with, and as it is now, to compare in the same game. "/fogmarch"
+-- alone says which is on. Not saved: every game starts on the new one.
+local NEW_MARCH = { stepCurve = TUNE.stepCurve, detailFade = TUNE.detailFade, animateDither = TUNE.animateDither }
+local function FogMarch(_, _, words)
+	local which = words and words[1]
+	if which == "old" then
+		TUNE.stepCurve, TUNE.detailFade, TUNE.animateDither = 1, false, true
+	elseif which == "new" then
+		TUNE.stepCurve, TUNE.detailFade, TUNE.animateDither = NEW_MARCH.stepCurve, NEW_MARCH.detailFade, NEW_MARCH.animateDither
+	end
+	spEcho("[GFX Fog] march: " .. (TUNE.detailFade and "new" or "old") .. "  (/fogmarch old | new)")
+	return true
+end
+
 function widget:Initialize()
 	if not (gl.GetVAO and gl.GetVBO and glRenderToTexture) then
 		Goodbye("GL4 buffers or render-to-texture unavailable")
@@ -645,6 +693,7 @@ function widget:Initialize()
 		return
 	end
 
+	widgetHandler:AddAction("fogmarch", FogMarch, nil, "t")
 	WG.fog = {
 		AddVolume    = AddVolume,
 		RemoveVolume = RemoveVolume,
@@ -663,6 +712,7 @@ function widget:Initialize()
 end
 
 function widget:Shutdown()
+	widgetHandler:RemoveAction("fogmarch")
 	widgetHandler:DeregisterGlobal("FogVolumeAdd")
 	widgetHandler:DeregisterGlobal("FogVolumeRemove")
 	WG.fog = nil
@@ -767,6 +817,8 @@ function widget:DrawWorld()
 	marchShader:SetUniform("lightParams", TUNE.sunScatter, TUNE.ambScatter, TUNE.anisotropy, shadows and 1 or 0)
 	marchShader:SetUniform("marchParams", q.steps, TUNE.maxDist, windOffX, windOffZ)
 	marchShader:SetUniform("edgeFade", TUNE.edgeFade)
+	marchShader:SetUniform("stepParams", TUNE.stepCurve, TUNE.shadowMaxDist, TUNE.detailFade and 1 or 0, TUNE.animateDither and 1 or 0)
+	marchShader:SetUniform("noiseFade", TUNE.noiseFadeCoarse[1], TUNE.noiseFadeCoarse[2], TUNE.noiseFadeFine[1], TUNE.noiseFadeFine[2])
 	marchShader:SetUniformInt("numVolumes", nVolumes)
 	for i = 1, nVolumes do
 		local e = active[i]
